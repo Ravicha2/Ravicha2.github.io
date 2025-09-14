@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Palm's Portfolio</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md fixed top-0 w-full z-50">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex justify-between items-center py-4">
+        <!-- Logo -->
+        <a href="index.html" class="text-2xl font-bold text-blue-600">Palm Suksawasdi</a>
+        
+        <!-- Nav Links -->
+        <div class="space-x-6">
+          <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+          <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
+          <a href="contact.html" class="text-gray-700 hover:text-blue-600">Contact</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="max-w-6xl mx-auto px-4 pt-40 pb-20 text-center">
+    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+      Welcome!👋
+    </h1>
+    <p class="text-lg text-gray-600">
+      My name is Ravicha Suksawasdi Na Ayuthaya but please call me <b>Palm</b>.😆
+    </p>
+  </header>
+  <section class="max-w-3xl mx-auto px-4 py-12 bg-white rounded-xl shadow-md">
+    <h2 class="text-2xl font-semibold mb-6 text-center text-gray-800">
+      Some Ice Breaking?🤩
+    </h2>
+    <div class="question p-4 border rounded-lg" data-correct="Introvert">
+        <p class="mb-4 font-semibold text-gray-700">1️⃣ Which is best describe my personality?</p>
+        <form class="space-y-2">
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q1" value="Extrovert" class="form-radio text-blue-600" />
+            <span>Extrovert</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q1" value="Introvert" class="form-radio text-blue-600" />
+            <span>Introvert</span>
+          </label>
+        </form>
+        <p class="mt-2 result font-semibold"></p>
+      </div>
+      <!-- Question 2 -->
+      <div class="question p-4 border rounded-lg" data-correct="Thailand">
+        <p class="mb-4 font-semibold text-gray-700">2️⃣ Where am I from?</p>
+        <form class="space-y-2">
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q2" value="China" class="form-radio text-blue-600" />
+            <span>China 🇨🇳</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q2" value="Vietnam" class="form-radio text-blue-600" />
+            <span>Vietnam 🇻🇳</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q2" value="Thailand" class="form-radio text-blue-600" />
+            <span>Thailand 🇹🇭</span>
+          </label>
+        </form>
+        <p class="mt-2 result font-semibold"></p>
+      </div>
+      
+      <!-- Question 3 -->
+      <div class="question p-4 border rounded-lg" data-correct="snail">
+        <p class="mb-4 font-semibold text-gray-700">3️⃣ What is the most exotic dish I tried?</p>
+        <form class="space-y-2">
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q3" value="snail" class="form-radio text-blue-600" />
+            <span>Snail</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q3" value="beef" class="form-radio text-blue-600" />
+            <span>Raw beef</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q3" value="pigeon" class="form-radio text-blue-600" />
+            <span>Pigeon</span>
+          </label>
+        </form>
+        <p class="mt-2 result font-semibold"></p>
+      </div>
+      <!-- Question 4 -->
+      <div class="question p-4 border rounded-lg" data-correct="Real Madrid">
+        <p class="mb-4 font-semibold text-gray-700">4️⃣ Which is my favorite football club?</p>
+        <form class="space-y-2">
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q4" value="Chelsea" class="form-radio text-blue-600" />
+            <span>Chelsea F.C.</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q4" value="Bayern München" class="form-radio text-blue-600" />
+            <span>FC Bayern München</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q4" value="Real Madrid" class="form-radio text-blue-600" />
+            <span>Real Madrid CF</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q4" value="Barcelona" class="form-radio text-blue-600" />
+            <span>FC Barcelona</span>
+          </label>
+        </form>
+        <p class="mt-2 result font-semibold"></p>
+      </div>
+      <!-- Question 5 -->
+      <div class="question p-4 border rounded-lg" data-correct="The 1975">
+        <p class="mb-4 font-semibold text-gray-700">5️⃣ What is my 2024 spotify wrap up Top song?</p>
+        <form class="space-y-2">
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q5" value="The 1975" class="form-radio text-blue-600" />
+            <span>It's Not Living (If It's Not With You) - The 1975</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q5" value="Fred again.." class="form-radio text-blue-600" />
+            <span>Delilah (pull me out of this) - Fred again..</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q5" value="Laufey" class="form-radio text-blue-600" />
+            <span>From the start - Laufey</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q5" value="Daft Punk" class="form-radio text-blue-600" />
+            <span>Harder, Better, Faster, Stronger - Daft Punk</span>
+          </label>
+        </form>
+        <p class="mt-2 result font-semibold"></p>
+      </div>
+      <!-- Question 6 -->
+      <div class="question p-4 border rounded-lg" data-correct="Python">
+        <p class="mb-4 font-semibold text-gray-700">6️⃣ What is my most proficient programming language?</p>
+        <form class="space-y-2">
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q6" value="C++" class="form-radio text-blue-600" />
+            <span>C++</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q6" value="Javascript" class="form-radio text-blue-600" />
+            <span>Javascript</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q6" value="Python" class="form-radio text-blue-600" />
+            <span>Python</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q6" value="Java" class="form-radio text-blue-600" />
+            <span>Java</span>
+          </label>
+        </form>
+        <p class="mt-2 result font-semibold"></p>
+      </div>
+      <!-- Question 7 -->
+      <div class="question p-4 border rounded-lg" data-correct="Snakes">
+        <p class="mb-4 font-semibold text-gray-700">7️⃣ What am I afraid of?</p>
+        <form class="space-y-2">
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q7" value="Height" class="form-radio text-blue-600" />
+            <span>Height</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q7" value="Dark" class="form-radio text-blue-600" />
+            <span>Dark</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q7" value="Snakes" class="form-radio text-blue-600" />
+            <span>Snakes</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="q7" value="Spiders" class="form-radio text-blue-600" />
+            <span>Spiders</span>
+          </label>
+        </form>
+        <p class="mt-2 result font-semibold"></p>
+      </div>
+    </section>
+    
+    <!-- JS for multiple questions -->
+    <script>
+      const questions = document.querySelectorAll(".question");
+    
+      questions.forEach(q => {
+        const correctAnswer = q.dataset.correct;
+        const options = q.querySelectorAll("input[type='radio']");
+        const result = q.querySelector(".result");
+    
+        options.forEach(option => {
+          option.addEventListener("click", () => {
+            if (option.value === correctAnswer) {
+              result.textContent = "✅ Yess!";
+              result.className = "mt-2 result font-semibold text-green-600";
+            } else {
+              result.textContent = "❌ No, Not really";
+              result.className = "mt-2 result font-semibold text-red-600";
+            }
+          });
+        });
+      });
+    </script>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-300 text-center py-4">
+    <p>2025 Palm's Portfolio</p>
+  </footer>
+
+</body>
+</html>
