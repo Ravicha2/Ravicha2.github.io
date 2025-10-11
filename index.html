@@ -3,216 +3,253 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Palm's Portfolio</title>
-  <!-- Tailwind CDN -->
+  <title>About Me | Palm Suksawasdi</title>
+  <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gradient-to-br from-pink-100 via-blue-100 to-purple-100 text-gray-800">
 
   <!-- Navbar -->
-  <nav class="bg-white shadow-md fixed top-0 w-full z-50">
+  <nav class="backdrop-blur-md bg-white/70 shadow-md fixed top-0 w-full z-50 transition-all duration-300">
     <div class="max-w-6xl mx-auto px-4">
       <div class="flex justify-between items-center py-4">
         <!-- Logo -->
-        <a href="index.html" class="text-2xl font-bold text-blue-600">Palm Suksawasdi</a>
+        <a href="index.html" class="text-2xl font-extrabold text-indigo-600 hover:text-pink-500 transition-colors duration-300">
+          Palm Suksawasdi
+        </a>
         
         <!-- Nav Links -->
-        <div class="space-x-6">
-          <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
-          <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
-          <a href="contact.html" class="text-gray-700 hover:text-blue-600">Contact</a>
+        <div class="space-x-6 font-medium">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="quiz.html" class="nav-link">Quiz</a>
+          
         </div>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <header class="max-w-6xl mx-auto px-4 pt-40 pb-20 text-center">
-    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-      Welcome!👋
+  <!-- Header -->
+  <header class="max-w-6xl mx-auto px-4 pt-40 pb-16 text-center fade-in">
+    <h1 class="text-5xl font-extrabold text-gray-900 from-blue-700 to-pink-600 bg-clip-text animate-fadeIn">
+      Nice to meet you!
     </h1>
-    <p class="text-lg text-gray-600">
-      My name is Ravicha Suksawasdi Na Ayuthaya but please call me <b>Palm</b>.😆
+    <p class="mt-4 text-lg text-gray-700 animate-fadeIn">
+      Get to know me better 👇
     </p>
   </header>
-  <section class="max-w-3xl mx-auto px-4 py-12 bg-white rounded-xl shadow-md">
-    <h2 class="text-2xl font-semibold mb-6 text-center text-gray-800">
-      Some Ice Breaking?🤩
-    </h2>
-    <div class="question p-4 border rounded-lg" data-correct="Introvert">
-        <p class="mb-4 font-semibold text-gray-700">1️⃣ Which is best describe my personality?</p>
-        <form class="space-y-2">
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q1" value="Extrovert" class="form-radio text-blue-600" />
-            <span>Extrovert</span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q1" value="Introvert" class="form-radio text-blue-600" />
-            <span>Introvert</span>
-          </label>
-        </form>
-        <p class="mt-2 result font-semibold"></p>
-      </div>
-      <!-- Question 2 -->
-      <div class="question p-4 border rounded-lg" data-correct="Thailand">
-        <p class="mb-4 font-semibold text-gray-700">2️⃣ Where am I from?</p>
-        <form class="space-y-2">
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q2" value="China" class="form-radio text-blue-600" />
-            <span>China 🇨🇳</span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q2" value="Vietnam" class="form-radio text-blue-600" />
-            <span>Vietnam 🇻🇳</span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q2" value="Thailand" class="form-radio text-blue-600" />
-            <span>Thailand 🇹🇭</span>
-          </label>
-        </form>
-        <p class="mt-2 result font-semibold"></p>
-      </div>
-      
-      <!-- Question 3 -->
-      <div class="question p-4 border rounded-lg" data-correct="snail">
-        <p class="mb-4 font-semibold text-gray-700">3️⃣ What is the most exotic dish I tried?</p>
-        <form class="space-y-2">
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q3" value="snail" class="form-radio text-blue-600" />
-            <span>Snail</span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q3" value="beef" class="form-radio text-blue-600" />
-            <span>Raw beef</span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q3" value="pigeon" class="form-radio text-blue-600" />
-            <span>Pigeon</span>
-          </label>
-        </form>
-        <p class="mt-2 result font-semibold"></p>
-      </div>
-      <!-- Question 4 -->
-      <div class="question p-4 border rounded-lg" data-correct="Real Madrid">
-        <p class="mb-4 font-semibold text-gray-700">4️⃣ Which is my favorite football club?</p>
-        <form class="space-y-2">
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q4" value="Chelsea" class="form-radio text-blue-600" />
-            <span>Chelsea F.C.</span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q4" value="Bayern München" class="form-radio text-blue-600" />
-            <span>FC Bayern München</span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q4" value="Real Madrid" class="form-radio text-blue-600" />
-            <span>Real Madrid CF</span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q4" value="Barcelona" class="form-radio text-blue-600" />
-            <span>FC Barcelona</span>
-          </label>
-        </form>
-        <p class="mt-2 result font-semibold"></p>
-      </div>
-      <!-- Question 5 -->
-      <div class="question p-4 border rounded-lg" data-correct="The 1975">
-        <p class="mb-4 font-semibold text-gray-700">5️⃣ What is my 2024 spotify wrap up Top song?</p>
-        <form class="space-y-2">
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q5" value="The 1975" class="form-radio text-blue-600" />
-            <span>It's Not Living (If It's Not With You) - The 1975</span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q5" value="Fred again.." class="form-radio text-blue-600" />
-            <span>Delilah (pull me out of this) - Fred again..</span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q5" value="Laufey" class="form-radio text-blue-600" />
-            <span>From the start - Laufey</span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q5" value="Daft Punk" class="form-radio text-blue-600" />
-            <span>Harder, Better, Faster, Stronger - Daft Punk</span>
-          </label>
-        </form>
-        <p class="mt-2 result font-semibold"></p>
-      </div>
-      <!-- Question 6 -->
-      <div class="question p-4 border rounded-lg" data-correct="Python">
-        <p class="mb-4 font-semibold text-gray-700">6️⃣ What is my most proficient programming language?</p>
-        <form class="space-y-2">
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q6" value="C++" class="form-radio text-blue-600" />
-            <span>C++</span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q6" value="Javascript" class="form-radio text-blue-600" />
-            <span>Javascript</span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q6" value="Python" class="form-radio text-blue-600" />
-            <span>Python</span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q6" value="Java" class="form-radio text-blue-600" />
-            <span>Java</span>
-          </label>
-        </form>
-        <p class="mt-2 result font-semibold"></p>
-      </div>
-      <!-- Question 7 -->
-      <div class="question p-4 border rounded-lg" data-correct="Snakes">
-        <p class="mb-4 font-semibold text-gray-700">7️⃣ What am I afraid of?</p>
-        <form class="space-y-2">
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q7" value="Height" class="form-radio text-blue-600" />
-            <span>Height</span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q7" value="Dark" class="form-radio text-blue-600" />
-            <span>Dark</span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q7" value="Snakes" class="form-radio text-blue-600" />
-            <span>Snakes</span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="q7" value="Spiders" class="form-radio text-blue-600" />
-            <span>Spiders</span>
-          </label>
-        </form>
-        <p class="mt-2 result font-semibold"></p>
+
+  <!-- Main Content -->
+  <main class="max-w-5xl mx-auto px-4 space-y-12 pb-20 fade-in">
+
+    <!-- Summary -->
+    <section class="card">
+      <h2 class="section-title">Summary</h2>
+      <p class="text-gray-700 leading-relaxed">
+        I’m a passionate developer who loves <b>automation</b>, <b>cloud computing</b>, and <b>data-driven applications</b>.  
+        I enjoy learning new technologies and building tools that make life easier.
+      </p>
+    </section>
+
+    <!-- Background -->
+    <section class="card">
+      <h2 class="section-title">Background</h2>
+      <div class="space-y-8">
+
+        <!-- Work Experience -->
+        <div>
+          <h3 class="subsection-title">💼 Work Experience</h3>
+          <div class="space-y-3">
+            <div class="collapse-card">
+              <button class="collapse-btn">
+                District Heating Network Designer - 3D Technical Design (Thailand)
+                <span>+</span>
+              </button>
+              <div class="collapse-detail hidden">
+                <ul>
+                  <li>• Designed district heating networks using Autodesk Civil 3D</li>
+                  <li>• Identified operational hazards during construction and handover phases</li>
+                  <li>• Performed stress calculations using sisKMR</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="collapse-card">
+              <button class="collapse-btn">
+                District Heating Network CAD Technician - 3D Technical Design (Thailand)
+                <span>+</span>
+              </button>
+              <div class="collapse-detail hidden">
+                <ul>
+                  <li>• Created detailed 3D models for district heating systems</li>
+                  <li>• Assisted in network design and risk assessment</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="collapse-card">
+              <button class="collapse-btn">
+                Engineering Trainee - Jardine Schindler (Thailand)
+                <span>+</span>
+              </button>
+              <div class="collapse-detail hidden">
+                <ul>
+                  <li>• Assisted in installation and maintenance of elevators and escalators</li>
+                  <li>• Supported mechanical, electrical, and software configuration tasks</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div>
+          <h3 class="subsection-title">🎓 Education</h3>
+          <div class="space-y-3">
+            <div class="collapse-card">
+              <button class="collapse-btn">
+                Master of Information Technology - UNSW Sydney
+                <span>+</span>
+              </button>
+              <div class="collapse-detail hidden">
+                <ul>
+                  <li>• Artificial Intelligence Specialisation</li>
+                  <li>• WAM: 80</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="collapse-card">
+              <button class="collapse-btn">
+                Bachelor of Engineering - Chulalongkorn University
+                <span>+</span>
+              </button>
+              <div class="collapse-detail hidden">
+                <ul>
+                  <li>• Automotive Design and Manufacturing Engineering</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="collapse-card">
+              <button class="collapse-btn">
+                Online Courses & Bootcamps
+                <span>+</span>
+              </button>
+              <div class="collapse-detail hidden">
+                <p>• Altcademy Fullstack Bootcamp</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
-    
-    <!-- JS for multiple questions -->
-    <script>
-      const questions = document.querySelectorAll(".question");
-    
-      questions.forEach(q => {
-        const correctAnswer = q.dataset.correct;
-        const options = q.querySelectorAll("input[type='radio']");
-        const result = q.querySelector(".result");
-    
-        options.forEach(option => {
-          option.addEventListener("click", () => {
-            if (option.value === correctAnswer) {
-              result.textContent = "✅ Yess!";
-              result.className = "mt-2 result font-semibold text-green-600";
-            } else {
-              result.textContent = "❌ No, Not really";
-              result.className = "mt-2 result font-semibold text-red-600";
-            }
-          });
-        });
-      });
-    </script>
+
+    <!-- Projects -->
+    <section class="card">
+      <h2 class="section-title">Projects & Publications</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="project-card">
+          <h3>Position Accuracy of a 6-DOF Passive Robotic Arm</h3>
+          <p>Published in IEEE TENCON 2023</p>
+          <a href="https://ieeexplore.ieee.org/document/10322507" target="_blank">View Project →</a>
+        </div>
+        <div class="project-card">
+          <h3>Git Clone</h3>
+          <p>Simplified Python implementation of Git version control.</p>
+          <a href="https://github.com/Ravicha2/git_clone">View Project →</a>
+        </div>
+        <div class="project-card">
+          <h3>Mygive</h3>
+          <p>Dash script reimplementation of UNSW’s “give” system.</p>
+          <a href="https://github.com/Ravicha2/mygive">View Project →</a>
+        </div>
+        <div class="project-card">
+          <h3>Currency Converter</h3>
+          <p>ReactJS app that converts currencies in real time using an API.</p>
+          <a href="https://ravicha2.github.io/Currency-converter-ReactJS/" target="_blank">View Project →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- More About Me -->
+    <section class="card">
+      <h2 class="section-title">A Little More About Me</h2>
+      <div class="space-y-3">
+        <div class="collapse-card">
+          <button class="collapse-btn">
+            UNSW Leadership Foundation Program
+            <span>+</span>
+          </button>
+          <div class="collapse-detail hidden">
+            <p>• Raised awareness on Diversity, Equity, and Inclusion in the workplace</p>
+          </div>
+        </div>
+
+        <div class="collapse-card">
+          <button class="collapse-btn">
+            Exchange Study
+            <span>+</span>
+          </button>
+          <div class="collapse-detail hidden">
+            <ul>
+              <li>• Institut Mines-Télécom Atlantique, Rennes Campus</li>
+              <li>• MSc in IT: Architecture & Engineering in IoT</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <!-- Footer -->
-  <footer class="bg-gray-800 text-gray-300 text-center py-4">
-    <p>2025 Palm's Portfolio</p>
+  <footer class="bg-gradient-to-r from-blue-700 to-pink-600 text-white text-align:left py-12">
+    <div class="max-w-5xl mx-auto px-4 grid md:grid-cols-4 gap-8 text-left md:text-center">
+      
+      <!-- Email -->
+      <div>
+        <h2 class="text-lg font-semibold mb-2">Email</h2>
+        <a href="mailto:palm.ravicha@outlook.com" class="hover:underline block text-gray-100">
+          palm.ravicha@outlook.com
+        </a>
+      </div>
+
+      <!-- LinkedIn -->
+      <div>
+        <h2 class="text-lg font-semibold mb-2">LinkedIn</h2>
+        <a href="https://www.linkedin.com/in/ravicha-suksawasdi-na-ayuthaya/"
+           target="_blank"
+           class="hover:underline block text-gray-100">
+           linkedin.com/in/ravicha-suksawasdi-na-ayuthaya
+        </a>
+      </div>
+
+      <!-- GitHub -->
+      <div>
+        <h2 class="text-lg font-semibold mb-2">GitHub</h2>
+        <a href="https://github.com/ravicha2" target="_blank" class="hover:underline block text-gray-100">
+          github.com/ravicha2
+        </a>
+      </div>
+
+      <!-- Location -->
+      <div>
+        <h2 class="text-lg font-semibold mb-2">Location</h2>
+        <p class="text-gray-100">Bangkok, Thailand</p>
+        <p class="text-gray-100">New South Wales, Australia</p>
+      </div>
+    </div>
   </footer>
 
+  <script>
+    // Toggle collapsible sections
+    document.querySelectorAll(".collapse-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const detail = btn.nextElementSibling;
+        const icon = btn.querySelector("span");
+        detail.classList.toggle("hidden");
+        icon.textContent = detail.classList.contains("hidden") ? "+" : "−";
+      });
+    });
+  </script>
 </body>
 </html>

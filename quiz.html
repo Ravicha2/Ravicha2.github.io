@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Palm's Portfolio</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-gradient-to-br from-indigo-100 via-pink-50 to-yellow-100 text-gray-800 font-sans selection:bg-indigo-300 selection:text-white">
+
+  <!-- Navbar -->
+  <nav class="backdrop-blur-md bg-white/70 shadow-md fixed top-0 w-full z-50 transition-all duration-300">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex justify-between items-center py-4">
+        <!-- Logo -->
+        <a href="index.html" class="text-2xl font-extrabold text-indigo-600 hover:text-pink-500 transition-colors duration-300">
+          Palm Suksawasdi
+        </a>
+        
+        <!-- Nav Links -->
+        <div class="space-x-6 font-medium">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="quiz.html" class="nav-link">Quiz</a>
+          <!--<a href="contact.html" class="nav-link">Contact</a>-->
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="max-w-6xl mx-auto px-4 pt-40 pb-20 text-center">
+    <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-4 tracking-tight animate-fadeIn">
+      Welcome! 👋
+    </h1>
+    <p class="text-lg text-gray-700">
+      My name is <b>Ravicha Suksawasdi Na Ayuthaya</b> but please call me <b>Palm</b>. 😆
+    </p>
+  </header>
+
+  <!-- Quiz Section -->
+  <section class="max-w-3xl mx-auto px-6 py-12 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 animate-fadeUp">
+    <h2 class="text-3xl font-semibold mb-8 text-center text-gray-800">
+      Some Ice Breaking? 🤩
+    </h2>
+
+    <!-- Question Blocks -->
+    <div id="quiz-container" class="space-y-6"></div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gradient-to-r from-blue-700 to-pink-600 text-white text-align:left py-12">
+    <div class="max-w-5xl mx-auto px-4 grid md:grid-cols-4 gap-8 text-left md:text-center">
+      
+      <!-- Email -->
+      <div>
+        <h2 class="text-lg font-semibold mb-2">Email</h2>
+        <a href="mailto:palm.ravicha@outlook.com" class="hover:underline block text-gray-100">
+          palm.ravicha@outlook.com
+        </a>
+      </div>
+
+      <!-- LinkedIn -->
+      <div>
+        <h2 class="text-lg font-semibold mb-2">LinkedIn</h2>
+        <a href="https://www.linkedin.com/in/ravicha-suksawasdi-na-ayuthaya/"
+           target="_blank"
+           class="hover:underline block text-gray-100">
+           linkedin.com/in/ravicha-suksawasdi-na-ayuthaya
+        </a>
+      </div>
+
+      <!-- GitHub -->
+      <div>
+        <h2 class="text-lg font-semibold mb-2">GitHub</h2>
+        <a href="https://github.com/ravicha2" target="_blank" class="hover:underline block text-gray-100">
+          github.com/ravicha2
+        </a>
+      </div>
+
+      <!-- Location -->
+      <div>
+        <h2 class="text-lg font-semibold mb-2">Location</h2>
+        <p class="text-gray-100">Bangkok, Thailand</p>
+        <p class="text-gray-100">New South Wales, Australia</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    const questionsData = [
+      { q: "Which best describes my personality?", correct: "Introvert", options: ["Extrovert", "Introvert"] },
+      { q: "Where am I from?", correct: "Thailand 🇹🇭", options: ["China 🇨🇳", "Vietnam 🇻🇳", "Thailand 🇹🇭"] },
+      { q: "What is the most exotic dish I tried?", correct: "snail", options: ["snail", "beef", "pigeon"] },
+      { q: "Which is my favorite football club?", correct: "Real Madrid", options: ["Chelsea", "Bayern München", "Real Madrid", "Barcelona"] },
+      { q: "What is my 2024 Spotify top song?", correct: "The 1975", options: ["The 1975", "Fred again..", "Laufey", "Daft Punk"] },
+      { q: "What is my most proficient programming language?", correct: "Python", options: ["C++", "Javascript", "Python", "Java"] },
+      { q: "What am I afraid of?", correct: "Snakes", options: ["Height", "Dark", "Snakes", "Spiders"] },
+    ];
+
+    const container = document.getElementById("quiz-container");
+
+    questionsData.forEach((item, idx) => {
+      const qDiv = document.createElement("div");
+      qDiv.className = "question p-5 border rounded-xl bg-gradient-to-br from-indigo-50 to-pink-50 shadow hover:shadow-lg transition-shadow duration-300";
+      qDiv.dataset.correct = item.correct;
+
+      qDiv.innerHTML = `
+        <p class="mb-4 font-semibold text-gray-700">${idx + 1}️⃣ ${item.q}</p>
+        <form class="space-y-2">
+          ${item.options.map(opt => `
+            <label class="flex items-center space-x-2 cursor-pointer hover:text-indigo-600 transition-colors">
+              <input type="radio" name="q${idx}" value="${opt}" class="form-radio text-indigo-600" />
+              <span>${opt}</span>
+            </label>
+          `).join("")}
+        </form>
+        <p class="mt-2 result font-semibold"></p>
+      `;
+
+      container.appendChild(qDiv);
+    });
+
+    document.querySelectorAll(".question").forEach(q => {
+      const correctAnswer = q.dataset.correct;
+      const options = q.querySelectorAll("input[type='radio']");
+      const result = q.querySelector(".result");
+
+      options.forEach(option => {
+        option.addEventListener("click", () => {
+          if (option.value === correctAnswer) {
+            result.textContent = "✅ Yess!";
+            result.className = "mt-2 result font-semibold text-green-600";
+          } else {
+            result.textContent = "❌ No, not really";
+            result.className = "mt-2 result font-semibold text-red-600";
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
