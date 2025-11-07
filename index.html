@@ -9,16 +9,13 @@
 </head>
 <body class="bg-gradient-to-br from-pink-100 via-blue-100 to-purple-100 text-gray-800">
 
-  <!-- Navbar -->
   <nav class="backdrop-blur-md bg-white/70 shadow-md fixed top-0 w-full z-50 transition-all duration-300">
     <div class="max-w-6xl mx-auto px-4">
       <div class="flex justify-between items-center py-4">
-        <!-- Logo -->
         <a href="index.html" class="text-2xl font-extrabold text-indigo-600 hover:text-pink-500 transition-colors duration-300">
           Palm Suksawasdi
         </a>
         
-        <!-- Nav Links -->
         <div class="space-x-6 font-medium">
           <a href="index.html" class="nav-link">Home</a>
           <a href="quiz.html" class="nav-link">Quiz</a>
@@ -28,7 +25,6 @@
     </div>
   </nav>
 
-  <!-- Header -->
   <header class="max-w-6xl mx-auto px-4 pt-40 pb-16 text-center fade-in">
     <h1 class="text-5xl font-extrabold text-gray-900 from-blue-700 to-pink-600 bg-clip-text animate-fadeIn">
       Nice to meet you!
@@ -38,10 +34,8 @@
     </p>
   </header>
 
-  <!-- Main Content -->
   <main class="max-w-5xl mx-auto px-4 space-y-12 pb-20 fade-in">
 
-    <!-- Summary -->
     <section class="card">
       <h2 class="section-title">Summary</h2>
       <p class="text-gray-700 leading-relaxed">
@@ -50,12 +44,10 @@
       </p>
     </section>
 
-    <!-- Background -->
     <section class="card">
       <h2 class="section-title">Background</h2>
       <div class="space-y-8">
 
-        <!-- Work Experience -->
         <div>
           <h3 class="subsection-title">💼 Work Experience</h3>
           <div class="space-y-3">
@@ -101,7 +93,6 @@
           </div>
         </div>
 
-        <!-- Education -->
         <div>
           <h3 class="subsection-title">🎓 Education</h3>
           <div class="space-y-3">
@@ -144,37 +135,55 @@
       </div>
     </section>
 
-    <!-- Projects -->
     <section class="card">
-      <h2 class="section-title">Projects & Publications</h2>
+      <h2 class="section-title">Notable Achievement</h2>
+      <div class="project-card">
+        <h3><b>Hack2Heal Hackathon - Founder's Choice award winner</b></h3>
+        <img src="Hack2Heal.png" alt="Healing Together project screenshot" class="mt-4 rounded-lg shadow-sm w-3/4 md:w-1/2 mx-auto block">
+        <a href="https://heal.a2a.ing" target="_blank" class="inline-block mt-3">View Project →</a>
+      </div>
+      <div class="project-card">
+        <h3><b>IEEE Region 10: TENCON 2023 - Co-author and speaker</b></h3>
+        <p>Publication: Position Accuracy of a 6-DOF Passive Robotic Arm</p>
+        <img src="IEEE.png" alt="IEEE publication diagram" class="mt-4 rounded-lg shadow-sm w-3/4 md:w-1/2 mx-auto block">
+        <a href="https://ieeexplore.ieee.org/document/10322507" target="_blank" class="inline-block mt-3">View Project →</a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">Projects</h2>
       <div class="grid md:grid-cols-2 gap-6">
         <div class="project-card">
-          <h3>Position Accuracy of a 6-DOF Passive Robotic Arm</h3>
-          <p>Published in IEEE TENCON 2023</p>
-          <a href="https://ieeexplore.ieee.org/document/10322507" target="_blank">View Project →</a>
-        </div>
-        <div class="project-card">
-          <h3>Git Clone</h3>
+          <h3><b>Git Clone</b></h3>
           <p>Simplified Python implementation of Git version control.</p>
           <a href="https://github.com/Ravicha2/git_clone">View Project →</a>
         </div>
         <div class="project-card">
-          <h3>Mygive</h3>
+          <h3><b>Mygive</b></h3>
           <p>Dash script reimplementation of UNSW’s “give” system.</p>
           <a href="https://github.com/Ravicha2/mygive">View Project →</a>
         </div>
         <div class="project-card">
-          <h3>Currency Converter</h3>
+          <h3><b>Currency Converter</b></h3>
           <p>ReactJS app that converts currencies in real time using an API.</p>
           <a href="https://ravicha2.github.io/Currency-converter-ReactJS/" target="_blank">View Project →</a>
         </div>
       </div>
     </section>
 
-    <!-- More About Me -->
     <section class="card">
       <h2 class="section-title">A Little More About Me</h2>
       <div class="space-y-3">
+        <div class="collapse-card">
+          <button class="collapse-btn">
+            UNSW Professional Development Program
+            <span>+</span>
+          </button>
+          <div class="collapse-detail hidden">
+            <p>• 3-day intensive training in communication, personal branding, and networking</p>
+          </div>
+        </div>
+
         <div class="collapse-card">
           <button class="collapse-btn">
             UNSW Leadership Foundation Program
@@ -201,11 +210,9 @@
     </section>
   </main>
 
-  <!-- Footer -->
   <footer class="bg-gradient-to-r from-blue-700 to-pink-600 text-white text-align:left py-12">
     <div class="max-w-5xl mx-auto px-4 grid md:grid-cols-4 gap-8 text-left md:text-center">
       
-      <!-- Email -->
       <div>
         <h2 class="text-lg font-semibold mb-2">Email</h2>
         <a href="mailto:palm.ravicha@outlook.com" class="hover:underline block text-gray-100">
@@ -213,7 +220,6 @@
         </a>
       </div>
 
-      <!-- LinkedIn -->
       <div>
         <h2 class="text-lg font-semibold mb-2">LinkedIn</h2>
         <a href="https://www.linkedin.com/in/ravicha-suksawasdi-na-ayuthaya/"
@@ -223,7 +229,6 @@
         </a>
       </div>
 
-      <!-- GitHub -->
       <div>
         <h2 class="text-lg font-semibold mb-2">GitHub</h2>
         <a href="https://github.com/ravicha2" target="_blank" class="hover:underline block text-gray-100">
@@ -231,7 +236,6 @@
         </a>
       </div>
 
-      <!-- Location -->
       <div>
         <h2 class="text-lg font-semibold mb-2">Location</h2>
         <p class="text-gray-100">Bangkok, Thailand</p>
