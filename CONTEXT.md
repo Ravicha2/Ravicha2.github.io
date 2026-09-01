@@ -3,21 +3,20 @@
 ## Domain Glossary
 
 ### Architecture & Build Pipeline
-- **Build Engine**: Vite + Vanilla JS / Web Components, emitting optimized static multi-page HTML/CSS/JS assets for GitHub Pages deployment.
-- **Native Cross-Document & Component View Transitions**: Native CSS `@view-transition { navigation: auto; }` and `document.startViewTransition()` for component state transitions, using `pagereveal` and `pageswap` for cross-document lifecycle management.
-- **Component Model**: Reusable, lightweight Vanilla Web Components / Custom Elements for modularity without heavy runtime framework overhead.
-- **Performance & Asset Pipeline**: Self-hosted variable fonts (Geist / Geist Mono), AVIF/WebP image compression, hover-based speculative prefetching, and `<link rel="expect">` render anchors to eliminate timeout errors.
+- **Build Engine**: Vite + React 18/19 + TypeScript + Tailwind CSS, emitting an optimized Single-Page Application (SPA) for GitHub Pages deployment.
+- **Client-Side Routing & Transitions**: React Router with native `document.startViewTransition()` for smooth client-side route changes and shared-element project morphs, with a `404.html` fallback script for direct deep-linking on GitHub Pages.
+- **Component Model**: Reusable, type-safe React components with Lucide icons and Tailwind utility styling without heavy runtime bloat.
+- **Performance & Asset Pipeline**: Self-hosted variable fonts (Geist / Geist Mono), optimized WebP/AVIF images, static `/public/llms.txt` and `/public/llms-full.txt` files for AI agent bots.
 
 ### Visual & Motion Language
 - **No-Gradient Adaptive Minimalist**: Strict avoidance of CSS gradients. Solid backgrounds (Zinc-950 `#09090b` dark / Porcelain `#fafafa` light), 1px hairline borders (`border-zinc-800` / `border-zinc-200`), high-contrast typography, and single solid accent.
-- **Picture-in-Picture & Shared-Element Morphing**: Dynamic Just-in-Time `view-transition-name` assignment in `pageswap`/`pagereveal` morphing thumbnails directly to detail heroes, anchoring persistent navigation, and applying `object-fit: cover` with custom cubic-bezier timing (`cubic-bezier(0.2, 0, 0, 1)`) to guarantee 0 warping and 0ms perceived latency.
-- **Progressive Enhancement**: Seamless execution in Chrome/Safari 18.2+ with automatic graceful zero-delay fallback for older browsers and pure CSS `prefers-reduced-motion` compliance.
+- **Shared-Element Morphing & Route Cross-Fades**: Client-side View Transitions assigning `view-transition-name` to thumbnails morphing smoothly into project detail heroes (`/projects/:slug`), with `object-fit: cover` and custom cubic-bezier timing (`cubic-bezier(0.2, 0, 1, 1)`).
+- **Progressive Enhancement**: Smooth execution in modern browsers with graceful instantaneous fallback when `document.startViewTransition` is not supported, fully honoring `prefers-reduced-motion`.
 
 ## Resolved Decisions
-1. **Interaction Model**: Cross-document View Transitions with shared element picture-in-picture component morphing based on the modern `@view-transition` CSS standard.
-2. **Tech Stack**: Vite + Vanilla JS / Web Components producing multi-page static output for GitHub Pages.
+1. **Tech Stack**: Vite + React + TypeScript + Tailwind CSS (SPA) deployed to GitHub Pages.
+2. **Interaction & Routing Model**: Multi-Route React SPA (`/`, `/projects`, `/projects/:slug`, `/experience`) with native React View Transitions and SPA deep-link routing.
 3. **Visual Aesthetic**: Adaptive High-Contrast Minimalist (Dark/Light mode) with pure solid colors, hairline borders, and zero gradients.
-4. **Site Structure & Scope**: Focused purely on curated portfolio, engineering case studies, and resume (Home, Work/Projects, Experience/Resume, and Project Case Study detail pages; legacy quiz removed).
-5. **Transition Choreography**: JIT `view-transition-name` on `pageswap`/`pagereveal` with anchored header/nav, aspect-ratio preserved image/card scaling, and effortless cross-fade for secondary content.
-6. **Asset & Performance Engine**: Self-hosted Geist/Geist Mono fonts, optimized media, speculative prefetching, and render-blocking expectation anchors.
-7. **Compatibility & Accessibility**: Progressive enhancement with native graceful degradation and CSS media query motion suppression.
+4. **Site Structure & Scope**: Focused purely on curated portfolio, engineering case studies, and resume (Home, Projects Catalog, Project Case Study detail pages, Experience/Resume).
+5. **Asset & Performance Engine**: Self-hosted Geist/Geist Mono fonts, optimized media, static `/llms.txt` in `public/`.
+6. **Compatibility & Accessibility**: Progressive enhancement with WCAG AAA contrast and CSS media query motion suppression.
