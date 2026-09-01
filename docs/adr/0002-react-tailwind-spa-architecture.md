@@ -23,3 +23,4 @@ We adopt a **Single-Page Application (SPA)** architecture powered by:
 ### Negative / Trade-offs
 - Requires client-side JavaScript execution for human browsing (mitigated for AI bots/crawlers by serving pure static markdown via `/llms.txt` and `/llms-full.txt`).
 - Requires a `404.html` redirect script for direct deep-link reloads on GitHub Pages.
+
