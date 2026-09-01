@@ -8,12 +8,14 @@
 
 ## 1. Overview & Objectives
 
-This specification defines the unified developer narrative, storytelling structure, and 4-part project case study framework for Palm Suksawasdi's portfolio website ([Ravicha2.github.io](https://ravicha2.github.io)).
+This specification defines the unified developer narrative, storytelling structure, and intuitive case study framework for Palm Suksawasdi's portfolio website ([Ravicha2.github.io](https://ravicha2.github.io)).
 
-### Core Goals
-1. **Establish a High-Signal Applied AI Narrative**: Position Palm as an Applied AI & Backend Systems Engineer who brings an engineer's rigor (systems thinking, constraints, fault tolerance) to non-deterministic AI pipelines, graph systems, and distributed backends.
-2. **Standardize the 4-Part Case Study Schema**: Provide a consistent, architectural deep-dive format (*Problem & Context → System Architecture → Technical Decisions → Outcomes & Verification*) that highlights engineering substance over generic bullet points.
-3. **Curate Flagship Engineering Projects**: Structure detailed case study breakdowns for high-impact projects including **Shepherd**, **NL2REGEX**, **NodesNow Document Ingestion Agent**, and **Lit-Review-Council**.
+### Core Shift: "Intuition & Why" over "Feature Listing"
+Rather than merely describing features, the storytelling centers on **Engineering Rationale**:
+* **The Spark & Core Intuition**: What was the initial hypothesis or real-world friction?
+* **The Breaking Problem Encountered**: What broke when trying the naive approach (e.g., hallucinated schemas, catastrophic backtracking, broken multi-stage state, vector search blindspots)?
+* **Why Built This Way**: The architectural insight and deliberate trade-offs made to solve the root problem.
+* **The Concrete Outcome**: How the system holds up under real conditions and verification.
 
 ---
 
@@ -26,172 +28,150 @@ This specification defines the unified developer narrative, storytelling structu
 * **Core Links**: GitHub (`github.com/ravicha2`), LinkedIn (`linkedin.com/in/ravicha-suksawasdi-na-ayuthaya`), Email (`palm.ravicha@outlook.com`).
 
 ### 2.2 About Me & Story Arc
-1. **The Focus**: Master of Information Technology student at UNSW Sydney specializing in agentic AI architectures, knowledge graph management (Neo4j), and event-driven backend systems (Inngest, Celery/Redis, PySpark, FastAPI, NestJS).
-2. **The Origin & Spark**: Originally trained in Automotive Design & Manufacturing Engineering at Chulalongkorn University. During an IoT exchange program at IMT Atlantique in France right when modern LLMs took off, made a decisive pivot to Computer Science and Applied AI.
-3. **The Engineering Edge**: Approaching AI with an engineering mindset—treating non-deterministic LLMs as components within deterministic, constraint-aware systems with explicit state machines, schema validation, automated retries, and graph verification.
-4. **Execution Track Record**:
-   - **Shepherd** (UNSW Research): Built an Architectural Decision Graph compliance engine with Neo4j and GitHub commit checks.
-   - **NL2REGEX**: Built a distributed natural-language-to-regex data processing platform capable of transforming million-row datasets via PySpark and Celery.
-   - **NodesNow**: Engineered a durable AI document ingestion system using Inngest step functions and Neo4j/pgvector.
-   - **Lit-Review-Council**: Created a multi-agent consensus MCP server published to PyPI (`uvx lit-review-council`).
-   - **Tendor**: Built Google ADK procurement document extraction pipelines and Documenso MCP signing tools.
-5. **Next Step**: Graduating in December 2026; actively seeking full-time roles in Applied AI, Agentic Systems, and Backend Infrastructure.
+1. **The Origin & The Spark**: Originally trained in Automotive Design & Manufacturing Engineering at Chulalongkorn University. During an IoT exchange at IMT Atlantique in France right when modern LLMs took off, saw the potential of combining software intelligence with systems engineering and made a decisive pivot to Computer Science.
+2. **The Systems Mindset in AI**: Coming from physical engineering (where stress limits, fluid routing, and failure modes are absolute), Palm treats non-deterministic AI models as components within deterministic, constraint-aware software systems—enforcing explicit state machines, schema validation, graph-based verification, and automatic failure recovery.
+3. **Applied AI Focus**: Currently completing a Master of Information Technology at UNSW Sydney (Distinction, WAM 83) while conducting research on Graph-based architectural compliance tools and building open-source agent tooling.
+4. **Target**: Graduating December 2026; actively seeking full-time roles in Applied AI, Agentic Systems, and Backend Infrastructure.
 
 ---
 
-## 3. The 4-Part Case Study Framework Schema
+## 3. The "Intuition-First" 4-Part Case Study Framework
 
-All featured project deep dives adhere to this standard 4-part schema:
+Every case study is structured to reveal the engineer's problem-solving process:
 
 ```markdown
 # [Project Name]: [One-Line Technical Hook]
 
 | Metadata | Specification |
 |---|---|
-| **Role & Context** | e.g., Research Engineer (UNSW) / Backend Intern (NodesNow) / Open Source Author |
+| **Role & Context** | e.g., Research Engineer (UNSW) / Backend Intern (NodesNow) / Creator |
 | **Timeline** | e.g., Jun 2026 |
-| **Stack** | List of core technologies (e.g., Python, Neo4j, PySpark, Inngest, Docker) |
-| **Links** | GitHub Repository, Live Demo, PyPI Package, Video Demo, Research Paper |
+| **Stack** | `Python` · `Neo4j` · `PySpark` · `Inngest` · `Docker` |
+| **Links** | [GitHub Repo ↗] · [Live Demo ↗] · [PyPI ↗] · [Video Walkthrough ↗] |
 
 ---
 
-### Part 1: Problem & Context
-- **Operational Bottleneck**: The concrete limitation, failure mode, or inefficiency in existing methods.
-- **System Constraints**: Latency boundaries, dataset scale, schema enforcement, or durability requirements.
+### 1. The Core Intuition & Friction
+* **The Spark**: Why start this project? What was the underlying hypothesis?
+* **The Naive Failure Mode**: What happens when developers try the standard/naive approach? (e.g. single-prompt scripts, unindexed vector chunks, fragile in-memory queues).
 
-### Part 2: System Architecture & Data Flow
-- **End-to-End Pipeline**: High-level flow from ingestion/trigger to processing and persistence.
-- **Topology Diagram**: ASCII or visual architectural diagram showing services, message queues, state machines, and data layers.
-- **Component Breakdown**: Specific responsibilities of the Web/API layer, Orchestration/Worker layer, and Storage/Retrieval layer.
+### 2. The Root Problem Encountered
+* **Edge Cases & Failure Points**: Specific real-world bottlenecks hit during development (e.g., column hallucination on dirty CSVs, ReDoS regex lockups, partial state corruption on network drop, ADR rule drift in multi-repo codebases).
+* **Constraints**: Hard technical limits (e.g., million-row dataset memory limits, sub-second PR review latency, zero manual failure intervention).
 
-### Part 3: Technical Decisions & Trade-offs
-- **Architectural Decisions (Why X over Y)**: Explaining deliberate trade-offs (e.g. Parquet normalization vs. raw CSV parsing, Inngest durable steps vs. raw message queues, 2-stage LLM triage vs. single prompt).
-- **Safety & Error Boundaries**: Guardrails against non-determinism, catastrophic backtracking, schema drift, or API rate limits.
+### 3. Why It Was Built This Way (Architectural Decisions & Trade-offs)
+* **The Key Architectural Insight**: The specific structural choice that eliminated the failure mode.
+* **Trade-off Analysis (Why X over Y)**:
+  * Decision A: Why this pattern/tool was chosen over the common alternative (e.g., 2-stage LLM triage vs single prompt; Inngest durable steps vs raw message queues; Neo4j property graphs vs flat vector search).
+  * Guardrails & Defense: How the architecture handles non-determinism, timeouts, and edge cases.
 
-### Part 4: Outcomes, Verification & Key Takeaways
-- **Verification & Deployment**: CI/CD integration, automated test suites, Dockerized environments, or public package distribution.
-- **Demonstrated Results**: Million-row throughput, automated self-recovery, zero state corruption, or open-source compatibility.
-- **Core Lesson Learned**: Practical engineering insight gained from building and running the system.
+### 4. Outcomes, Verification & Key Takeaways
+* **Verification**: How the system was tested and validated (e.g., GitHub Commit Status Checks, 1M-row synthetic benchmarks, PyPI installation via `uvx`).
+* **Real-World Impact**: What changed for users or downstream developers (e.g., automated error recovery, zero memory spikes, PR blocking before merge).
+* **Engineering Takeaway**: The main architectural lesson learned.
 ```
 
 ---
 
-## 4. Curated Flagship Case Studies
+## 4. Flagship Case Studies (Intuition & Rationale Deep Dives)
 
 ### 4.1 Case Study 1: Shepherd (UNSW Research)
 * **Title**: *GraphRAG-Enhanced Architectural Decision Graph & Compliance Engine*
-* **Role & Timeline**: Lead Researcher, UNSW Sydney (Jun 2026)
+* **Context**: Lead Researcher, UNSW Sydney (Jun 2026) · [github.com/Ravicha2/Shepherd](https://github.com/Ravicha2/Shepherd)
 * **Stack**: `Python` · `FastAPI` · `Neo4j` · `Cypher` · `Docker` · `uv` · `GitHub Actions`
-* **Links**: [github.com/Ravicha2/Shepherd](https://github.com/Ravicha2/Shepherd)
-* **Part 1 (Problem & Context)**: AI coding assistants often introduce silent architectural drift by generating code that violates Architectural Decision Records (ADRs) buried across markdown files in large repositories.
-* **Part 2 (Architecture)**: 
-  - Code AST parser extracts modules, dependencies, and call hierarchies.
-  - Markdown ADR ingestor maps decision boundaries and constraints into a Neo4j property graph.
-  - Graph traversal engine evaluates code modifications against graph rules using Cypher queries.
-* **Part 3 (Technical Decisions)**:
-  - *Graph vs. Flat Vector Retrieval*: Neo4j property graph enables multi-hop relational pathfinding and explicit constraint checking where simple vector similarity fails.
-  - *Tiered Conflict Resolution*: Distinguishes hard architectural blockers (e.g. layer violations) from soft advisory warnings.
-* **Part 4 (Outcomes & Verification)**:
-  - Integrated directly into GitHub Commit Status Checks to review pull requests automatically before merge.
-  - Reproducible development environment managed via `uv` and Docker.
+* **1. The Intuition**: As AI code generators produce more code faster, teams lose visibility over whether new code obeys historical Architectural Decision Records (ADRs) buried in repo markdown files.
+* **2. The Problem Found**: 
+  - Naive vector search (RAG) retrieves semantically similar markdown paragraphs, but completely misses multi-file dependency hierarchies, transitive imports, and strict layer boundaries (e.g., "Domain layer must never import Infrastructure").
+* **3. Why Built This Way**:
+  - *Knowledge Graph over Flat Vectors*: Mapped both code AST structures and ADR rules into a **Neo4j property graph**. This allows deterministic Cypher graph traversals to follow call chains and dependency edges across modules.
+  - *Tiered Conflict Engine*: Differentiates fatal architectural violations (blocking PR status checks) from advisory suggestions.
+* **4. Outcomes & Verification**:
+  - Integrated directly into GitHub Commit Status Checks to automatically evaluate pull requests before merge.
+  - Demonstrated that graph-traversed architectural constraints catch structural violations that standard embedding search misses.
 
 ---
 
 ### 4.2 Case Study 2: NL2REGEX (Distributed Data Processing Platform)
 * **Title**: *Distributed Natural Language to Regex Engine for Large-Scale Datasets*
-* **Role & Timeline**: Creator / Full-Stack Engineer (2026)
+* **Context**: Creator / Full-Stack Engineer (2026) · [github.com/Ravicha2/NL2REGEX](https://github.com/Ravicha2/NL2REGEX) · [Live Demo](http://207.148.87.49) · [Video](https://youtu.be/mFec2jMgosg)
 * **Stack**: `PySpark 3.5` · `Django 5` · `Celery` · `Redis` · `PostgreSQL` · `React 18` · `Docker Compose`
-* **Links**: [github.com/Ravicha2/NL2REGEX](https://github.com/Ravicha2/NL2REGEX) · [Live Demo](http://207.148.87.49) · [YouTube Walkthrough](https://youtu.be/mFec2jMgosg)
-* **Part 1 (Problem & Context)**: Transforming tabular data with millions of rows using natural language regex descriptions usually causes worker timeouts, catastrophic regex backtracking (`ReDoS`), memory exhaustion, and hallucinated column names.
-* **Part 2 (Architecture)**:
-  - *Web Layer*: Django API with immediate 202 async response returning `job_id`.
-  - *Task & Cache Layer*: Celery workers backed by Redis for task brokering, result backend, and SHA-256 LLM response caching.
-  - *Processing Engine*: PySpark running projection transformations on partitioned Parquet datasets.
-  - *Storage Layer*: PostgreSQL for relational metadata; filesystem for partitioned Parquet part files and 100-row preview pagination.
-* **Part 3 (Technical Decisions)**:
-  - *Two-Stage LLM Pipeline*: A schema-validated triage call parses user intent into `(column, nl_pattern, replacement)` tuples before regex generation, preventing column hallucination (ADR 0003).
-  - *Canonical Parquet Normalization*: All uploads are immediately converted to Parquet; Spark never processes raw CSV/Excel directly (ADR 0002).
-  - *Regex Safety Guardrails*: Compilation validation + `signal.alarm` timeout protection against catastrophic backtracking.
-  - *Singleton JVM Worker Factory*: Reuses Spark JVM sessions per Celery worker to eliminate JVM boot overhead (ADR 0004).
-* **Part 4 (Outcomes & Verification)**:
-  - Benchmarked on 1,000,000+ row datasets with zero memory bloat.
-  - 5 Architecture Decision Records (ADRs) documented.
-  - Deployed live at `http://207.148.87.49` with interactive React UI and video demonstration.
+* **1. The Intuition**: Non-technical analysts need to transform complex column patterns in massive tabular datasets using plain English, without writing fragile regex by hand or uploading sensitive full datasets to LLM APIs.
+* **2. The Problem Found**:
+  - *Schema Hallucination*: Prompting an LLM directly to "replace phone numbers in column X" frequently resulted in the LLM hallucinating column names that did not exist in the file.
+  - *ReDoS & Timeout Lockups*: Generated regexes could trigger catastrophic backtracking (`ReDoS`), hanging worker threads indefinitely.
+  - *Memory Exhaustion*: Ingesting multi-gigabyte CSVs into pandas caused out-of-memory crashes on worker nodes.
+* **3. Why Built This Way**:
+  - *Two-Stage LLM Pipeline (ADR 0003)*: A dedicated schema-validated triage call extracts structured `(column, nl_pattern, replacement)` tuples against verified dataset headers before regex generation begins, eliminating column hallucination.
+  - *Canonical Parquet Normalization (ADR 0002)*: Uploads are immediately normalized into Parquet partitions so PySpark applies regex projections in parallel without loading the full CSV into memory.
+  - *Regex Safety Guardrails*: Regexes are compiled and wrapped in `signal.alarm` timeout checks before execution; prompt hashes are cached in Redis to skip duplicate LLM queries.
+  - *Local Singleton JVM Session (ADR 0004)*: Celery workers share a long-lived PySpark JVM session to eliminate startup latency while remaining pointable to a remote cluster via `SPARK_MASTER`.
+* **4. Outcomes & Verification**:
+  - Successfully transformed synthetic datasets with 1,000,000+ rows across partitions with zero worker memory spikes.
+  - Deployed live at `http://207.148.87.49` with 5 documented ADRs and full Docker Compose reproducibility.
 
 ---
 
 ### 4.3 Case Study 3: Fault-Tolerant Document Ingestion Agent (NodesNow LLC)
 * **Title**: *Event-Driven AI Document Ingestion with Durable Orchestration*
-* **Role & Timeline**: Backend Engineer Intern, NodesNow LLC (Dec 2025 – Feb 2026)
+* **Context**: Backend Engineer Intern, NodesNow LLC (Dec 2025 – Feb 2026) · [github.com/Ravicha2/document-ingestion-agent](https://github.com/Ravicha2/document-ingestion-agent)
 * **Stack**: `Inngest` · `NestJS` · `Neo4j` · `pgvector` · `PostgreSQL` · `React` · `Docker` · `TypeScript`
-* **Links**: [github.com/Ravicha2/document-ingestion-agent](https://github.com/Ravicha2/document-ingestion-agent)
-* **Part 1 (Problem & Context)**: Multi-stage AI document processing (extraction, chunking, embedding, entity extraction) is highly vulnerable to transient LLM rate-limits and network drops, resulting in broken pipelines and orphaned database states.
-* **Part 2 (Architecture)**:
-  - Inngest event-driven workflow engine orchestrating discrete NestJS step functions.
-  - Dynamic fan-in/fan-out batch concurrency for multi-document ingestion.
-  - Dual persistence layer: vector embeddings into `pgvector` and structured knowledge graphs into `Neo4j`.
-* **Part 3 (Technical Decisions)**:
-  - *Durable Step Functions vs. Custom Queues*: Inngest handles durable state, step-level idempotency, and automatic exponential backoff retries without maintaining custom Redis queue recovery logic.
-  - *Hybrid RAG Indexing*: Combining semantic search (vector) with relational graph traversals (Neo4j) for high-accuracy downstream retrieval.
-* **Part 4 (Outcomes & Verification)**:
-  - Eliminated manual engineer intervention on failed ingestion steps through automatic backoff and step recovery.
-  - Fully containerized full-stack architecture (Inngest server, NestJS API, Neo4j, PostgreSQL) for 100% reproducible local DX.
+* **1. The Intuition**: Enterprise document ingestion requires a multi-stage pipeline (extraction, OCR, semantic chunking, vector embedding, entity graph generation) that must run asynchronously across hundreds of files without failing silently.
+* **2. The Problem Found**:
+  - When steps fail halfway through (e.g. rate-limit on embedding API or network timeout on graph write), naive background workers leave orphaned rows, duplicate embeddings, and inconsistent graph nodes, requiring manual database cleanup.
+* **3. Why Built This Way**:
+  - *Durable Step Functions (Inngest)*: Decomposed the workflow into discrete, idempotent steps managed by Inngest. If step 4 (Graph Write) fails, Inngest automatically retries only step 4 with exponential backoff, without re-running expensive LLM extractions (steps 1–3).
+  - *Dual-Layer Retrieval*: Ingested entities are persisted into both `pgvector` (for vector semantic search) and `Neo4j` (for entity-relationship traversals), supporting hybrid RAG downstream.
+* **4. Outcomes & Verification**:
+  - Eliminated manual intervention on transient failures through automatic step-level recovery.
+  - Containerized full stack (NestJS, Inngest server, Neo4j, pgvector) enabling clean local development and predictable deployments.
 
 ---
 
 ### 4.4 Case Study 4: Lit-Review-Council (Google ADK & Open Source)
 * **Title**: *Multi-Agent Literature Review Council MCP Server*
-* **Role & Timeline**: Author (Google × Kaggle AI Agents Intensive, Jun 2026)
+* **Context**: Open Source Author (Google × Kaggle AI Agents Intensive, Jun 2026) · [github.com/Ravicha2/lit-review-council](https://github.com/Ravicha2/lit-review-council) · [PyPI](https://pypi.org/project/lit-review-council/)
 * **Stack**: `Google ADK` · `Python` · `MCP (Model Context Protocol)` · `OpenAlex API` · `ArXiv API` · `uv`
-* **Links**: [github.com/Ravicha2/lit-review-council](https://github.com/Ravicha2/lit-review-council) · [PyPI: lit-review-council](https://pypi.org/project/lit-review-council/)
-* **Part 1 (Problem & Context)**: Single-agent literature synthesis is prone to single-model bias, hallucinated citations, missing practitioner implementations, and lack of critical peer review.
-* **Part 2 (Architecture)**:
-  - Parallel wave execution of dual-track research agents: Academic agents (querying ArXiv / OpenAlex) and Practitioner agents (querying GitHub repositories).
-  - Multi-agent review council: 3 distinct reviewer personas scoring and ranking findings via Borda-count consensus.
-  - Packaged as a standard Model Context Protocol (MCP) server for instant IDE integration.
-* **Part 3 (Technical Decisions)**:
-  - *Borda-Count Ranking*: Aggregates candidate papers across multiple reviewer criteria to prevent single-agent evaluation bias.
-  - *Automated Guardrails*: Citation verification, source-tier classification, and dangling-reference rejection before output synthesis.
-* **Part 4 (Outcomes & Verification)**:
-  - Shipped to PyPI, runnable with a single command (`uvx lit-review-council`).
-  - Seamlessly interoperable with Claude Code, Cursor, and VS Code MCP clients.
+* **1. The Intuition**: Automated literature reviews conducted by a single LLM prompt suffer from confirmation bias, hallucinated citations, and an inability to balance theoretical academic research with practical open-source implementations.
+* **2. The Problem Found**:
+  - LLMs frequently cite non-existent papers or invent claims when synthesizing research. Furthermore, single-agent scoring heavily reflects the biases of a single prompt persona.
+* **3. Why Built This Way**:
+  - *Dual-Track Parallel Research*: Dispatches parallel waves of specialized agents—Academic agents (ArXiv / OpenAlex) and Practitioner agents (GitHub codebases).
+  - *Borda-Count Consensus Council*: 3 distinct reviewer agents independently evaluate and rank candidate papers across novelty, methodology, and practical applicability, combining scores via Borda-count voting.
+  - *Strict Verification Guardrails*: Enforces automated citation validation, source-tier weighting, and dangling reference rejection before final report generation.
+  - *MCP Protocol Distribution*: Implemented as a Model Context Protocol server so any MCP-compatible client (Claude Code, Cursor, VS Code) can trigger the review council directly from their IDE.
+* **4. Outcomes & Verification**:
+  - Published to PyPI (`uvx lit-review-council`), allowing any engineer to run multi-agent literature syntheses with zero setup.
+  - Validated deterministic consensus across diverse research queries with zero hallucinated paper references.
 
 ---
 
-## 5. Supporting Projects, Accolades & Foundation
+## 5. Supporting Experience & Accolades
 
 ### 5.1 Additional Applied AI Projects
 * **Tendor (Software Engineer Intern, Jul 2026 – Present)**:
-  - Developed Google ADK document extraction and classification pipelines for complex public procurement tenders.
-  - Built an automated Documenso e-signing integration exposed as an MCP tool for autonomous agent execution.
-* **Chatbot Agent with DB Tools**: LangChain/Node.js conversational agent with dynamic tool invocation and database management ([github.com/Ravicha2/node-api](https://github.com/Ravicha2/node-api)).
+  - *Problem*: Procurement documents are complex, non-standard PDFs requiring multi-pass extraction and human sign-off.
+  - *Solution*: Google ADK extraction pipeline + Documenso e-signing service exposed as MCP tools for agent workflows.
+* **Chatbot Agent with DB Tools ([github.com/Ravicha2/node-api](https://github.com/Ravicha2/node-api))**: Conversational agent with dynamic tool invocation and database management.
 
-### 5.2 Honors & Accolades
+### 5.2 Accolades & Foundational Timeline
 * **Hack2Heal Hackathon (Founder's Choice Award Winner)**: Built and deployed community mental health support platform (`heal.a2a.ing`).
 * **IEEE TENCON 2023 Publication & Presentation**: Co-author & presenter for *"Position Accuracy of a 6-DOF Passive Robotic Arm for Ultrasonography Training"* (C, MATLAB).
-
-### 5.3 Engineering Foundation (Experience Timeline)
-* **3D Technical Design (District Heating Network Designer, 2023–2025)**:
-  - 2D/3D route arrangements and stress calculations using Autodesk Civil 3D and sisKMR across 10+ UK infrastructure sites.
-  - Identified construction hazards, performed thermal expansion calculations, and mentored colleagues.
-* **Jardine Schindler (Engineering Trainee)**:
-  - Supported electromechanical installation, safety protocols, and software configuration for commercial elevator/escalator systems.
+* **3D Technical Design & Schindler**: Foundational systems engineering—district heating CAD modeling across 10+ UK sites (Civil 3D, sisKMR) and electromechanical systems.
 
 ---
 
 ## 6. Information Architecture Mapping
 
-| Page | Content & Role in Narrative |
+| Target Document | Narrative & Case Study Integration |
 |---|---|
-| **`index.html` (Home)** | Hero section with core Applied AI positioning; Bento deck featuring the 4 flagship case studies (Shepherd, NL2REGEX, NodesNow, Lit-Review-Council); snapshot of recent roles; contact footer. |
-| **`projects.html` (Catalog)** | Comprehensive project catalog with category filters (`Agentic AI`, `Distributed Systems`, `Graph & RAG`, `Physical & Robotics`); full 4-part case studies expandable via View Transitions. |
-| **`experience.html` (Timeline)** | Chronological career timeline showcasing the progression from physical systems engineering (3D Technical Design, Schindler) to Applied AI & Software (NodesNow, Tendor, UNSW Research), with technical skill matrices and education. |
-| **`llms.txt` & `llms-full.txt`** | Machine-readable markdown dossier containing this structured narrative, technical skills, and 4-part case study summaries for AI agents. |
+| **`index.html` (Home)** | Hero section with Applied AI narrative; Bento deck showcasing the 4 flagship case studies focusing on *The Intuition & Why Built This Way*; quick experience snapshot; footer contact. |
+| **`projects.html` (Catalog)** | Comprehensive filterable project catalog (`Agentic AI`, `Distributed Systems`, `Graph & RAG`, `Robotics`); full 4-part case studies with interactive deep-dives. |
+| **`experience.html` (Timeline)** | Chronological career journey from systems/civil engineering to applied AI, featuring technical decision highlights, skills taxonomy, and education. |
+| **`llms.txt` & `llms-full.txt`** | Complete markdown dossier for AI agents visiting the site, structuring all project intuitions, problems solved, and architecture decisions. |
 
 ---
 
 ## 7. Next Steps
 
-1. Review and approve this design document.
-2. Commit the design specification to `docs/superpowers/specs/2026-09-01-profile-narrative-and-case-studies-design.md`.
-3. Transition to implementation planning using the `writing-plans` skill to update the website content, data models, and markdown files.
+1. Commit the revised design specification to `docs/superpowers/specs/2026-09-01-profile-narrative-and-case-studies-design.md`.
+2. Transition to implementation planning using the `writing-plans` skill to update site templates, project schemas, and content.
