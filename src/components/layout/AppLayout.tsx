@@ -26,7 +26,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <NavLink
             to="/"
-            className="font-medium tracking-tight text-text-primary hover:text-accent-solid focus-visible:ring-2 focus-visible:ring-accent-solid rounded px-1"
+            className="font-medium tracking-tight text-text-primary hover:text-accent-solid focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1"
           >
             Palm Suksawasdi
           </NavLink>
@@ -38,7 +38,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
                 to={item.to}
                 end={item.to === '/'}
                 className={({ isActive }) =>
-                  `px-3 py-1.5 text-sm rounded-md transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid ${
+                  `px-3 py-1.5 text-sm rounded-md transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
                     isActive
                       ? 'bg-accent-badge-bg text-accent-badge-text font-medium'
                       : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'
@@ -70,7 +70,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
               href="https://github.com/Ravicha2"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-text-primary focus-visible:ring-2 focus-visible:ring-accent-solid rounded px-1"
+              className="hover:text-text-primary focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1"
               aria-label="Palm's GitHub profile (opens in a new tab)"
             >
               GitHub
@@ -79,7 +79,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
               href="https://linkedin.com/in/ravicha-suksawasdi-na-ayuthaya"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-text-primary focus-visible:ring-2 focus-visible:ring-accent-solid rounded px-1"
+              className="hover:text-text-primary focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1"
               aria-label="Palm's LinkedIn profile (opens in a new tab)"
             >
               LinkedIn

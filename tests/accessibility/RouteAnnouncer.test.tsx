@@ -1,16 +1,31 @@
 import { useRef } from 'react';
 import { render, screen, act } from '@testing-library/react';
-import { MemoryRouter, useNavigate } from 'react-router-dom';
+import { MemoryRouter, useNavigate, useLocation } from 'react-router-dom';
 import { describe, it, expect } from 'vitest';
 import { RouteAnnouncer } from '../../src/accessibility/RouteAnnouncer';
 
-function TestWrapper({ title = 'Overview' }: { title?: string }) {
+function TestWrapper() {
+  const location = useLocation();
   const mainRef = useRef<HTMLElement>(null);
   const navigate = useNavigate();
 
+  const getPageTitle = (pathname: string) => {
+    switch (pathname) {
+      case '/projects':
+        return 'Projects';
+      case '/experience':
+        return 'Experience';
+      case '/':
+      default:
+        return 'Overview';
+    }
+  };
+
+  const pageTitle = getPageTitle(location.pathname);
+
   return (
     <div>
-      <RouteAnnouncer pageTitle={title} mainRef={mainRef} />
+      <RouteAnnouncer pageTitle={pageTitle} mainRef={mainRef} />
       <button onClick={() => navigate('/projects')}>Go to Projects</button>
       <main ref={mainRef} id="main-content" tabIndex={-1}>
         Main Content
@@ -47,8 +62,8 @@ describe('RouteAnnouncer Component', () => {
     });
 
     const announcer = screen.getByRole('status');
-    expect(announcer.textContent).toContain('Navigated to Overview');
-    expect(document.title).toContain('Overview | Palm Suksawasdi');
+    expect(announcer.textContent).toContain('Navigated to Projects');
+    expect(document.title).toContain('Projects | Palm Suksawasdi');
   });
 
   it('programmatically shifts focus to main element on navigation', () => {
