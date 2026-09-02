@@ -1,0 +1,46 @@
+:root {
+  /* Light Theme (Default) */
+  --bg-canvas: #fafafa;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #f4f4f5;
+  --border-subtle: #e4e4e7;
+  --border-strong: #d4d4d8;
+  --text-primary: #09090b;
+  --text-secondary: #3f3f46;
+  --text-muted: #52525b;
+  --accent-solid: #1e40af;
+  --accent-badge-bg: #eff6ff;
+  --accent-badge-text: #1e40af;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark Theme (System Preference) */
+    --bg-canvas: #09090b;
+    --bg-surface: #121215;
+    --bg-surface-hover: #18181b;
+    --border-subtle: #27272a;
+    --border-strong: #3f3f46;
+    --text-primary: #fafafa;
+    --text-secondary: #d4d4d8;
+    --text-muted: #a1a1aa;
+    --accent-solid: #3b82f6;
+    --accent-badge-bg: #1e293b;
+    --accent-badge-text: #93c5fd;
+  }
+}
+
+.dark {
+  /* Dark Theme (Explicit Class Override) */
+  --bg-canvas: #09090b;
+  --bg-surface: #121215;
+  --bg-surface-hover: #18181b;
+  --border-subtle: #27272a;
+  --border-strong: #3f3f46;
+  --text-primary: #fafafa;
+  --text-secondary: #d4d4d8;
+  --text-muted: #a1a1aa;
+  --accent-solid: #3b82f6;
+  --accent-badge-bg: #1e293b;
+  --accent-badge-text: #93c5fd;
+}
