@@ -3,25 +3,13 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { AppLayout } from './components/layout/AppLayout';
 
 import { HomeView } from './views/HomeView';
-
-const ProjectsView: React.FC = () => (
-  <div className="space-y-6">
-    <h1 className="text-3xl font-semibold tracking-tight text-text-primary">Projects</h1>
-    <p className="text-text-secondary">Curated engineering projects and technical case studies.</p>
-  </div>
-);
+import { ProjectsView } from './views/ProjectsView';
+import { CaseStudyView } from './views/CaseStudyView';
 
 const ExperienceView: React.FC = () => (
   <div className="space-y-6">
     <h1 className="text-3xl font-semibold tracking-tight text-text-primary">Experience</h1>
     <p className="text-text-secondary">Engineering career timeline and technical milestones.</p>
-  </div>
-);
-
-const CaseStudyView: React.FC = () => (
-  <div className="space-y-6">
-    <h1 className="text-3xl font-semibold tracking-tight text-text-primary">Case Study</h1>
-    <p className="text-text-secondary">Deep dive case study.</p>
   </div>
 );
 

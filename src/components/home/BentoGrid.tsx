@@ -41,17 +41,12 @@ export const BentoGrid: React.FC = () => {
       </div>
 
       <div data-testid="bento-grid" className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {featuredProjects.map((project, index) => {
-          const isLarge = index === 0 || index === 3; // Asymmetric bento visual rhythm
-
-          return (
-            <article
-              key={project.slug}
-              data-testid={`bento-card-${project.slug}`}
-              className={`bg-surface border border-border-subtle rounded-lg p-6 flex flex-col justify-between hover:border-border-strong transition-colors ${
-                isLarge ? 'md:col-span-1' : 'md:col-span-1'
-              }`}
-            >
+        {featuredProjects.map((project) => (
+          <article
+            key={project.slug}
+            data-testid={`bento-card-${project.slug}`}
+            className="bg-surface border border-border-subtle rounded-lg p-6 flex flex-col justify-between hover:border-border-strong transition-colors md:col-span-1"
+          >
               <div className="space-y-4">
                 {/* Header metadata */}
                 <div className="flex items-center justify-between gap-2">
@@ -157,8 +152,7 @@ export const BentoGrid: React.FC = () => {
                 </div>
               </div>
             </article>
-          );
-        })}
+        ))}
       </div>
     </section>
   );

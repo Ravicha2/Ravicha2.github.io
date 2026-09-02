@@ -1,4 +1,4 @@
-import { Project, CategoryOption } from './types';
+import { Project, CategoryOption, ProjectCategory } from './types';
 
 export const projectCategories: CategoryOption[] = [
   { id: 'all', label: 'All Projects' },
@@ -446,6 +446,13 @@ export const featuredProjects: Project[] = projects.filter((p) => p.featured);
 
 export function getProjectBySlug(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);
+}
+
+export function getProjectsByCategory(category: ProjectCategory | 'all'): Project[] {
+  if (category === 'all') {
+    return projects;
+  }
+  return projects.filter((p) => p.category === category);
 }
 
 export default projects;
