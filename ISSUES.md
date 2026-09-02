@@ -13,7 +13,7 @@ All issues have been created in the repository [Ravicha2/Ravicha2.github.io](htt
 - **Blocked by**: None (Can start immediately)
 - **Scope**: Semantic React HTML landmarks, high-contrast solid tokens (WCAG AAA), `focus-visible` keyboard rings, and `prefers-reduced-motion` motion suppression.
 
-### [#3: [AFK] React + Tailwind CSS + Vite SPA Build Pipeline & Design Tokens](https://github.com/Ravicha2/Ravicha2.github.io/issues/3)
+### [#3: [AFK] React + Tailwind CSS + Vite SPA Build Pipeline & Design Tokens](https://github.com/Ravicha2/Ravicha2.github.io/issues/3) ✅ CLOSED
 - **Type**: `AFK`
 - **Blocked by**: None (Can start immediately)
 - **Scope**: Vite + React + TypeScript + Tailwind CSS setup for GitHub Pages, self-hosted `Geist Sans`/`Geist Mono` fonts, solid dark/light design tokens (zero gradients), and `404.html` SPA routing script.
