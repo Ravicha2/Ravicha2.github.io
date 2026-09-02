@@ -5,13 +5,7 @@ import { AppLayout } from './components/layout/AppLayout';
 import { HomeView } from './views/HomeView';
 import { ProjectsView } from './views/ProjectsView';
 import { CaseStudyView } from './views/CaseStudyView';
-
-const ExperienceView: React.FC = () => (
-  <div className="space-y-6">
-    <h1 className="text-3xl font-semibold tracking-tight text-text-primary">Experience</h1>
-    <p className="text-text-secondary">Engineering career timeline and technical milestones.</p>
-  </div>
-);
+import { ExperienceView } from './views/ExperienceView';
 
 export const App: React.FC = () => {
   const location = useLocation();
