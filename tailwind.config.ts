@@ -1,21 +1,26 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
+  darkMode: ['class'],
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['"Geist Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        mono: ['"Geist Mono"', 'monospace'],
+      },
       colors: {
-        canvas: '#fafafa',
-        surface: '#ffffff',
-        'surface-hover': '#f4f4f5',
-        'border-subtle': '#e4e4e7',
-        'border-strong': '#d4d4d8',
-        'text-primary': '#09090b',
-        'text-secondary': '#3f3f46',
-        'text-muted': '#52525b',
-        'accent-solid': '#1e40af',
-        'accent-badge-bg': '#eff6ff',
-        'accent-badge-text': '#1e40af',
+        canvas: 'var(--bg-canvas)',
+        surface: 'var(--bg-surface)',
+        'surface-hover': 'var(--bg-surface-hover)',
+        'border-subtle': 'var(--border-subtle)',
+        'border-strong': 'var(--border-strong)',
+        'text-primary': 'var(--text-primary)',
+        'text-secondary': 'var(--text-secondary)',
+        'text-muted': 'var(--text-muted)',
+        'accent-solid': 'var(--accent-solid)',
+        'accent-badge-bg': 'var(--accent-badge-bg)',
+        'accent-badge-text': 'var(--accent-badge-text)',
       },
     },
   },
