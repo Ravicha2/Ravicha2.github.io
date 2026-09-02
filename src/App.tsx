@@ -2,14 +2,7 @@ import type React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AppLayout } from './components/layout/AppLayout';
 
-const HomeView: React.FC = () => (
-  <div className="space-y-6">
-    <h1 className="text-3xl font-semibold tracking-tight text-text-primary">Palm Suksawasdi</h1>
-    <p className="text-lg text-text-secondary">
-      Software engineer specializing in AI agent orchestration, distributed systems, and modern web architectures.
-    </p>
-  </div>
-);
+import { HomeView } from './views/HomeView';
 
 const ProjectsView: React.FC = () => (
   <div className="space-y-6">
