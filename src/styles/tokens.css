@@ -13,22 +13,6 @@
   --accent-badge-text: #1e40af;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Dark Theme (System Preference) */
-    --bg-canvas: #09090b;
-    --bg-surface: #121215;
-    --bg-surface-hover: #18181b;
-    --border-subtle: #27272a;
-    --border-strong: #3f3f46;
-    --text-primary: #fafafa;
-    --text-secondary: #d4d4d8;
-    --text-muted: #a1a1aa;
-    --accent-solid: #3b82f6;
-    --accent-badge-bg: #1e293b;
-    --accent-badge-text: #93c5fd;
-  }
-}
 
 .dark {
   /* Dark Theme (Explicit Class Override) */
