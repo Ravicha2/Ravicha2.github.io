@@ -37,7 +37,7 @@ function TestWrapper() {
 describe('RouteAnnouncer Component', () => {
   it('renders a polite aria-live status container', () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }} initialEntries={['/']}>
         <TestWrapper />
       </MemoryRouter>
     );
@@ -51,7 +51,7 @@ describe('RouteAnnouncer Component', () => {
 
   it('updates document title and announces new page on navigation', () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }} initialEntries={['/']}>
         <TestWrapper />
       </MemoryRouter>
     );
@@ -68,7 +68,7 @@ describe('RouteAnnouncer Component', () => {
 
   it('programmatically shifts focus to main element on navigation', () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }} initialEntries={['/']}>
         <TestWrapper />
       </MemoryRouter>
     );

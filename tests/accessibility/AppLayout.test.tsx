@@ -6,7 +6,7 @@ import { AppLayout } from '../../src/components/layout/AppLayout';
 describe('AppLayout Landmark Hierarchy', () => {
   it('renders all required HTML5 landmarks', () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }} initialEntries={['/']}>
         <AppLayout pageTitle="Overview">
           <div>Page Body Content</div>
         </AppLayout>
@@ -21,7 +21,7 @@ describe('AppLayout Landmark Hierarchy', () => {
 
   it('marks the active navigation route with aria-current="page"', () => {
     render(
-      <MemoryRouter initialEntries={['/projects']}>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }} initialEntries={['/projects']}>
         <AppLayout pageTitle="Projects">
           <div>Projects Content</div>
         </AppLayout>
@@ -34,7 +34,7 @@ describe('AppLayout Landmark Hierarchy', () => {
 
   it('renders skip link targeting main-content', () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }} initialEntries={['/']}>
         <AppLayout pageTitle="Overview">
           <div>Overview Content</div>
         </AppLayout>

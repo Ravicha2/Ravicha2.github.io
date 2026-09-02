@@ -6,7 +6,7 @@ import { App } from '../../src/App';
 describe('App Component Routing', () => {
   it('renders overview home route by default', () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }} initialEntries={['/']}>
         <App />
       </MemoryRouter>
     );
@@ -18,7 +18,7 @@ describe('App Component Routing', () => {
 
   it('renders projects route when navigated to /projects', () => {
     render(
-      <MemoryRouter initialEntries={['/projects']}>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }} initialEntries={['/projects']}>
         <App />
       </MemoryRouter>
     );
@@ -28,7 +28,7 @@ describe('App Component Routing', () => {
 
   it('renders experience route when navigated to /experience', () => {
     render(
-      <MemoryRouter initialEntries={['/experience']}>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }} initialEntries={['/experience']}>
         <App />
       </MemoryRouter>
     );
