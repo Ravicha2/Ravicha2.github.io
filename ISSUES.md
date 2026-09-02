@@ -8,7 +8,7 @@ All issues have been created in the repository [Ravicha2/Ravicha2.github.io](htt
 - **Type**: `HITL`
 - **Scope**: Define developer narrative, 4-part case study framework (*Intuition → Problem Encountered → Why Built This Way → Outcomes*), and curated project roster.
 
-### [#2: [AFK] Human Accessibility Engine (WCAG AAA, Keyboard Flow & Reduced Motion)](https://github.com/Ravicha2/Ravicha2.github.io/issues/2)
+### [#2: [AFK] Human Accessibility Engine (WCAG AAA, Keyboard Flow & Reduced Motion)](https://github.com/Ravicha2/Ravicha2.github.io/issues/2) ✅ CLOSED
 - **Type**: `AFK`
 - **Blocked by**: None (Can start immediately)
 - **Scope**: Semantic React HTML landmarks, high-contrast solid tokens (WCAG AAA), `focus-visible` keyboard rings, and `prefers-reduced-motion` motion suppression.
