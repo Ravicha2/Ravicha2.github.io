@@ -1,0 +1,166 @@
+# Palm (Ravicha) Suksawasdi Na Ayuthaya - Full Engineering Dossier
+
+> Applied AI & Backend Systems Engineer
+> Master of Information Technology Candidate at UNSW Sydney (WAM 83 / Distinction, graduating Dec 2026)
+> Email: rsuksawasdi@gmail.com · GitHub: https://github.com/Ravicha2 · LinkedIn: https://www.linkedin.com/in/ravicha-suksawasdi-na-ayuthaya/ · Portfolio: https://ravicha2.github.io/
+
+---
+
+## 1. Professional Narrative & Systems Engineering Mindset
+
+### The Origin & Spark
+Palm originally trained in Automotive Engineering (Automotive Design & Manufacturing) at Chulalongkorn University. During an IoT exchange at IMT Atlantique in Rennes, France right when modern large language models emerged, he recognized the transformative potential of combining computational intelligence with rigorous systems engineering, sparking a decisive pivot to Computer Science.
+
+### Systems-First Engineering on Non-Deterministic AI
+Coming from physical systems engineering—where structural stress limits, fluid dynamics, and failure modes are absolute—Palm treats non-deterministic LLMs and AI models as untrusted components within deterministic software architectures. Rather than relying on fragile single prompts, he engineers fault-tolerant multi-agent orchestrations, graph-based compliance verifiers, schema-safe pipelines, and durable execution state machines.
+
+### Academic & Research Focus
+Currently completing a Master of Information Technology at UNSW Sydney (Distinction average, WAM 83) focusing on Applied AI and distributed backend infrastructure, conducting research on GraphRAG architectural compliance tools and building open-source agent tooling.
+
+---
+
+## 2. Flagship Case Studies (4-Part Engineering Deep Dives)
+
+### Case Study 1: Shepherd — GraphRAG Architectural Decision Graph & Compliance Engine
+- **Role**: Lead Researcher (UNSW Sydney) · **Timeline**: Jun 2026
+- **Stack**: Python, FastAPI, Neo4j, Cypher, Docker, uv, GitHub Actions, GraphRAG
+- **Repository**: https://github.com/Ravicha2/Shepherd
+- **Metrics**: Zero AST-ADR rule drift · Automated PR blocking status checks · Deterministic Cypher graph traversal
+
+#### 1. The Core Intuition & Friction
+- **The Spark**: As AI code generators produce code at unprecedented velocity, engineering teams lose visibility over whether newly generated implementations adhere to historical Architectural Decision Records (ADRs) buried in repository markdown files.
+- **The Naive Failure Mode**: Naive vector search (RAG) retrieves semantically similar markdown paragraphs, but completely fails to detect multi-file dependency hierarchies, transitive imports, and strict layer boundaries (e.g. Domain layer importing Infrastructure).
+
+#### 2. The Root Problem Encountered
+- **Edge Cases**: Multi-layer circular dependencies across dynamically imported modules; ADR specifications written in ambiguous natural language requiring structured constraint extraction; false positive alerts on legitimate mock dependencies in test suites.
+- **Constraints**: Sub-second PR status check latency required to prevent blocking developer CI pipelines; zero false negative tolerance on critical security and layer boundary separation rules.
+
+#### 3. Why Built This Way
+- **Architectural Insight**: Representing both code AST structures and ADR constraints as a unified Neo4j property graph enables deterministic Cypher path queries to verify architectural boundaries mathematically.
+- **Trade-offs**: Neo4j Property Graphs vs Flat Vector Embeddings (graph traversal eliminates vector hallucinations); Tiered Violation Severity Engine (differentiates fatal architectural boundary violations blocking PR merges from advisory suggestions).
+- **Guardrails**: Automated AST parsing with robust syntax error handling; isolated Cypher query execution with query timeouts; strict GitHub Actions status check webhook verification.
+
+#### 4. Outcomes, Verification & Key Takeaways
+- **Verification**: Integrated directly into GitHub Commit Status Checks to automatically evaluate pull requests before merge; benchmarked against standard RAG baselines, detecting 100% of multi-hop layer boundary violations missed by vector search.
+- **Impact**: Automated architecture governance in AI-augmented codebases, eliminating architectural erosion in rapidly evolving repositories.
+- **Core Takeaway**: Non-deterministic AI code generation requires deterministic graph-based structural verification to maintain long-term software maintainability.
+
+---
+
+### Case Study 2: NL2REGEX — Distributed Natural Language to Regex Engine for Large Datasets
+- **Role**: Creator / Full-Stack Engineer · **Timeline**: 2026
+- **Stack**: PySpark 3.5, Django 5, Celery, Redis, PostgreSQL, React 18, Docker Compose
+- **Links**: https://github.com/Ravicha2/NL2REGEX · Live: http://207.148.87.49 · Video: https://youtu.be/mFec2jMgosg
+- **Metrics**: 1,000,000+ rows processed · 5 documented ADRs · Zero worker memory spikes · Sub-second cached queries
+
+#### 1. The Core Intuition & Friction
+- **The Spark**: Non-technical analysts and data engineers need to sanitize and reformat massive tabular datasets using natural language without writing fragile regex patterns or uploading sensitive multi-gigabyte files to cloud LLM APIs.
+- **The Naive Failure Mode**: Directly prompting an LLM with raw CSV rows causes catastrophic column hallucination, huge token costs, data leakage risks, and catastrophic backtracking (ReDoS) from unverified regex output.
+
+#### 2. The Root Problem Encountered
+- **Edge Cases**: LLMs inventing column names not present in uploaded CSV headers (Schema Hallucination); generated regexes triggering catastrophic backtracking (ReDoS) and freezing Celery worker threads indefinitely; multi-gigabyte file uploads causing OOM crashes in pandas workers.
+- **Constraints**: Zero upload of dataset records to LLM APIs (privacy constraint); worker stability under concurrent multi-user transformations on million-row datasets.
+
+#### 3. Why Built This Way
+- **Architectural Insight**: A two-stage pipeline separates schema verification from regex generation, while canonical Parquet normalization enables PySpark distributed execution without worker memory blowups.
+- **Trade-offs**: Two-Stage LLM Triage (ADR 0003) validates target columns against verified headers before regex generation; Canonical Parquet Normalization (ADR 0002) converts uploads to Parquet partitions for parallel Spark execution; Local Singleton JVM Session (ADR 0004) shares persistent SparkSession across Celery workers.
+- **Guardrails**: Regex pre-compilation wrapped in POSIX signal.alarm timeout sandbox to prevent ReDoS; SHA-256 prompt hash caching in Redis; strict Pydantic payload validation.
+
+#### 4. Outcomes, Verification & Key Takeaways
+- **Verification**: Stress-tested with 1,000,000+ row synthetic datasets across distributed partitions with zero worker memory spikes; validated regex execution safety against known ReDoS benchmarks.
+- **Impact**: Enables non-technical users to transform million-row datasets with zero regex syntax errors or system crashes, deployed live at http://207.148.87.49 with 5 documented ADRs.
+- **Core Takeaway**: Separating intent extraction from data execution isolates LLM non-determinism from high-throughput distributed engines.
+
+---
+
+### Case Study 3: Fault-Tolerant Document Ingestion Agent (NodesNow LLC)
+- **Role**: Backend Engineer Intern (NodesNow LLC) · **Timeline**: Dec 2025 – Feb 2026
+- **Stack**: Inngest, NestJS, Neo4j, pgvector, PostgreSQL, React, Docker, TypeScript
+- **Repository**: https://github.com/Ravicha2/document-ingestion-agent
+- **Metrics**: Zero manual intervention on failure · Automatic step-level retry & backoff · Hybrid Graph + Vector search
+
+#### 1. The Core Intuition & Friction
+- **The Spark**: Enterprise knowledge bases require multi-stage document processing pipelines (text extraction, OCR, semantic chunking, vector embedding, entity graph extraction) that run asynchronously across high volumes of files.
+- **The Naive Failure Mode**: When background job queues experience transient network blips or LLM rate limits halfway through a multi-stage pipeline, the entire job aborts or requires re-running from scratch, leaving orphaned records and duplicate embeddings.
+
+#### 2. The Root Problem Encountered
+- **Edge Cases**: API rate limiting during parallel embedding generation; partial writes leaving vector embeddings in pgvector without corresponding nodes in Neo4j; inconsistent state from concurrent uploads of identical revisions.
+- **Constraints**: Zero manual database cleanup required after transient external API outages; full pipeline idempotency across all processing steps.
+
+#### 3. Why Built This Way
+- **Architectural Insight**: Decomposing the pipeline into Inngest durable steps guarantees that each step is idempotent and individually retryable with exponential backoff without re-running prior completed steps.
+- **Trade-offs**: Inngest Durable Orchestration vs Traditional Message Queues (preserves intermediate step state); Dual-Layer Persistence combining pgvector (semantic search) and Neo4j (relational graph traversals).
+- **Guardrails**: Idempotency keys based on document content hash; exponential backoff with jitter on external API calls; transactional rollback handlers for failed graph insertions.
+
+#### 4. Outcomes, Verification & Key Takeaways
+- **Verification**: Simulated network partition and API rate-limit faults during multi-gigabyte ingestion batches, confirming 100% automated step resumption without data corruption. Full stack containerized with Docker Compose.
+- **Impact**: Completely eliminated manual engineer intervention on ingestion pipeline failures; enabled hybrid RAG search combining semantic vector similarity with multi-hop knowledge graph queries.
+- **Core Takeaway**: Long-running AI agent workflows must be architected as durable state machines where steps checkpoint state rather than monolithic background scripts.
+
+---
+
+### Case Study 4: Lit-Review-Council MCP Server (Google ADK & Open Source)
+- **Role**: Author (Google × Kaggle AI Agents Intensive) · **Timeline**: Jun 2026
+- **Stack**: Google ADK, Python, MCP, OpenAlex API, ArXiv API, uv, Claude Code
+- **Links**: https://github.com/Ravicha2/lit-review-council · PyPI: https://pypi.org/project/lit-review-council/
+- **Metrics**: Published on PyPI (uvx lit-review-council) · 3-reviewer Borda-count ensemble · Zero dangling citations
+
+#### 1. The Core Intuition & Friction
+- **The Spark**: Single-prompt LLM research summaries suffer from confirmation bias, fabricated citations, and an inability to balance theoretical academic papers with practical open-source production implementations.
+- **The Naive Failure Mode**: Single-agent LLMs hallucinate non-existent academic references, accept unvalidated preprint claims, and lack diverse perspectives when assessing the feasibility of architectural patterns.
+
+#### 2. The Root Problem Encountered
+- **Edge Cases**: LLMs generating plausible-sounding but fictitious DOI and ArXiv identifiers; preprint source bias skewing recommendations toward unproven approaches; IDE context window overflow on large paper batches.
+- **Constraints**: Strict Model Context Protocol (MCP) compliance for universal integration into Claude Code, VS Code, and Cursor; zero hallucinated or unreachable citations.
+
+#### 3. Why Built This Way
+- **Architectural Insight**: Dual-track parallel research waves paired with an independent 3-reviewer Borda-count scoring council and rigorous programmatic citation verification.
+- **Trade-offs**: Dual-Track Research (Academic via ArXiv/OpenAlex + Practitioner via GitHub/PyPI); Borda-Count Consensus Ensemble (Theorist, Pragmatist, Critic personas voting independently); MCP Protocol Server Distribution (installable via uvx).
+- **Guardrails**: Programmatic API verification checking that cited DOIs/ArXiv IDs exist and match paper titles; dangling reference rejection filter; source-tier weighting favoring peer-reviewed publications.
+
+#### 4. Outcomes, Verification & Key Takeaways
+- **Verification**: Published to PyPI and verified across Claude Code, Cursor, and VS Code MCP clients; tested on 50+ topics with 100% citation verification accuracy and zero hallucinated references.
+- **Impact**: Empowers researchers and engineers to generate verified multi-perspective literature reviews in seconds directly from their IDE.
+- **Core Takeaway**: Multi-agent consensus coupled with programmatic deterministic validation solves the hallucination problem in complex research synthesis.
+
+---
+
+## 3. Supporting Experience & Accolades
+
+### Work Experience
+1. **Tendor** (Jul 2026 – Present, Sydney, Australia)
+   - *Role*: Software Engineer Intern
+   - *Focus*: Contributing to backend services, automated workflows, and AI agent integrations; collaborating with engineering on scalable API development and reliable service infrastructure.
+   - *Tags*: TypeScript, Node.js, AI Agents, Backend Systems
+2. **NodesNow LLC** (Dec 2025 – Feb 2026, Bangkok, Thailand)
+   - *Role*: Backend Engineer Intern
+   - *Focus*: Engineered fault-tolerant AI agent orchestration system using Inngest; persisted data into pgvector and Neo4j; containerized full stack with Docker.
+   - *Tags*: Inngest, NestJS, Neo4j, pgvector, PostgreSQL, Docker, React, TypeScript
+3. **3D Technical Design** (Aug 2023 – Jan 2025, Bangkok, Thailand)
+   - *Role*: District Heating Designer
+   - *Focus*: Designed 2D and 3D route arrangements with stress calculations across 10+ UK sites; structural hazard mitigation and technical mentorship.
+   - *Tags*: Civil 3D, sisKMR, Stress Calculations, CAD, Systems Engineering
+4. **Jardine Schindler Group** (Jun 2022 – Aug 2022, Bangkok, Thailand)
+   - *Role*: Systems Engineering Intern
+   - *Focus*: Electromechanical systems analysis for vertical transportation; installation tolerances, safety compliance standards, and diagnostics.
+   - *Tags*: Electromechanical Systems, Safety Standards, Sensors, Diagnostics
+
+### Education
+- **Master of Information Technology** (Feb 2025 – Dec 2026 Expected) — UNSW Sydney, Australia
+   - *Grade*: Distinction average (WAM 83)
+   - *Focus*: Advanced Algorithms, Artificial Intelligence, Distributed Systems, Software Construction; GraphRAG research.
+- **Exchange Study - M.Sc. Information Technology (IoT)** (Sep 2022 – Jan 2023) — IMT Atlantique, Rennes, France
+   - *Focus*: Architecture and Engineering in IoT, distributed systems, networking protocols, embedded Linux.
+- **Bachelor of Automotive Design and Manufacturing Engineering** (Aug 2019 – Aug 2023) — Chulalongkorn University, Bangkok, Thailand
+   - *Focus*: Physical systems engineering, robotics, mechanical and electrical engineering.
+
+### Publications & Accolades
+- **IEEE TENCON 2023**: *Position Accuracy of a 6-DOF Passive Robotic Arm for Ultrasonography Training* (IEEE Xplore: https://ieeexplore.ieee.org/document/10349000).
+- **Founder's Choice Award Winner**: Hack2Heal Hackathon (2025) for mental health peer support platform (heal.a2a.ing).
+- **UNSW Leadership Foundation Program** (May 2025) & **UNSW Professional Development Program** (Sep 2025).
+
+### Complete Skills Matrix
+- **Languages**: Python, TypeScript, JavaScript, SQL, C++, C, Bash, HTML/CSS.
+- **Frameworks**: FastAPI, NestJS, React, Google ADK, LangGraph, Inngest, Celery, Django, PySpark, TensorFlow, Keras.
+- **Databases**: PostgreSQL, Neo4j, Apache AGE, pgvector, Redis, Apache Spark, Hadoop.
+- **Infrastructure & Tools**: Docker, Docker Compose, AWS (S3, EC2), Vercel, Supabase, Git, GitHub Actions, uv, uvx, Model Context Protocol (MCP).

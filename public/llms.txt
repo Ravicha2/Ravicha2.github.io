@@ -1,0 +1,38 @@
+# Palm (Ravicha) Suksawasdi Na Ayuthaya - Portfolio & Systems Engineering
+
+> Applied AI & Backend Systems Engineer specializing in fault-tolerant multi-agent pipelines, GraphRAG architectural compliance, and distributed data engines.
+
+- **Current Status**: Master of IT Candidate at UNSW Sydney (WAM 83 / Distinction, graduating Dec 2026) · Open to full-time Applied AI & Backend Systems roles.
+- **Full Dossier**: [https://ravicha2.github.io/llms-full.txt](https://ravicha2.github.io/llms-full.txt)
+- **Primary Website**: [https://ravicha2.github.io/](https://ravicha2.github.io/)
+- **GitHub**: [https://github.com/Ravicha2](https://github.com/Ravicha2)
+- **LinkedIn**: [https://www.linkedin.com/in/ravicha-suksawasdi-na-ayuthaya/](https://www.linkedin.com/in/ravicha-suksawasdi-na-ayuthaya/)
+- **Email**: [mailto:rsuksawasdi@gmail.com](mailto:rsuksawasdi@gmail.com)
+
+---
+
+## Flagship Projects & Engineering Case Studies
+
+- [Shepherd: GraphRAG Compliance Engine](https://ravicha2.github.io/projects/shepherd): Automated Architectural Decision Record (ADR) violation detector for AI-generated code, ingesting ASTs and architectural markdown into Neo4j property graphs to catch multi-file constraint violations before merge. GitHub: [https://github.com/Ravicha2/Shepherd](https://github.com/Ravicha2/Shepherd).
+- [NL2REGEX: Distributed Regex Engine](https://ravicha2.github.io/projects/nl2regex): Distributed natural language to regex engine for million-row datasets, backed by PySpark, Celery, and Redis with 2-stage LLM schema triage. GitHub: [https://github.com/Ravicha2/NL2REGEX](https://github.com/Ravicha2/NL2REGEX) · Live: [http://207.148.87.49](http://207.148.87.49).
+- [Fault-Tolerant Document Ingestion Agent](https://ravicha2.github.io/projects/document-ingestion-agent): Production event-driven AI ingestion engine using Inngest durable steps, NestJS, and dual pgvector/Neo4j storage to eliminate orphaned state during multi-stage document processing. GitHub: [https://github.com/Ravicha2/document-ingestion-agent](https://github.com/Ravicha2/document-ingestion-agent).
+- [Lit-Review-Council MCP Server](https://ravicha2.github.io/projects/lit-review-council): Multi-agent literature review consensus engine and Model Context Protocol (MCP) server that orchestrates parallel academic/practitioner research with Borda-count voting. PyPI: [https://pypi.org/project/lit-review-council/](https://pypi.org/project/lit-review-council/) · GitHub: [https://github.com/Ravicha2/lit-review-council](https://github.com/Ravicha2/lit-review-council).
+
+## Supporting Projects
+
+- [Chatbot Agent with Dynamic DB Tools](https://ravicha2.github.io/projects/node-api): Conversational agent with dynamic database schema inspection and tool calling (TypeScript, Express, LangChain, PostgreSQL). GitHub: [https://github.com/Ravicha2/node-api](https://github.com/Ravicha2/node-api).
+- [6-DOF Robotic Arm for Medical Ultrasonography](https://ravicha2.github.io/projects/robotic-arm-ultrasound): Passive probe tracking system with sub-millimeter position accuracy (C, MATLAB). Published at IEEE TENCON 2023: [https://ieeexplore.ieee.org/document/10349000](https://ieeexplore.ieee.org/document/10349000).
+- [Heal: Community Mental Health Support](https://ravicha2.github.io/projects/heal-a2a): Real-time peer matching platform recognized with Founder's Choice Award at Hack2Heal. Live: [https://heal.a2a.ing](https://heal.a2a.ing).
+
+## Core Technical Skills
+
+- **Languages**: Python, TypeScript, JavaScript, SQL, C++, C, Bash, HTML/CSS.
+- **Frameworks & Orchestration**: FastAPI, NestJS, React, Google ADK, LangGraph, Inngest, Celery, Django, PySpark.
+- **Databases & Knowledge Systems**: PostgreSQL, Neo4j, Apache AGE, pgvector, Redis, Apache Spark, Hadoop.
+- **Cloud, DevOps & Protocols**: Docker, Docker Compose, AWS (S3, EC2), GitHub Actions, uv, uvx, Model Context Protocol (MCP).
+
+## Site Navigation
+
+- Overview & Bio: [https://ravicha2.github.io/](https://ravicha2.github.io/)
+- Projects Catalog: [https://ravicha2.github.io/projects](https://ravicha2.github.io/projects)
+- Experience & Resume: [https://ravicha2.github.io/experience](https://ravicha2.github.io/experience)
