@@ -28,10 +28,16 @@ All issues have been created in the repository [Ravicha2/Ravicha2.github.io](htt
   - Static baseline OpenGraph and Schema.org JSON-LD (`Person`, `ProfilePage`) in `index.html` for headless crawlers.
   - Dynamic `SEOHead` component and `generateJsonLdForRoute` utility generating route-specific JSON-LD (`CollectionPage`, `SoftwareSourceCode`, `AboutPage`, `ScholarlyArticle`).
 
-### [#5: [AFK] React SPA View Transition Engine (Route Morphs & Cross-Fade)](https://github.com/Ravicha2/Ravicha2.github.io/issues/5)
+### [#5: [AFK] React SPA View Transition Engine (Route Morphs & Cross-Fade)](https://github.com/Ravicha2/Ravicha2.github.io/issues/5) ✅ CLOSED
 - **Type**: `AFK`
-- **Blocked by**: [#3](https://github.com/Ravicha2/Ravicha2.github.io/issues/3)
+- **Status**: Closed (2026-09-03)
 - **Scope**: React client-side `document.startViewTransition()` wrapper for route changes, thumbnail-to-case-study shared element morphs with `view-transition-name`, and root cross-fade fallback.
+- **Deliverables**:
+  - `useViewTransitionNavigate` hook and declarative `<TransitionLink>` component wrapping React Router navigations in `document.startViewTransition()`.
+  - Shared-element `view-transition-name: project-card-${slug}` wiring across `BentoGrid`, `ProjectsView`, and `CaseStudyView` with `object-fit: cover` and 250ms timing.
+  - Root cross-fade transitions (`fade-out` 150ms / `fade-in` 180ms) for primary route switches (`/`, `/projects`, `/experience`).
+  - `@media (prefers-reduced-motion: reduce)` motion suppression across JS execution and CSS animation stylesheets.
+
 
 ### [#6: [AFK] Home Page & Shared-Element Bento Deck Component (HomeView)](https://github.com/Ravicha2/Ravicha2.github.io/issues/6) ✅ CLOSED
 - **Type**: `AFK`
