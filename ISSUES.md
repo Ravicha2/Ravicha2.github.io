@@ -28,17 +28,17 @@ All issues have been created in the repository [Ravicha2/Ravicha2.github.io](htt
 - **Blocked by**: [#3](https://github.com/Ravicha2/Ravicha2.github.io/issues/3)
 - **Scope**: React client-side `document.startViewTransition()` wrapper for route changes, thumbnail-to-case-study shared element morphs with `view-transition-name`, and root cross-fade fallback.
 
-### [#6: [AFK] Home Page & Shared-Element Bento Deck Component (HomeView)](https://github.com/Ravicha2/Ravicha2.github.io/issues/6)
+### [#6: [AFK] Home Page & Shared-Element Bento Deck Component (HomeView)](https://github.com/Ravicha2/Ravicha2.github.io/issues/6) ✅ CLOSED
 - **Type**: `AFK`
 - **Blocked by**: [#1](https://github.com/Ravicha2/Ravicha2.github.io/issues/1), [#3](https://github.com/Ravicha2/Ravicha2.github.io/issues/3), [#5](https://github.com/Ravicha2/Ravicha2.github.io/issues/5)
 - **Scope**: Home view React component (`/`) with hero narrative, status badge, persistent navigation dock, and 4 featured Bento case study cards.
 
-### [#7: [AFK] Projects Catalog & Case Study Detail Views (ProjectsView & CaseStudyView)](https://github.com/Ravicha2/Ravicha2.github.io/issues/7)
+### [#7: [AFK] Projects Catalog & Case Study Detail Views (ProjectsView & CaseStudyView)](https://github.com/Ravicha2/Ravicha2.github.io/issues/7) ✅ CLOSED
 - **Type**: `AFK`
 - **Blocked by**: [#1](https://github.com/Ravicha2/Ravicha2.github.io/issues/1), [#5](https://github.com/Ravicha2/Ravicha2.github.io/issues/5), [#6](https://github.com/Ravicha2/Ravicha2.github.io/issues/6)
 - **Scope**: Filterable React project catalog (`/projects`) and deep-dive case study routes (`/projects/:slug`) adhering to the 4-part framework.
 
-### [#8: [AFK] Engineering Experience Timeline Component (ExperienceView)](https://github.com/Ravicha2/Ravicha2.github.io/issues/8)
+### [#8: [AFK] Engineering Experience Timeline Component (ExperienceView)](https://github.com/Ravicha2/Ravicha2.github.io/issues/8) ✅ CLOSED
 - **Type**: `AFK`
 - **Blocked by**: [#1](https://github.com/Ravicha2/Ravicha2.github.io/issues/1), [#3](https://github.com/Ravicha2/Ravicha2.github.io/issues/3), [#5](https://github.com/Ravicha2/Ravicha2.github.io/issues/5)
 - **Scope**: Chronological experience timeline component (`/experience`), technical metric badges, and categorized skills matrix.
