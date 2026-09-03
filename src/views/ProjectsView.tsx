@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import {
   ArrowUpRight,
   ExternalLink,
@@ -11,6 +10,7 @@ import {
 } from 'lucide-react';
 import { projects, projectCategories, getProjectsByCategory } from '../data/projects';
 import { ProjectCategory, Project } from '../data/types';
+import { TransitionLink } from '../components/common/TransitionLink';
 
 const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg
@@ -103,6 +103,7 @@ export const ProjectsView: React.FC = () => {
               <article
                 key={project.slug}
                 data-testid={`project-card-${project.slug}`}
+                style={{ viewTransitionName: `project-card-${project.slug}` }}
                 className="group/card bg-surface border border-border-subtle rounded-lg p-6 flex flex-col justify-between hover:border-border-strong transition-all duration-150 shadow-sm"
               >
                 <div className="space-y-4">
@@ -125,12 +126,12 @@ export const ProjectsView: React.FC = () => {
                   <div className="space-y-1">
                     <h2 className="text-xl font-bold text-text-primary tracking-tight">
                       {hasCaseStudy ? (
-                        <Link
+                        <TransitionLink
                           to={`/projects/${project.slug}`}
                           className="hover:text-accent-solid transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded"
                         >
                           {project.title}
-                        </Link>
+                        </TransitionLink>
                       ) : (
                         <span>{project.title}</span>
                       )}
@@ -177,13 +178,13 @@ export const ProjectsView: React.FC = () => {
                 {/* Card Actions Footer */}
                 <div className="pt-5 mt-6 border-t border-border-subtle flex items-center justify-between gap-3">
                   {hasCaseStudy ? (
-                    <Link
+                    <TransitionLink
                       to={`/projects/${project.slug}`}
                       className="group/link inline-flex items-center gap-1.5 text-sm font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1 py-0.5"
                     >
                       <span>Read Case Study</span>
                       <ArrowUpRight className="w-4 h-4 transition-transform group-link:hover:translate-x-0.5 group-link:hover:-translate-y-0.5" aria-hidden="true" />
-                    </Link>
+                    </TransitionLink>
                   ) : (
                     <span className="text-xs font-mono text-text-muted">
                       Direct Repository & Live Artifacts

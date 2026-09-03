@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { SkipLink, RouteAnnouncer } from '../../accessibility';
 import { SEOHead } from '../seo/SEOHead';
+import { useViewTransitionNavigate } from '../../hooks/useViewTransitionNavigate';
 
 export interface AppLayoutProps {
   children: React.ReactNode;
@@ -11,6 +12,21 @@ export interface AppLayoutProps {
 
 export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => {
   const mainRef = useRef<HTMLElement>(null);
+  const navigateWithTransition = useViewTransitionNavigate();
+
+  const handleNavClick = (to: string) => (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    if (
+      !e.defaultPrevented &&
+      e.button === 0 &&
+      !e.metaKey &&
+      !e.altKey &&
+      !e.ctrlKey &&
+      !e.shiftKey
+    ) {
+      e.preventDefault();
+      navigateWithTransition(to);
+    }
+  };
 
   const navItems = [
     { to: '/', label: 'Overview' },
@@ -31,6 +47,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <NavLink
             to="/"
+            onClick={handleNavClick('/')}
             className="group flex items-center gap-2 font-semibold tracking-tight text-text-primary hover:text-accent-solid focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded-md px-1.5 py-1 transition-colors"
           >
             <span className="w-2 h-2 rounded-full bg-accent-solid transition-transform group-hover:scale-125" aria-hidden="true" />
@@ -47,6 +64,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
                 key={item.to}
                 to={item.to}
                 end={item.to === '/'}
+                onClick={handleNavClick(item.to)}
                 className={({ isActive }) =>
                   `px-3.5 py-1.5 text-sm rounded-md transition-all duration-150 focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
                     isActive

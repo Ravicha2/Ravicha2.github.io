@@ -1,7 +1,7 @@
 import type React from 'react';
-import { Link } from 'react-router-dom';
 import { ArrowUpRight, ExternalLink, Activity, Terminal } from 'lucide-react';
 import { featuredProjects } from '../../data/projects';
+import { TransitionLink } from '../common/TransitionLink';
 
 const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg
@@ -31,13 +31,13 @@ export const BentoGrid: React.FC = () => {
             Deep-dive architectures, failure mode mitigations, and verified outcomes.
           </p>
         </div>
-        <Link
+        <TransitionLink
           to="/projects"
           className="group inline-flex items-center gap-1.5 text-sm font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1 py-0.5 self-start sm:self-auto transition-colors"
         >
           <span>View all projects</span>
           <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
-        </Link>
+        </TransitionLink>
       </div>
 
       <div data-testid="bento-grid" className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -45,6 +45,7 @@ export const BentoGrid: React.FC = () => {
           <article
             key={project.slug}
             data-testid={`bento-card-${project.slug}`}
+            style={{ viewTransitionName: `project-card-${project.slug}` }}
             className="group/card bg-surface border border-border-subtle rounded-lg p-6 flex flex-col justify-between hover:border-border-strong transition-all duration-150 shadow-sm md:col-span-1"
           >
             <div className="space-y-4">
@@ -59,12 +60,12 @@ export const BentoGrid: React.FC = () => {
               {/* Title & Role */}
               <div className="space-y-1">
                 <h3 className="text-xl font-bold text-text-primary tracking-tight">
-                  <Link
+                  <TransitionLink
                     to={`/projects/${project.slug}`}
                     className="hover:text-accent-solid transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded"
                   >
                     {project.title}
-                  </Link>
+                  </TransitionLink>
                 </h3>
                 <p className="text-xs font-mono font-medium text-text-muted">{project.role}</p>
               </div>
@@ -107,13 +108,13 @@ export const BentoGrid: React.FC = () => {
 
             {/* Card Actions Footer */}
             <div className="pt-5 mt-6 border-t border-border-subtle flex items-center justify-between gap-3">
-              <Link
+              <TransitionLink
                 to={`/projects/${project.slug}`}
                 className="group/link inline-flex items-center gap-1.5 text-sm font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1 py-0.5"
               >
                 <span>Read Case Study</span>
                 <ArrowUpRight className="w-4 h-4 transition-transform group-link:hover:translate-x-0.5 group-link:hover:-translate-y-0.5" aria-hidden="true" />
-              </Link>
+              </TransitionLink>
 
               <div className="flex items-center space-x-1.5">
                 {project.links.github && (

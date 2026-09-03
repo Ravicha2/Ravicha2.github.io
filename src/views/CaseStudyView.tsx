@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   ArrowLeft,
   ExternalLink,
@@ -16,6 +16,7 @@ import {
   Cpu,
 } from 'lucide-react';
 import { getProjectBySlug } from '../data/projects';
+import { TransitionLink } from '../components/common/TransitionLink';
 
 const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg
@@ -50,13 +51,13 @@ export const CaseStudyView: React.FC = () => {
           The project you are looking for does not exist or has been moved.
         </p>
         <div className="pt-4">
-          <Link
+          <TransitionLink
             to="/projects"
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent-solid text-white text-sm font-semibold hover:bg-opacity-90 active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm"
           >
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             <span>Back to Projects</span>
-          </Link>
+          </TransitionLink>
         </div>
       </div>
     );
@@ -68,17 +69,20 @@ export const CaseStudyView: React.FC = () => {
     <article className="space-y-12">
       {/* Top Breadcrumbs & Back Navigation */}
       <nav aria-label="Breadcrumb">
-        <Link
+        <TransitionLink
           to="/projects"
           className="group inline-flex items-center gap-2 text-sm font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1 py-0.5"
         >
           <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
           <span>Back to Projects</span>
-        </Link>
+        </TransitionLink>
       </nav>
 
       {/* Case Study Header / Hero */}
-      <header className="space-y-6 border-b border-border-subtle pb-8">
+      <header
+        style={{ viewTransitionName: `project-card-${project.slug}` }}
+        className="space-y-6 border-b border-border-subtle pb-8"
+      >
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xs font-mono font-medium px-2.5 py-1 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
             {project.categoryLabel}
@@ -482,13 +486,13 @@ export const CaseStudyView: React.FC = () => {
 
       {/* Bottom Navigation CTA */}
       <footer className="pt-6 border-t border-border-subtle flex items-center justify-between">
-        <Link
+        <TransitionLink
           to="/projects"
           className="group inline-flex items-center gap-2 text-sm font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1 py-0.5"
         >
           <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
           <span>Back to all projects</span>
-        </Link>
+        </TransitionLink>
       </footer>
     </article>
   );

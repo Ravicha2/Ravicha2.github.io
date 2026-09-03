@@ -49,7 +49,21 @@ p {
   ::view-transition-old(active-hero),
   ::view-transition-new(active-hero),
   ::view-transition-old(active-card),
-  ::view-transition-new(active-card) {
+  ::view-transition-new(active-card),
+  ::view-transition-old(project-card-shepherd),
+  ::view-transition-new(project-card-shepherd),
+  ::view-transition-old(project-card-nl2regex),
+  ::view-transition-new(project-card-nl2regex),
+  ::view-transition-old(project-card-document-ingestion-agent),
+  ::view-transition-new(project-card-document-ingestion-agent),
+  ::view-transition-old(project-card-lit-review-council),
+  ::view-transition-new(project-card-lit-review-council),
+  ::view-transition-old(project-card-node-api),
+  ::view-transition-new(project-card-node-api),
+  ::view-transition-old(project-card-robotic-arm-ultrasound),
+  ::view-transition-new(project-card-robotic-arm-ultrasound),
+  ::view-transition-old(project-card-heal-a2a),
+  ::view-transition-new(project-card-heal-a2a) {
     object-fit: cover;
     overflow: hidden;
     height: 100%;
