@@ -130,9 +130,10 @@ describe('Data Layer Integrity', () => {
 
   describe('Experience Data', () => {
     it('contains all required work experience items', () => {
-      expect(workExperience.length).toBeGreaterThanOrEqual(3);
+      expect(workExperience.length).toBeGreaterThanOrEqual(4);
 
       const companies = workExperience.map((w) => w.company);
+      expect(companies.some((c) => /Tendor/i.test(c))).toBe(true);
       expect(companies.some((c) => /NodesNow/i.test(c))).toBe(true);
       expect(companies.some((c) => /3D Technical Design/i.test(c))).toBe(true);
       expect(companies.some((c) => /Schindler/i.test(c))).toBe(true);

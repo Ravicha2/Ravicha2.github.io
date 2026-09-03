@@ -9,6 +9,25 @@ import {
 
 export const workExperience: WorkExperience[] = [
   {
+    id: 'tendor',
+    company: 'Tendor',
+    role: 'Software Engineer Intern',
+    location: 'Sydney, Australia',
+    period: 'Jul 2026 - Present',
+    startDate: '2026-07',
+    endDate: 'Present',
+    isCurrent: true,
+    description: [
+      'Contributing to backend services, automated workflows, and AI agent integrations.',
+      'Collaborating with engineering on scalable API development and reliable service infrastructure.',
+    ],
+    highlights: [
+      'Backend systems & API integration',
+      'Agentic workflow development',
+    ],
+    tags: ['TypeScript', 'Node.js', 'AI Agents', 'Backend Systems'],
+  },
+  {
     id: 'nodesnow',
     company: 'NodesNow LLC',
     role: 'Backend Engineer Intern',
