@@ -18,10 +18,15 @@ All issues have been created in the repository [Ravicha2/Ravicha2.github.io](htt
 - **Blocked by**: None (Can start immediately)
 - **Scope**: Vite + React + TypeScript + Tailwind CSS setup for GitHub Pages, self-hosted `Geist Sans`/`Geist Mono` fonts, solid dark/light design tokens (zero gradients), and `404.html` SPA routing script.
 
-### [#4: [AFK] AI Agent & Bot Accessibility Protocol (llms.txt, JSON-LD, SEO & Structured Data)](https://github.com/Ravicha2/Ravicha2.github.io/issues/4)
+### [#4: [AFK] AI Agent & Bot Accessibility Protocol (llms.txt, JSON-LD, SEO & Structured Data)](https://github.com/Ravicha2/Ravicha2.github.io/issues/4) ✅ CLOSED
 - **Type**: `AFK`
-- **Blocked by**: None (Unblocked by #1)
+- **Status**: Closed (2026-09-03)
 - **Scope**: Implement static `/public/llms.txt`, `/public/llms-full.txt`, JSON-LD structured schemas (`schema.org/Person`, `ProfilePage`, `SoftwareSourceCode`), OpenGraph meta, and `sitemap.xml`.
+- **Deliverables**:
+  - `public/llms.txt` and `public/llms-full.txt` for AI agent discovery and context consumption.
+  - `public/robots.txt` and `public/sitemap.xml` with canonical routes, change frequencies, and AI agent permissions.
+  - Static baseline OpenGraph and Schema.org JSON-LD (`Person`, `ProfilePage`) in `index.html` for headless crawlers.
+  - Dynamic `SEOHead` component and `generateJsonLdForRoute` utility generating route-specific JSON-LD (`CollectionPage`, `SoftwareSourceCode`, `AboutPage`, `ScholarlyArticle`).
 
 ### [#5: [AFK] React SPA View Transition Engine (Route Morphs & Cross-Fade)](https://github.com/Ravicha2/Ravicha2.github.io/issues/5)
 - **Type**: `AFK`
