@@ -74,7 +74,7 @@ describe('ProjectsView Component', () => {
 
       expect(screen.getByTestId('project-card-document-ingestion-agent')).toBeInTheDocument();
       expect(screen.getByTestId('project-card-lit-review-council')).toBeInTheDocument();
-      expect(screen.getByTestId('project-card-tendor-procurement-pipeline')).toBeInTheDocument();
+      expect(screen.getByTestId('project-card-node-api')).toBeInTheDocument();
       expect(screen.queryByTestId('project-card-shepherd')).not.toBeInTheDocument();
 
       // Switch back to "All"

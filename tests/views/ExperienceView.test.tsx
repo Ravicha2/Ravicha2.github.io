@@ -49,10 +49,6 @@ describe('ExperienceView Component', () => {
     it('renders technical rationales and bullet points for experience entries', () => {
       renderExperienceView();
 
-      const tendorCard = screen.getByTestId('work-item-tendor');
-      expect(within(tendorCard).getByText(/Google ADK pipeline/i)).toBeInTheDocument();
-      expect(within(tendorCard).getByText(/Documenso signing service/i)).toBeInTheDocument();
-
       const nodesNowCard = screen.getByTestId('work-item-nodesnow');
       expect(within(nodesNowCard).getByText(/fault-tolerant AI agent orchestration system using Inngest/i)).toBeInTheDocument();
       expect(within(nodesNowCard).getByText(/persisted ingested data into pgvector and neo4j/i)).toBeInTheDocument();
@@ -76,10 +72,6 @@ describe('ExperienceView Component', () => {
 
     it('renders technology tags for each work experience entry', () => {
       renderExperienceView();
-
-      const tendorCard = screen.getByTestId('work-item-tendor');
-      expect(within(tendorCard).getByText('Google ADK')).toBeInTheDocument();
-      expect(within(tendorCard).getByText('MCP')).toBeInTheDocument();
 
       const nodesNowCard = screen.getByTestId('work-item-nodesnow');
       expect(within(nodesNowCard).getByText('NestJS')).toBeInTheDocument();

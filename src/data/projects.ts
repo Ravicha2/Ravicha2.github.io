@@ -359,25 +359,6 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: 'tendor-procurement-pipeline',
-    title: 'Tendor Agentic Procurement & E-Sign Engine',
-    subtitle: 'Automated Document Classification & MCP E-Signing Service',
-    category: 'agentic-ai',
-    categoryLabel: 'Agentic AI & MCP',
-    featured: false,
-    role: 'Software Engineer Intern (Tendor)',
-    timeline: 'Jul 2026 - Present',
-    tags: ['Google ADK', 'MCP', 'Documenso', 'TypeScript', 'Node.js', 'AI Agents'],
-    links: {},
-    metrics: [
-      'Multi-pass PDF classification',
-      'MCP tool integration',
-      'Automated Documenso signing',
-    ],
-    summary:
-      'Engineered a Google ADK pipeline that extracts and classifies procurement documents for downstream agents, paired with a Documenso signing service exposed as MCP tools.',
-  },
-  {
     slug: 'node-api',
     title: 'Chatbot Agent with Dynamic DB Tools',
     subtitle: 'Conversational Agent with Schema-Aware Database Tool Execution',

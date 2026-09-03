@@ -9,26 +9,6 @@ import {
 
 export const workExperience: WorkExperience[] = [
   {
-    id: 'tendor',
-    company: 'Tendor',
-    role: 'Software Engineer Intern',
-    location: 'Sydney, Australia',
-    period: 'Jul 2026 - Present',
-    startDate: '2026-07',
-    endDate: 'Present',
-    isCurrent: true,
-    description: [
-      'Built a Google ADK pipeline that extracts and classifies complex procurement documents for downstream agents.',
-      'Built a Documenso signing service exposed to agents via Model Context Protocol (MCP) tools.',
-      'Designed automated validation steps ensuring deterministic metadata schemas before downstream agent handoff.',
-    ],
-    highlights: [
-      'Google ADK procurement extraction',
-      'Documenso MCP tool integration',
-    ],
-    tags: ['Google ADK', 'MCP', 'Documenso', 'TypeScript', 'Node.js', 'AI Agents'],
-  },
-  {
     id: 'nodesnow',
     company: 'NodesNow LLC',
     role: 'Backend Engineer Intern',

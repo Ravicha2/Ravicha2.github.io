@@ -126,7 +126,7 @@ function navigateWithTransition(to: string) {
    - 4-Part Case Study deep dive (*1. Intuition & Friction → 2. Problem Encountered → 3. Why Built This Way → 4. Outcomes & Verification*).
    - Interactive code/architecture snippets, live demo links, and GitHub links.
 5. **`ExperienceView` (`/experience`)**:
-   - Chronological engineering career timeline (Tendor, NodesNow, 3D Technical Design, Schindler).
+   - Chronological engineering career timeline (NodesNow, 3D Technical Design, Schindler).
    - Categorized skills matrix and education milestones.
 
 ---
