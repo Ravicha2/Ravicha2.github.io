@@ -1,6 +1,7 @@
 import type React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AppLayout } from './components/layout/AppLayout';
+import { ViewTransitionProvider } from './hooks/useViewTransitionNavigate';
 
 import { HomeView } from './views/HomeView';
 import { ProjectsView } from './views/ProjectsView';
@@ -19,13 +20,15 @@ export const App: React.FC = () => {
   };
 
   return (
-    <AppLayout pageTitle={getPageTitle(location.pathname)}>
-      <Routes>
-        <Route path="/" element={<HomeView />} />
-        <Route path="/projects" element={<ProjectsView />} />
-        <Route path="/projects/:slug" element={<CaseStudyView />} />
-        <Route path="/experience" element={<ExperienceView />} />
-      </Routes>
-    </AppLayout>
+    <ViewTransitionProvider>
+      <AppLayout pageTitle={getPageTitle(location.pathname)}>
+        <Routes>
+          <Route path="/" element={<HomeView />} />
+          <Route path="/projects" element={<ProjectsView />} />
+          <Route path="/projects/:slug" element={<CaseStudyView />} />
+          <Route path="/experience" element={<ExperienceView />} />
+        </Routes>
+      </AppLayout>
+    </ViewTransitionProvider>
   );
 };

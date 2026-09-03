@@ -11,6 +11,7 @@ import {
 import { projects, projectCategories, getProjectsByCategory } from '../data/projects';
 import { ProjectCategory, Project } from '../data/types';
 import { TransitionLink } from '../components/common/TransitionLink';
+import { useActiveTransitionSlug } from '../hooks/useViewTransitionNavigate';
 
 const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg
@@ -30,6 +31,7 @@ const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' })
 
 export const ProjectsView: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<ProjectCategory | 'all'>('all');
+  const activeSlug = useActiveTransitionSlug();
 
   const filteredProjects = getProjectsByCategory(selectedCategory);
 
@@ -103,7 +105,7 @@ export const ProjectsView: React.FC = () => {
               <article
                 key={project.slug}
                 data-testid={`project-card-${project.slug}`}
-                style={{ viewTransitionName: `project-card-${project.slug}` }}
+                style={activeSlug === project.slug ? { viewTransitionName: `project-card-${project.slug}` } : undefined}
                 className="group/card bg-surface border border-border-subtle rounded-lg p-6 flex flex-col justify-between hover:border-border-strong transition-all duration-150 shadow-sm"
               >
                 <div className="space-y-4">

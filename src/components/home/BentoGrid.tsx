@@ -2,6 +2,7 @@ import type React from 'react';
 import { ArrowUpRight, ExternalLink, Activity, Terminal } from 'lucide-react';
 import { featuredProjects } from '../../data/projects';
 import { TransitionLink } from '../common/TransitionLink';
+import { useActiveTransitionSlug } from '../../hooks/useViewTransitionNavigate';
 
 const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg
@@ -20,6 +21,8 @@ const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' })
 );
 
 export const BentoGrid: React.FC = () => {
+  const activeSlug = useActiveTransitionSlug();
+
   return (
     <section aria-labelledby="bento-heading" className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-border-subtle pb-4">
@@ -45,7 +48,7 @@ export const BentoGrid: React.FC = () => {
           <article
             key={project.slug}
             data-testid={`bento-card-${project.slug}`}
-            style={{ viewTransitionName: `project-card-${project.slug}` }}
+            style={activeSlug === project.slug ? { viewTransitionName: `project-card-${project.slug}` } : undefined}
             className="group/card bg-surface border border-border-subtle rounded-lg p-6 flex flex-col justify-between hover:border-border-strong transition-all duration-150 shadow-sm md:col-span-1"
           >
             <div className="space-y-4">

@@ -323,7 +323,7 @@ describe('Navbar Directional Slide Transitions (Horizontal Slide Rules)', () => 
 });
 
 describe('Shared-Element View Transitions & Stylesheet Rules', () => {
-  it('verifies BentoGrid featured cards assign matching viewTransitionName styles', () => {
+  it('verifies BentoGrid featured cards only assign viewTransitionName when activeSlug matches', () => {
     render(
       <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <BentoGrid />
@@ -331,13 +331,11 @@ describe('Shared-Element View Transitions & Stylesheet Rules', () => {
     );
 
     const shepherdCard = screen.getByTestId('bento-card-shepherd');
-    expect(shepherdCard).toHaveStyle({ viewTransitionName: 'project-card-shepherd' });
-
-    const nl2regexCard = screen.getByTestId('bento-card-nl2regex');
-    expect(nl2regexCard).toHaveStyle({ viewTransitionName: 'project-card-nl2regex' });
+    // When idle (no case study active), cards should not have viewTransitionName to allow root navbar slide
+    expect(shepherdCard.style.viewTransitionName).toBeFalsy();
   });
 
-  it('verifies ProjectsView cards assign matching viewTransitionName styles', () => {
+  it('verifies ProjectsView cards only assign viewTransitionName when activeSlug matches', () => {
     render(
       <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <ProjectsView />
@@ -345,10 +343,7 @@ describe('Shared-Element View Transitions & Stylesheet Rules', () => {
     );
 
     const shepherdCard = screen.getByTestId('project-card-shepherd');
-    expect(shepherdCard).toHaveStyle({ viewTransitionName: 'project-card-shepherd' });
-
-    const ingestionCard = screen.getByTestId('project-card-document-ingestion-agent');
-    expect(ingestionCard).toHaveStyle({ viewTransitionName: 'project-card-document-ingestion-agent' });
+    expect(shepherdCard.style.viewTransitionName).toBeFalsy();
   });
 
   it('verifies CaseStudyView hero header assigns matching viewTransitionName style', () => {
