@@ -45,7 +45,89 @@ p {
   }
 }
 
+@keyframes slide-out-to-left {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-40px);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in-from-right {
+  from {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out-to-right {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in-from-left {
+  from {
+    transform: translateX(-40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  /* Persistent App Header (Stays fixed during route transitions) */
+  header[role="banner"] {
+    view-transition-name: app-header;
+  }
+
+  ::view-transition-group(app-header) {
+    animation: none;
+    z-index: 100;
+  }
+
+  /* Slide Left (e.g. Overview -> Projects/Experience, Projects -> Experience) */
+  html[data-transition-direction="slide-left"]::view-transition-old(root) {
+    animation: 220ms cubic-bezier(0.2, 0, 1, 1) both slide-out-to-left;
+  }
+
+  html[data-transition-direction="slide-left"]::view-transition-new(root) {
+    animation: 240ms cubic-bezier(0.2, 0, 1, 1) both slide-in-from-right;
+  }
+
+  /* Slide Right (e.g. Experience -> Overview/Projects, Projects -> Overview) */
+  html[data-transition-direction="slide-right"]::view-transition-old(root) {
+    animation: 220ms cubic-bezier(0.2, 0, 1, 1) both slide-out-to-right;
+  }
+
+  html[data-transition-direction="slide-right"]::view-transition-new(root) {
+    animation: 240ms cubic-bezier(0.2, 0, 1, 1) both slide-in-from-left;
+  }
+
+  /* Default Root Cross-Fade (when no directional attribute is present) */
+  html:not([data-transition-direction])::view-transition-old(root) {
+    animation: 150ms cubic-bezier(0.2, 0, 1, 1) both fade-out;
+  }
+
+  html:not([data-transition-direction])::view-transition-new(root) {
+    animation: 180ms cubic-bezier(0.2, 0, 1, 1) both fade-in;
+  }
+
+  /* Shared Element Picture-in-Picture Box Morphs */
   ::view-transition-group(active-hero),
   ::view-transition-group(active-card),
   ::view-transition-group(project-card-shepherd),
@@ -83,13 +165,5 @@ p {
     width: 100%;
     animation-duration: 250ms;
     animation-timing-function: cubic-bezier(0.2, 0, 1, 1);
-  }
-
-  ::view-transition-old(root) {
-    animation: 150ms cubic-bezier(0.2, 0, 1, 1) both fade-out;
-  }
-
-  ::view-transition-new(root) {
-    animation: 180ms cubic-bezier(0.2, 0, 1, 1) both fade-in;
   }
 }

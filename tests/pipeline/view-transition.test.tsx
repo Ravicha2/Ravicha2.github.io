@@ -32,10 +32,12 @@ describe('useViewTransitionNavigate Hook & TransitionLink Component', () => {
 
   beforeEach(() => {
     originalStartViewTransition = (document as any).startViewTransition;
+    delete document.documentElement.dataset.transitionDirection;
   });
 
   afterEach(() => {
     (document as any).startViewTransition = originalStartViewTransition;
+    delete document.documentElement.dataset.transitionDirection;
     vi.restoreAllMocks();
   });
 
@@ -154,6 +156,172 @@ describe('useViewTransitionNavigate Hook & TransitionLink Component', () => {
   });
 });
 
+describe('Navbar Directional Slide Transitions (Horizontal Slide Rules)', () => {
+  let originalStartViewTransition: any;
+
+  beforeEach(() => {
+    originalStartViewTransition = (document as any).startViewTransition;
+    delete document.documentElement.dataset.transitionDirection;
+  });
+
+  afterEach(() => {
+    (document as any).startViewTransition = originalStartViewTransition;
+    delete document.documentElement.dataset.transitionDirection;
+    vi.restoreAllMocks();
+  });
+
+  const setupMockMatchMedia = () => {
+    window.matchMedia = vi.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
+  };
+
+  it('sets slide-left when navigating from Overview (/) to Projects (/projects)', async () => {
+    setupMockMatchMedia();
+    const user = userEvent.setup();
+    let capturedDirection: string | undefined;
+
+    (document as any).startViewTransition = vi.fn((cb: () => void) => {
+      capturedDirection = document.documentElement.dataset.transitionDirection;
+      cb();
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Routes>
+          <Route path="/" element={<NavigationConsumer target="/projects" />} />
+          <Route path="/projects" element={<div>Projects</div>} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await user.click(screen.getByRole('button', { name: /trigger navigation/i }));
+    expect(capturedDirection).toBe('slide-left');
+  });
+
+  it('sets slide-left when navigating from Overview (/) to Experience (/experience)', async () => {
+    setupMockMatchMedia();
+    const user = userEvent.setup();
+    let capturedDirection: string | undefined;
+
+    (document as any).startViewTransition = vi.fn((cb: () => void) => {
+      capturedDirection = document.documentElement.dataset.transitionDirection;
+      cb();
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Routes>
+          <Route path="/" element={<NavigationConsumer target="/experience" />} />
+          <Route path="/experience" element={<div>Experience</div>} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await user.click(screen.getByRole('button', { name: /trigger navigation/i }));
+    expect(capturedDirection).toBe('slide-left');
+  });
+
+  it('sets slide-right when navigating from Projects (/projects) to Overview (/)', async () => {
+    setupMockMatchMedia();
+    const user = userEvent.setup();
+    let capturedDirection: string | undefined;
+
+    (document as any).startViewTransition = vi.fn((cb: () => void) => {
+      capturedDirection = document.documentElement.dataset.transitionDirection;
+      cb();
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/projects']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Routes>
+          <Route path="/projects" element={<NavigationConsumer target="/" />} />
+          <Route path="/" element={<div>Overview</div>} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await user.click(screen.getByRole('button', { name: /trigger navigation/i }));
+    expect(capturedDirection).toBe('slide-right');
+  });
+
+  it('sets slide-left when navigating from Projects (/projects) to Experience (/experience)', async () => {
+    setupMockMatchMedia();
+    const user = userEvent.setup();
+    let capturedDirection: string | undefined;
+
+    (document as any).startViewTransition = vi.fn((cb: () => void) => {
+      capturedDirection = document.documentElement.dataset.transitionDirection;
+      cb();
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/projects']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Routes>
+          <Route path="/projects" element={<NavigationConsumer target="/experience" />} />
+          <Route path="/experience" element={<div>Experience</div>} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await user.click(screen.getByRole('button', { name: /trigger navigation/i }));
+    expect(capturedDirection).toBe('slide-left');
+  });
+
+  it('sets slide-right when navigating from Experience (/experience) to Overview (/)', async () => {
+    setupMockMatchMedia();
+    const user = userEvent.setup();
+    let capturedDirection: string | undefined;
+
+    (document as any).startViewTransition = vi.fn((cb: () => void) => {
+      capturedDirection = document.documentElement.dataset.transitionDirection;
+      cb();
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/experience']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Routes>
+          <Route path="/experience" element={<NavigationConsumer target="/" />} />
+          <Route path="/" element={<div>Overview</div>} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await user.click(screen.getByRole('button', { name: /trigger navigation/i }));
+    expect(capturedDirection).toBe('slide-right');
+  });
+
+  it('sets slide-right when navigating from Experience (/experience) to Projects (/projects)', async () => {
+    setupMockMatchMedia();
+    const user = userEvent.setup();
+    let capturedDirection: string | undefined;
+
+    (document as any).startViewTransition = vi.fn((cb: () => void) => {
+      capturedDirection = document.documentElement.dataset.transitionDirection;
+      cb();
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/experience']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Routes>
+          <Route path="/experience" element={<NavigationConsumer target="/projects" />} />
+          <Route path="/projects" element={<div>Projects</div>} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await user.click(screen.getByRole('button', { name: /trigger navigation/i }));
+    expect(capturedDirection).toBe('slide-right');
+  });
+});
+
 describe('Shared-Element View Transitions & Stylesheet Rules', () => {
   it('verifies BentoGrid featured cards assign matching viewTransitionName styles', () => {
     render(
@@ -197,14 +365,19 @@ describe('Shared-Element View Transitions & Stylesheet Rules', () => {
     expect(header).toHaveStyle({ viewTransitionName: 'project-card-shepherd' });
   });
 
-  it('verifies src/styles/index.css defines keyframes and pseudo-elements with object-fit: cover', () => {
+  it('verifies src/styles/index.css defines keyframes, directional slide rules, and persistent header', () => {
     const cssPath = path.resolve(__dirname, '../../src/styles/index.css');
     const css = fs.readFileSync(cssPath, 'utf-8');
 
     expect(css).toContain('@keyframes fade-out');
     expect(css).toContain('@keyframes fade-in');
-    expect(css).toContain('::view-transition-old(root)');
-    expect(css).toContain('::view-transition-new(root)');
+    expect(css).toContain('@keyframes slide-out-to-left');
+    expect(css).toContain('@keyframes slide-in-from-right');
+    expect(css).toContain('@keyframes slide-out-to-right');
+    expect(css).toContain('@keyframes slide-in-from-left');
+    expect(css).toContain('view-transition-name: app-header');
+    expect(css).toContain('data-transition-direction="slide-left"');
+    expect(css).toContain('data-transition-direction="slide-right"');
     expect(css).toContain('object-fit: cover');
     expect(css).toContain('project-card-shepherd');
     expect(css).toContain('project-card-nl2regex');
