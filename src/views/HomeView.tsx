@@ -30,15 +30,15 @@ export const HomeView: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Current Experience Card */}
-          <div className="bg-surface border border-border-subtle rounded-lg p-6 space-y-3">
-            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-text-muted">
+          <div className="bg-surface border border-border-subtle rounded-lg p-6 space-y-3.5 shadow-sm hover:border-border-strong transition-colors">
+            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-text-muted pb-2 border-b border-border-subtle">
               <Briefcase className="w-4 h-4 text-accent-solid" aria-hidden="true" />
-              <span>Current Role</span>
+              <span className="font-semibold text-text-primary">Current Role</span>
             </div>
             <div>
-              <h3 className="text-lg font-bold text-text-primary">{currentWork.role}</h3>
-              <p className="text-sm font-medium text-text-secondary">
-                {currentWork.company} · <span className="font-mono text-xs text-text-muted">{currentWork.period}</span>
+              <h3 className="text-lg font-bold text-text-primary tracking-tight">{currentWork.role}</h3>
+              <p className="text-sm font-semibold text-accent-solid mt-0.5">
+                {currentWork.company} · <span className="font-mono text-xs text-text-muted font-normal">{currentWork.period}</span>
               </p>
             </div>
             <p className="text-sm text-text-secondary leading-relaxed">
@@ -47,15 +47,15 @@ export const HomeView: React.FC = () => {
           </div>
 
           {/* Education Card */}
-          <div className="bg-surface border border-border-subtle rounded-lg p-6 space-y-3">
-            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-text-muted">
+          <div className="bg-surface border border-border-subtle rounded-lg p-6 space-y-3.5 shadow-sm hover:border-border-strong transition-colors">
+            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-text-muted pb-2 border-b border-border-subtle">
               <GraduationCap className="w-4 h-4 text-accent-solid" aria-hidden="true" />
-              <span>Education</span>
+              <span className="font-semibold text-text-primary">Education</span>
             </div>
             <div>
-              <h3 className="text-lg font-bold text-text-primary">{primaryEducation.degree}</h3>
-              <p className="text-sm font-medium text-text-secondary">
-                {primaryEducation.institution} · <span className="font-mono text-xs text-text-muted">{primaryEducation.grade}</span>
+              <h3 className="text-lg font-bold text-text-primary tracking-tight">{primaryEducation.degree}</h3>
+              <p className="text-sm font-semibold text-accent-solid mt-0.5">
+                {primaryEducation.institution} · <span className="font-mono text-xs text-text-muted font-normal">{primaryEducation.grade}</span>
               </p>
             </div>
             <p className="text-sm text-text-secondary leading-relaxed">
@@ -65,9 +65,9 @@ export const HomeView: React.FC = () => {
         </div>
 
         {/* Action CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 bg-surface border border-border-subtle rounded-lg">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 bg-surface border border-border-subtle rounded-lg shadow-sm">
           <div className="space-y-1 text-center sm:text-left">
-            <h3 className="text-base font-semibold text-text-primary">Want to explore all projects and background?</h3>
+            <h3 className="text-base font-bold text-text-primary">Want to explore all projects and background?</h3>
             <p className="text-sm text-text-secondary">
               Browse the complete filterable catalog or inspect the chronological career timeline.
             </p>
@@ -75,14 +75,14 @@ export const HomeView: React.FC = () => {
           <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto justify-center">
             <Link
               to="/projects"
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-surface text-text-primary border border-border-subtle hover:bg-surface-hover hover:border-border-strong transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-surface text-text-primary border border-border-subtle hover:bg-surface-hover hover:border-border-strong active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm"
             >
-              <FolderGit2 className="w-4 h-4" aria-hidden="true" />
+              <FolderGit2 className="w-4 h-4 text-accent-solid" aria-hidden="true" />
               <span>View all projects</span>
             </Link>
             <Link
               to="/experience"
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-accent-solid text-white hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-md bg-accent-solid text-white hover:bg-opacity-90 active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm"
             >
               <span>View full experience</span>
               <ArrowRight className="w-4 h-4" aria-hidden="true" />

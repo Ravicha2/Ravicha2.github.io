@@ -37,17 +37,6 @@
   width: 100%;
 }
 
-/* Quiz section */
-.question input[type='radio']:checked + span {
-  color: #4f46e5; /* indigo-600 */
-  font-weight: 600;
-}
-
-/* Add slight scale on hover for interactivity */
-.question:hover {
-  transform: scale(1.02);
-  transition: transform 0.2s ease;
-}
 
 
 /* Shared Styles for Portfolio Pages */

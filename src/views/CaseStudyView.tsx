@@ -39,20 +39,20 @@ export const CaseStudyView: React.FC = () => {
 
   if (!project) {
     return (
-      <div className="space-y-6 py-12 text-center max-w-lg mx-auto">
-        <div className="inline-flex p-3 rounded-full bg-surface border border-border-subtle text-text-muted">
+      <div className="space-y-6 py-16 text-center max-w-lg mx-auto">
+        <div className="inline-flex p-3.5 rounded-full bg-surface border border-border-subtle text-text-muted shadow-sm">
           <AlertTriangle className="w-8 h-8 text-accent-solid" aria-hidden="true" />
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-text-primary">
+        <h1 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
           Project Not Found
         </h1>
-        <p className="text-text-secondary text-sm">
+        <p className="text-text-secondary text-sm leading-relaxed">
           The project you are looking for does not exist or has been moved.
         </p>
         <div className="pt-4">
           <Link
             to="/projects"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-accent-solid text-accent-contrast text-sm font-semibold hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent-solid text-white text-sm font-semibold hover:bg-opacity-90 active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm"
           >
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             <span>Back to Projects</span>
@@ -70,9 +70,9 @@ export const CaseStudyView: React.FC = () => {
       <nav aria-label="Breadcrumb">
         <Link
           to="/projects"
-          className="inline-flex items-center gap-2 text-sm font-medium text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded"
+          className="group inline-flex items-center gap-2 text-sm font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1 py-0.5"
         >
-          <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+          <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
           <span>Back to Projects</span>
         </Link>
       </nav>
@@ -80,12 +80,12 @@ export const CaseStudyView: React.FC = () => {
       {/* Case Study Header / Hero */}
       <header className="space-y-6 border-b border-border-subtle pb-8">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs font-mono px-2.5 py-1 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
+          <span className="text-xs font-mono font-medium px-2.5 py-1 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
             {project.categoryLabel}
           </span>
           <span className="text-xs font-mono text-text-muted">{project.timeline}</span>
           {project.featured && (
-            <span className="text-xs font-mono px-2 py-0.5 rounded bg-surface-hover text-text-muted border border-border-subtle">
+            <span className="text-xs font-mono px-2 py-0.5 rounded bg-surface-hover text-text-muted border border-border-subtle font-medium">
               Flagship Deep Dive
             </span>
           )}
@@ -95,28 +95,28 @@ export const CaseStudyView: React.FC = () => {
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-tight">
             {project.title}
           </h1>
-          <p className="text-lg sm:text-xl text-text-secondary font-medium">
+          <p className="text-lg sm:text-xl text-accent-solid font-semibold">
             {project.subtitle}
           </p>
         </div>
 
-        <p className="text-base text-text-secondary max-w-4xl leading-relaxed">
+        <p className="text-base sm:text-lg text-text-secondary max-w-4xl leading-relaxed">
           {project.summary}
         </p>
 
         {/* Metadata Bar */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 rounded-lg bg-surface border border-border-subtle">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-5 rounded-lg bg-surface border border-border-subtle shadow-sm">
           <div>
-            <span className="text-[11px] font-mono uppercase tracking-wider text-text-muted block">
+            <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-text-muted block">
               Role & Context
             </span>
-            <span className="text-xs font-medium text-text-primary mt-1 block">
+            <span className="text-xs font-semibold text-text-primary mt-1 block">
               {project.role}
             </span>
           </div>
 
           <div>
-            <span className="text-[11px] font-mono uppercase tracking-wider text-text-muted block">
+            <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-text-muted block">
               Timeline
             </span>
             <span className="text-xs font-mono text-text-primary mt-1 block">
@@ -125,10 +125,10 @@ export const CaseStudyView: React.FC = () => {
           </div>
 
           <div className="sm:col-span-2 lg:col-span-2">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-text-muted block">
+            <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-text-muted block">
               Key Artifacts & Links
             </span>
-            <div className="flex items-center gap-2 flex-wrap mt-1">
+            <div className="flex items-center gap-2 flex-wrap mt-1.5">
               {project.links.github && (
                 <a
                   href={project.links.github}
@@ -190,7 +190,7 @@ export const CaseStudyView: React.FC = () => {
 
         {/* Tech Stack Pills */}
         <div className="space-y-2">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-text-muted block">
+          <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-text-muted block">
             Technology Stack & Tools
           </span>
           <div className="flex flex-wrap gap-1.5">
@@ -208,14 +208,14 @@ export const CaseStudyView: React.FC = () => {
         {/* Highlight Metrics */}
         {project.metrics && project.metrics.length > 0 && (
           <div className="space-y-2">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-text-muted block">
+            <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-text-muted block">
               Key Metrics & Milestones
             </span>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               {project.metrics.map((metric, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center gap-2 p-2.5 rounded bg-canvas border border-border-subtle text-xs font-mono text-text-secondary"
+                  className="flex items-center gap-2 p-3 rounded-md bg-canvas border border-border-subtle text-xs font-mono text-text-secondary shadow-sm"
                 >
                   <Activity className="w-3.5 h-3.5 text-accent-solid flex-shrink-0" aria-hidden="true" />
                   <span>{metric}</span>
@@ -235,7 +235,7 @@ export const CaseStudyView: React.FC = () => {
             className="space-y-4 border-b border-border-subtle pb-8"
           >
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono px-2 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
+              <span className="text-xs font-mono font-medium px-2 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
                 Part 01
               </span>
               <h2
@@ -246,14 +246,14 @@ export const CaseStudyView: React.FC = () => {
               </h2>
             </div>
             {cs.intuition.summary && (
-              <p className="text-sm font-medium text-text-muted italic">
+              <p className="text-sm font-medium text-text-muted italic leading-relaxed">
                 "{cs.intuition.summary}"
               </p>
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
               {/* The Spark */}
-              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-2.5">
+              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-2.5 shadow-sm">
                 <div className="flex items-center gap-2 text-xs font-mono text-text-primary">
                   <Lightbulb className="w-4 h-4 text-accent-solid" aria-hidden="true" />
                   <span className="font-semibold uppercase tracking-wider">The Spark & Initial Hypothesis</span>
@@ -264,7 +264,7 @@ export const CaseStudyView: React.FC = () => {
               </div>
 
               {/* The Naive Failure Mode */}
-              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-2.5">
+              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-2.5 shadow-sm">
                 <div className="flex items-center gap-2 text-xs font-mono text-text-primary">
                   <AlertTriangle className="w-4 h-4 text-accent-solid" aria-hidden="true" />
                   <span className="font-semibold uppercase tracking-wider">The Naive Failure Mode</span>
@@ -282,7 +282,7 @@ export const CaseStudyView: React.FC = () => {
             className="space-y-4 border-b border-border-subtle pb-8"
           >
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono px-2 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
+              <span className="text-xs font-mono font-medium px-2 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
                 Part 02
               </span>
               <h2
@@ -292,21 +292,21 @@ export const CaseStudyView: React.FC = () => {
                 The Root Problem Encountered
               </h2>
             </div>
-            <p className="text-sm text-text-secondary leading-relaxed max-w-3xl">
+            <p className="text-sm sm:text-base text-text-secondary leading-relaxed max-w-3xl">
               {cs.problemEncountered.summary}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
               {/* Edge Cases & Failure Points */}
-              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-3">
-                <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-primary flex items-center gap-2">
+              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-3 shadow-sm">
+                <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-primary flex items-center gap-2 border-b border-border-subtle pb-2">
                   <AlertTriangle className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                   <span>Edge Cases & Failure Points</span>
                 </h3>
                 <ul className="space-y-2">
                   {cs.problemEncountered.edgeCases.map((edgeCase, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-xs text-text-secondary leading-relaxed">
-                      <span className="text-accent-solid font-mono select-none">›</span>
+                    <li key={idx} className="flex items-start gap-2 text-xs font-mono text-text-secondary leading-relaxed">
+                      <span className="text-accent-solid font-bold select-none">›</span>
                       <span>{edgeCase}</span>
                     </li>
                   ))}
@@ -314,15 +314,15 @@ export const CaseStudyView: React.FC = () => {
               </div>
 
               {/* Hard Constraints */}
-              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-3">
-                <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-primary flex items-center gap-2">
+              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-3 shadow-sm">
+                <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-primary flex items-center gap-2 border-b border-border-subtle pb-2">
                   <ShieldCheck className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                   <span>Hard Technical Constraints</span>
                 </h3>
                 <ul className="space-y-2">
                   {cs.problemEncountered.constraints.map((constraint, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-xs text-text-secondary leading-relaxed">
-                      <span className="text-accent-solid font-mono select-none">›</span>
+                    <li key={idx} className="flex items-start gap-2 text-xs font-mono text-text-secondary leading-relaxed">
+                      <span className="text-accent-solid font-bold select-none">›</span>
                       <span>{constraint}</span>
                     </li>
                   ))}
@@ -337,7 +337,7 @@ export const CaseStudyView: React.FC = () => {
             className="space-y-6 border-b border-border-subtle pb-8"
           >
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono px-2 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
+              <span className="text-xs font-mono font-medium px-2 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
                 Part 03
               </span>
               <h2
@@ -349,12 +349,12 @@ export const CaseStudyView: React.FC = () => {
             </div>
 
             {/* Architectural Insight */}
-            <div className="p-5 rounded-lg bg-canvas border border-border-subtle space-y-2">
+            <div className="p-5 rounded-lg bg-canvas border border-border-subtle space-y-2 shadow-sm">
               <div className="flex items-center gap-2 text-xs font-mono text-accent-solid">
                 <Cpu className="w-4 h-4" aria-hidden="true" />
                 <span className="font-semibold uppercase tracking-wider">Key Architectural Insight</span>
               </div>
-              <p className="text-sm text-text-secondary leading-relaxed">
+              <p className="text-sm sm:text-base text-text-secondary leading-relaxed">
                 {cs.whyBuiltThisWay.architecturalInsight}
               </p>
             </div>
@@ -369,9 +369,9 @@ export const CaseStudyView: React.FC = () => {
                 {cs.whyBuiltThisWay.tradeOffs.map((tradeOff, idx) => (
                   <div
                     key={idx}
-                    className="p-5 rounded-lg bg-surface border border-border-subtle space-y-2"
+                    className="p-5 rounded-lg bg-surface border border-border-subtle space-y-2 shadow-sm"
                   >
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-border-subtle pb-2">
                       <h4 className="text-sm font-bold text-text-primary">
                         {tradeOff.decision}
                       </h4>
@@ -381,7 +381,7 @@ export const CaseStudyView: React.FC = () => {
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-text-secondary leading-relaxed">
+                    <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
                       {tradeOff.rationale}
                     </p>
                   </div>
@@ -396,10 +396,10 @@ export const CaseStudyView: React.FC = () => {
                   <ShieldCheck className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                   <span>Guardrails & Defensive Design</span>
                 </h3>
-                <div className="p-4 rounded-lg bg-surface border border-border-subtle">
+                <div className="p-4 rounded-lg bg-surface border border-border-subtle shadow-sm">
                   <ul className="space-y-2">
                     {cs.whyBuiltThisWay.guardrails.map((guardrail, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-xs text-text-secondary leading-relaxed">
+                      <li key={idx} className="flex items-start gap-2 text-xs font-mono text-text-secondary leading-relaxed">
                         <CheckCircle2 className="w-3.5 h-3.5 text-accent-solid flex-shrink-0 mt-0.5" aria-hidden="true" />
                         <span>{guardrail}</span>
                       </li>
@@ -416,7 +416,7 @@ export const CaseStudyView: React.FC = () => {
             className="space-y-6 pb-4"
           >
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono px-2 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
+              <span className="text-xs font-mono font-medium px-2 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
                 Part 04
               </span>
               <h2
@@ -429,15 +429,15 @@ export const CaseStudyView: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Verification Benchmarks */}
-              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-3">
-                <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-primary flex items-center gap-2">
+              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-3 shadow-sm">
+                <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-primary flex items-center gap-2 border-b border-border-subtle pb-2">
                   <ShieldCheck className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                   <span>Verification Benchmarks</span>
                 </h3>
                 <ul className="space-y-2">
                   {cs.outcomes.verification.map((verif, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-xs text-text-secondary leading-relaxed">
-                      <span className="text-accent-solid font-mono select-none">›</span>
+                    <li key={idx} className="flex items-start gap-2 text-xs font-mono text-text-secondary leading-relaxed">
+                      <span className="text-accent-solid font-bold select-none">›</span>
                       <span>{verif}</span>
                     </li>
                   ))}
@@ -445,15 +445,15 @@ export const CaseStudyView: React.FC = () => {
               </div>
 
               {/* Real-World Impact */}
-              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-3">
-                <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-primary flex items-center gap-2">
+              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-3 shadow-sm">
+                <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-primary flex items-center gap-2 border-b border-border-subtle pb-2">
                   <Sparkles className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                   <span>Real-World Impact</span>
                 </h3>
                 <ul className="space-y-2">
                   {cs.outcomes.impact.map((imp, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-xs text-text-secondary leading-relaxed">
-                      <span className="text-accent-solid font-mono select-none">›</span>
+                    <li key={idx} className="flex items-start gap-2 text-xs font-mono text-text-secondary leading-relaxed">
+                      <span className="text-accent-solid font-bold select-none">›</span>
                       <span>{imp}</span>
                     </li>
                   ))}
@@ -462,19 +462,19 @@ export const CaseStudyView: React.FC = () => {
             </div>
 
             {/* Engineering Takeaway Box */}
-            <div className="p-5 rounded-lg bg-canvas border border-border-subtle space-y-2">
+            <div className="p-5 rounded-lg bg-canvas border border-border-subtle space-y-2 shadow-sm">
               <div className="flex items-center gap-2 text-xs font-mono text-accent-solid">
                 <Lightbulb className="w-4 h-4" aria-hidden="true" />
                 <span className="font-semibold uppercase tracking-wider">Core Engineering Takeaway</span>
               </div>
-              <p className="text-sm font-medium text-text-primary leading-relaxed">
+              <p className="text-sm sm:text-base font-semibold text-text-primary leading-relaxed">
                 {cs.outcomes.takeaway}
               </p>
             </div>
           </section>
         </div>
       ) : (
-        <div className="p-6 rounded-lg bg-surface border border-border-subtle space-y-4">
+        <div className="p-6 rounded-lg bg-surface border border-border-subtle space-y-4 shadow-sm">
           <h2 className="text-lg font-bold text-text-primary">Direct Technical Summary</h2>
           <p className="text-sm text-text-secondary leading-relaxed">{project.summary}</p>
         </div>
@@ -484,9 +484,9 @@ export const CaseStudyView: React.FC = () => {
       <footer className="pt-6 border-t border-border-subtle flex items-center justify-between">
         <Link
           to="/projects"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded"
+          className="group inline-flex items-center gap-2 text-sm font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1 py-0.5"
         >
-          <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+          <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
           <span>Back to all projects</span>
         </Link>
       </footer>

@@ -237,3 +237,4 @@ src/
 | **Keyboard Navigation** | Logical Tab order, no focus traps, visible `:focus-visible` rings | Full manual keyboard walkthrough |
 | **Route Announcements** | Live region announces page titles upon route transition | VoiceOver & NVDA live log |
 | **Reduced Motion** | Zero view transitions/animations when emulating `prefers-reduced-motion` | Chrome DevTools Rendering Emulation |
+

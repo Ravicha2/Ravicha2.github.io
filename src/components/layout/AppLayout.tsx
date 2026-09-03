@@ -18,30 +18,38 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
   ];
 
   return (
-    <div className="min-h-screen bg-canvas text-text-primary flex flex-col antialiased">
+    <div className="min-h-screen bg-canvas text-text-primary flex flex-col antialiased selection:bg-accent-badge-bg selection:text-accent-badge-text">
       <SkipLink />
       <RouteAnnouncer pageTitle={pageTitle} mainRef={mainRef} />
 
-      <header role="banner" className="sticky top-0 z-40 bg-canvas/80 backdrop-blur border-b border-border-subtle">
+      <header
+        role="banner"
+        className="sticky top-0 z-40 bg-canvas/90 backdrop-blur-md border-b border-border-subtle transition-colors"
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <NavLink
             to="/"
-            className="font-medium tracking-tight text-text-primary hover:text-accent-solid focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1"
+            className="group flex items-center gap-2 font-semibold tracking-tight text-text-primary hover:text-accent-solid focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded-md px-1.5 py-1 transition-colors"
           >
-            Palm Suksawasdi
+            <span className="w-2 h-2 rounded-full bg-accent-solid transition-transform group-hover:scale-125" aria-hidden="true" />
+            <span>Palm Suksawasdi</span>
           </NavLink>
 
-          <nav role="navigation" aria-label="Main Navigation" className="flex items-center space-x-1 sm:space-x-2">
+          <nav
+            role="navigation"
+            aria-label="Main Navigation"
+            className="flex items-center space-x-1 sm:space-x-1.5"
+          >
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 end={item.to === '/'}
                 className={({ isActive }) =>
-                  `px-3 py-1.5 text-sm rounded-md transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
+                  `px-3.5 py-1.5 text-sm rounded-md transition-all duration-150 focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
                     isActive
-                      ? 'bg-accent-badge-bg text-accent-badge-text font-medium'
-                      : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'
+                      ? 'bg-accent-badge-bg text-accent-badge-text font-semibold border border-border-subtle shadow-sm'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover font-medium border border-transparent'
                   }`
                 }
               >
@@ -57,7 +65,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
         id="main-content"
         tabIndex={-1}
         role="main"
-        className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 outline-none"
+        className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-10 outline-none"
       >
         {children}
       </main>
@@ -70,7 +78,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
               href="https://github.com/Ravicha2"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-text-primary focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1"
+              className="hover:text-text-primary focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1.5 py-0.5 transition-colors"
               aria-label="Palm's GitHub profile (opens in a new tab)"
             >
               GitHub
@@ -79,7 +87,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
               href="https://linkedin.com/in/ravicha-suksawasdi-na-ayuthaya"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-text-primary focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1"
+              className="hover:text-text-primary focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1.5 py-0.5 transition-colors"
               aria-label="Palm's LinkedIn profile (opens in a new tab)"
             >
               LinkedIn
@@ -90,3 +98,5 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
     </div>
   );
 };
+
+export default AppLayout;

@@ -50,14 +50,14 @@ export const ExperienceView: React.FC = () => {
     <div className="space-y-16">
       {/* Page Header */}
       <header className="space-y-4 border-b border-border-subtle pb-8">
-        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-accent-badge-bg border border-border-subtle text-accent-badge-text text-xs font-mono">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-badge-bg border border-border-subtle text-accent-badge-text text-xs font-mono font-medium shadow-sm">
           <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
           <span>Career & Education Timeline</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-text-primary">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-tight">
           Engineering Journey & Experience
         </h1>
-        <p className="text-base text-text-secondary max-w-3xl leading-relaxed">
+        <p className="text-base sm:text-lg text-text-secondary max-w-3xl leading-relaxed">
           A chronological progression from physical systems engineering to distributed & agentic AI architectures—combining mechanical rigor, durable orchestration, and graph-based intelligence.
         </p>
       </header>
@@ -65,7 +65,7 @@ export const ExperienceView: React.FC = () => {
       {/* Section 1: Work Experience Timeline */}
       <section aria-labelledby="work-experience-heading" className="space-y-8">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-md bg-surface border border-border-subtle text-text-primary">
+          <div className="p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary shadow-sm">
             <Briefcase className="w-5 h-5 text-accent-solid" aria-hidden="true" />
           </div>
           <div>
@@ -84,12 +84,12 @@ export const ExperienceView: React.FC = () => {
             <article
               key={item.id}
               data-testid={`work-item-${item.id}`}
-              className="relative bg-surface border border-border-subtle rounded-lg p-6 space-y-4 hover:border-border-strong transition-colors"
+              className="relative bg-surface border border-border-subtle rounded-lg p-6 space-y-4 shadow-sm hover:border-border-strong transition-all duration-150"
             >
               {/* Timeline Node Bullet */}
               <div
-                className={`absolute -left-[31px] sm:-left-[39px] top-6 w-3.5 h-3.5 rounded-full border-2 border-canvas ${
-                  item.isCurrent ? 'bg-accent-solid ring-2 ring-accent-badge-bg' : 'bg-text-muted'
+                className={`absolute -left-[31px] sm:-left-[39px] top-6 w-3.5 h-3.5 rounded-full border-2 border-canvas shadow-sm ${
+                  item.isCurrent ? 'bg-accent-solid ring-4 ring-accent-badge-bg' : 'bg-text-muted'
                 }`}
                 aria-hidden="true"
               />
@@ -107,17 +107,17 @@ export const ExperienceView: React.FC = () => {
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center gap-3 text-sm font-medium text-accent-solid mt-0.5">
+                  <div className="flex items-center gap-3 text-sm font-semibold text-accent-solid mt-0.5 flex-wrap">
                     <span>{item.company}</span>
-                    <span className="text-text-muted select-none">·</span>
-                    <span className="text-xs font-mono text-text-muted flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span className="text-text-muted select-none font-normal">·</span>
+                    <span className="text-xs font-mono text-text-muted font-normal flex items-center gap-1">
+                      <MapPin className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                       {item.location}
                     </span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1 text-xs font-mono text-text-muted bg-canvas px-2.5 py-1 rounded border border-border-subtle self-start sm:self-auto">
+                <div className="flex items-center gap-1.5 text-xs font-mono text-text-muted bg-canvas px-2.5 py-1 rounded-md border border-border-subtle self-start sm:self-auto shadow-sm">
                   <Calendar className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                   <span>{item.period}</span>
                 </div>
@@ -127,7 +127,7 @@ export const ExperienceView: React.FC = () => {
               <ul className="space-y-2 text-sm text-text-secondary">
                 {item.description.map((desc, idx) => (
                   <li key={idx} className="flex items-start gap-2 leading-relaxed">
-                    <span className="text-accent-solid font-mono select-none mt-0.5">›</span>
+                    <span className="text-accent-solid font-mono font-bold select-none mt-0.5">›</span>
                     <span>{desc}</span>
                   </li>
                 ))}
@@ -137,15 +137,15 @@ export const ExperienceView: React.FC = () => {
               <div className="space-y-3 pt-2">
                 {item.highlights && item.highlights.length > 0 && (
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-[11px] font-mono uppercase tracking-wider text-text-muted">
+                    <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-text-muted">
                       Key Highlights:
                     </span>
                     {item.highlights.map((highlight, idx) => (
                       <span
                         key={idx}
-                        className="inline-flex items-center gap-1 text-xs font-mono px-2 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle"
+                        className="inline-flex items-center gap-1 text-xs font-mono px-2.5 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-medium"
                       >
-                        <CheckCircle2 className="w-3 h-3" aria-hidden="true" />
+                        <CheckCircle2 className="w-3 h-3 text-accent-solid" aria-hidden="true" />
                         <span>{highlight}</span>
                       </span>
                     ))}
@@ -170,7 +170,7 @@ export const ExperienceView: React.FC = () => {
                       href={item.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1 py-0.5"
+                      className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1.5 py-0.5"
                       aria-label={`${item.company} repository (opens in a new tab)`}
                     >
                       <GithubIcon className="w-3.5 h-3.5" />
@@ -188,7 +188,7 @@ export const ExperienceView: React.FC = () => {
       {/* Section 2: Education */}
       <section aria-labelledby="education-heading" className="space-y-8">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-md bg-surface border border-border-subtle text-text-primary">
+          <div className="p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary shadow-sm">
             <GraduationCap className="w-5 h-5 text-accent-solid" aria-hidden="true" />
           </div>
           <div>
@@ -206,18 +206,18 @@ export const ExperienceView: React.FC = () => {
             <article
               key={edu.id}
               data-testid={`edu-item-${edu.id}`}
-              className="bg-surface border border-border-subtle rounded-lg p-6 space-y-4 hover:border-border-strong transition-colors"
+              className="bg-surface border border-border-subtle rounded-lg p-6 space-y-4 shadow-sm hover:border-border-strong transition-all duration-150"
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border-subtle pb-4">
                 <div>
                   <h3 className="text-lg font-bold text-text-primary tracking-tight">
                     {edu.degree}
                   </h3>
-                  <div className="flex items-center gap-2 text-sm font-medium text-accent-solid mt-0.5 flex-wrap">
+                  <div className="flex items-center gap-2 text-sm font-semibold text-accent-solid mt-0.5 flex-wrap">
                     <span>{edu.institution}</span>
-                    <span className="text-text-muted select-none">·</span>
-                    <span className="text-xs font-mono text-text-muted flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span className="text-text-muted select-none font-normal">·</span>
+                    <span className="text-xs font-mono text-text-muted font-normal flex items-center gap-1">
+                      <MapPin className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                       {edu.location}
                     </span>
                   </div>
@@ -229,7 +229,7 @@ export const ExperienceView: React.FC = () => {
                       {edu.grade}
                     </span>
                   )}
-                  <span className="text-xs font-mono text-text-muted bg-canvas px-2.5 py-1 rounded border border-border-subtle flex items-center gap-1">
+                  <span className="text-xs font-mono text-text-muted bg-canvas px-2.5 py-1 rounded-md border border-border-subtle flex items-center gap-1.5 shadow-sm">
                     <Calendar className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                     <span>{edu.period}</span>
                   </span>
@@ -238,7 +238,7 @@ export const ExperienceView: React.FC = () => {
 
               {edu.field && (
                 <div className="text-xs font-mono text-text-muted">
-                  <span className="uppercase tracking-wider">Field of Study:</span>{' '}
+                  <span className="uppercase tracking-wider font-semibold">Field of Study:</span>{' '}
                   <span className="text-text-primary font-medium">{edu.field}</span>
                 </div>
               )}
@@ -246,7 +246,7 @@ export const ExperienceView: React.FC = () => {
               <ul className="space-y-2 text-sm text-text-secondary">
                 {edu.details.map((detail, idx) => (
                   <li key={idx} className="flex items-start gap-2 leading-relaxed">
-                    <span className="text-accent-solid font-mono select-none mt-0.5">›</span>
+                    <span className="text-accent-solid font-mono font-bold select-none mt-0.5">›</span>
                     <span>{detail}</span>
                   </li>
                 ))}
@@ -259,7 +259,7 @@ export const ExperienceView: React.FC = () => {
       {/* Section 3: Publications & Accolades */}
       <section aria-labelledby="publications-accolades-heading" className="space-y-8">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-md bg-surface border border-border-subtle text-text-primary">
+          <div className="p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary shadow-sm">
             <Award className="w-5 h-5 text-accent-solid" aria-hidden="true" />
           </div>
           <div>
@@ -278,12 +278,12 @@ export const ExperienceView: React.FC = () => {
             <article
               key={pub.id}
               data-testid={`pub-item-${pub.id}`}
-              className="bg-surface border border-border-subtle rounded-lg p-6 space-y-4 flex flex-col justify-between hover:border-border-strong transition-colors"
+              className="bg-surface border border-border-subtle rounded-lg p-6 space-y-4 flex flex-col justify-between shadow-sm hover:border-border-strong transition-all duration-150"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-2 flex-wrap">
                   <span className="text-xs font-mono px-2.5 py-1 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-semibold flex items-center gap-1.5">
-                    <BookOpen className="w-3.5 h-3.5" aria-hidden="true" />
+                    <BookOpen className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                     <span>IEEE Publication</span>
                   </span>
                   <span className="text-xs font-mono text-text-muted">{pub.date}</span>
@@ -293,11 +293,11 @@ export const ExperienceView: React.FC = () => {
                   {pub.title}
                 </h3>
 
-                <p className="text-xs font-mono text-accent-solid font-medium">
+                <p className="text-xs font-mono text-accent-solid font-semibold">
                   {pub.conference}
                 </p>
 
-                <div className="text-xs font-mono text-text-muted space-y-1">
+                <div className="text-xs font-mono text-text-muted space-y-1 bg-canvas p-3 rounded-md border border-border-subtle">
                   <div>
                     <span className="text-text-secondary font-medium">Authors:</span> {pub.authors.join(', ')}
                   </div>
@@ -314,7 +314,7 @@ export const ExperienceView: React.FC = () => {
                 <ul className="space-y-1.5 text-xs text-text-secondary pt-1">
                   {pub.description.map((desc, idx) => (
                     <li key={idx} className="flex items-start gap-1.5 leading-relaxed">
-                      <span className="text-accent-solid select-none">›</span>
+                      <span className="text-accent-solid font-bold select-none">›</span>
                       <span>{desc}</span>
                     </li>
                   ))}
@@ -327,7 +327,7 @@ export const ExperienceView: React.FC = () => {
                     href={pub.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded"
+                    className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1.5 py-0.5"
                     aria-label={`Read paper on IEEE Xplore (opens in a new tab)`}
                   >
                     <span>View on IEEE Xplore</span>
@@ -344,10 +344,10 @@ export const ExperienceView: React.FC = () => {
               <article
                 key={acc.id}
                 data-testid={`accolade-item-${acc.id}`}
-                className="bg-surface border border-border-subtle rounded-lg p-5 space-y-2.5 hover:border-border-strong transition-colors"
+                className="bg-surface border border-border-subtle rounded-lg p-5 space-y-2.5 shadow-sm hover:border-border-strong transition-all duration-150"
               >
                 <div className="flex items-center justify-between gap-2 flex-wrap">
-                  <span className="text-xs font-mono px-2 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-semibold">
+                  <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-semibold">
                     {acc.organization}
                   </span>
                   <span className="text-xs font-mono text-text-muted">{acc.date}</span>
@@ -367,7 +367,7 @@ export const ExperienceView: React.FC = () => {
                       href={acc.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded"
+                      className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1 py-0.5"
                       aria-label={`View ${acc.title} project live platform at ${acc.link} (opens in a new tab)`}
                     >
                       <span>heal.a2a.ing</span>
@@ -389,7 +389,7 @@ export const ExperienceView: React.FC = () => {
         className="space-y-8"
       >
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-md bg-surface border border-border-subtle text-text-primary">
+          <div className="p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary shadow-sm">
             <Code2 className="w-5 h-5 text-accent-solid" aria-hidden="true" />
           </div>
           <div>
@@ -407,7 +407,7 @@ export const ExperienceView: React.FC = () => {
             <div
               key={group.category}
               data-testid={`skill-group-${group.category.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
-              className="bg-surface border border-border-subtle rounded-lg p-5 space-y-3.5 hover:border-border-strong transition-colors"
+              className="bg-surface border border-border-subtle rounded-lg p-5 space-y-3.5 shadow-sm hover:border-border-strong transition-all duration-150"
             >
               <div className="flex items-center gap-2 border-b border-border-subtle pb-2.5">
                 {getCategoryIcon(group.category)}
@@ -420,7 +420,7 @@ export const ExperienceView: React.FC = () => {
                 {group.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="text-xs font-mono px-2.5 py-1 rounded bg-canvas text-text-primary border border-border-subtle hover:border-accent-solid transition-colors"
+                    className="text-xs font-mono px-2.5 py-1 rounded bg-canvas text-text-primary border border-border-subtle hover:border-accent-solid hover:text-accent-solid transition-colors"
                   >
                     {skill}
                   </span>
