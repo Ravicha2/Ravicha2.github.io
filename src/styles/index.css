@@ -46,6 +46,19 @@ p {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  ::view-transition-group(active-hero),
+  ::view-transition-group(active-card),
+  ::view-transition-group(project-card-shepherd),
+  ::view-transition-group(project-card-nl2regex),
+  ::view-transition-group(project-card-document-ingestion-agent),
+  ::view-transition-group(project-card-lit-review-council),
+  ::view-transition-group(project-card-node-api),
+  ::view-transition-group(project-card-robotic-arm-ultrasound),
+  ::view-transition-group(project-card-heal-a2a) {
+    animation-duration: 250ms;
+    animation-timing-function: cubic-bezier(0.2, 0, 1, 1);
+  }
+
   ::view-transition-old(active-hero),
   ::view-transition-new(active-hero),
   ::view-transition-old(active-card),

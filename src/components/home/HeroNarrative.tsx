@@ -1,7 +1,7 @@
 import type React from 'react';
 import { Mail, ArrowRight, Cpu, MapPin } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { profile } from '../../data/profile';
+import { TransitionLink } from '../common/TransitionLink';
 
 const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg
@@ -94,13 +94,13 @@ export const HeroNarrative: React.FC = () => {
 
       {/* Action Links & Social Bar */}
       <div className="flex flex-wrap items-center gap-3 pt-1">
-        <Link
+        <TransitionLink
           to="/projects"
           className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-md bg-accent-solid text-white hover:bg-opacity-90 active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm"
         >
           <span>Explore Projects</span>
           <ArrowRight className="w-4 h-4" aria-hidden="true" />
-        </Link>
+        </TransitionLink>
 
         <a
           href={profile.links.github}

@@ -1,9 +1,10 @@
 import { useNavigate, type NavigateOptions } from 'react-router-dom';
 import { useCallback } from 'react';
+import { flushSync } from 'react-dom';
 
 /**
  * Hook providing a navigate function wrapped in document.startViewTransition()
- * when supported and permitted by user reduced motion preferences.
+ * with synchronous DOM flushing and reduced motion support.
  */
 export const useViewTransitionNavigate = () => {
   const navigate = useNavigate();
@@ -24,7 +25,9 @@ export const useViewTransitionNavigate = () => {
         !prefersReducedMotion
       ) {
         (document as unknown as { startViewTransition: (cb: () => void) => void }).startViewTransition(() => {
-          navigate(to, options);
+          flushSync(() => {
+            navigate(to, options);
+          });
         });
       } else {
         navigate(to, options);

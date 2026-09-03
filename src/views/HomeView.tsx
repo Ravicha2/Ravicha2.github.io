@@ -1,9 +1,9 @@
 import type React from 'react';
-import { Link } from 'react-router-dom';
 import { ArrowRight, Briefcase, GraduationCap, FolderGit2 } from 'lucide-react';
 import { HeroNarrative } from '../components/home/HeroNarrative';
 import { BentoGrid } from '../components/home/BentoGrid';
 import { workExperience, education } from '../data/experience';
+import { TransitionLink } from '../components/common/TransitionLink';
 
 export const HomeView: React.FC = () => {
   const currentWork = workExperience.find((w) => w.isCurrent) || workExperience[0];
@@ -73,20 +73,20 @@ export const HomeView: React.FC = () => {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto justify-center">
-            <Link
+            <TransitionLink
               to="/projects"
               className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-surface text-text-primary border border-border-subtle hover:bg-surface-hover hover:border-border-strong active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm"
             >
               <FolderGit2 className="w-4 h-4 text-accent-solid" aria-hidden="true" />
               <span>View all projects</span>
-            </Link>
-            <Link
+            </TransitionLink>
+            <TransitionLink
               to="/experience"
               className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-md bg-accent-solid text-white hover:bg-opacity-90 active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm"
             >
               <span>View full experience</span>
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </Link>
+            </TransitionLink>
           </div>
         </div>
       </section>
