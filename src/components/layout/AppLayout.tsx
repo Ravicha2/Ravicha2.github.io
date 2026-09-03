@@ -2,6 +2,7 @@ import type React from 'react';
 import { useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { SkipLink, RouteAnnouncer } from '../../accessibility';
+import { SEOHead } from '../seo/SEOHead';
 
 export interface AppLayoutProps {
   children: React.ReactNode;
@@ -19,6 +20,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
 
   return (
     <div className="min-h-screen bg-canvas text-text-primary flex flex-col antialiased selection:bg-accent-badge-bg selection:text-accent-badge-text">
+      <SEOHead />
       <SkipLink />
       <RouteAnnouncer pageTitle={pageTitle} mainRef={mainRef} />
 
