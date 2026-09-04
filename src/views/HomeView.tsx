@@ -28,15 +28,15 @@ export const HomeView: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {/* Current Experience Card */}
-          <div className="bg-surface border border-border-subtle rounded-lg p-6 space-y-3.5 hover:border-border-strong transition-colors">
+          <div className="bg-surface border border-border-subtle rounded-lg p-4 sm:p-6 space-y-3.5 hover:border-border-strong transition-colors">
             <div className="flex items-center gap-2 text-xs font-mono text-text-muted pb-2 border-b border-border-subtle">
               <Briefcase className="w-4 h-4 text-accent-solid" aria-hidden="true" />
               <span className="font-semibold text-text-primary">Active Deployment</span>
             </div>
             <div>
-              <h3 className="text-lg font-bold text-text-primary tracking-tight">{currentWork.role}</h3>
+              <h3 className="text-base sm:text-lg font-bold text-text-primary tracking-tight">{currentWork.role}</h3>
               <p className="text-sm font-semibold text-accent-solid mt-0.5">
                 {currentWork.company} · <span className="font-mono text-xs text-text-muted font-normal">{currentWork.period}</span>
               </p>
@@ -47,13 +47,13 @@ export const HomeView: React.FC = () => {
           </div>
 
           {/* Education Card */}
-          <div className="bg-surface border border-border-subtle rounded-lg p-6 space-y-3.5 hover:border-border-strong transition-colors">
+          <div className="bg-surface border border-border-subtle rounded-lg p-4 sm:p-6 space-y-3.5 hover:border-border-strong transition-colors">
             <div className="flex items-center gap-2 text-xs font-mono text-text-muted pb-2 border-b border-border-subtle">
               <GraduationCap className="w-4 h-4 text-accent-solid" aria-hidden="true" />
               <span className="font-semibold text-text-primary">Formation</span>
             </div>
             <div>
-              <h3 className="text-lg font-bold text-text-primary tracking-tight">{primaryEducation.degree}</h3>
+              <h3 className="text-base sm:text-lg font-bold text-text-primary tracking-tight">{primaryEducation.degree}</h3>
               <p className="text-sm font-semibold text-accent-solid mt-0.5">
                 {primaryEducation.institution} · <span className="font-mono text-xs text-text-muted font-normal">{primaryEducation.grade}</span>
               </p>
@@ -65,24 +65,24 @@ export const HomeView: React.FC = () => {
         </div>
 
         {/* Action CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 bg-surface border border-border-subtle rounded-lg">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-4 sm:p-6 bg-surface border border-border-subtle rounded-lg">
           <div className="space-y-1 text-center sm:text-left">
-            <h3 className="text-base font-bold text-text-primary">Inspect the complete project archive or career timeline</h3>
-            <p className="text-sm text-text-secondary">
+            <h3 className="text-sm sm:text-base font-bold text-text-primary">Inspect the complete project archive or career timeline</h3>
+            <p className="text-xs sm:text-sm text-text-secondary">
               Browse the filterable catalog or trace the chronological timeline.
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto justify-center">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
             <TransitionLink
               to="/projects"
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-surface text-text-primary border border-border-subtle hover:bg-surface-hover hover:border-border-strong active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-medium rounded-md bg-surface text-text-primary border border-border-subtle hover:bg-surface-hover hover:border-border-strong active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
             >
               <FolderGit2 className="w-4 h-4 text-accent-solid" aria-hidden="true" />
               <span>View all projects</span>
             </TransitionLink>
             <TransitionLink
               to="/experience"
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-md bg-accent-solid text-white dark:text-zinc-950 hover:bg-opacity-90 active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-md bg-accent-solid text-white dark:text-zinc-950 hover:bg-opacity-90 active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
             >
               <span>View full experience</span>
               <ArrowRight className="w-4 h-4" aria-hidden="true" />

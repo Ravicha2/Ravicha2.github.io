@@ -50,6 +50,7 @@ export const HeroNarrative: React.FC = () => {
     // Immediate render if user prefers reduced motion
     const prefersReducedMotion =
       typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (prefersReducedMotion) {
@@ -87,7 +88,7 @@ export const HeroNarrative: React.FC = () => {
 
             <h1
               id="hero-title"
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-[1.12] min-h-[2.5rem] sm:min-h-[3.25rem]"
+              className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-[1.15] min-h-[2rem] sm:min-h-[3.25rem]"
             >
               {displayedTokens.map((token, index) => (
                 <span
@@ -101,16 +102,22 @@ export const HeroNarrative: React.FC = () => {
                   {token}
                 </span>
               ))}
+              {!isComplete && (
+                <span
+                  className="inline-block w-2 sm:w-2.5 h-5 sm:h-8 bg-accent-solid ml-1 align-middle animate-pulse"
+                  aria-hidden="true"
+                />
+              )}
             </h1>
           </div>
 
           {/* Systems Narrative */}
-          <p className="text-base sm:text-lg text-text-secondary leading-relaxed text-pretty">
+          <p className="text-sm sm:text-base md:text-lg text-text-secondary leading-relaxed text-pretty">
             Building fault-tolerant multi-agent pipelines, GraphRAG memory systems, and distributed data engines. Master of IT candidate at UNSW Sydney.
           </p>
 
           {/* Action Links & Social Bar */}
-          <div className="flex flex-wrap items-center gap-3 pt-2">
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 pt-2">
             <TransitionLink
               to="/projects"
               className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-md bg-accent-solid text-white dark:text-zinc-950 hover:bg-opacity-90 active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm"

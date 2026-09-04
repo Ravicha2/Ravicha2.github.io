@@ -1,6 +1,7 @@
 import type React from 'react';
 import { useRef } from 'react';
 import { NavLink } from 'react-router-dom';
+import { User, FolderGit2, Briefcase } from 'lucide-react';
 import { SkipLink, RouteAnnouncer } from '../../accessibility';
 import { SEOHead } from '../seo/SEOHead';
 import { useViewTransitionNavigate } from '../../hooks/useViewTransitionNavigate';
@@ -29,9 +30,9 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
   };
 
   const navItems = [
-    { to: '/', label: 'Overview' },
-    { to: '/projects', label: 'Projects' },
-    { to: '/experience', label: 'Experience' },
+    { to: '/', label: 'Overview', icon: User },
+    { to: '/projects', label: 'Projects', icon: FolderGit2 },
+    { to: '/experience', label: 'Experience', icon: Briefcase },
   ];
 
   return (
@@ -42,15 +43,14 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
 
       <header
         role="banner"
-        className="sticky top-0 z-40 bg-canvas/95 border-b border-border-subtle transition-colors bg-white/95"
+        className="sticky top-0 z-40 bg-canvas/90 backdrop-blur-md border-b border-border-subtle transition-colors"
       >
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2">
           <NavLink
             to="/"
             onClick={handleNavClick('/')}
-            className="group flex items-center gap-2 font-semibold tracking-tight text-text-primary hover:text-accent-solid focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded-md px-1.5 py-1 transition-colors"
+            className="group flex items-center gap-2 font-semibold tracking-tight text-sm sm:text-base text-text-primary hover:text-accent-solid focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded-md px-1 py-1 transition-colors flex-shrink-0"
           >
-            <span className="w-2 h-2 rounded-full bg-accent-solid transition-transform group-hover:scale-125" aria-hidden="true" />
             <span>Palm Suksawasdi</span>
           </NavLink>
 
@@ -59,23 +59,29 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
             aria-label="Main Navigation"
             className="flex items-center space-x-1 sm:space-x-1.5"
           >
-            {navItems.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.to === '/'}
-                onClick={handleNavClick(item.to)}
-                className={({ isActive }) =>
-                  `px-3.5 py-1.5 text-sm rounded-md transition-all duration-150 focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
-                    isActive
-                      ? 'bg-accent-badge-bg text-accent-badge-text font-semibold border border-border-subtle'
-                      : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover font-medium border border-transparent'
-                  }`
-                }
-              >
-                {item.label}
-              </NavLink>
-            ))}
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  end={item.to === '/'}
+                  onClick={handleNavClick(item.to)}
+                  aria-label={item.label}
+                  title={item.label}
+                  className={({ isActive }) =>
+                    `inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs sm:text-sm rounded-md transition-all duration-150 focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
+                      isActive
+                        ? 'bg-accent-badge-bg text-accent-badge-text font-semibold border border-border-subtle'
+                        : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover font-medium border border-transparent'
+                    }`
+                  }
+                >
+                  <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" aria-hidden="true" />
+                  <span className="hidden sm:inline">{item.label}</span>
+                </NavLink>
+              );
+            })}
           </nav>
         </div>
       </header>

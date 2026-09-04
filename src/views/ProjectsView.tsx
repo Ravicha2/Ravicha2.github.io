@@ -74,11 +74,11 @@ export const ProjectsView: React.FC = () => {
         </p>
 
         {/* Category Filters */}
-        <div className="pt-4">
+        <div className="pt-2 sm:pt-4">
           <div
             role="group"
             aria-label="Filter projects by category"
-            className="flex flex-wrap gap-2"
+            className="flex flex-wrap gap-1.5 sm:gap-2"
           >
             {projectCategories.map((category) => {
               const isSelected = selectedCategory === category.id;
@@ -90,7 +90,7 @@ export const ProjectsView: React.FC = () => {
                   type="button"
                   aria-pressed={isSelected}
                   onClick={() => handleSelectCategory(category.id)}
-                  className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-mono font-semibold transition-all duration-150 border focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
+                  className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-md text-xs font-mono font-semibold transition-all duration-150 border focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
                     isSelected
                       ? 'bg-accent-solid text-white dark:text-zinc-950 border-accent-solid font-bold'
                       : 'bg-surface text-text-secondary border-border-subtle hover:text-text-primary hover:bg-surface-hover hover:border-border-strong'
@@ -115,7 +115,7 @@ export const ProjectsView: React.FC = () => {
 
       {/* Projects Grid */}
       <section aria-label="Projects catalog" className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {filteredProjects.map((project: Project) => {
             const hasCaseStudy = Boolean(project.caseStudy);
 
@@ -124,7 +124,7 @@ export const ProjectsView: React.FC = () => {
                 key={project.slug}
                 data-testid={`project-card-${project.slug}`}
                 style={activeSlug === project.slug ? { viewTransitionName: `project-card-${project.slug}` } : undefined}
-                className="group/card bg-surface border border-border-subtle rounded-lg p-6 flex flex-col justify-between hover:border-border-strong transition-all duration-150"
+                className="group/card bg-surface border border-border-subtle rounded-lg p-4 sm:p-6 flex flex-col justify-between hover:border-border-strong transition-all duration-150"
               >
                 <div className="space-y-4">
                   {/* Category, Badge & Timeline */}

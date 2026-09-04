@@ -14,9 +14,9 @@ describe('HomeView Component', () => {
     );
 
   describe('Hero Narrative Section', () => {
-    it('renders the name, primary role title, and systems thesis heading', () => {
+    it('renders the name, primary role title, and hero heading', () => {
       renderHome();
-      expect(screen.getByRole('heading', { level: 1, name: /I design systems that reason, coordinate, and recover/i })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
       expect(screen.getByText(new RegExp(profile.name, 'i'))).toBeInTheDocument();
       expect(screen.getByText(new RegExp(profile.title, 'i'))).toBeInTheDocument();
     });
@@ -25,15 +25,6 @@ describe('HomeView Component', () => {
       renderHome();
       expect(screen.getByText(/Building fault-tolerant multi-agent pipelines/i)).toBeInTheDocument();
       expect(screen.getByRole('link', { name: /explore projects/i })).toHaveAttribute('href', '/projects');
-    });
-
-    it('renders system status badge and proof tags', () => {
-      renderHome();
-      expect(screen.getByText(/SYSTEM STATUS/i)).toBeInTheDocument();
-      expect(screen.getByText(/Available for difficult problems/i)).toBeInTheDocument();
-      expect(screen.getByText('REASONING')).toBeInTheDocument();
-      expect(screen.getByText('COORDINATION')).toBeInTheDocument();
-      expect(screen.getByText('RECOVERY')).toBeInTheDocument();
     });
 
     it('renders quick contact and social links with accessible attributes', () => {

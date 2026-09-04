@@ -105,31 +105,28 @@ export const CaseStudyView: React.FC = () => {
         </div>
 
         <div className="space-y-2">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-tight">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-tight">
             {project.title}
           </h1>
-          <p className="text-lg sm:text-xl text-accent-solid font-semibold">
+          <p className="text-base sm:text-xl text-accent-solid font-semibold">
             {project.subtitle}
           </p>
         </div>
 
-        <p className="text-base sm:text-lg text-text-secondary max-w-3xl leading-relaxed">
+        <p className="text-sm sm:text-lg text-text-secondary max-w-3xl leading-relaxed">
           {project.summary}
         </p>
-
         {/* PyPI Quick Install Command Box (if applicable) */}
         {project.slug === 'lit-review-council' && (
-          <div className="flex items-center justify-between gap-3 p-3.5 rounded-lg bg-surface border border-border-subtle font-mono text-xs">
-            <div className="flex items-center gap-2">
-              <Terminal className="w-4 h-4 text-accent-solid" aria-hidden="true" />
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-3 p-3 sm:p-3.5 rounded-lg bg-surface border border-border-subtle font-mono text-xs">
+            <div className="flex items-center gap-2 overflow-x-auto">
+              <Terminal className="w-4 h-4 text-accent-solid flex-shrink-0" aria-hidden="true" />
               <span className="text-text-muted select-none">$</span>
-              <span className="text-text-primary font-semibold">uvx lit-review-council</span>
+              <span className="text-text-primary font-medium select-all">uvx lit-review-council</span>
             </div>
             <button
-              type="button"
               onClick={handleCopyCli}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
-              aria-label="Copy CLI command to clipboard"
+              className="inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas self-start sm:self-auto"
             >
               {copiedCli ? (
                 <>
@@ -147,7 +144,7 @@ export const CaseStudyView: React.FC = () => {
         )}
 
         {/* Metadata Bar */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-5 rounded-lg bg-surface border border-border-subtle">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 p-4 sm:p-5 rounded-lg bg-surface border border-border-subtle">
           <div>
             <span className="text-[11px] font-mono font-medium text-text-muted block">
               Role & Context
@@ -156,7 +153,6 @@ export const CaseStudyView: React.FC = () => {
               {project.role}
             </span>
           </div>
-
           <div>
             <span className="text-[11px] font-mono font-medium text-text-muted block">
               Timeline

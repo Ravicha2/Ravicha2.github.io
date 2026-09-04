@@ -49,27 +49,27 @@ export const ExperienceView: React.FC = () => {
   return (
     <div className="space-y-16">
       {/* Page Header */}
-      <header className="space-y-4 border-b border-border-subtle pb-8">
+      <header className="space-y-4 border-b border-border-subtle pb-6 sm:pb-8">
         <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-accent-badge-bg border border-border-subtle text-accent-badge-text text-xs font-mono font-medium">
           <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
           <span>Career & Education Timeline</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-tight">
+        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-tight">
           Engineering Journey & Experience
         </h1>
-        <p className="text-base sm:text-lg text-text-secondary max-w-3xl leading-relaxed">
+        <p className="text-sm sm:text-lg text-text-secondary max-w-3xl leading-relaxed">
           A chronological progression from physical systems engineering to distributed & agentic AI architectures—combining mechanical rigor, durable orchestration, and graph-based intelligence.
         </p>
       </header>
 
       {/* Section 1: Work Experience Timeline */}
-      <section aria-labelledby="work-experience-heading" className="space-y-8">
+      <section aria-labelledby="work-experience-heading" className="space-y-6 sm:space-y-8">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary">
-            <Briefcase className="w-5 h-5 text-accent-solid" aria-hidden="true" />
+          <div className="p-2 sm:p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary">
+            <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-accent-solid" aria-hidden="true" />
           </div>
           <div>
-            <h2 id="work-experience-heading" className="text-2xl font-bold tracking-tight text-text-primary">
+            <h2 id="work-experience-heading" className="text-xl sm:text-2xl font-bold tracking-tight text-text-primary">
               Work Experience
             </h2>
             <p className="text-xs font-mono text-text-muted mt-0.5">
@@ -79,16 +79,16 @@ export const ExperienceView: React.FC = () => {
         </div>
 
         {/* Timeline Container */}
-        <div className="relative pl-6 sm:pl-8 border-l border-border-subtle space-y-8">
+        <div className="relative pl-5 sm:pl-8 border-l border-border-subtle space-y-6 sm:space-y-8">
           {workExperience.map((item) => (
             <article
               key={item.id}
               data-testid={`work-item-${item.id}`}
-              className="relative bg-surface border border-border-subtle rounded-lg p-6 space-y-4 hover:border-border-strong transition-all duration-150"
+              className="relative bg-surface border border-border-subtle rounded-lg p-4 sm:p-6 space-y-4 hover:border-border-strong transition-all duration-150"
             >
               {/* Timeline Node Bullet */}
               <div
-                className={`absolute -left-[31px] sm:-left-[39px] top-6 w-3.5 h-3.5 rounded-full border-2 border-canvas ${
+                className={`absolute -left-[27px] sm:-left-[39px] top-5 sm:top-6 w-3.5 h-3.5 rounded-full border-2 border-canvas ${
                   item.isCurrent ? 'bg-accent-solid ring-4 ring-accent-badge-bg' : 'bg-text-muted'
                 }`}
                 aria-hidden="true"
