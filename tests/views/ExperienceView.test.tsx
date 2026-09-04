@@ -131,7 +131,7 @@ describe('ExperienceView Component', () => {
       ).toBeInTheDocument();
     });
 
-    it('renders the IEEE TENCON 2023 publication with conference, title, and external link', () => {
+    it('renders the IEEE TENCON 2023 publication with conference, title, image, and external link', () => {
       renderExperienceView();
       const pubItem = screen.getByTestId('pub-item-tencon-2023');
       expect(pubItem).toBeInTheDocument();
@@ -139,23 +139,29 @@ describe('ExperienceView Component', () => {
       expect(within(pubItem).getByText(/Position Accuracy of a 6-DOF Passive Robotic Arm/i)).toBeInTheDocument();
       expect(within(pubItem).getByText(/IEEE Region 10 Technical Conference \(TENCON 2023\)/i)).toBeInTheDocument();
 
+      const ieeeImage = within(pubItem).getByRole('img');
+      expect(ieeeImage).toHaveAttribute('src', '/assets/IEEE.png');
+
       const paperLink = within(pubItem).getByRole('link', { name: /ieee xplore|read paper|ieee/i });
       expect(paperLink).toHaveAttribute('href', 'https://ieeexplore.ieee.org/document/10349000');
       expect(paperLink).toHaveAttribute('target', '_blank');
     });
 
-    it('renders accolades including Hack2Heal award and UNSW leadership programs', () => {
+    it('renders accolades including Hack2Heal award image and UNSW leadership programs', () => {
       renderExperienceView();
 
       for (const accolade of accolades) {
         const accoladeItem = screen.getByTestId(`accolade-item-${accolade.id}`);
         expect(accoladeItem).toBeInTheDocument();
-        expect(within(accoladeItem).getByText(new RegExp(accolade.title, 'i'))).toBeInTheDocument();
+        expect(within(accoladeItem).getByRole('heading', { name: new RegExp(accolade.title, 'i') })).toBeInTheDocument();
         expect(within(accoladeItem).getByText(new RegExp(accolade.organization, 'i'))).toBeInTheDocument();
       }
 
-      // Hack2Heal link check
+      // Hack2Heal link and image check
       const hack2healItem = screen.getByTestId('accolade-item-hack2heal');
+      const hackImage = within(hack2healItem).getByRole('img');
+      expect(hackImage).toHaveAttribute('src', '/assets/Hack2Heal.png');
+
       const hackLink = within(hack2healItem).getByRole('link', { name: /heal\.a2a\.ing/i });
       expect(hackLink).toHaveAttribute('href', 'https://heal.a2a.ing');
     });

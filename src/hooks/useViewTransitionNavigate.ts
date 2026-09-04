@@ -2,10 +2,11 @@ import React, { createContext, useContext, useState, useCallback } from 'react';
 import { useNavigate, useLocation, type NavigateOptions } from 'react-router-dom';
 import { flushSync } from 'react-dom';
 
-const ROUTE_INDEXES: Record<string, number> = {
-  '/': 0,
-  '/projects': 1,
-  '/experience': 2,
+const getRouteIndex = (path: string): number => {
+  if (path === '/') return 0;
+  if (path.startsWith('/projects')) return 1;
+  if (path.startsWith('/experience')) return 2;
+  return 0;
 };
 
 interface ViewTransitionContextValue {
@@ -41,9 +42,11 @@ export const ViewTransitionProvider: React.FC<{ children: React.ReactNode }> = (
         }
       }
 
+      const fromIndex = getRouteIndex(fromPath);
+      const toIndex = getRouteIndex(toPath);
       let direction: 'slide-left' | 'slide-right' | null = null;
-      if (fromPath in ROUTE_INDEXES && toPath in ROUTE_INDEXES && fromPath !== toPath) {
-        direction = ROUTE_INDEXES[toPath] > ROUTE_INDEXES[fromPath] ? 'slide-left' : 'slide-right';
+      if (fromIndex !== toIndex) {
+        direction = toIndex > fromIndex ? 'slide-left' : 'slide-right';
       }
 
       if (
@@ -122,9 +125,11 @@ export const useViewTransitionNavigate = () => {
       const fromPath = location.pathname;
       const toPath = to.split('?')[0].split('#')[0];
 
+      const fromIndex = getRouteIndex(fromPath);
+      const toIndex = getRouteIndex(toPath);
       let direction: 'slide-left' | 'slide-right' | null = null;
-      if (fromPath in ROUTE_INDEXES && toPath in ROUTE_INDEXES && fromPath !== toPath) {
-        direction = ROUTE_INDEXES[toPath] > ROUTE_INDEXES[fromPath] ? 'slide-left' : 'slide-right';
+      if (fromIndex !== toIndex) {
+        direction = toIndex > fromIndex ? 'slide-left' : 'slide-right';
       }
 
       if (
@@ -170,4 +175,3 @@ export const useActiveTransitionSlug = () => {
 };
 
 export default useViewTransitionNavigate;
-

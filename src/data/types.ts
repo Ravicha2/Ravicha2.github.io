@@ -101,6 +101,8 @@ export interface Project {
   metrics?: string[];
   summary: string;
   caseStudy?: CaseStudyContent;
+  image?: string;
+  imageCaption?: string;
 }
 
 export interface WorkExperience {
@@ -140,6 +142,8 @@ export interface PublicationItem {
   description: string[];
   advisor?: string;
   link?: string;
+  image?: string;
+  imageCaption?: string;
 }
 
 export interface AccoladeItem {
@@ -149,6 +153,8 @@ export interface AccoladeItem {
   date: string;
   description: string;
   link?: string;
+  image?: string;
+  imageCaption?: string;
 }
 
 export interface SkillCategory {

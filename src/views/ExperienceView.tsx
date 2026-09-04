@@ -297,6 +297,23 @@ export const ExperienceView: React.FC = () => {
                   {pub.conference}
                 </p>
 
+                {pub.image && (
+                  <div className="overflow-hidden rounded-md border border-border-subtle bg-canvas">
+                    <img
+                      src={pub.image}
+                      alt={pub.imageCaption || pub.title}
+                      className="w-full h-48 sm:h-56 object-cover object-center hover:scale-[1.02] transition-transform duration-300"
+                      loading="lazy"
+                    />
+                    {pub.imageCaption && (
+                      <div className="px-3 py-1.5 bg-canvas/95 border-t border-border-subtle text-[11px] font-mono text-text-muted flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-accent-solid flex-shrink-0" aria-hidden="true" />
+                        <span className="truncate">{pub.imageCaption}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 <div className="text-xs font-mono text-text-muted space-y-1 bg-canvas p-3 rounded-md border border-border-subtle">
                   <div>
                     <span className="text-text-secondary font-medium">Authors:</span> {pub.authors.join(', ')}
@@ -344,7 +361,7 @@ export const ExperienceView: React.FC = () => {
               <article
                 key={acc.id}
                 data-testid={`accolade-item-${acc.id}`}
-                className="bg-surface border border-border-subtle rounded-lg p-5 space-y-2.5 hover:border-border-strong transition-all duration-150"
+                className="bg-surface border border-border-subtle rounded-lg p-5 space-y-3 hover:border-border-strong transition-all duration-150"
               >
                 <div className="flex items-center justify-between gap-2 flex-wrap">
                   <span className="text-xs font-mono px-2.5 py-0.5 rounded-md bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-semibold">
@@ -356,6 +373,23 @@ export const ExperienceView: React.FC = () => {
                 <h3 className="text-sm font-bold text-text-primary">
                   {acc.title}
                 </h3>
+
+                {acc.image && (
+                  <div className="overflow-hidden rounded-md border border-border-subtle bg-canvas">
+                    <img
+                      src={acc.image}
+                      alt={acc.imageCaption || acc.title}
+                      className="w-full h-40 sm:h-48 object-cover object-top hover:scale-[1.02] transition-transform duration-300"
+                      loading="lazy"
+                    />
+                    {acc.imageCaption && (
+                      <div className="px-3 py-1.5 bg-canvas/95 border-t border-border-subtle text-[11px] font-mono text-text-muted flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-accent-solid flex-shrink-0" aria-hidden="true" />
+                        <span className="truncate">{acc.imageCaption}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 <p className="text-xs text-text-secondary leading-relaxed">
                   {acc.description}

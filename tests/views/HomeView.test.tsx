@@ -14,26 +14,26 @@ describe('HomeView Component', () => {
     );
 
   describe('Hero Narrative Section', () => {
-    it('renders the systems thesis heading and primary role title', () => {
+    it('renders the name, primary role title, and systems thesis heading', () => {
       renderHome();
       expect(screen.getByRole('heading', { level: 1, name: /I design systems that reason, coordinate, and recover/i })).toBeInTheDocument();
-      expect(screen.getByText(/Palm Suksawasdi · Applied AI & Backend Systems Engineer/i)).toBeInTheDocument();
+      expect(screen.getByText(new RegExp(profile.name, 'i'))).toBeInTheDocument();
+      expect(screen.getByText(new RegExp(profile.title, 'i'))).toBeInTheDocument();
     });
 
-    it('renders the status badge indicating graduating Dec 2026 and open to roles', () => {
+    it('renders the narrative summary and explore projects CTA link', () => {
       renderHome();
-      const badge = screen.getByTestId('status-badge');
-      expect(badge).toBeInTheDocument();
-      expect(badge).toHaveTextContent(/Open to full-time/i);
-      expect(badge).toHaveTextContent(/2026/i);
+      expect(screen.getByText(/Building fault-tolerant multi-agent pipelines/i)).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: /explore projects/i })).toHaveAttribute('href', '/projects');
     });
 
-    it('renders the headline and system telemetry row with execution trace simulation', () => {
+    it('renders system status badge and proof tags', () => {
       renderHome();
-      expect(screen.getByText(profile.headline)).toBeInTheDocument();
       expect(screen.getByText(/SYSTEM STATUS/i)).toBeInTheDocument();
-      expect(screen.getByText(/CURRENT MODE/i)).toBeInTheDocument();
-      expect(screen.getByTestId('execution-trace')).toBeInTheDocument();
+      expect(screen.getByText(/Available for difficult problems/i)).toBeInTheDocument();
+      expect(screen.getByText('REASONING')).toBeInTheDocument();
+      expect(screen.getByText('COORDINATION')).toBeInTheDocument();
+      expect(screen.getByText('RECOVERY')).toBeInTheDocument();
     });
 
     it('renders quick contact and social links with accessible attributes', () => {

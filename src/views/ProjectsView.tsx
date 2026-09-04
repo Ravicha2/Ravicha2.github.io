@@ -164,6 +164,24 @@ export const ProjectsView: React.FC = () => {
                     {project.summary}
                   </p>
 
+                  {/* Optional Project Media Asset */}
+                  {project.image && (
+                    <div className="overflow-hidden rounded-md border border-border-subtle bg-canvas">
+                      <img
+                        src={project.image}
+                        alt={project.imageCaption || project.title}
+                        className="w-full h-36 sm:h-44 object-cover object-top hover:scale-[1.02] transition-transform duration-300"
+                        loading="lazy"
+                      />
+                      {project.imageCaption && (
+                        <div className="px-3 py-1 bg-canvas/95 border-t border-border-subtle text-[11px] font-mono text-text-muted flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-accent-solid flex-shrink-0" aria-hidden="true" />
+                          <span className="truncate">{project.imageCaption}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   {/* Highlights / Metrics */}
                   {project.metrics && project.metrics.length > 0 && (
                     <div className="bg-canvas border border-border-subtle rounded-md p-3.5 space-y-2">
