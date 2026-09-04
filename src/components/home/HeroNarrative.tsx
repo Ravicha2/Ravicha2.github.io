@@ -101,12 +101,6 @@ export const HeroNarrative: React.FC = () => {
                   {token}
                 </span>
               ))}
-              {!isComplete && (
-                <span
-                  className="inline-block w-2.5 sm:w-3 h-6 sm:h-8 bg-accent-solid ml-1 align-middle animate-pulse"
-                  aria-hidden="true"
-                />
-              )}
             </h1>
           </div>
 
