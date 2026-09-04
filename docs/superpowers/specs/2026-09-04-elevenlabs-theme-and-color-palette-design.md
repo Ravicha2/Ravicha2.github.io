@@ -1,6 +1,6 @@
 # ElevenLabs Editorial Monochrome Theme Design (Light Mode Only)
 
-This specification defines the visual theme, design tokens, and aesthetic overhaul for the portfolio website inspired by [ElevenLabs](https://elevenlabs.io/), featuring an editorial monochromatic color palette, clean typography, refined surfaces, light-mode-only architecture, and strictly no status tag lines.
+This specification defines the visual theme, design tokens, and aesthetic overhaul for the portfolio website inspired by [ElevenLabs](https://elevenlabs.io/), featuring an editorial monochromatic color palette, clean typography, refined surfaces, light-mode-only architecture, strictly no status tag lines, and absolute layout invariance.
 
 ---
 
@@ -9,8 +9,9 @@ This specification defines the visual theme, design tokens, and aesthetic overha
 1. **Quietly Editorial & Monochromatic**: Drawing inspiration from high-end publications and ElevenLabs' clean web presence, the visual identity is built on high-contrast black ink (`#18181b`) against a warm off-white ivory canvas (`#f7f7f5`).
 2. **Light Mode Only (Zero Dark Mode Ambiguity)**: Single-theme architecture. No dark mode switching, dark class overrides, or dual-theme maintenance. The entire application runs exclusively in a warm, crisp light editorial theme.
 3. **Strictly No Status Tag Line**: Eliminate any status indicators, availability tag lines, or status pills across all views (e.g. no "Open to work", no availability status tag lines).
-4. **Restrained Hairline Structure**: Separation and depth are achieved exclusively with 1px warm hairline borders (`#e8e6e1` subtle, `#d0ccc4` strong) and clean surface contrast (`#ffffff` panels against `#f7f7f5` canvas).
-5. **High-Contrast Ink Actions ("Ink Pills")**: Primary CTAs and action buttons use solid deep ink (`bg-[#18181b] text-white hover:bg-neutral-800`), providing sharp visual hierarchy and tactile precision.
+4. **Strict Layout Invariance (Zero Layout Changes)**: All existing grid structures, responsive layouts, spacing scales, DOM element hierarchies, view transition names, and card dimensions must remain 100% unchanged. Only color tokens, borders, and thematic styling are updated.
+5. **Restrained Hairline Structure**: Separation and depth are achieved exclusively with 1px warm hairline borders (`#e8e6e1` subtle, `#d0ccc4` strong) and clean surface contrast (`#ffffff` panels against `#f7f7f5` canvas).
+6. **High-Contrast Ink Actions ("Ink Pills")**: Primary CTAs and action buttons use solid deep ink (`bg-[#18181b] text-white hover:bg-neutral-800`), providing sharp visual hierarchy and tactile precision.
 
 ---
 
@@ -58,6 +59,7 @@ All colors are unified into a single `:root` token set without `.dark` class ove
 ## 3. Component & Layout Specifications
 
 ### 3.1 Global Header & Navigation (`src/components/layout/AppLayout.tsx`)
+- **Layout**: Unchanged.
 - **Header**: Sticky backdrop blur with `bg-canvas/90 backdrop-blur-md border-b border-border-subtle`.
 - **Brand Name**: "Palm Suksawasdi" in `text-text-primary hover:text-accent-solid font-semibold`.
 - **Active Navigation Pill**: Uses `bg-accent-badge-bg text-accent-badge-text font-semibold border border-border-subtle`.
@@ -65,6 +67,7 @@ All colors are unified into a single `:root` token set without `.dark` class ove
 - **Footer**: `border-t border-border-subtle text-text-muted hover:text-text-primary`.
 
 ### 3.2 Hero Narrative (`src/components/home/HeroNarrative.tsx`)
+- **Layout**: Unchanged.
 - **Top Label**: Clean uppercase mono name and title without any status badges: `Palm Suksawasdi · Applied AI & FullStack Development`.
 - **Title Typing Effect**: Deep ink `#18181b` text with smooth token streaming.
 - **Primary CTA**: "Explore Projects" button with solid ink `bg-accent-solid text-white hover:bg-neutral-800`.
@@ -73,6 +76,7 @@ All colors are unified into a single `:root` token set without `.dark` class ove
 - **Status Tag Line Policy**: **Strictly no status tag line** (no availability badge, no "Open to work" tag).
 
 ### 3.3 Bento Grid & Featured Projects (`src/components/home/BentoGrid.tsx`)
+- **Layout**: Unchanged 2-column bento card grid.
 - **Card Background**: Pure white `bg-surface` with `border border-border-subtle hover:border-border-strong hover:bg-surface-hover/30`.
 - **Category & Timeline**: Category in `font-semibold text-accent-solid` and timeline in `text-text-muted`.
 - **Metric Pill**: `bg-canvas border border-border-subtle text-text-secondary`.
@@ -80,17 +84,20 @@ All colors are unified into a single `:root` token set without `.dark` class ove
 - **Case Study Link**: `text-accent-solid hover:underline` with animated arrow indicator.
 
 ### 3.4 Projects Catalog (`src/views/ProjectsView.tsx`)
+- **Layout**: Unchanged header and 2-column catalog grid.
 - **Category Filter Pills**:
   - Selected / Active: `bg-accent-solid text-white border-accent-solid font-bold`. Count badge in `bg-white text-accent-solid`.
   - Unselected / Inactive: `bg-surface text-text-secondary border-border-subtle hover:text-text-primary hover:bg-surface-hover`.
 - **Project Cards**: Clean white surfaces, subtle borders, high-contrast typography, and external link icons in `text-text-muted hover:text-text-primary`.
 
 ### 3.5 Experience Timeline (`src/views/ExperienceView.tsx`)
+- **Layout**: Unchanged chronological timeline & categorized skills grid.
 - **Timeline Rail**: `border-l border-border-subtle`.
 - **Timeline Bullet Node**: `bg-accent-solid` for active role, `bg-text-muted` for past roles, both with `border-2 border-canvas`.
 - **Tags & Highlights**: Warm neutral pills (`bg-accent-badge-bg text-accent-badge-text border border-border-subtle`).
 
 ### 3.6 Case Study Deep Dives (`src/views/CaseStudyView.tsx`)
+- **Layout**: Unchanged 4-part case study section layout.
 - **Header**: Deep ink title, warm stone summary, mono metadata grid.
 - **CLI Install Box**: `bg-surface border border-border-subtle font-mono text-text-primary`.
 - **Section Cards**: `bg-surface border border-border-subtle`, insight boxes in `bg-canvas border border-border-subtle`.
@@ -109,7 +116,7 @@ All colors are unified into a single `:root` token set without `.dark` class ove
 | `src/views/HomeView.tsx` | Remove residual `dark:*` classes on CTAs. |
 | `src/views/ProjectsView.tsx` | Remove residual `dark:*` classes on filter and CTA buttons. |
 | `src/views/CaseStudyView.tsx` | Remove residual `dark:*` classes on error/back CTA buttons. |
-| `DESIGN.md` | Update design specification to record ElevenLabs Editorial (Light Mode Only, strictly no status tag line). |
+| `DESIGN.md` | Update design specification to record ElevenLabs Editorial (Light Mode Only, strictly no status tag line, strict layout invariance). |
 
 ---
 
@@ -120,5 +127,6 @@ All colors are unified into a single `:root` token set without `.dark` class ove
 2. **Visual Verification**:
    - Inspect build outputs and verify high-contrast contrast ratios against WCAG AAA standards for `#18181b` on `#f7f7f5` / `#ffffff`.
    - Ensure zero status tag lines are rendered.
+   - Verify layout invariance across all 4 routes (`/`, `/projects`, `/projects/:slug`, `/experience`).
 3. **Build & Type Check**:
    - Run `npm run build` (`tsc && vite build`) to ensure clean compilation.
