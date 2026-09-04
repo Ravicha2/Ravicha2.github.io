@@ -42,7 +42,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
 
       <header
         role="banner"
-        className="sticky top-0 z-40 bg-canvas/90 backdrop-blur-md border-b border-border-subtle transition-colors"
+        className="sticky top-0 z-40 bg-canvas/95 border-b border-border-subtle transition-colors"
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <NavLink
@@ -68,7 +68,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
                 className={({ isActive }) =>
                   `px-3.5 py-1.5 text-sm rounded-md transition-all duration-150 focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
                     isActive
-                      ? 'bg-accent-badge-bg text-accent-badge-text font-semibold border border-border-subtle shadow-sm'
+                      ? 'bg-accent-badge-bg text-accent-badge-text font-semibold border border-border-subtle'
                       : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover font-medium border border-transparent'
                   }`
                 }

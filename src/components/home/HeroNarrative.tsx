@@ -1,7 +1,8 @@
 import type React from 'react';
-import { Mail, ArrowRight, Cpu, MapPin } from 'lucide-react';
+import { Mail, ArrowRight, MapPin } from 'lucide-react';
 import { profile } from '../../data/profile';
 import { TransitionLink } from '../common/TransitionLink';
+import { ExecutionTrace } from './ExecutionTrace';
 
 const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg
@@ -39,99 +40,112 @@ const LinkedinIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' 
 export const HeroNarrative: React.FC = () => {
   return (
     <section aria-labelledby="hero-title" className="space-y-8">
-      {/* Header & Status Badge */}
-      <div className="space-y-4">
-        <div className="flex flex-wrap items-center gap-3">
-          <div
-            data-testid="status-badge"
-            className="inline-flex items-center gap-2 px-3 py-1 text-xs font-mono rounded-full bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-medium shadow-sm"
-          >
-            <span className="w-2 h-2 rounded-full bg-accent-solid" aria-hidden="true" />
-            <span>Open to full-time roles (graduating Dec 2026)</span>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+        {/* Left Column: Systems Thesis & Actions */}
+        <div className="lg:col-span-7 space-y-6">
+          {/* Status & Location Pill */}
+          <div className="flex flex-wrap items-center gap-2.5">
+            <div
+              data-testid="status-badge"
+              className="inline-flex items-center gap-2 px-2.5 py-1 text-xs font-mono rounded-md bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-medium"
+            >
+              <span className="w-2 h-2 rounded-full bg-accent-solid animate-pulse" aria-hidden="true" />
+              <span>Open to full-time roles (graduating Dec 2026)</span>
+            </div>
+            <span className="inline-flex items-center gap-1 text-xs font-mono text-text-muted">
+              <MapPin className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
+              {profile.location}
+            </span>
           </div>
-          <span className="inline-flex items-center gap-1 text-xs font-mono text-text-muted">
-            <MapPin className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
-            {profile.location}
-          </span>
+
+          {/* Headline & Systems Thesis */}
+          <div className="space-y-2">
+            <h1
+              id="hero-title"
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-tight"
+            >
+              I design systems that reason, coordinate, and recover.
+            </h1>
+            <p className="text-base sm:text-lg font-semibold text-accent-solid">
+              {profile.name} · {profile.title}
+            </p>
+          </div>
+
+          <p className="text-sm sm:text-base text-text-secondary leading-relaxed max-w-2xl">
+            {profile.headline}
+          </p>
+
+          {/* Compact System Telemetry Row */}
+          <div className="p-3.5 rounded-lg bg-surface border border-border-subtle font-mono text-xs space-y-1.5">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-text-muted">SYSTEM STATUS</span>
+              <span className="text-text-primary font-medium flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
+                <span>available for difficult problems</span>
+              </span>
+            </div>
+            <div className="flex items-center justify-between gap-2 border-t border-border-subtle pt-1.5">
+              <span className="text-text-muted">CURRENT MODE</span>
+              <span className="text-text-primary font-medium">building agentic infrastructure</span>
+            </div>
+          </div>
+
+          {/* Action Links & Social Bar */}
+          <div className="flex flex-wrap items-center gap-3 pt-1">
+            <TransitionLink
+              to="/projects"
+              className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-md bg-accent-solid text-white dark:text-zinc-950 hover:bg-opacity-90 active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm"
+            >
+              <span>Explore Projects</span>
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </TransitionLink>
+
+            <a
+              href={profile.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-md bg-surface text-text-primary border border-border-subtle hover:bg-surface-hover hover:border-border-strong active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+              aria-label="Palm's GitHub profile (opens in a new tab)"
+            >
+              <GithubIcon className="w-4 h-4" />
+              <span>GitHub</span>
+            </a>
+
+            <a
+              href={profile.links.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-md bg-surface text-text-primary border border-border-subtle hover:bg-surface-hover hover:border-border-strong active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+              aria-label="Palm's LinkedIn profile (opens in a new tab)"
+            >
+              <LinkedinIcon className="w-4 h-4" />
+              <span>LinkedIn</span>
+            </a>
+
+            <a
+              href={profile.links.email}
+              className="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-md bg-surface text-text-primary border border-border-subtle hover:bg-surface-hover hover:border-border-strong active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+              aria-label="Send email to Palm"
+            >
+              <Mail className="w-4 h-4 text-accent-solid" aria-hidden="true" />
+              <span>Email</span>
+            </a>
+          </div>
+
+          {/* Proof Words */}
+          <div className="flex items-center gap-2 text-[11px] font-mono text-text-muted tracking-wider pt-1">
+            <span>REASONING</span>
+            <span className="text-accent-solid select-none">·</span>
+            <span>COORDINATION</span>
+            <span className="text-accent-solid select-none">·</span>
+            <span>RECOVERY</span>
+          </div>
         </div>
 
-        <div className="space-y-1.5">
-          <h1
-            id="hero-title"
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-tight"
-          >
-            {profile.name}
-          </h1>
-          <p className="text-lg sm:text-xl font-semibold text-accent-solid">
-            {profile.title}
-          </p>
+        {/* Right Column: Execution Trace Visual */}
+        <div className="lg:col-span-5 w-full">
+          <ExecutionTrace />
         </div>
-
-        <p className="text-base sm:text-lg text-text-secondary leading-relaxed max-w-3xl">
-          {profile.headline}
-        </p>
-      </div>
-
-      {/* Automotive to AI: Engineering Philosophy Narrative Card */}
-      <div className="bg-surface border border-border-subtle rounded-lg p-6 sm:p-7 space-y-4 shadow-sm hover:border-border-strong transition-colors">
-        <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-text-muted pb-2 border-b border-border-subtle">
-          <Cpu className="w-4 h-4 text-accent-solid" aria-hidden="true" />
-          <span className="font-semibold text-text-primary">The Engineering Pivot · Automotive to AI</span>
-        </div>
-
-        <div className="space-y-3.5 text-sm sm:text-base text-text-secondary leading-relaxed">
-          <p>
-            Originally trained in <strong className="text-text-primary font-semibold">Automotive Design & Manufacturing Engineering</strong> at Chulalongkorn University, I spent years designing physical structures where material stress limits, fluid dynamics, and catastrophic failure modes were absolute.
-          </p>
-          <p>
-            During an IoT exchange at <strong className="text-text-primary font-semibold">IMT Atlantique</strong> in France right as modern LLMs took off, I witnessed how software intelligence could revolutionize engineered systems. That pivotal moment sparked my decisive transition to Computer Science and Applied AI.
-          </p>
-          <p>
-            Today, I bring that physical engineering rigor to AI: treating non-deterministic models as <span className="text-text-primary font-semibold">untrusted components</span> within deterministic software architecture. Rather than relying on fragile single-prompt scripts, I engineer fault-tolerant multi-agent orchestrations, graph-based compliance verifiers, schema-safe distributed pipelines, and durable execution state machines.
-          </p>
-        </div>
-      </div>
-
-      {/* Action Links & Social Bar */}
-      <div className="flex flex-wrap items-center gap-3 pt-1">
-        <TransitionLink
-          to="/projects"
-          className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-md bg-accent-solid text-white hover:bg-opacity-90 active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm"
-        >
-          <span>Explore Projects</span>
-          <ArrowRight className="w-4 h-4" aria-hidden="true" />
-        </TransitionLink>
-
-        <a
-          href={profile.links.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-md bg-surface text-text-primary border border-border-subtle hover:bg-surface-hover hover:border-border-strong active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm"
-          aria-label="Palm's GitHub profile (opens in a new tab)"
-        >
-          <GithubIcon className="w-4 h-4" />
-          <span>GitHub</span>
-        </a>
-
-        <a
-          href={profile.links.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-md bg-surface text-text-primary border border-border-subtle hover:bg-surface-hover hover:border-border-strong active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm"
-          aria-label="Palm's LinkedIn profile (opens in a new tab)"
-        >
-          <LinkedinIcon className="w-4 h-4" />
-          <span>LinkedIn</span>
-        </a>
-
-        <a
-          href={profile.links.email}
-          className="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-md bg-surface text-text-primary border border-border-subtle hover:bg-surface-hover hover:border-border-strong active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm"
-          aria-label="Send email to Palm"
-        >
-          <Mail className="w-4 h-4 text-accent-solid" aria-hidden="true" />
-          <span>Email</span>
-        </a>
       </div>
     </section>
   );

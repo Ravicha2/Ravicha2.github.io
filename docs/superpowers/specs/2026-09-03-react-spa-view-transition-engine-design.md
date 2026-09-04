@@ -130,3 +130,4 @@ The objective is to deliver a native app-like visual experience with sub-100ms p
    - Verifying keyframes and pseudo-element rules in `src/styles/index.css` and `src/styles/accessibility.css`.
 4. **Full Test Suite & Build Verification**:
    - Run `npm test` and `npm run build` to confirm 100% test pass rate and clean compilation.
+

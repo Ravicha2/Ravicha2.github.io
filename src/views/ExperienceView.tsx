@@ -50,7 +50,7 @@ export const ExperienceView: React.FC = () => {
     <div className="space-y-16">
       {/* Page Header */}
       <header className="space-y-4 border-b border-border-subtle pb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-badge-bg border border-border-subtle text-accent-badge-text text-xs font-mono font-medium shadow-sm">
+        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-accent-badge-bg border border-border-subtle text-accent-badge-text text-xs font-mono font-medium">
           <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
           <span>Career & Education Timeline</span>
         </div>
@@ -65,7 +65,7 @@ export const ExperienceView: React.FC = () => {
       {/* Section 1: Work Experience Timeline */}
       <section aria-labelledby="work-experience-heading" className="space-y-8">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary shadow-sm">
+          <div className="p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary">
             <Briefcase className="w-5 h-5 text-accent-solid" aria-hidden="true" />
           </div>
           <div>
@@ -84,11 +84,11 @@ export const ExperienceView: React.FC = () => {
             <article
               key={item.id}
               data-testid={`work-item-${item.id}`}
-              className="relative bg-surface border border-border-subtle rounded-lg p-6 space-y-4 shadow-sm hover:border-border-strong transition-all duration-150"
+              className="relative bg-surface border border-border-subtle rounded-lg p-6 space-y-4 hover:border-border-strong transition-all duration-150"
             >
               {/* Timeline Node Bullet */}
               <div
-                className={`absolute -left-[31px] sm:-left-[39px] top-6 w-3.5 h-3.5 rounded-full border-2 border-canvas shadow-sm ${
+                className={`absolute -left-[31px] sm:-left-[39px] top-6 w-3.5 h-3.5 rounded-full border-2 border-canvas ${
                   item.isCurrent ? 'bg-accent-solid ring-4 ring-accent-badge-bg' : 'bg-text-muted'
                 }`}
                 aria-hidden="true"
@@ -102,7 +102,7 @@ export const ExperienceView: React.FC = () => {
                       {item.role}
                     </h3>
                     {item.isCurrent && (
-                      <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-semibold">
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-semibold">
                         Current Role
                       </span>
                     )}
@@ -117,7 +117,7 @@ export const ExperienceView: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1.5 text-xs font-mono text-text-muted bg-canvas px-2.5 py-1 rounded-md border border-border-subtle self-start sm:self-auto shadow-sm">
+                <div className="flex items-center gap-1.5 text-xs font-mono text-text-muted bg-canvas px-2.5 py-1 rounded-md border border-border-subtle self-start sm:self-auto">
                   <Calendar className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                   <span>{item.period}</span>
                 </div>
@@ -137,13 +137,13 @@ export const ExperienceView: React.FC = () => {
               <div className="space-y-3 pt-2">
                 {item.highlights && item.highlights.length > 0 && (
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-text-muted">
+                    <span className="text-[11px] font-mono font-medium text-text-muted">
                       Key Highlights:
                     </span>
                     {item.highlights.map((highlight, idx) => (
                       <span
                         key={idx}
-                        className="inline-flex items-center gap-1 text-xs font-mono px-2.5 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-medium"
+                        className="inline-flex items-center gap-1 text-xs font-mono px-2.5 py-0.5 rounded-md bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-medium"
                       >
                         <CheckCircle2 className="w-3 h-3 text-accent-solid" aria-hidden="true" />
                         <span>{highlight}</span>
@@ -158,7 +158,7 @@ export const ExperienceView: React.FC = () => {
                     {item.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-[11px] font-mono px-2 py-0.5 rounded bg-surface-hover text-text-secondary border border-border-subtle"
+                        className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-surface-hover text-text-secondary border border-border-subtle"
                       >
                         {tag}
                       </span>
@@ -188,7 +188,7 @@ export const ExperienceView: React.FC = () => {
       {/* Section 2: Education */}
       <section aria-labelledby="education-heading" className="space-y-8">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary shadow-sm">
+          <div className="p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary">
             <GraduationCap className="w-5 h-5 text-accent-solid" aria-hidden="true" />
           </div>
           <div>
@@ -206,7 +206,7 @@ export const ExperienceView: React.FC = () => {
             <article
               key={edu.id}
               data-testid={`edu-item-${edu.id}`}
-              className="bg-surface border border-border-subtle rounded-lg p-6 space-y-4 shadow-sm hover:border-border-strong transition-all duration-150"
+              className="bg-surface border border-border-subtle rounded-lg p-6 space-y-4 hover:border-border-strong transition-all duration-150"
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border-subtle pb-4">
                 <div>
@@ -225,11 +225,11 @@ export const ExperienceView: React.FC = () => {
 
                 <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
                   {edu.grade && (
-                    <span className="text-xs font-mono px-2.5 py-1 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-semibold">
+                    <span className="text-xs font-mono px-2.5 py-1 rounded-md bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-semibold">
                       {edu.grade}
                     </span>
                   )}
-                  <span className="text-xs font-mono text-text-muted bg-canvas px-2.5 py-1 rounded-md border border-border-subtle flex items-center gap-1.5 shadow-sm">
+                  <span className="text-xs font-mono text-text-muted bg-canvas px-2.5 py-1 rounded-md border border-border-subtle flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                     <span>{edu.period}</span>
                   </span>
@@ -238,7 +238,7 @@ export const ExperienceView: React.FC = () => {
 
               {edu.field && (
                 <div className="text-xs font-mono text-text-muted">
-                  <span className="uppercase tracking-wider font-semibold">Field of Study:</span>{' '}
+                  <span className="font-semibold">Field of Study:</span>{' '}
                   <span className="text-text-primary font-medium">{edu.field}</span>
                 </div>
               )}
@@ -259,7 +259,7 @@ export const ExperienceView: React.FC = () => {
       {/* Section 3: Publications & Accolades */}
       <section aria-labelledby="publications-accolades-heading" className="space-y-8">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary shadow-sm">
+          <div className="p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary">
             <Award className="w-5 h-5 text-accent-solid" aria-hidden="true" />
           </div>
           <div>
@@ -278,11 +278,11 @@ export const ExperienceView: React.FC = () => {
             <article
               key={pub.id}
               data-testid={`pub-item-${pub.id}`}
-              className="bg-surface border border-border-subtle rounded-lg p-6 space-y-4 flex flex-col justify-between shadow-sm hover:border-border-strong transition-all duration-150"
+              className="bg-surface border border-border-subtle rounded-lg p-6 space-y-4 flex flex-col justify-between hover:border-border-strong transition-all duration-150"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-2 flex-wrap">
-                  <span className="text-xs font-mono px-2.5 py-1 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-semibold flex items-center gap-1.5">
+                  <span className="text-xs font-mono px-2.5 py-1 rounded-md bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-semibold flex items-center gap-1.5">
                     <BookOpen className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                     <span>IEEE Publication</span>
                   </span>
@@ -344,10 +344,10 @@ export const ExperienceView: React.FC = () => {
               <article
                 key={acc.id}
                 data-testid={`accolade-item-${acc.id}`}
-                className="bg-surface border border-border-subtle rounded-lg p-5 space-y-2.5 shadow-sm hover:border-border-strong transition-all duration-150"
+                className="bg-surface border border-border-subtle rounded-lg p-5 space-y-2.5 hover:border-border-strong transition-all duration-150"
               >
                 <div className="flex items-center justify-between gap-2 flex-wrap">
-                  <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-semibold">
+                  <span className="text-xs font-mono px-2.5 py-0.5 rounded-md bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-semibold">
                     {acc.organization}
                   </span>
                   <span className="text-xs font-mono text-text-muted">{acc.date}</span>
@@ -389,7 +389,7 @@ export const ExperienceView: React.FC = () => {
         className="space-y-8"
       >
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary shadow-sm">
+          <div className="p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary">
             <Code2 className="w-5 h-5 text-accent-solid" aria-hidden="true" />
           </div>
           <div>
@@ -407,7 +407,7 @@ export const ExperienceView: React.FC = () => {
             <div
               key={group.category}
               data-testid={`skill-group-${group.category.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
-              className="bg-surface border border-border-subtle rounded-lg p-5 space-y-3.5 shadow-sm hover:border-border-strong transition-all duration-150"
+              className="bg-surface border border-border-subtle rounded-lg p-5 space-y-3.5 hover:border-border-strong transition-all duration-150"
             >
               <div className="flex items-center gap-2 border-b border-border-subtle pb-2.5">
                 {getCategoryIcon(group.category)}

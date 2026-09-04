@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -14,6 +14,8 @@ import {
   CheckCircle2,
   Sparkles,
   Cpu,
+  Copy,
+  Check,
 } from 'lucide-react';
 import { getProjectBySlug } from '../data/projects';
 import { TransitionLink } from '../components/common/TransitionLink';
@@ -37,11 +39,18 @@ const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' })
 export const CaseStudyView: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const project = slug ? getProjectBySlug(slug) : undefined;
+  const [copiedCli, setCopiedCli] = useState(false);
+
+  const handleCopyCli = () => {
+    navigator.clipboard.writeText('uvx lit-review-council');
+    setCopiedCli(true);
+    setTimeout(() => setCopiedCli(false), 2000);
+  };
 
   if (!project) {
     return (
       <div className="space-y-6 py-16 text-center max-w-lg mx-auto">
-        <div className="inline-flex p-3.5 rounded-full bg-surface border border-border-subtle text-text-muted shadow-sm">
+        <div className="inline-flex p-3.5 rounded-lg bg-surface border border-border-subtle text-text-muted">
           <AlertTriangle className="w-8 h-8 text-accent-solid" aria-hidden="true" />
         </div>
         <h1 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
@@ -53,7 +62,7 @@ export const CaseStudyView: React.FC = () => {
         <div className="pt-4">
           <TransitionLink
             to="/projects"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent-solid text-white text-sm font-semibold hover:bg-opacity-90 active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent-solid text-white dark:text-zinc-950 text-sm font-semibold hover:bg-opacity-90 active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm"
           >
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             <span>Back to Projects</span>
@@ -84,12 +93,12 @@ export const CaseStudyView: React.FC = () => {
         className="space-y-6 border-b border-border-subtle pb-8"
       >
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs font-mono font-medium px-2.5 py-1 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
+          <span className="text-xs font-mono font-medium px-2.5 py-1 rounded-md bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
             {project.categoryLabel}
           </span>
           <span className="text-xs font-mono text-text-muted">{project.timeline}</span>
           {project.featured && (
-            <span className="text-xs font-mono px-2 py-0.5 rounded bg-surface-hover text-text-muted border border-border-subtle font-medium">
+            <span className="text-xs font-mono px-2 py-0.5 rounded-md bg-surface-hover text-text-muted border border-border-subtle font-medium">
               Flagship Deep Dive
             </span>
           )}
@@ -104,14 +113,43 @@ export const CaseStudyView: React.FC = () => {
           </p>
         </div>
 
-        <p className="text-base sm:text-lg text-text-secondary max-w-4xl leading-relaxed">
+        <p className="text-base sm:text-lg text-text-secondary max-w-3xl leading-relaxed">
           {project.summary}
         </p>
 
+        {/* PyPI Quick Install Command Box (if applicable) */}
+        {project.slug === 'lit-review-council' && (
+          <div className="flex items-center justify-between gap-3 p-3.5 rounded-lg bg-surface border border-border-subtle font-mono text-xs">
+            <div className="flex items-center gap-2">
+              <Terminal className="w-4 h-4 text-accent-solid" aria-hidden="true" />
+              <span className="text-text-muted select-none">$</span>
+              <span className="text-text-primary font-semibold">uvx lit-review-council</span>
+            </div>
+            <button
+              type="button"
+              onClick={handleCopyCli}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+              aria-label="Copy CLI command to clipboard"
+            >
+              {copiedCli ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
+                  <span className="text-accent-solid">Copied</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5" aria-hidden="true" />
+                  <span>Copy</span>
+                </>
+              )}
+            </button>
+          </div>
+        )}
+
         {/* Metadata Bar */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-5 rounded-lg bg-surface border border-border-subtle shadow-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-5 rounded-lg bg-surface border border-border-subtle">
           <div>
-            <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-text-muted block">
+            <span className="text-[11px] font-mono font-medium text-text-muted block">
               Role & Context
             </span>
             <span className="text-xs font-semibold text-text-primary mt-1 block">
@@ -120,7 +158,7 @@ export const CaseStudyView: React.FC = () => {
           </div>
 
           <div>
-            <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-text-muted block">
+            <span className="text-[11px] font-mono font-medium text-text-muted block">
               Timeline
             </span>
             <span className="text-xs font-mono text-text-primary mt-1 block">
@@ -129,7 +167,7 @@ export const CaseStudyView: React.FC = () => {
           </div>
 
           <div className="sm:col-span-2 lg:col-span-2">
-            <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-text-muted block">
+            <span className="text-[11px] font-mono font-medium text-text-muted block">
               Key Artifacts & Links
             </span>
             <div className="flex items-center gap-2 flex-wrap mt-1.5">
@@ -138,7 +176,7 @@ export const CaseStudyView: React.FC = () => {
                   href={project.links.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
                 >
                   <GithubIcon className="w-3.5 h-3.5" />
                   <span>GitHub</span>
@@ -149,7 +187,7 @@ export const CaseStudyView: React.FC = () => {
                   href={project.links.demo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
                   <span>Live Demo</span>
@@ -160,7 +198,7 @@ export const CaseStudyView: React.FC = () => {
                   href={project.links.pypi}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
                 >
                   <Terminal className="w-3.5 h-3.5" />
                   <span>PyPI Package</span>
@@ -171,7 +209,7 @@ export const CaseStudyView: React.FC = () => {
                   href={project.links.video}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
                 >
                   <Video className="w-3.5 h-3.5" />
                   <span>Video Demo</span>
@@ -182,7 +220,7 @@ export const CaseStudyView: React.FC = () => {
                   href={project.links.paper}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
                 >
                   <FileText className="w-3.5 h-3.5" />
                   <span>IEEE Paper</span>
@@ -194,14 +232,14 @@ export const CaseStudyView: React.FC = () => {
 
         {/* Tech Stack Pills */}
         <div className="space-y-2">
-          <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-text-muted block">
+          <span className="text-[11px] font-mono font-medium text-text-muted block">
             Technology Stack & Tools
           </span>
           <div className="flex flex-wrap gap-1.5">
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-xs font-mono px-2.5 py-0.5 rounded bg-surface text-text-secondary border border-border-subtle"
+                className="text-xs font-mono px-2.5 py-0.5 rounded-md bg-surface text-text-secondary border border-border-subtle"
               >
                 {tag}
               </span>
@@ -212,14 +250,14 @@ export const CaseStudyView: React.FC = () => {
         {/* Highlight Metrics */}
         {project.metrics && project.metrics.length > 0 && (
           <div className="space-y-2">
-            <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-text-muted block">
+            <span className="text-[11px] font-mono font-medium text-text-muted block">
               Key Metrics & Milestones
             </span>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               {project.metrics.map((metric, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center gap-2 p-3 rounded-md bg-canvas border border-border-subtle text-xs font-mono text-text-secondary shadow-sm"
+                  className="flex items-center gap-2 p-3 rounded-md bg-canvas border border-border-subtle text-xs font-mono text-text-secondary"
                 >
                   <Activity className="w-3.5 h-3.5 text-accent-solid flex-shrink-0" aria-hidden="true" />
                   <span>{metric}</span>
@@ -238,17 +276,12 @@ export const CaseStudyView: React.FC = () => {
             aria-labelledby="section-intuition"
             className="space-y-4 border-b border-border-subtle pb-8"
           >
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-medium px-2 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
-                Part 01
-              </span>
-              <h2
-                id="section-intuition"
-                className="text-2xl font-bold tracking-tight text-text-primary"
-              >
-                Core Intuition & Friction
-              </h2>
-            </div>
+            <h2
+              id="section-intuition"
+              className="text-2xl font-bold tracking-tight text-text-primary"
+            >
+              Core Intuition & Friction
+            </h2>
             {cs.intuition.summary && (
               <p className="text-sm font-medium text-text-muted italic leading-relaxed">
                 "{cs.intuition.summary}"
@@ -257,10 +290,10 @@ export const CaseStudyView: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
               {/* The Spark */}
-              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-2.5 shadow-sm">
+              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-2.5">
                 <div className="flex items-center gap-2 text-xs font-mono text-text-primary">
                   <Lightbulb className="w-4 h-4 text-accent-solid" aria-hidden="true" />
-                  <span className="font-semibold uppercase tracking-wider">The Spark & Initial Hypothesis</span>
+                  <span className="font-semibold">The Spark & Initial Hypothesis</span>
                 </div>
                 <p className="text-sm text-text-secondary leading-relaxed">
                   {cs.intuition.spark}
@@ -268,10 +301,10 @@ export const CaseStudyView: React.FC = () => {
               </div>
 
               {/* The Naive Failure Mode */}
-              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-2.5 shadow-sm">
+              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-2.5">
                 <div className="flex items-center gap-2 text-xs font-mono text-text-primary">
                   <AlertTriangle className="w-4 h-4 text-accent-solid" aria-hidden="true" />
-                  <span className="font-semibold uppercase tracking-wider">The Naive Failure Mode</span>
+                  <span className="font-semibold">The Naive Failure Mode</span>
                 </div>
                 <p className="text-sm text-text-secondary leading-relaxed">
                   {cs.intuition.naiveFailureMode}
@@ -285,25 +318,20 @@ export const CaseStudyView: React.FC = () => {
             aria-labelledby="section-problem"
             className="space-y-4 border-b border-border-subtle pb-8"
           >
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-medium px-2 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
-                Part 02
-              </span>
-              <h2
-                id="section-problem"
-                className="text-2xl font-bold tracking-tight text-text-primary"
-              >
-                The Root Problem Encountered
-              </h2>
-            </div>
+            <h2
+              id="section-problem"
+              className="text-2xl font-bold tracking-tight text-text-primary"
+            >
+              The Root Problem Encountered
+            </h2>
             <p className="text-sm sm:text-base text-text-secondary leading-relaxed max-w-3xl">
               {cs.problemEncountered.summary}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
               {/* Edge Cases & Failure Points */}
-              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-3 shadow-sm">
-                <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-primary flex items-center gap-2 border-b border-border-subtle pb-2">
+              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-3">
+                <h3 className="text-xs font-mono font-semibold text-text-primary flex items-center gap-2 border-b border-border-subtle pb-2">
                   <AlertTriangle className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                   <span>Edge Cases & Failure Points</span>
                 </h3>
@@ -318,8 +346,8 @@ export const CaseStudyView: React.FC = () => {
               </div>
 
               {/* Hard Constraints */}
-              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-3 shadow-sm">
-                <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-primary flex items-center gap-2 border-b border-border-subtle pb-2">
+              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-3">
+                <h3 className="text-xs font-mono font-semibold text-text-primary flex items-center gap-2 border-b border-border-subtle pb-2">
                   <ShieldCheck className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                   <span>Hard Technical Constraints</span>
                 </h3>
@@ -340,23 +368,18 @@ export const CaseStudyView: React.FC = () => {
             aria-labelledby="section-architecture"
             className="space-y-6 border-b border-border-subtle pb-8"
           >
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-medium px-2 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
-                Part 03
-              </span>
-              <h2
-                id="section-architecture"
-                className="text-2xl font-bold tracking-tight text-text-primary"
-              >
-                Why Built This Way (Architectural Decisions & Trade-offs)
-              </h2>
-            </div>
+            <h2
+              id="section-architecture"
+              className="text-2xl font-bold tracking-tight text-text-primary"
+            >
+              Why Built This Way (Architectural Decisions & Trade-offs)
+            </h2>
 
             {/* Architectural Insight */}
-            <div className="p-5 rounded-lg bg-canvas border border-border-subtle space-y-2 shadow-sm">
+            <div className="p-5 rounded-lg bg-canvas border border-border-subtle space-y-2">
               <div className="flex items-center gap-2 text-xs font-mono text-accent-solid">
                 <Cpu className="w-4 h-4" aria-hidden="true" />
-                <span className="font-semibold uppercase tracking-wider">Key Architectural Insight</span>
+                <span className="font-semibold">Key Architectural Insight</span>
               </div>
               <p className="text-sm sm:text-base text-text-secondary leading-relaxed">
                 {cs.whyBuiltThisWay.architecturalInsight}
@@ -365,7 +388,7 @@ export const CaseStudyView: React.FC = () => {
 
             {/* Trade-Off Analysis */}
             <div className="space-y-3">
-              <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-muted flex items-center gap-2">
+              <h3 className="text-xs font-mono font-semibold text-text-muted flex items-center gap-2">
                 <Layers className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                 <span>Trade-Off Analysis (Why X over Y)</span>
               </h3>
@@ -373,14 +396,14 @@ export const CaseStudyView: React.FC = () => {
                 {cs.whyBuiltThisWay.tradeOffs.map((tradeOff, idx) => (
                   <div
                     key={idx}
-                    className="p-5 rounded-lg bg-surface border border-border-subtle space-y-2 shadow-sm"
+                    className="p-5 rounded-lg bg-surface border border-border-subtle space-y-2"
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-border-subtle pb-2">
                       <h4 className="text-sm font-bold text-text-primary">
                         {tradeOff.decision}
                       </h4>
                       {tradeOff.vsAlternative && (
-                        <span className="text-[11px] font-mono text-text-muted bg-surface-hover px-2 py-0.5 rounded border border-border-subtle self-start sm:self-auto">
+                        <span className="text-[11px] font-mono text-text-muted bg-surface-hover px-2 py-0.5 rounded-md border border-border-subtle self-start sm:self-auto">
                           vs. {tradeOff.vsAlternative}
                         </span>
                       )}
@@ -396,11 +419,11 @@ export const CaseStudyView: React.FC = () => {
             {/* Guardrails & Defensive Design */}
             {cs.whyBuiltThisWay.guardrails && cs.whyBuiltThisWay.guardrails.length > 0 && (
               <div className="space-y-3">
-                <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-muted flex items-center gap-2">
+                <h3 className="text-xs font-mono font-semibold text-text-muted flex items-center gap-2">
                   <ShieldCheck className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                   <span>Guardrails & Defensive Design</span>
                 </h3>
-                <div className="p-4 rounded-lg bg-surface border border-border-subtle shadow-sm">
+                <div className="p-4 rounded-lg bg-surface border border-border-subtle">
                   <ul className="space-y-2">
                     {cs.whyBuiltThisWay.guardrails.map((guardrail, idx) => (
                       <li key={idx} className="flex items-start gap-2 text-xs font-mono text-text-secondary leading-relaxed">
@@ -419,22 +442,17 @@ export const CaseStudyView: React.FC = () => {
             aria-labelledby="section-outcomes"
             className="space-y-6 pb-4"
           >
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-medium px-2 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
-                Part 04
-              </span>
-              <h2
-                id="section-outcomes"
-                className="text-2xl font-bold tracking-tight text-text-primary"
-              >
-                Outcomes, Verification & Key Takeaways
-              </h2>
-            </div>
+            <h2
+              id="section-outcomes"
+              className="text-2xl font-bold tracking-tight text-text-primary"
+            >
+              Outcomes, Verification & Key Takeaways
+            </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Verification Benchmarks */}
-              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-3 shadow-sm">
-                <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-primary flex items-center gap-2 border-b border-border-subtle pb-2">
+              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-3">
+                <h3 className="text-xs font-mono font-semibold text-text-primary flex items-center gap-2 border-b border-border-subtle pb-2">
                   <ShieldCheck className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                   <span>Verification Benchmarks</span>
                 </h3>
@@ -449,8 +467,8 @@ export const CaseStudyView: React.FC = () => {
               </div>
 
               {/* Real-World Impact */}
-              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-3 shadow-sm">
-                <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-primary flex items-center gap-2 border-b border-border-subtle pb-2">
+              <div className="p-5 rounded-lg bg-surface border border-border-subtle space-y-3">
+                <h3 className="text-xs font-mono font-semibold text-text-primary flex items-center gap-2 border-b border-border-subtle pb-2">
                   <Sparkles className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                   <span>Real-World Impact</span>
                 </h3>
@@ -466,10 +484,10 @@ export const CaseStudyView: React.FC = () => {
             </div>
 
             {/* Engineering Takeaway Box */}
-            <div className="p-5 rounded-lg bg-canvas border border-border-subtle space-y-2 shadow-sm">
+            <div className="p-5 rounded-lg bg-canvas border border-border-subtle space-y-2">
               <div className="flex items-center gap-2 text-xs font-mono text-accent-solid">
                 <Lightbulb className="w-4 h-4" aria-hidden="true" />
-                <span className="font-semibold uppercase tracking-wider">Core Engineering Takeaway</span>
+                <span className="font-semibold">Core Engineering Takeaway</span>
               </div>
               <p className="text-sm sm:text-base font-semibold text-text-primary leading-relaxed">
                 {cs.outcomes.takeaway}
@@ -478,7 +496,7 @@ export const CaseStudyView: React.FC = () => {
           </section>
         </div>
       ) : (
-        <div className="p-6 rounded-lg bg-surface border border-border-subtle space-y-4 shadow-sm">
+        <div className="p-6 rounded-lg bg-surface border border-border-subtle space-y-4">
           <h2 className="text-lg font-bold text-text-primary">Direct Technical Summary</h2>
           <p className="text-sm text-text-secondary leading-relaxed">{project.summary}</p>
         </div>

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   ArrowUpRight,
   ExternalLink,
@@ -30,8 +31,13 @@ const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' })
 );
 
 export const ProjectsView: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<ProjectCategory | 'all'>('all');
+  const [searchParams, setSearchParams] = useSearchParams();
   const activeSlug = useActiveTransitionSlug();
+
+  const categoryParam = searchParams.get('category') as ProjectCategory | null;
+  const validCategoryIds = projectCategories.map((c) => c.id);
+  const selectedCategory: ProjectCategory | 'all' =
+    categoryParam && validCategoryIds.includes(categoryParam) ? categoryParam : 'all';
 
   const filteredProjects = getProjectsByCategory(selectedCategory);
 
@@ -40,11 +46,23 @@ export const ProjectsView: React.FC = () => {
     return projects.filter((p) => p.category === categoryId).length;
   };
 
+  const handleSelectCategory = (categoryId: ProjectCategory | 'all') => {
+    if (categoryId === 'all') {
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete('category');
+      setSearchParams(newParams, { replace: true });
+    } else {
+      const newParams = new URLSearchParams(searchParams);
+      newParams.set('category', categoryId);
+      setSearchParams(newParams, { replace: true });
+    }
+  };
+
   return (
     <div className="space-y-10">
       {/* Page Header */}
       <header className="space-y-4 border-b border-border-subtle pb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-badge-bg border border-border-subtle text-accent-badge-text text-xs font-mono font-medium shadow-sm">
+        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-accent-badge-bg border border-border-subtle text-accent-badge-text text-xs font-mono font-medium">
           <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
           <span>Technical Portfolio & Case Studies</span>
         </div>
@@ -71,18 +89,18 @@ export const ProjectsView: React.FC = () => {
                   key={category.id}
                   type="button"
                   aria-pressed={isSelected}
-                  onClick={() => setSelectedCategory(category.id)}
-                  className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-mono font-semibold transition-all duration-150 border focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm ${
+                  onClick={() => handleSelectCategory(category.id)}
+                  className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-mono font-semibold transition-all duration-150 border focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
                     isSelected
-                      ? 'bg-accent-solid text-white border-accent-solid'
+                      ? 'bg-accent-solid text-white dark:text-zinc-950 border-accent-solid font-bold'
                       : 'bg-surface text-text-secondary border-border-subtle hover:text-text-primary hover:bg-surface-hover hover:border-border-strong'
                   }`}
                 >
                   <span>{category.label}</span>
                   <span
-                    className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold ${
+                    className={`text-[10px] px-1.5 py-0.2 rounded font-mono font-bold ${
                       isSelected
-                        ? 'bg-white text-accent-solid'
+                        ? 'bg-white dark:bg-zinc-950 text-accent-solid'
                         : 'bg-canvas text-text-muted border border-border-subtle'
                     }`}
                   >
@@ -106,17 +124,17 @@ export const ProjectsView: React.FC = () => {
                 key={project.slug}
                 data-testid={`project-card-${project.slug}`}
                 style={activeSlug === project.slug ? { viewTransitionName: `project-card-${project.slug}` } : undefined}
-                className="group/card bg-surface border border-border-subtle rounded-lg p-6 flex flex-col justify-between hover:border-border-strong transition-all duration-150 shadow-sm"
+                className="group/card bg-surface border border-border-subtle rounded-lg p-6 flex flex-col justify-between hover:border-border-strong transition-all duration-150"
               >
                 <div className="space-y-4">
                   {/* Category, Badge & Timeline */}
                   <div className="flex items-center justify-between gap-2 flex-wrap">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-mono font-medium px-2.5 py-0.5 rounded bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
+                      <span className="text-xs font-mono font-medium px-2.5 py-0.5 rounded-md bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
                         {project.categoryLabel}
                       </span>
                       {hasCaseStudy && (
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-surface-hover text-text-muted border border-border-subtle font-medium">
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-surface-hover text-text-muted border border-border-subtle font-medium">
                           Case Study
                         </span>
                       )}
@@ -149,7 +167,7 @@ export const ProjectsView: React.FC = () => {
                   {/* Highlights / Metrics */}
                   {project.metrics && project.metrics.length > 0 && (
                     <div className="bg-canvas border border-border-subtle rounded-md p-3.5 space-y-2">
-                      <div className="flex items-center gap-1.5 text-[11px] font-mono font-semibold uppercase tracking-wider text-text-muted">
+                      <div className="flex items-center gap-1.5 text-[11px] font-mono font-semibold text-text-muted">
                         <Activity className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                         <span>Key Highlights</span>
                       </div>
@@ -169,7 +187,7 @@ export const ProjectsView: React.FC = () => {
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-[11px] font-mono px-2 py-0.5 rounded bg-surface-hover text-text-secondary border border-border-subtle"
+                        className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-surface-hover text-text-secondary border border-border-subtle"
                       >
                         {tag}
                       </span>

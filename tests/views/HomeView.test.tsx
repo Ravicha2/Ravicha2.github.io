@@ -14,10 +14,10 @@ describe('HomeView Component', () => {
     );
 
   describe('Hero Narrative Section', () => {
-    it('renders Palm\'s name and primary role title', () => {
+    it('renders the systems thesis heading and primary role title', () => {
       renderHome();
-      expect(screen.getByRole('heading', { level: 1, name: /Palm Suksawasdi/i })).toBeInTheDocument();
-      expect(screen.getByText(/Applied AI & Backend Systems Engineer/i)).toBeInTheDocument();
+      expect(screen.getByRole('heading', { level: 1, name: /I design systems that reason, coordinate, and recover/i })).toBeInTheDocument();
+      expect(screen.getByText(/Palm Suksawasdi · Applied AI & Backend Systems Engineer/i)).toBeInTheDocument();
     });
 
     it('renders the status badge indicating graduating Dec 2026 and open to roles', () => {
@@ -28,12 +28,12 @@ describe('HomeView Component', () => {
       expect(badge).toHaveTextContent(/2026/i);
     });
 
-    it('renders the headline and narrative storytelling pivot from automotive to AI', () => {
+    it('renders the headline and system telemetry row with execution trace simulation', () => {
       renderHome();
       expect(screen.getByText(profile.headline)).toBeInTheDocument();
-      // Storytelling pivot mentioning automotive background
-      expect(screen.getAllByText(/Automotive/i).length).toBeGreaterThanOrEqual(1);
-      expect(screen.getByText(/IMT Atlantique/i)).toBeInTheDocument();
+      expect(screen.getByText(/SYSTEM STATUS/i)).toBeInTheDocument();
+      expect(screen.getByText(/CURRENT MODE/i)).toBeInTheDocument();
+      expect(screen.getByTestId('execution-trace')).toBeInTheDocument();
     });
 
     it('renders quick contact and social links with accessible attributes', () => {

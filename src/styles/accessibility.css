@@ -2,7 +2,7 @@
 
 :focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px #fafafa, 0 0 0 4px #1e40af;
+  box-shadow: 0 0 0 2px var(--bg-canvas), 0 0 0 4px var(--accent-solid);
 }
 
 @media (prefers-reduced-motion: reduce) {
