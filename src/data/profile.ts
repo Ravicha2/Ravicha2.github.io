@@ -4,9 +4,9 @@ export const profile: Profile = {
   name: 'Palm Suksawasdi',
   preferredName: 'Palm',
   fullName: 'Ravicha Suksawasdi Na Ayuthaya',
-  title: 'Applied AI & Backend Systems Engineer',
+  title: 'Applied AI & FullStack Development',
   headline: 'Building fault-tolerant multi-agent pipelines, GraphRAG memory systems, and distributed data engines.',
-  status: 'Master of IT Candidate at UNSW Sydney (WAM 83 / Distinction, graduating Dec 2026) · Open to full-time Applied AI & Backend Systems roles.',
+  status: 'Master of IT at UNSW Sydney (WAM 83 / Distinction, graduating Dec 2026) · Open to full-time Applied AI & Backend Systems roles.',
   location: 'Sydney, Australia',
   email: 'rsuksawasdi@gmail.com',
   links: {

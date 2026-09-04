@@ -42,7 +42,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
 
       <header
         role="banner"
-        className="sticky top-0 z-40 bg-canvas/95 border-b border-border-subtle transition-colors"
+        className="sticky top-0 z-40 bg-canvas/95 border-b border-border-subtle transition-colors bg-white/95"
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <NavLink

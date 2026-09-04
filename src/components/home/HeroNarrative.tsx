@@ -39,18 +39,6 @@ const LinkedinIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' 
 export const HeroNarrative: React.FC = () => {
   return (
     <section aria-labelledby="hero-title" className="space-y-6 pt-2 pb-6">
-      {/* Status Row */}
-      <div className="flex flex-wrap items-center gap-2">
-        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-accent-badge-bg border border-border-subtle text-accent-badge-text text-xs font-mono font-medium">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-solid opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-solid" />
-          </span>
-          <span>SYSTEM STATUS</span>
-          <span className="text-text-muted">·</span>
-          <span className="text-text-primary font-semibold">Available for difficult problems</span>
-        </div>
-      </div>
 
       {/* Heading and Thesis */}
       <div className="space-y-3">
@@ -72,24 +60,6 @@ export const HeroNarrative: React.FC = () => {
       <p className="text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl text-pretty">
         Building fault-tolerant multi-agent pipelines, GraphRAG memory systems, and distributed data engines. Master of IT candidate at UNSW Sydney.
       </p>
-
-      {/* 3 Quiet Proof Markers */}
-      <div className="flex items-center gap-3 pt-1 text-xs font-mono text-text-muted">
-        <span className="flex items-center gap-1">
-          <Terminal className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
-          <strong className="font-semibold text-text-primary">REASONING</strong>
-        </span>
-        <span>·</span>
-        <span className="flex items-center gap-1">
-          <Activity className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
-          <strong className="font-semibold text-text-primary">COORDINATION</strong>
-        </span>
-        <span>·</span>
-        <span className="flex items-center gap-1">
-          <ShieldCheck className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
-          <strong className="font-semibold text-text-primary">RECOVERY</strong>
-        </span>
-      </div>
 
       {/* Action Links & Social Bar */}
       <div className="flex flex-wrap items-center gap-3 pt-2">
