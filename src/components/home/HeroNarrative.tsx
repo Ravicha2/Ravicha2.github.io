@@ -1,5 +1,5 @@
 import type React from 'react';
-import { Mail, ArrowRight, ShieldCheck, Activity, Terminal } from 'lucide-react';
+import { Mail, ArrowRight } from 'lucide-react';
 import { profile } from '../../data/profile';
 import { TransitionLink } from '../common/TransitionLink';
 
@@ -39,27 +39,26 @@ const LinkedinIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' 
 export const HeroNarrative: React.FC = () => {
   return (
     <section aria-labelledby="hero-title" className="space-y-6 pt-2 pb-6">
-
       {/* Heading and Thesis */}
       <div className="space-y-3">
-        <div className="flex items-center gap-2 text-xs font-mono text-text-muted tracking-wider uppercase">
+        {/* <div className="flex items-center gap-2 text-xs font-mono text-text-muted tracking-wider uppercase">
           <span>{profile.name}</span>
           <span>·</span>
           <span className="text-accent-solid font-semibold">{profile.title}</span>
-        </div>
+        </div> */}
 
         <h1
           id="hero-title"
           className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-[1.1] text-balance max-w-2xl"
         >
-          I design systems that reason, coordinate, and recover.
+          I like building Agentic Software.
         </h1>
       </div>
 
-      {/* Core Systems Narrative */}
+      {/* Core Systems Narrative
       <p className="text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl text-pretty">
         Building fault-tolerant multi-agent pipelines, GraphRAG memory systems, and distributed data engines. Master of IT candidate at UNSW Sydney.
-      </p>
+      </p> */}
 
       {/* Action Links & Social Bar */}
       <div className="flex flex-wrap items-center gap-3 pt-2">

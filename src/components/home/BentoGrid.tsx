@@ -1,5 +1,5 @@
 import type React from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import { featuredProjects } from '../../data/projects';
 import { TransitionLink } from '../common/TransitionLink';
 import { useActiveTransitionSlug } from '../../hooks/useViewTransitionNavigate';
@@ -15,7 +15,7 @@ export const BentoGrid: React.FC = () => {
             Featured Case Studies
           </h2>
           <p className="text-sm text-text-secondary mt-1">
-            Deep-dive architectures, failure mode mitigations, and verified outcomes.
+            Production systems, GraphRAG architectures, and verified outcomes.
           </p>
         </div>
         <TransitionLink
@@ -27,75 +27,66 @@ export const BentoGrid: React.FC = () => {
         </TransitionLink>
       </div>
 
-      <div data-testid="bento-grid" className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div data-testid="bento-grid" className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {featuredProjects.map((project) => (
           <article
             key={project.slug}
             data-testid={`bento-card-${project.slug}`}
             style={activeSlug === project.slug ? { viewTransitionName: `project-card-${project.slug}` } : undefined}
-            className="group/card bg-surface border border-border-subtle rounded-lg p-6 flex flex-col justify-between hover:border-border-strong transition-all duration-150 md:col-span-1"
+            className="group/card bg-surface border border-border-subtle rounded-lg p-5 sm:p-6 flex flex-col justify-between hover:border-border-strong hover:bg-surface-hover/30 transition-all duration-150"
           >
-            <div className="space-y-4">
-              {/* Header metadata */}
-              <div className="flex items-center justify-between gap-2 flex-wrap">
-                <span className="text-xs font-mono font-medium px-2.5 py-0.5 rounded-md bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
+            <div className="space-y-3.5">
+              {/* Header: Category & Timeline */}
+              <div className="flex items-center justify-between gap-2 text-xs font-mono">
+                <span className="font-semibold text-accent-solid">
                   {project.categoryLabel}
                 </span>
-                <span className="text-xs font-mono text-text-muted">{project.timeline}</span>
+                <span className="text-text-muted">{project.timeline}</span>
               </div>
 
-              {/* Title & Role */}
-              <div className="space-y-1">
-                <h3 className="text-xl font-bold text-text-primary tracking-tight">
-                  <TransitionLink
-                    to={`/projects/${project.slug}`}
-                    className="hover:text-accent-solid transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded"
-                  >
-                    {project.title}
-                  </TransitionLink>
-                </h3>
-                <p className="text-xs font-mono font-medium text-text-muted">{project.role}</p>
-              </div>
+              {/* Title */}
+              <h3 className="text-lg sm:text-xl font-bold text-text-primary tracking-tight">
+                <TransitionLink
+                  to={`/projects/${project.slug}`}
+                  className="hover:text-accent-solid transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded"
+                >
+                  {project.title}
+                </TransitionLink>
+              </h3>
 
-              {/* Technical Summary */}
-              <p className="text-sm text-text-secondary leading-relaxed">
+              {/* Single High-Signal Problem & Solution Line */}
+              <p className="text-sm text-text-secondary leading-relaxed line-clamp-2">
                 {project.summary}
               </p>
 
-              {/* Single Quantified Proof Metric */}
+              {/* Single Quantified ROI Metric */}
               {project.metrics && project.metrics.length > 0 && (
-                <div className="flex items-start gap-2 text-xs font-mono text-text-secondary pt-1">
-                  <span className="text-accent-solid font-bold select-none">↓</span>
-                  <span>{project.metrics[0]}</span>
+                <div className="inline-flex items-center gap-2 px-2.5 py-1 text-xs text-bold rounded bg-canvas border border-border-subtle font-mono text-text-secondary">
+                  <span className="font-medium text-text-primary">{project.metrics[0]}</span>
                 </div>
               )}
+            </div>
 
-              {/* Curated Tech Stack Pills */}
-              <div className="flex flex-wrap gap-1.5 pt-1">
-                {project.tags.slice(0, 4).map((tag) => (
+            {/* Card Footer: Tech Stack Pills & Action */}
+            <div className="pt-4 mt-4 border-t border-border-subtle flex items-center justify-between gap-2">
+              <div className="flex flex-wrap gap-1.5">
+                {project.tags.slice(0, 3).map((tag) => (
                   <span
                     key={tag}
-                    className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-surface-hover text-text-secondary border border-border-subtle"
+                    className="text-[11px] font-mono px-2 py-0.5 rounded bg-surface-hover text-text-muted border border-border-subtle"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
-            </div>
 
-            {/* Card Actions Footer */}
-            <div className="pt-4 mt-5 border-t border-border-subtle flex items-center justify-between">
               <TransitionLink
                 to={`/projects/${project.slug}`}
-                className="group/link inline-flex items-center gap-1.5 text-sm font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1 py-0.5"
+                className="group/link inline-flex items-center gap-1 text-xs font-mono font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1 py-0.5 flex-shrink-0"
               >
-                <span>Read Case Study</span>
-                <ArrowUpRight className="w-4 h-4 transition-transform group-link:hover:translate-x-0.5 group-link:hover:-translate-y-0.5" aria-hidden="true" />
+                <span>Case Study</span>
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-link:hover:translate-x-0.5" aria-hidden="true" />
               </TransitionLink>
-
-              <span className="text-xs font-mono text-text-muted">
-                System trace →
-              </span>
             </div>
           </article>
         ))}
