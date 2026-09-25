@@ -18,14 +18,16 @@ export const workExperience: WorkExperience[] = [
     endDate: '2026-09',
     isCurrent: false,
     description: [
-      'Contributed to backend services, MCP, and AI agent integrations.',
-      'Collaborated with engineering on development and reliable service infrastructure.',
+      'Built a Google ADK pipeline that extracts and classifies procurement documents in production, feeding insights into downstream agent workflows and the memory system.',
+      'Designed and deployed an MCP-exposed Documenso signing service, giving agents autonomous document-signing capability.',
+      'Automated end-to-end tender submission through MCP tools, replacing a manual multi-step process for agents.',
     ],
     highlights: [
-      'Backend systems & API integration',
-      'Agentic workflow development',
+      'Google ADK document pipeline in production',
+      'MCP-exposed autonomous signing service',
+      'End-to-end tender submission automation',
     ],
-    tags: ['TypeScript', 'Node.js', 'AI Agents', 'Backend Systems'],
+    tags: ['Google ADK', 'MCP', 'TypeScript', 'Node.js', 'AI Agents', 'Backend Systems'],
   },
   {
     id: 'nodesnow',

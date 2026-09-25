@@ -1,0 +1,35 @@
+<!doctype html>
+<!--
+  Source for public/apple-touch-icon.png. The mark itself is public/favicon.svg —
+  one definition of the glyph, stretched to the icon size here.
+
+  Chrome sizes a standalone SVG document by its own default replaced-element box,
+  not the viewport, so screenshotting favicon.svg directly renders it small in a
+  white page. An explicit 180x180 <img> in an HTML page is deterministic.
+
+  iOS applies its own corner mask, so the tile stays square.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/src/styles/tokens.css" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 180px;
+        height: 180px;
+        background: var(--text-primary);
+      }
+      img {
+        display: block;
+        width: 180px;
+        height: 180px;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="/public/favicon.svg" alt="" />
+  </body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "geist sans",
+        "createdAt": "2026-09-25T11:58:26.496Z",
+        "reason": "Inherited site typeface, not chosen here: src/styles/fonts.css already declares Geist Sans for the whole site and index.html preloads it; issue #13 requires the card set in the site's own world."
+      },
+      {
+        "rule": "overused-font",
+        "value": "geist mono",
+        "createdAt": "2026-09-25T11:58:26.528Z",
+        "reason": "Same: Geist Mono is the site's declared mono face in src/styles/fonts.css and carries every measured value; the card's URL line must match it."
+      }
+    ]
+  }
+}

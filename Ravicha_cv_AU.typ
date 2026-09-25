@@ -40,7 +40,7 @@ Aug 2019 - Aug 2023, Mechanical Engineering, Electrical Engineering, and Project
 = Work Experience
 
 *Software Engineer Intern, Tendor, Australia*, Jul 2026 - Sep 2026
-- Built a Google ADK pipeline that extracts and classifies procurement documents in production, feeding insights downstream agent workflows and memory system.
+- Built a Google ADK pipeline that extracts and classifies procurement documents in production, feeding insights into downstream agent workflows and the memory system.
 - Designed and deployed an MCP-exposed Documenso signing service, giving agents autonomous document-signing capability.
 - Automated end-to-end tender submission through MCP tools, replacing a manual multi-step process for agents.
 

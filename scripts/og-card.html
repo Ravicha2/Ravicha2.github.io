@@ -1,0 +1,83 @@
+<!doctype html>
+<!--
+  Source for public/og-image.png. Rendered by scripts/build-og-image.mjs, never
+  shipped: it lives outside public/ so vite does not copy it into dist.
+
+  Colour comes from the real token files by link, not from literals, so issue #22
+  replacing the palette changes this card on re-run instead of leaving it frozen
+  in a superseded world. The portrait is placed whole (no crop), so the face
+  cannot be cut off regardless of where the subject sits in the frame.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/src/styles/fonts.css" />
+    <link rel="stylesheet" href="/src/styles/tokens.css" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        box-sizing: border-box;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        position: relative;
+        padding: 72px;
+        background: var(--bg-canvas);
+        color: var(--text-primary);
+        font-family: 'Geist Sans', system-ui, sans-serif;
+      }
+      .name {
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 1.1;
+        letter-spacing: -0.025em;
+      }
+      .headline {
+        margin: 20px 0 0;
+        max-width: 616px;
+        font-size: 30px;
+        font-weight: 400;
+        line-height: 1.38;
+        letter-spacing: -0.01em;
+        color: var(--text-secondary);
+      }
+      .rule {
+        margin-top: 36px;
+        width: 616px;
+        height: 1px;
+        background: var(--border-subtle);
+      }
+      .url {
+        position: absolute;
+        left: 72px;
+        bottom: 72px;
+        font-family: 'Geist Mono', monospace;
+        font-size: 19px;
+        letter-spacing: 0.01em;
+        color: var(--text-muted);
+      }
+      .portrait {
+        position: absolute;
+        right: 72px;
+        bottom: 72px;
+        width: 420px;
+        height: 280px;
+        border: 1px solid var(--border-subtle);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="name">Palm Suksawasdi</div>
+    <p class="headline">
+      Building fault-tolerant multi-agent pipelines, GraphRAG memory systems, and distributed data
+      engines.
+    </p>
+    <div class="rule"></div>
+    <div class="url">ravicha2.github.io</div>
+    <img class="portrait" src="/public/assets/Hero.jpeg" alt="" />
+  </body>
+</html>

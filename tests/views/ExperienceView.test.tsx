@@ -59,7 +59,7 @@ describe('ExperienceView Component', () => {
       renderExperienceView();
 
       const tendorCard = screen.getByTestId('work-item-tendor');
-      expect(within(tendorCard).getByText(/Contributed to backend services, MCP, and AI agent integrations/i)).toBeInTheDocument();
+      expect(within(tendorCard).getByText(/Google ADK pipeline that extracts and classifies procurement documents/i)).toBeInTheDocument();
 
       const nodesNowCard = screen.getByTestId('work-item-nodesnow');
       expect(within(nodesNowCard).getByText(/fault-tolerant AI agent orchestration system using Inngest/i)).toBeInTheDocument();

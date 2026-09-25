@@ -148,7 +148,7 @@ Every case study is structured to reveal the engineer's problem-solving process:
 ## 5. Supporting Experience & Accolades
 
 ### 5.1 Additional Applied AI Projects
-* **Tendor (Software Engineer Intern, Jul 2026 – Present)**:
+* **Tendor (Software Engineer Intern, Jul 2026 – Sep 2026)**:
   - *Problem*: Procurement documents are complex, non-standard PDFs requiring multi-pass extraction and human sign-off.
   - *Solution*: Google ADK extraction pipeline + Documenso e-signing service exposed as MCP tools for agent workflows.
 * **Chatbot Agent with DB Tools ([github.com/Ravicha2/node-api](https://github.com/Ravicha2/node-api))**: Conversational agent with dynamic tool invocation and database management.

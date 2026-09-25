@@ -61,7 +61,10 @@ failure modes treated as absolute, not as edge cases.
 - **Employer IP boundary.** The Tendor internship ran Jul 2026 – 22 Sep 2026 and
   is complete. An IP agreement with Tendor restricts showing that work, and
   Tendor work materials must be removed from local machines. The employer name,
-  role, and a general description may remain on the site.
+  role, and a description of the work shipped — the Google ADK document
+  pipeline, the MCP-exposed signing service, and tender submission automation —
+  may remain on the site, kept in step with `Ravicha_cv_AU.typ`. No Tendor
+  artifacts, repos, or metrics.
 - **Dual publication.** Content ships twice: human surfaces (React SPA) and
   static machine-readable files (`public/llms.txt`, `public/llms-full.txt`,
   `sitemap.xml`, `robots.txt`, JSON-LD). The two must stay in sync — the machine
