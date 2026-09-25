@@ -28,6 +28,24 @@ export const projects: Project[] = [
       { value: '88,508 nodes', label: 'Architectural Decision Graph parsed from that repository' },
       { value: '5 repos / 63 units', label: 'benchmark gold set behind those detections' },
     ],
+    proof: {
+      kind: 'table',
+      repo: 'Ravicha2/Shepherd',
+      commit: 'e4d177fb173631f378010f416dc9ae18b3eb32ec',
+      path: 'benchmark/reports/2026-09-17T20-09-41/AGGREGATE.md',
+      from: 13,
+      to: 19,
+      settles:
+        'False positives fall from 66 to 33 across the four-repo benchmark while detection holds at 17 exact units.',
+      quote: `| repo | base FP (zero/has) | new r1 | new r2 | worst (zero/has) | excl. tooling edges | detection violation e/p/m |
+|---|---|---|---|---|---|---|
+| python-tuf | 4 (3/1) | 1 (1/0) | 4 (4/0) | 4 (4/0) | 0 | 6/0/0 (base 6/0/0) |
+| flowkit | 45 (43/2) | 14 (12/2) | 15 (12/3) | **15 (12/3)** | 32 / 40 | r1 6/0/6, r2 9/0/3 (base 9/0/3) |
+| experimenter | 10 (8/2) | 14 (12/2) | 13 (12/1) | **14 (12/2)** | 1 / 0 | 1/0/17 (base 0/0/18) |
+| structurizr-python | 7 (7/0) | 0 (0/0) | 0 (0/0) | **0 (0/0)** | 13 / 13 | 4/0/2 (base 4/0/2) |
+| **total** | **66 (61/5)** | | | **33 (28/5)** | | **17/0/25** (base 19/0/23) |`,
+    },
+    proofLine: '4-repo benchmark · FP 66 → 33 · detection 17 exact / 0 partial / 25 miss',
     summary:
       'End-to-end ADR violation detector for AI-generated code, ingesting source ASTs and architectural markdown documents into a Neo4j property graph to catch multi-file constraint conflicts.',
     caseStudy: {
@@ -111,6 +129,28 @@ export const projects: Project[] = [
       { value: '3–5 s', label: 'Spark JVM startup per task avoided by the singleton session (ADR 0004)' },
       { value: '5', label: 'documented architectural decision records (0001–0005)' },
     ],
+    proof: {
+      kind: 'capture',
+      repo: 'Ravicha2/NL2REGEX',
+      commit: '9c9fe8a506b03c9df43aa7a09b663b465f62ccff',
+      path: 'backend/tests/jobs/tests_regex_safety.py',
+      from: 16,
+      to: 26,
+      settles:
+        'The ReDoS sandbox is load-bearing, not decorative: both catastrophic-backtracking patterns raise instead of hanging the worker.',
+      quote: `    def test_catastrophic_backtracking_regex_times_out(self):
+        # (a+)+b on all-'a' string forces exponential backtracking (no 'b' to match)
+        pattern = r"(a+)+b"
+        with self.assertRaises(RegexSafetyError):
+            LLMRegexService.validate_regex_safety(pattern)
+
+    def test_nested_quantifier_backtracking(self):
+        # Another pathological pattern: (a|a)* on repeated 'a's
+        pattern = r"(a|a)*b"
+        with self.assertRaises(RegexSafetyError):
+            LLMRegexService.validate_regex_safety(pattern)`,
+    },
+    proofLine: '172 backend tests · ADR 0004 pays JVM startup once per worker, not per task',
     summary:
       'Distributed natural language to regex engine that transforms complex tabular dataset patterns using plain English, backed by PySpark and Celery with schema-validated triage.',
     caseStudy: {
@@ -199,6 +239,64 @@ export const projects: Project[] = [
       { value: '8', label: 'durable Inngest steps across 4 worker functions, each retryable on its own' },
       { value: '2 stores', label: 'pgvector embeddings and Neo4j graph entities, written per step' },
     ],
+    proof: {
+      kind: "trace",
+      repo: 'Ravicha2/document-ingestion-agent',
+      commit: 'a698cbf6840da87341e68e86fb5593847555e525',
+      path: 'backend/src/inngest/functions/ingestion.ts',
+      from: 24,
+      to: 70,
+      settles:
+        "Every stage is its own durable step, so a failure at one resumes there rather than restarting the run.",
+      quote: `            const extractionResult = await step.run("extract-chunks", async () => {
+                await publish({
+                    channel: channelName,
+                    topic: "progress",
+                    data: { status: "PROCESSING", action: "SPLITTING",message: "Parsing PDF...", percent: 10 }
+                });
+                
+                return await agentService.run(filePath);
+            });
+
+            const rawChunks = extractionResult.chunks || [];
+            if (rawChunks.length === 0) {
+                 return { success: false, message: "No text found in PDF" };
+            }
+
+            // 2. Save Initial Chunks to DB (Text only, Embedding is NULL)
+            const chunkIds = await step.run("save-initial-chunks", async () => {
+                const ids = await toolsService.saveInitChunks(rawChunks, runId, filePath);
+                return ids;
+            });
+
+            // 3. Create Batches
+            const BATCH_SIZE = 10; 
+            const idBatches = batchArray(chunkIds, BATCH_SIZE);
+
+            const events = idBatches.flatMap((batchOfIds, index) => {
+                const payload = {
+                  runId, 
+                  chunkIds: batchOfIds, 
+                  batchIndex: index,
+                  totalBatches: idBatches.length,
+                  channelName 
+                };
+              
+                return [
+                  {
+                    name: "app/rag.process_vector_batch",
+                    data: payload
+                  },
+                  {
+                    name: "app/rag.process_graph_batch",
+                    data: payload
+                  }
+                ];
+              });
+            // 5. Notify Client of "Queued" Status
+            await step.sendEvent("dispatch-parallel-jobs", events);`,
+    },
+    proofLine: '8 durable steps / 4 worker functions · each stage retries alone',
     summary:
       'Production-grade event-driven AI ingestion engine using Inngest durable steps, NestJS, and dual pgvector/Neo4j storage to eliminate orphaned state during multi-stage document processing.',
     caseStudy: {
@@ -283,6 +381,41 @@ export const projects: Project[] = [
       { value: '3', label: 'independent reviewer agents ranked by Borda count' },
       { value: '2', label: 'research tracks per topic: academic (ArXiv/OpenAlex) and practitioner (GitHub)' },
     ],
+    proof: {
+      kind: "capture",
+      repo: 'Ravicha2/lit-review-council',
+      commit: '40c4c19711067bd182a6465184585697e5723403',
+      path: 'src/scoring.py',
+      from: 12,
+      to: 35,
+      settles:
+        "Consensus is a counted Borda tally over named reviewers, not a model asked to agree with itself.",
+      quote: `def tally_ensemble_rankings(rankings: List[Optional[Any]]) -> Tuple[str, List[str]]:
+    """
+    Applies Borda count (2 pts for 1st, 1 pt for 2nd) and returns the winning label 
+    and the list of rationale strings.
+    """
+    scores = {"A": 0, "B": 0}
+    reasons = []
+    
+    reviewers = ["Researcher", "Engineer", "Architect"]
+    
+    for i, r_obj in enumerate(rankings):
+        reviewer_name = reviewers[i] if i < len(reviewers) else f"Reviewer_{i}"
+        
+        if r_obj:
+            lst = r_obj.ranking if hasattr(r_obj, "ranking") else r_obj.get("ranking", [])
+            rat = r_obj.rationale if hasattr(r_obj, "rationale") else r_obj.get("rationale", "")
+            if lst and len(lst) >= 1:
+                # 1st place gets 2 points, 2nd gets 1 point
+                if lst[0] in scores: scores[lst[0]] += 2
+                if len(lst) > 1 and lst[1] in scores: scores[lst[1]] += 1
+            reasons.append(f"{reviewer_name} rationale: {rat}")
+
+    top_label = "A" if scores["A"] >= scores["B"] else "B"
+    return top_label, reasons`,
+    },
+    proofLine: '3 reviewers · Borda 2/1 tally · winner returned with every rationale',
     summary:
       'Multi-agent research synthesis engine and Model Context Protocol (MCP) server that orchestrates parallel academic and practitioner research with Borda-count consensus.',
     caseStudy: {

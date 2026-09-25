@@ -1,0 +1,207 @@
+/* The Tolerance Frame sheet.
+ *
+ * Three things live here and nothing else:
+ *   1. the rule vocabulary — how a claim is marked verified / asserted / failed
+ *      by line weight and style, never by colour;
+ *   2. the plotter pass — one ordered draw on first paint, geometry reserved;
+ *   3. scroll-driven reading — native CSS scroll timelines, never JS.
+ */
+
+/* ---------------------------------------------------------------------------
+ * 1. Rule vocabulary
+ *
+ * Solid = verified. Dashed = asserted. Heavy double = failed. Colour is a
+ * redundant second channel on the failed rule only, so the three stay
+ * distinguishable with colour disabled (WCAG 1.4.1 by construction).
+ * ------------------------------------------------------------------------- */
+
+.rule-verified {
+  border-top: 2px solid var(--ink);
+}
+
+.rule-asserted {
+  border-top: 2px dashed var(--ink);
+}
+
+.rule-failed {
+  border-top: 6px double var(--nonconform);
+}
+
+/* A rule that is the claim's own underline rather than a section boundary. */
+.rule-thin {
+  border-top: 1px solid var(--ink);
+}
+
+.rule-annotate {
+  border-top: 1px solid var(--annotate);
+}
+
+/* ---------------------------------------------------------------------------
+ * 1b. The reading measure
+ *
+ * The sheet is wide because artifacts are: a benchmark table and a quoted source
+ * range both want every pixel. Prose does not — it was measured at 85-121
+ * characters per line across nine firings, which is past the point where the eye
+ * loses the line. So the sheet stays wide and prose alone is held to a measure.
+ * ------------------------------------------------------------------------- */
+
+.measure {
+  max-width: 66ch;
+}
+
+/* An interval dimension: the line, with a tick at each end. */
+.dimension {
+  position: relative;
+  height: 1px;
+  background: var(--ink);
+}
+
+.dimension::before,
+.dimension::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  width: 1px;
+  height: 9px;
+  background: var(--ink);
+}
+
+.dimension::before {
+  left: 0;
+}
+
+.dimension::after {
+  right: 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * 2. The plotter pass
+ *
+ * Every drawn element is transform-animated from a zero scale, so the geometry
+ * is reserved before the pass runs and nothing reflows. The pass is ordered by
+ * `--plot-delay` and runs exactly once (`iteration-count` defaults to 1).
+ *
+ * Under `prefers-reduced-motion` none of this applies, and the sheet is simply
+ * already drawn.
+ * ------------------------------------------------------------------------- */
+
+.plot {
+  transform-origin: left center;
+}
+
+.plot-v {
+  transform-origin: center top;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .plot {
+    animation: plot-x 420ms cubic-bezier(0.25, 0.8, 0.25, 1) both;
+    animation-delay: var(--plot-delay, 0ms);
+  }
+
+  .plot-v {
+    animation-name: plot-y;
+  }
+
+  .plot-pop {
+    animation: plot-pop 200ms ease-out both;
+    animation-delay: var(--plot-delay, 0ms);
+  }
+}
+
+@keyframes plot-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes plot-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes plot-pop {
+  from {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * 3. Scroll-driven reading
+ *
+ * The four-part case study is already a sequence, so scroll drives it: each
+ * block arrives as the claim it settles is discussed, and the block crossing the
+ * reading band takes the heavy rule while everything else recedes to a thin
+ * annotate rule.
+ *
+ * Both animations are inside `@supports (animation-timeline: view())` and
+ * `prefers-reduced-motion: no-preference`, so a browser that supports neither
+ * renders the finished, complete document — the content never depends on the
+ * animation to be readable. `animation-duration: 1ms` is set for Firefox, which
+ * will otherwise fall back to a 0s duration and skip the animation entirely.
+ * ------------------------------------------------------------------------- */
+
+/* Transform only, deliberately. An opacity fade was measured on the built site
+ * at 0.67 mid-range, which takes --annotate to 3.59:1 on the sheet — the reading
+ * band is exactly where the text is dimmed, and the floor is 7:1 at every scroll
+ * position, not only at the ends of the animation. Motion is a redundant second
+ * channel here; it never carries readability. */
+@keyframes reveal-on-scroll {
+  from {
+    transform: translateY(14px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* ponytail: the emphasis rule is a view() timeline on each block, so two blocks
+   can overlap in the band on a short viewport. Swap to a scroll-timeline driver
+   if the overlap ever reads wrong. */
+@keyframes emphasis-on-scroll {
+  from {
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: var(--annotate);
+  }
+  to {
+    border-top-width: 3px;
+    border-top-style: solid;
+    border-top-color: var(--ink);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-on-scroll linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 32%;
+      animation-duration: 1ms;
+    }
+
+    /* The emphasis rule is out of flow, so growing it reflows nothing. */
+    .claim-rule {
+      position: absolute;
+      inset-inline: 0;
+      top: 0;
+      border-top: 1px solid var(--annotate);
+      animation: emphasis-on-scroll linear both;
+      animation-timeline: view();
+      animation-range: cover 22% cover 50%;
+      animation-duration: 1ms;
+    }
+  }
+}

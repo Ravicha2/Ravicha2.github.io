@@ -5,21 +5,15 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Geist Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        mono: ['"Geist Mono"', 'monospace'],
+        sans: ['Barlow', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        mono: ['Iosevka', 'ui-monospace', 'monospace'],
       },
       colors: {
-        canvas: 'var(--bg-canvas)',
-        surface: 'var(--bg-surface)',
-        'surface-hover': 'var(--bg-surface-hover)',
-        'border-subtle': 'var(--border-subtle)',
-        'border-strong': 'var(--border-strong)',
-        'text-primary': 'var(--text-primary)',
-        'text-secondary': 'var(--text-secondary)',
-        'text-muted': 'var(--text-muted)',
-        'accent-solid': 'var(--accent-solid)',
-        'accent-badge-bg': 'var(--accent-badge-bg)',
-        'accent-badge-text': 'var(--accent-badge-text)',
+        sheet: 'var(--sheet)',
+        panel: 'var(--panel)',
+        ink: 'var(--ink)',
+        annotate: 'var(--annotate)',
+        nonconform: 'var(--nonconform)',
       },
     },
   },

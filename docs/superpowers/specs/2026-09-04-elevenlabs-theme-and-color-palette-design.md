@@ -1,5 +1,11 @@
 # ElevenLabs Editorial Monochrome Theme Design (Light Mode Only)
 
+> **SUPERSEDED.** This specification is a historical record. The palette, the
+> typography, and the layout-invariance rule it defines were replaced by the
+> Tolerance Frame world (`.impeccable/surfaces/index-html.md`). The live design
+> authority is [DESIGN.md](../../../DESIGN.md); the shipped tokens are
+> `src/styles/tokens.css`. Nothing here should be implemented again.
+
 This specification defines the visual theme, design tokens, and aesthetic overhaul for the portfolio website inspired by [ElevenLabs](https://elevenlabs.io/), featuring an editorial monochromatic color palette, clean typography, refined surfaces, light-mode-only architecture, strictly no status tag lines, and absolute layout invariance.
 
 ---

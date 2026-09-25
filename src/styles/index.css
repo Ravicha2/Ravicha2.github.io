@@ -1,15 +1,16 @@
 @import './fonts.css';
 @import './tokens.css';
 @import './accessibility.css';
+@import './sheet.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  background-color: var(--bg-canvas, #fafafa);
-  color: var(--text-primary, #09090b);
-  font-family: 'Geist Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--sheet, #ffffff);
+  color: var(--ink, #0d1013);
+  font-family: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
@@ -19,14 +20,14 @@ body {
 /* Typographic Polish */
 h1, h2, h3 {
   text-wrap: balance;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 p {
   text-wrap: pretty;
 }
 
-/* View Transition Keyframes and Mechanics (DESIGN.md §3.2) */
+/* View Transition Keyframes and Mechanics */
 @keyframes fade-out {
   from {
     opacity: 1;

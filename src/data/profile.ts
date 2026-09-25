@@ -4,7 +4,9 @@ export const profile: Profile = {
   name: 'Palm Suksawasdi',
   preferredName: 'Palm',
   fullName: 'Ravicha Suksawasdi Na Ayuthaya',
-  title: 'Applied AI & FullStack Development',
+  // Matches the jobTitle in index.html's JSON-LD. Two titles for the same person
+  // is one claim too many.
+  title: 'Applied AI & Backend Systems Engineer',
   headline: 'Building fault-tolerant multi-agent pipelines, GraphRAG memory systems, and distributed data engines.',
   status: 'Master of IT at UNSW Sydney (WAM 83 / Distinction, graduating Dec 2026) · Open to full-time Applied AI & Backend Systems roles.',
   location: 'Sydney, Australia',

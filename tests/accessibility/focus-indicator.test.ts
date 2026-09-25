@@ -28,27 +28,28 @@ describe('Focus indicator (WCAG 2.4.13)', () => {
   const accessibilityCss = read('src/styles/accessibility.css');
   const focusRule = accessibilityCss.match(/:focus-visible\s*\{([^}]*)\}/)?.[1] ?? '';
 
-  it('declares the ring with the ink token, never the accent', () => {
-    expect(focusRule).toContain('var(--text-primary)');
-    expect(focusRule).not.toContain('var(--accent-solid)');
+  it('declares the ring with the ink token, never the hue', () => {
+    expect(focusRule).toContain('var(--ink)');
+    expect(focusRule).not.toContain('var(--nonconform)');
   });
 
-  it('separates the ring from the control with a canvas offset', () => {
+  it('separates the ring from the control with a sheet offset', () => {
     expect(focusRule).toMatch(/outline-offset:\s*2px/);
     expect(focusRule).toMatch(/outline:\s*2px solid/);
   });
 
-  it('carries >= 3:1 against the surface behind it and against an accent-filled control', () => {
-    // The ring sits on the page; the offset gap is what borders the control itself.
-    expect(contrast(tokenValue('text-primary'), tokenValue('bg-canvas'))).toBeGreaterThanOrEqual(3);
-    expect(contrast(tokenValue('bg-canvas'), tokenValue('accent-solid'))).toBeGreaterThanOrEqual(3);
+  it('carries >= 3:1 against the surface behind it and against an ink-filled control', () => {
+    // The ring sits on the sheet; the offset gap is the sheet showing through.
+    expect(contrast(tokenValue('ink'), tokenValue('sheet'))).toBeGreaterThanOrEqual(3);
+    // The title block's primary action is an ink fill with sheet text on it.
+    expect(contrast(tokenValue('sheet'), tokenValue('ink'))).toBeGreaterThanOrEqual(3);
   });
 
   it('is declared in exactly one place — no per-element ring utilities', () => {
     const sources = fs
       .readdirSync(path.join(process.cwd(), 'src'), { recursive: true, encoding: 'utf-8' })
       .filter((f) => f.endsWith('.tsx'));
-    const offenders = sources.filter((f) => read(path.join('src', f)).includes('ring-accent-solid'));
+    const offenders = sources.filter((f) => read(path.join('src', f)).includes('ring-nonconform'));
     expect(offenders).toEqual([]);
   });
 });

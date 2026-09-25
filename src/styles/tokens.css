@@ -1,14 +1,28 @@
+/* Tolerance Frame — the palette.
+ *
+ * One hue. Inspection red is the only chromatic value on the sheet and it is
+ * permitted for non-conformance and nothing else: a navigation link takes ink
+ * and an underline, never the hue. Everything else is the white sheet, dense
+ * near-black linework, and a single grey that belongs to annotation and leader
+ * lines.
+ *
+ * Meaning is never carried by colour alone. Line weight and style carry it —
+ * solid is verified, dashed is asserted, a heavy double rule is failed — so the
+ * distinction survives greyscale, colour blindness and forced-colours mode.
+ *
+ * Contrast, computed against both surfaces (sheet / panel):
+ *   ink        #0d1013  19.08 / 17.64
+ *   annotate   #474c53   8.65 /  8.00
+ *   nonconform #9d1116   8.32 /  7.69
+ * Every text token clears the 7:1 floor everywhere it is used.
+ *
+ * `--panel` is a fill, never a boundary: panel-vs-sheet is 1.08:1 and carries no
+ * meaning. Separation is always an ink rule.
+ */
 :root {
-  /* Light Theme (Default) */
-  --bg-canvas: #fafafa;
-  --bg-surface: #ffffff;
-  --bg-surface-hover: #f4f4f5;
-  --border-subtle: #e4e4e7;
-  --border-strong: #d4d4d8;
-  --text-primary: #09090b;
-  --text-secondary: #3f3f46;
-  --text-muted: #52525b;
-  --accent-solid: #1e40af;
-  --accent-badge-bg: #eff6ff;
-  --accent-badge-text: #1e40af;
+  --sheet: #ffffff;
+  --panel: #f6f6f5;
+  --ink: #0d1013;
+  --annotate: #474c53;
+  --nonconform: #9d1116;
 }
