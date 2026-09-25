@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { CaseStudyView } from '../../src/views/CaseStudyView';
 import { projects } from '../../src/data/projects';
+import { profile } from '../../src/data/profile';
 
 describe('CaseStudyView Component', () => {
   const renderWithRoute = (slug: string) =>
@@ -44,6 +45,14 @@ describe('CaseStudyView Component', () => {
       renderWithRoute('shepherd');
       const githubLinks = screen.getAllByRole('link', { name: /github/i });
       expect(githubLinks.some((link) => link.getAttribute('href') === 'https://github.com/Ravicha2/Shepherd')).toBe(true);
+    });
+
+    it('ends with the closing conversion block', () => {
+      renderWithRoute('shepherd');
+
+      expect(screen.getByRole('heading', { level: 2, name: /get in touch/i })).toBeInTheDocument();
+      expect(screen.getByText(profile.email)).toBeInTheDocument();
+      expect(screen.getByText(profile.status)).toBeInTheDocument();
     });
 
     it('renders all 4 sections of the case study framework', () => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -19,6 +19,8 @@ import {
 } from 'lucide-react';
 import { getProjectBySlug } from '../data/projects';
 import { TransitionLink } from '../components/common/TransitionLink';
+import { ContactBlock } from '../components/common/ContactBlock';
+import { useCopyToClipboard } from '../hooks/useCopyToClipboard';
 
 const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg
@@ -39,13 +41,7 @@ const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' })
 export const CaseStudyView: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const project = slug ? getProjectBySlug(slug) : undefined;
-  const [copiedCli, setCopiedCli] = useState(false);
-
-  const handleCopyCli = () => {
-    navigator.clipboard.writeText('uvx lit-review-council');
-    setCopiedCli(true);
-    setTimeout(() => setCopiedCli(false), 2000);
-  };
+  const { state: cliCopyState, copy: copyCli } = useCopyToClipboard();
 
   if (!project) {
     return (
@@ -125,13 +121,18 @@ export const CaseStudyView: React.FC = () => {
               <span className="text-text-primary font-medium select-all">uvx lit-review-council</span>
             </div>
             <button
-              onClick={handleCopyCli}
+              onClick={() => copyCli('uvx lit-review-council')}
               className="inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas self-start sm:self-auto"
             >
-              {copiedCli ? (
+              {cliCopyState === 'copied' ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
                   <span className="text-accent-solid">Copied</span>
+                </>
+              ) : cliCopyState === 'error' ? (
+                <>
+                  <AlertTriangle className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
+                  <span className="text-accent-solid">Copy failed</span>
                 </>
               ) : (
                 <>
@@ -508,6 +509,8 @@ export const CaseStudyView: React.FC = () => {
           <span>Back to all projects</span>
         </TransitionLink>
       </footer>
+
+      <ContactBlock />
     </article>
   );
 };

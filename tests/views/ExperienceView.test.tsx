@@ -3,6 +3,7 @@ import { render, screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { ExperienceView } from '../../src/views/ExperienceView';
 import { workExperience, education, accolades, skillCategories } from '../../src/data/experience';
+import { profile } from '../../src/data/profile';
 
 describe('ExperienceView Component', () => {
   const renderExperienceView = () =>
@@ -25,6 +26,14 @@ describe('ExperienceView Component', () => {
   });
 
   describe('Work Experience Timeline', () => {
+    it('ends with the closing conversion block', () => {
+      renderExperienceView();
+
+      expect(screen.getByRole('heading', { level: 2, name: /get in touch/i })).toBeInTheDocument();
+      expect(screen.getByText(profile.email)).toBeInTheDocument();
+      expect(screen.getByText(profile.status)).toBeInTheDocument();
+    });
+
     it('renders the work experience section heading', () => {
       renderExperienceView();
       expect(

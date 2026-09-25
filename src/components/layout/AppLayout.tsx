@@ -5,6 +5,7 @@ import { User, FolderGit2, Briefcase } from 'lucide-react';
 import { SkipLink, RouteAnnouncer } from '../../accessibility';
 import { SEOHead } from '../seo/SEOHead';
 import { useViewTransitionNavigate } from '../../hooks/useViewTransitionNavigate';
+import { profile } from '../../data/profile';
 
 export interface AppLayoutProps {
   children: React.ReactNode;
@@ -99,9 +100,15 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
       <footer role="contentinfo" className="border-t border-border-subtle py-8 text-sm text-text-muted">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p>© {new Date().getFullYear()} Palm Suksawasdi. All rights reserved.</p>
-          <div className="flex items-center space-x-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             <a
-              href="https://github.com/Ravicha2"
+              href={profile.links.email}
+              className="font-mono text-text-secondary hover:text-text-primary focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1.5 py-0.5 transition-colors"
+            >
+              {profile.email}
+            </a>
+            <a
+              href={profile.links.github}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-text-primary focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1.5 py-0.5 transition-colors"
@@ -110,7 +117,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
               GitHub
             </a>
             <a
-              href="https://linkedin.com/in/ravicha-suksawasdi-na-ayuthaya"
+              href={profile.links.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-text-primary focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1.5 py-0.5 transition-colors"

@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, it, expect } from 'vitest';
 import { AppLayout } from '../../src/components/layout/AppLayout';
+import { profile } from '../../src/data/profile';
 
 describe('AppLayout Landmark Hierarchy', () => {
   it('renders all required HTML5 landmarks', () => {
@@ -17,6 +18,20 @@ describe('AppLayout Landmark Hierarchy', () => {
     expect(screen.getByRole('navigation', { name: /main navigation/i })).toBeInTheDocument(); // <nav>
     expect(screen.getByRole('main')).toBeInTheDocument(); // <main>
     expect(screen.getByRole('contentinfo')).toBeInTheDocument(); // <footer>
+  });
+
+  it('renders the email address as visible text in the footer', () => {
+    render(
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }} initialEntries={['/']}>
+        <AppLayout pageTitle="Overview">
+          <div>Page Body Content</div>
+        </AppLayout>
+      </MemoryRouter>
+    );
+
+    const footer = screen.getByRole('contentinfo');
+    const emailLink = within(footer).getByRole('link', { name: profile.email });
+    expect(emailLink).toHaveAttribute('href', profile.links.email);
   });
 
   it('marks the active navigation route with aria-current="page"', () => {

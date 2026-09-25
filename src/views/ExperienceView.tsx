@@ -20,6 +20,7 @@ import {
   accolades,
   skillCategories,
 } from '../data/experience';
+import { ContactBlock } from '../components/common/ContactBlock';
 
 const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg
@@ -459,6 +460,8 @@ export const ExperienceView: React.FC = () => {
           ))}
         </div>
       </section>
+
+      <ContactBlock />
     </div>
   );
 };
