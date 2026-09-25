@@ -61,7 +61,7 @@ The goal is to enable AI agents (such as ChatGPT, Claude Code, Perplexity, Curso
     3. *Why Built This Way*: Architectural choices (ADR references, trade-offs, defensive guardrails, timeouts, idempotency keys).
     4. *Outcomes & Verification*: Automated benchmarks, CI integration, PyPI deployment, and key engineering takeaways.
 - **Full Work Experience History**:
-  - Tendor (Software Engineer Intern, Jul 2026 – Present)
+  - Tendor (Software Engineer Intern, Jul 2026 – Sep 2026)
   - NodesNow LLC (Backend Engineer Intern, Dec 2025 – Feb 2026)
   - 3D Technical Design (District Heating Designer, Aug 2023 – Jan 2025)
   - Jardine Schindler Group (Systems Engineering Intern, Jun 2022 – Aug 2022)

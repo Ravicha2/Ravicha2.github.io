@@ -271,10 +271,10 @@ Currently completing a Master of Information Technology at UNSW Sydney (Distinct
 ## 3. Supporting Experience & Accolades
 
 ### Work Experience
-1. **Tendor** (Jul 2026 – Present, Sydney, Australia)
+1. **Tendor** (Jul 2026 – Sep 2026, Sydney, Australia)
    - *Role*: Software Engineer Intern
-   - *Focus*: Contributing to backend services, automated workflows, and AI agent integrations; collaborating with engineering on scalable API development and reliable service infrastructure.
-   - *Tags*: TypeScript, Node.js, AI Agents, Backend Systems
+   - *Focus*: Built a Google ADK pipeline that extracts and classifies procurement documents in production; designed and deployed an MCP-exposed Documenso signing service; automated end-to-end tender submission through MCP tools.
+   - *Tags*: Google ADK, MCP, TypeScript, Node.js, AI Agents, Backend Systems
 2. **NodesNow LLC** (Dec 2025 – Feb 2026, Bangkok, Thailand)
    - *Role*: Backend Engineer Intern
    - *Focus*: Engineered fault-tolerant AI agent orchestration system using Inngest; persisted data into pgvector and Neo4j; containerized full stack with Docker.
