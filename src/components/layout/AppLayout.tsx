@@ -1,5 +1,4 @@
 import type React from 'react';
-import { useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { User, FolderGit2, Briefcase, FileText } from 'lucide-react';
 import { SkipLink, RouteAnnouncer } from '../../accessibility';
@@ -13,7 +12,6 @@ export interface AppLayoutProps {
 }
 
 export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => {
-  const mainRef = useRef<HTMLElement>(null);
   const navigateWithTransition = useViewTransitionNavigate();
 
   const handleNavClick = (to: string) => (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -40,7 +38,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
     <div className="min-h-screen bg-canvas text-text-primary flex flex-col antialiased selection:bg-accent-badge-bg selection:text-accent-badge-text">
       <SEOHead />
       <SkipLink />
-      <RouteAnnouncer pageTitle={pageTitle} mainRef={mainRef} />
+      <RouteAnnouncer pageTitle={pageTitle} />
 
       <header
         role="banner"
@@ -50,7 +48,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
           <NavLink
             to="/"
             onClick={handleNavClick('/')}
-            className="group flex items-center gap-2 font-semibold tracking-tight text-sm sm:text-base text-text-primary hover:text-accent-solid focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded-md px-1 py-1 transition-colors flex-shrink-0"
+            className="group flex items-center gap-2 font-semibold tracking-tight text-sm sm:text-base text-text-primary hover:text-accent-solid rounded-md px-1 py-1 transition-colors flex-shrink-0"
           >
             <span>Palm Suksawasdi</span>
           </NavLink>
@@ -71,7 +69,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
                   aria-label={item.label}
                   title={item.label}
                   className={({ isActive }) =>
-                    `inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs sm:text-sm rounded-md transition-all duration-150 focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
+                    `inline-flex items-center justify-center gap-1.5 min-w-11 min-h-11 sm:min-w-0 sm:min-h-0 px-2.5 sm:px-3.5 py-1.5 text-xs sm:text-sm rounded-md transition-all duration-150 ${
                       isActive
                         ? 'bg-accent-badge-bg text-accent-badge-text font-semibold border border-border-subtle'
                         : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover font-medium border border-transparent'
@@ -91,7 +89,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
               rel="noopener noreferrer"
               aria-label="Download CV (PDF, opens in a new tab)"
               title="Download CV (PDF)"
-              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs sm:text-sm rounded-md font-medium text-text-secondary hover:text-text-primary hover:bg-surface-hover border border-transparent transition-all duration-150 focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+              className="inline-flex items-center justify-center gap-1.5 min-w-11 min-h-11 sm:min-w-0 sm:min-h-0 px-2.5 sm:px-3.5 py-1.5 text-xs sm:text-sm rounded-md font-medium text-text-secondary hover:text-text-primary hover:bg-surface-hover border border-transparent transition-all duration-150"
             >
               <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" aria-hidden="true" />
               <span>CV</span>
@@ -101,7 +99,6 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
       </header>
 
       <main
-        ref={mainRef}
         id="main-content"
         tabIndex={-1}
         role="main"
@@ -116,7 +113,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             <a
               href={profile.links.email}
-              className="font-mono text-text-secondary hover:text-text-primary focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1.5 py-0.5 transition-colors"
+              className="font-mono text-text-secondary hover:text-text-primary rounded px-1.5 py-0.5 transition-colors"
             >
               {profile.email}
             </a>
@@ -124,7 +121,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
               href={profile.links.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-text-primary focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1.5 py-0.5 transition-colors"
+              className="hover:text-text-primary rounded px-1.5 py-0.5 transition-colors"
               aria-label="Palm's GitHub profile (opens in a new tab)"
             >
               GitHub
@@ -133,7 +130,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
               href={profile.links.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-text-primary focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1.5 py-0.5 transition-colors"
+              className="hover:text-text-primary rounded px-1.5 py-0.5 transition-colors"
               aria-label="Palm's LinkedIn profile (opens in a new tab)"
             >
               LinkedIn

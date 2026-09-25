@@ -1,8 +1,15 @@
 /* Focus-visible utilities and Motion suppression */
 
+/* The one focus indicator for the whole app (WCAG 2.4.13). It is declared here
+   and nowhere else: per-element `ring-*` utilities used to compete with this
+   rule and painted an accent ring on accent-filled CTAs, i.e. invisible.
+   `--text-primary` is the ink accent, it contrasts with the page and with every
+   surface; the 2px offset shows the page through, which is what carries the
+   contrast against an accent-filled control. `outline` (not box-shadow) so the
+   indicator survives Windows High Contrast / forced-colors. */
 :focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--bg-canvas), 0 0 0 4px var(--accent-solid);
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {

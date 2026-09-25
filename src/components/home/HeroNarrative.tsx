@@ -119,7 +119,7 @@ export const HeroNarrative: React.FC = () => {
           <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 pt-2">
             <TransitionLink
               to="/projects"
-              className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-md bg-accent-solid text-white dark:text-zinc-950 hover:bg-opacity-90 active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-md bg-accent-solid text-white dark:text-zinc-950 hover:bg-opacity-90 active:scale-[0.99] transition-all shadow-sm"
             >
               <span>Explore Projects</span>
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -129,7 +129,7 @@ export const HeroNarrative: React.FC = () => {
               href={profile.links.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3.5 py-2.5 text-sm font-medium rounded-md bg-surface text-text-primary border border-border-subtle hover:bg-surface-hover hover:border-border-strong active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+              className="inline-flex items-center gap-2 px-3.5 py-2.5 text-sm font-medium rounded-md bg-surface text-text-primary border border-border-subtle hover:bg-surface-hover hover:border-border-strong active:scale-[0.99] transition-all"
               aria-label="Palm's GitHub profile (opens in a new tab)"
             >
               <GithubIcon className="w-4 h-4" />
@@ -140,7 +140,7 @@ export const HeroNarrative: React.FC = () => {
               href={profile.links.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3.5 py-2.5 text-sm font-medium rounded-md bg-surface text-text-primary border border-border-subtle hover:bg-surface-hover hover:border-border-strong active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+              className="inline-flex items-center gap-2 px-3.5 py-2.5 text-sm font-medium rounded-md bg-surface text-text-primary border border-border-subtle hover:bg-surface-hover hover:border-border-strong active:scale-[0.99] transition-all"
               aria-label="Palm's LinkedIn profile (opens in a new tab)"
             >
               <LinkedinIcon className="w-4 h-4" />
@@ -149,7 +149,7 @@ export const HeroNarrative: React.FC = () => {
 
             <a
               href={profile.links.email}
-              className="inline-flex items-center gap-2 px-3.5 py-2.5 text-sm font-medium rounded-md bg-surface text-text-primary border border-border-subtle hover:bg-surface-hover hover:border-border-strong active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+              className="inline-flex items-center gap-2 px-3.5 py-2.5 text-sm font-medium rounded-md bg-surface text-text-primary border border-border-subtle hover:bg-surface-hover hover:border-border-strong active:scale-[0.99] transition-all"
               aria-label="Send email to Palm"
             >
               <Mail className="w-4 h-4 text-accent-solid" aria-hidden="true" />

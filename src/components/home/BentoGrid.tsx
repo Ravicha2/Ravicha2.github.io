@@ -2,11 +2,10 @@ import type React from 'react';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import { featuredProjects } from '../../data/projects';
 import { TransitionLink } from '../common/TransitionLink';
-import { useActiveTransitionSlug, useViewTransitionNavigate } from '../../hooks/useViewTransitionNavigate';
+import { useActiveTransitionSlug } from '../../hooks/useViewTransitionNavigate';
 
 export const BentoGrid: React.FC = () => {
   const activeSlug = useActiveTransitionSlug();
-  const navigateWithTransition = useViewTransitionNavigate();
 
   return (
     <section aria-labelledby="bento-heading" className="space-y-6">
@@ -21,7 +20,7 @@ export const BentoGrid: React.FC = () => {
         </div>
         <TransitionLink
           to="/projects"
-          className="group inline-flex items-center gap-1.5 text-sm font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1 py-0.5 self-start sm:self-auto transition-colors"
+          className="group inline-flex items-center gap-1.5 text-sm font-semibold text-accent-solid hover:underline rounded px-1 py-0.5 self-start sm:self-auto transition-colors"
         >
           <span>View all projects</span>
           <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
@@ -33,9 +32,8 @@ export const BentoGrid: React.FC = () => {
           <article
             key={project.slug}
             data-testid={`bento-card-${project.slug}`}
-            onClick={() => navigateWithTransition(`/projects/${project.slug}`)}
             style={activeSlug === project.slug ? { viewTransitionName: `project-card-${project.slug}` } : undefined}
-            className="group/card bg-surface border border-border-subtle rounded-lg p-5 sm:p-6 flex flex-col justify-between hover:border-border-strong hover:bg-surface-hover/30 hover:shadow-sm cursor-pointer transition-all duration-200"
+            className="relative group/card bg-surface border border-border-subtle rounded-lg p-5 sm:p-6 flex flex-col justify-between hover:border-border-strong hover:bg-surface-hover/30 hover:shadow-sm cursor-pointer transition-all duration-200"
           >
             <div className="space-y-3.5">
               {/* Header: Category & Timeline */}
@@ -48,9 +46,11 @@ export const BentoGrid: React.FC = () => {
 
               {/* Title */}
               <h3 className="text-lg sm:text-xl font-bold text-text-primary tracking-tight">
+                {/* Stretched link: the whole card is clickable through this ::after overlay,
+                    and because it is a real anchor the card is keyboard-activatable too. */}
                 <TransitionLink
                   to={`/projects/${project.slug}`}
-                  className="hover:text-accent-solid transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded"
+                  className="hover:text-accent-solid transition-colors rounded after:absolute after:inset-0 after:content-['']"
                 >
                   {project.title}
                 </TransitionLink>
@@ -84,7 +84,7 @@ export const BentoGrid: React.FC = () => {
 
               <TransitionLink
                 to={`/projects/${project.slug}`}
-                className="group/link inline-flex items-center gap-1 text-xs font-mono font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1 py-0.5 flex-shrink-0"
+                className="relative group/link inline-flex items-center gap-1 text-xs font-mono font-semibold text-accent-solid hover:underline rounded px-1 py-0.5 flex-shrink-0"
               >
                 <span>Case Study</span>
                 <ArrowRight className="w-3.5 h-3.5 transition-transform group-link:hover:translate-x-0.5" aria-hidden="true" />

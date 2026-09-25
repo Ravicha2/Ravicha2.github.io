@@ -64,6 +64,16 @@ describe('ProjectsView Component', () => {
       expect(screen.queryByTestId('project-card-shepherd')).not.toBeInTheDocument();
     });
 
+    it('announces the filtered result count through a live region', async () => {
+      const user = userEvent.setup();
+      renderProjectsView();
+
+      expect(screen.getByRole('status')).toHaveTextContent(`${projects.length} projects shown`);
+
+      await user.click(screen.getByRole('button', { name: /robotics/i }));
+      expect(screen.getByRole('status')).toHaveTextContent('1 project shown');
+    });
+
     it('filters correctly for Agentic AI category and switches back to All', async () => {
       const user = userEvent.setup();
       renderProjectsView();
@@ -131,16 +141,28 @@ describe('ProjectsView Component', () => {
       expect(within(shepherdCard).getByText(/Architectural Constraint Enforcement/i)).toBeInTheDocument();
     });
 
-    it('enables full-card click on projects with case studies and isolates external links', async () => {
+    it('makes the whole card activatable through a stretched link, keyboard included', async () => {
       const user = userEvent.setup();
       renderProjectsView();
 
       const shepherdCard = screen.getByTestId('project-card-shepherd');
       expect(shepherdCard).toHaveClass('cursor-pointer');
-      await user.click(shepherdCard);
 
-      // Verify external link click does not throw and has click handler
+      // The card itself carries no handler; a real anchor stretched over it does the work,
+      // which is what gives the card a keyboard equivalent.
+      expect(shepherdCard).not.toHaveAttribute('onClick');
+      const stretchedLink = within(shepherdCard).getByRole('link', {
+        name: 'Shepherd: GraphRAG Compliance Engine',
+      });
+      expect(stretchedLink).toHaveAttribute('href', '/projects/shepherd');
+      expect(stretchedLink.className).toContain('after:absolute');
+      expect(stretchedLink.className).toContain('after:inset-0');
+
+      await user.click(stretchedLink);
+
+      // External links sit above the stretched overlay, so they stay directly clickable.
       const githubLink = within(shepherdCard).getByRole('link', { name: /github/i });
+      expect(githubLink.className).toContain('relative');
       await user.click(githubLink);
     });
   });

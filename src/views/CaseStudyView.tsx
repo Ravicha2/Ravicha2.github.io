@@ -58,7 +58,7 @@ export const CaseStudyView: React.FC = () => {
         <div className="pt-4">
           <TransitionLink
             to="/projects"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent-solid text-white dark:text-zinc-950 text-sm font-semibold hover:bg-opacity-90 active:scale-[0.99] transition-all focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent-solid text-white dark:text-zinc-950 text-sm font-semibold hover:bg-opacity-90 active:scale-[0.99] transition-all shadow-sm"
           >
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             <span>Back to Projects</span>
@@ -76,7 +76,7 @@ export const CaseStudyView: React.FC = () => {
       <nav aria-label="Breadcrumb">
         <TransitionLink
           to="/projects"
-          className="group inline-flex items-center gap-2 text-sm font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1 py-0.5"
+          className="group inline-flex items-center gap-2 text-sm font-semibold text-accent-solid hover:underline rounded px-1 py-0.5"
         >
           <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
           <span>Back to Projects</span>
@@ -122,7 +122,7 @@ export const CaseStudyView: React.FC = () => {
             </div>
             <button
               onClick={() => copyCli('uvx lit-review-council')}
-              className="inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas self-start sm:self-auto"
+              className="inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary transition-colors self-start sm:self-auto"
             >
               {cliCopyState === 'copied' ? (
                 <>
@@ -173,7 +173,7 @@ export const CaseStudyView: React.FC = () => {
                   href={project.links.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors"
                 >
                   <GithubIcon className="w-3.5 h-3.5" />
                   <span>GitHub</span>
@@ -184,7 +184,7 @@ export const CaseStudyView: React.FC = () => {
                   href={project.links.demo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
                   <span>Live Demo</span>
@@ -195,7 +195,7 @@ export const CaseStudyView: React.FC = () => {
                   href={project.links.pypi}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors"
                 >
                   <Terminal className="w-3.5 h-3.5" />
                   <span>PyPI Package</span>
@@ -206,7 +206,7 @@ export const CaseStudyView: React.FC = () => {
                   href={project.links.video}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors"
                 >
                   <Video className="w-3.5 h-3.5" />
                   <span>Video Demo</span>
@@ -217,7 +217,7 @@ export const CaseStudyView: React.FC = () => {
                   href={project.links.paper}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono bg-canvas border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors"
                 >
                   <FileText className="w-3.5 h-3.5" />
                   <span>IEEE Paper</span>
@@ -503,7 +503,7 @@ export const CaseStudyView: React.FC = () => {
       <footer className="pt-6 border-t border-border-subtle flex items-center justify-between">
         <TransitionLink
           to="/projects"
-          className="group inline-flex items-center gap-2 text-sm font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1 py-0.5"
+          className="group inline-flex items-center gap-2 text-sm font-semibold text-accent-solid hover:underline rounded px-1 py-0.5"
         >
           <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
           <span>Back to all projects</span>

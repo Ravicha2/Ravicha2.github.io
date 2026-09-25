@@ -4,7 +4,7 @@ import { profile } from '../../data/profile';
 import { useCopyToClipboard } from '../../hooks/useCopyToClipboard';
 
 const linkClass =
-  'text-sm font-semibold text-text-secondary hover:text-accent-solid underline decoration-border-strong underline-offset-4 rounded transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas';
+  'text-sm font-semibold text-text-secondary hover:text-accent-solid underline decoration-border-strong underline-offset-4 rounded transition-colors';
 
 /**
  * Closing conversion block: the address as visible, selectable text plus a copy
@@ -42,7 +42,7 @@ export const ContactBlock: React.FC = () => {
         <button
           type="button"
           onClick={() => copy(profile.email)}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-canvas border border-border-subtle text-xs font-mono text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-canvas border border-border-subtle text-xs font-mono text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors"
         >
           <span aria-live="polite" className="inline-flex items-center gap-1.5">
             {state === 'copied' ? (

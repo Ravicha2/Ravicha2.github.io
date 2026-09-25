@@ -11,7 +11,7 @@ import {
 import { projects, projectCategories, getProjectsByCategory } from '../data/projects';
 import { ProjectCategory, Project } from '../data/types';
 import { TransitionLink } from '../components/common/TransitionLink';
-import { useActiveTransitionSlug, useViewTransitionNavigate } from '../hooks/useViewTransitionNavigate';
+import { useActiveTransitionSlug } from '../hooks/useViewTransitionNavigate';
 
 const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg
@@ -32,7 +32,6 @@ const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' })
 export const ProjectsView: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeSlug = useActiveTransitionSlug();
-  const navigateWithTransition = useViewTransitionNavigate();
 
   const categoryParam = searchParams.get('category') as ProjectCategory | null;
   const validCategoryIds = projectCategories.map((c) => c.id);
@@ -86,7 +85,7 @@ export const ProjectsView: React.FC = () => {
                   type="button"
                   aria-pressed={isSelected}
                   onClick={() => handleSelectCategory(category.id)}
-                  className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-md text-xs font-mono font-semibold transition-all duration-150 border focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
+                  className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-md text-xs font-mono font-semibold transition-all duration-150 border ${
                     isSelected
                       ? 'bg-accent-solid text-white dark:text-zinc-950 border-accent-solid font-bold'
                       : 'bg-surface text-text-secondary border-border-subtle hover:text-text-primary hover:bg-surface-hover hover:border-border-strong'
@@ -111,6 +110,9 @@ export const ProjectsView: React.FC = () => {
 
       {/* Projects Grid */}
       <section aria-label="Projects catalog" className="space-y-6">
+        <p role="status" aria-live="polite" className="sr-only">
+          {filteredProjects.length} {filteredProjects.length === 1 ? 'project' : 'projects'} shown
+        </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {filteredProjects.map((project: Project) => {
             const hasCaseStudy = Boolean(project.caseStudy);
@@ -119,9 +121,8 @@ export const ProjectsView: React.FC = () => {
               <article
                 key={project.slug}
                 data-testid={`project-card-${project.slug}`}
-                onClick={hasCaseStudy ? () => navigateWithTransition(`/projects/${project.slug}`) : undefined}
                 style={activeSlug === project.slug ? { viewTransitionName: `project-card-${project.slug}` } : undefined}
-                className={`group/card bg-surface border border-border-subtle rounded-lg p-4 sm:p-6 flex flex-col justify-between hover:border-border-strong transition-all duration-200 ${
+                className={`relative group/card bg-surface border border-border-subtle rounded-lg p-4 sm:p-6 flex flex-col justify-between hover:border-border-strong transition-all duration-200 ${
                   hasCaseStudy ? 'cursor-pointer hover:bg-surface-hover/30 hover:shadow-sm' : ''
                 }`}
               >
@@ -145,9 +146,12 @@ export const ProjectsView: React.FC = () => {
                   <div className="space-y-1">
                     <h2 className="text-xl font-bold text-text-primary tracking-tight">
                       {hasCaseStudy ? (
+                        /* Stretched link: makes the whole card clickable and, because it is a
+                           real anchor, keyboard-activatable — the article used to be a bare
+                           onClick with role=null, tabindex=null. */
                         <TransitionLink
                           to={`/projects/${project.slug}`}
-                          className="hover:text-accent-solid transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded"
+                          className="hover:text-accent-solid transition-colors rounded after:absolute after:inset-0 after:content-['']"
                         >
                           {project.title}
                         </TransitionLink>
@@ -217,7 +221,7 @@ export const ProjectsView: React.FC = () => {
                   {hasCaseStudy ? (
                     <TransitionLink
                       to={`/projects/${project.slug}`}
-                      className="group/link inline-flex items-center gap-1.5 text-sm font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1 py-0.5"
+                      className="relative group/link inline-flex items-center gap-1.5 text-sm font-semibold text-accent-solid hover:underline rounded px-1 py-0.5"
                     >
                       <span>Read Case Study</span>
                       <ArrowUpRight className="w-4 h-4 transition-transform group-link:hover:translate-x-0.5 group-link:hover:-translate-y-0.5" aria-hidden="true" />
@@ -234,8 +238,7 @@ export const ProjectsView: React.FC = () => {
                         href={project.links.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                        className="relative p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors"
                         aria-label={`${project.title} GitHub repository (opens in a new tab)`}
                       >
                         <GithubIcon className="w-4 h-4" />
@@ -246,8 +249,7 @@ export const ProjectsView: React.FC = () => {
                         href={project.links.demo}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                        className="relative p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors"
                         aria-label={`${project.title} live demo (opens in a new tab)`}
                       >
                         <ExternalLink className="w-4 h-4" aria-hidden="true" />
@@ -258,8 +260,7 @@ export const ProjectsView: React.FC = () => {
                         href={project.links.pypi}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                        className="relative p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors"
                         aria-label={`${project.title} PyPI package (opens in a new tab)`}
                       >
                         <Terminal className="w-4 h-4" aria-hidden="true" />
@@ -270,8 +271,7 @@ export const ProjectsView: React.FC = () => {
                         href={project.links.video}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                        className="relative p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors"
                         aria-label={`${project.title} video walkthrough (opens in a new tab)`}
                       >
                         <Video className="w-4 h-4" aria-hidden="true" />
@@ -282,8 +282,7 @@ export const ProjectsView: React.FC = () => {
                         href={project.links.paper}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                        className="relative p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors"
                         aria-label={`${project.title} published IEEE paper (opens in a new tab)`}
                       >
                         <FileText className="w-4 h-4" aria-hidden="true" />

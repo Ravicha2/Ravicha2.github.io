@@ -166,7 +166,7 @@ export const ExperienceView: React.FC = () => {
                       href={item.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1.5 py-0.5"
+                      className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent-solid hover:underline rounded px-1.5 py-0.5"
                       aria-label={`${item.company} repository (opens in a new tab)`}
                     >
                       <GithubIcon className="w-3.5 h-3.5" />
@@ -340,7 +340,7 @@ export const ExperienceView: React.FC = () => {
                     href={pub.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1.5 py-0.5"
+                    className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent-solid hover:underline rounded px-1.5 py-0.5"
                     aria-label={`Read paper on IEEE Xplore (opens in a new tab)`}
                   >
                     <span>View on IEEE Xplore</span>
@@ -397,7 +397,7 @@ export const ExperienceView: React.FC = () => {
                       href={acc.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent-solid hover:underline focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded px-1 py-0.5"
+                      className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent-solid hover:underline rounded px-1 py-0.5"
                       aria-label={`View ${acc.title} project live platform at ${acc.link} (opens in a new tab)`}
                     >
                       <span>heal.a2a.ing</span>

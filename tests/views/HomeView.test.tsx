@@ -92,7 +92,7 @@ describe('HomeView Component', () => {
       }
     });
 
-    it('navigates to case study when clicking anywhere on a featured card', async () => {
+    it('makes the whole featured card activatable through a stretched link', async () => {
       const user = userEvent.setup();
       render(
         <MemoryRouter initialEntries={['/']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
@@ -102,8 +102,15 @@ describe('HomeView Component', () => {
 
       const shepherdCard = screen.getByTestId('bento-card-shepherd');
       expect(shepherdCard).toHaveClass('cursor-pointer');
-      await user.click(shepherdCard);
-      // Confirms click handler execution without error
+
+      const stretchedLink = within(shepherdCard).getByRole('link', {
+        name: 'Shepherd: GraphRAG Compliance Engine',
+      });
+      expect(stretchedLink).toHaveAttribute('href', '/projects/shepherd');
+      expect(stretchedLink.className).toContain('after:absolute');
+      expect(stretchedLink.className).toContain('after:inset-0');
+
+      await user.click(stretchedLink);
     });
   });
 
