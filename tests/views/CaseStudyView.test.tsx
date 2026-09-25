@@ -105,14 +105,15 @@ describe('CaseStudyView Component', () => {
       const nl2regex = projects.find((p) => p.slug === 'nl2regex')!;
 
       expect(screen.getByRole('heading', { level: 1, name: new RegExp(nl2regex.title, 'i') })).toBeInTheDocument();
-      expect(screen.getByText(/1,000,000\+ rows processed/i)).toBeInTheDocument();
+      expect(screen.getByText(nl2regex.metrics![0].value)).toBeInTheDocument();
+      expect(screen.getByText(/backend tests over the API/i)).toBeInTheDocument();
       expect(screen.getByText(/Two-Stage LLM Triage \(ADR 0003\)/i)).toBeInTheDocument();
       expect(screen.getByText(/Canonical Parquet Normalization \(ADR 0002\)/i)).toBeInTheDocument();
       expect(screen.getByText(/Local Singleton JVM Session \(ADR 0004\)/i)).toBeInTheDocument();
 
-      // Demo and Video links
-      const demoLinks = screen.getAllByRole('link', { name: /demo|live demo/i });
-      expect(demoLinks.some((link) => link.getAttribute('href') === 'http://207.148.87.49')).toBe(true);
+      // The demo instance was destroyed; no surface may link that host.
+      const hrefs = screen.getAllByRole('link').map((link) => link.getAttribute('href') ?? '');
+      expect(hrefs.some((href) => href.includes('207.148.87.49'))).toBe(false);
 
       const videoLinks = screen.getAllByRole('link', { name: /video/i });
       expect(videoLinks.some((link) => link.getAttribute('href') === 'https://youtu.be/mFec2jMgosg')).toBe(true);

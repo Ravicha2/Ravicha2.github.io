@@ -24,9 +24,9 @@ export const projects: Project[] = [
       github: 'https://github.com/Ravicha2/Shepherd',
     },
     metrics: [
-      'Architectural Constraint Enforcement',
-      'Natural Language to code constraint',
-      'Deterministic Cypher graph traversal',
+      { value: '17/21', label: 'gold violations detected on the home-assistant full graph (Shepherd eval.md)' },
+      { value: '88,508 nodes', label: 'Architectural Decision Graph parsed from that repository' },
+      { value: '5 repos / 63 units', label: 'benchmark gold set behind those detections' },
     ],
     summary:
       'End-to-end ADR violation detector for AI-generated code, ingesting source ASTs and architectural markdown documents into a Neo4j property graph to catch multi-file constraint conflicts.',
@@ -64,22 +64,22 @@ export const projects: Project[] = [
           {
             decision: 'Tiered Violation Severity Engine',
             rationale:
-              'Differentiates fatal architectural boundary violations (which hard-block PR merges via GitHub Status Checks) from advisory suggestions.',
+              'Differentiates fatal architectural boundary violations from advisory suggestions, resolved in order by explicit supersession, specificity, recency, then human review.',
             vsAlternative: 'Binary pass/fail checks',
           },
         ],
         guardrails: [
           'Automated AST parsing with robust syntax error handling and fallback modes',
           'Isolated Cypher query execution with query timeouts',
-          'Strict GitHub Actions status check webhook verification',
+          'Violation lifecycle persistence, so a dismissed false positive stays dismissed across runs',
         ],
         summary:
-          'Unified AST and ADR property graphs paired with tiered CI status check blocking.',
+          'Unified AST and ADR property graphs paired with tiered violation resolution.',
       },
       outcomes: {
         verification: [
-          'Integrated directly into GitHub Commit Status Checks to automatically evaluate pull requests before merge',
-          'Benchmarked against standard RAG baselines, successfully detecting 100% of multi-hop layer boundary violations missed by vector search',
+          'cpt detect --json emits machine-readable violations for CI scripts and PR checks',
+          'Scored 17 of 21 gold detection units on the home-assistant full graph (88,508 nodes), with every miss traced to a recorded resolver edge choice',
         ],
         impact: [
           'Automated architecture governance in AI-augmented codebases, ensuring AI-written code obeys human architectural decisions.',
@@ -88,7 +88,7 @@ export const projects: Project[] = [
         takeaway:
           'Non-deterministic AI code generation requires deterministic graph-based structural verification to maintain long-term software maintainability.',
         summary:
-          'Deterministic architectural governance via graph verification integrated directly into CI/CD.',
+          'Deterministic architectural governance via graph verification, with JSON detection output for CI.',
       },
     },
   },
@@ -104,14 +104,12 @@ export const projects: Project[] = [
     tags: ['PySpark 3.5', 'Django 5', 'Celery', 'Redis', 'PostgreSQL', 'React 18', 'Docker Compose'],
     links: {
       github: 'https://github.com/Ravicha2/NL2REGEX',
-      demo: 'http://207.148.87.49',
       video: 'https://youtu.be/mFec2jMgosg',
     },
     metrics: [
-      '1,000,000+ rows processed',
-      '5 documented ADRs',
-      'Zero worker memory spikes',
-      'Sub-second cached queries',
+      { value: '172', label: 'backend tests over the API, Spark projection, Parquet normalization, and ReDoS safety' },
+      { value: '3–5 s', label: 'Spark JVM startup per task avoided by the singleton session (ADR 0004)' },
+      { value: '5', label: 'documented architectural decision records (0001–0005)' },
     ],
     summary:
       'Distributed natural language to regex engine that transforms complex tabular dataset patterns using plain English, backed by PySpark and Celery with schema-validated triage.',
@@ -132,7 +130,7 @@ export const projects: Project[] = [
         ],
         constraints: [
           'Zero upload of dataset records to LLM APIs (privacy constraint)',
-          'Worker stability under concurrent multi-user transformations on million-row datasets',
+          'Worker stability under concurrent multi-user transformations on large datasets',
         ],
         summary:
           'Schema hallucination, ReDoS lockups, and memory exhaustion when scaling naive LLM data transformations.',
@@ -170,17 +168,17 @@ export const projects: Project[] = [
       },
       outcomes: {
         verification: [
-          'Stress-tested with 1,000,000+ row synthetic datasets across distributed partitions with zero worker memory spikes',
+          '172-test backend suite covering the API surface, Spark projection, Parquet normalization, pagination, and ReDoS-safety cases',
           'Validated regex execution safety against known ReDoS malicious payload benchmarks',
         ],
         impact: [
-          'Enables non-technical users to transform million-row datasets with zero regex syntax errors or system crashes.',
-          'Deployed live at http://207.148.87.49 with 5 documented architectural decision records (ADRs).',
+          'Lets non-technical users transform large tabular datasets without writing regex or moving records to a cloud LLM.',
+          'Documented in 5 architectural decision records (ADRs) covering LLM triage, Parquet normalization, and the PySpark session strategy.',
         ],
         takeaway:
           'Separating intent extraction from data execution isolates LLM non-determinism from high-throughput distributed engines.',
         summary:
-          'Fault-tolerant distributed regex processing verified on 1M+ rows with 5 documented ADRs.',
+          'Fault-tolerant distributed regex processing documented in 5 ADRs and a 172-test backend suite.',
       },
     },
   },
@@ -198,9 +196,8 @@ export const projects: Project[] = [
       github: 'https://github.com/Ravicha2/document-ingestion-agent',
     },
     metrics: [
-      'Zero manual intervention on failure',
-      'Automatic step-level retry & backoff',
-      'Hybrid Graph + Vector search',
+      { value: '8', label: 'durable Inngest steps across 4 worker functions, each retryable on its own' },
+      { value: '2 stores', label: 'pgvector embeddings and Neo4j graph entities, written per step' },
     ],
     summary:
       'Production-grade event-driven AI ingestion engine using Inngest durable steps, NestJS, and dual pgvector/Neo4j storage to eliminate orphaned state during multi-stage document processing.',
@@ -253,17 +250,17 @@ export const projects: Project[] = [
       },
       outcomes: {
         verification: [
-          'Simulated network partition and API rate-limit faults during multi-gigabyte ingestion batches, confirming 100% automated step resumption without data corruption.',
+          'Eight durable steps across four Inngest worker functions, each checkpointed and retryable with exponential backoff, so a failure resumes at the failed step rather than the start.',
           'Containerized full stack (NestJS, Inngest server, Neo4j, pgvector) with Docker Compose for automated CI test suites.',
         ],
         impact: [
-          'Completely eliminated manual engineer intervention on ingestion pipeline failures.',
+          'Removes manual engineer intervention on ingestion pipeline failures.',
           'Enabled hybrid RAG search combining semantic vector similarity with multi-hop knowledge graph queries.',
         ],
         takeaway:
           'Long-running AI agent workflows must be architected as durable state machines where steps checkpoint state rather than monolithic background scripts.',
         summary:
-          'Zero-touch fault tolerance and hybrid GraphRAG retrieval delivered for production document ingestion.',
+          'Fault-tolerant durable orchestration and hybrid GraphRAG retrieval for document ingestion.',
       },
     },
   },
@@ -282,9 +279,9 @@ export const projects: Project[] = [
       pypi: 'https://pypi.org/project/lit-review-council/',
     },
     metrics: [
-      'Published on PyPI (uvx lit-review-council)',
-      '3-reviewer Borda-count ensemble',
-      'Zero dangling citations',
+      { value: 'PyPI', label: 'published, install via uvx lit-review-council; listed on the MCP Registry' },
+      { value: '3', label: 'independent reviewer agents ranked by Borda count' },
+      { value: '2', label: 'research tracks per topic: academic (ArXiv/OpenAlex) and practitioner (GitHub)' },
     ],
     summary:
       'Multi-agent research synthesis engine and Model Context Protocol (MCP) server that orchestrates parallel academic and practitioner research with Borda-count consensus.',
@@ -323,7 +320,7 @@ export const projects: Project[] = [
           {
             decision: 'Borda-Count Consensus Ensemble',
             rationale:
-              'Three distinct persona agents (Theorist, Pragmatist, Critic) independently evaluate candidate papers on novelty, methodology, and practicality before aggregating ranks via Borda voting.',
+              'Three independent reviewers (Researcher, Engineer, Neutral) evaluate anonymized reports on novelty, methodology, and practicality before aggregating ranks via Borda voting.',
             vsAlternative: 'Single reviewer scoring',
           },
           {
@@ -343,11 +340,11 @@ export const projects: Project[] = [
       },
       outcomes: {
         verification: [
-          'Published to PyPI (installable via uvx lit-review-council) and verified across Claude Code, Cursor, and VS Code MCP clients.',
-          'Tested on 50+ diverse engineering topics with 100% citation verification accuracy and zero hallucinated references.',
+          'Published to PyPI (installable via uvx lit-review-council) and listed on the MCP Registry, with documented install paths for Claude Code and VS Code.',
+          'Every URL in a finished report must appear in the source references or the synthesis step retries, so dangling citations are rejected before output rather than reviewed after it.',
         ],
         impact: [
-          'Empowers researchers and engineers to generate verified multi-perspective literature reviews in seconds directly from their IDE.',
+          'Lets researchers and engineers run a multi-perspective literature review from their IDE.',
           'Demonstrated effective multi-agent consensus mechanisms for reducing LLM cognitive bias.',
         ],
         takeaway:
@@ -371,9 +368,9 @@ export const projects: Project[] = [
       github: 'https://github.com/Ravicha2/node-api',
     },
     metrics: [
-      'Dynamic schema inspection',
-      'Parameterized SQL execution',
-      'Tool-calling agent architecture',
+      { value: '3 tables / 5 operations', label: 'SQL surface exposed to the agent as typed tools' },
+      { value: '1,536-dim', label: 'pgvector embeddings with cosine-similarity search' },
+      { value: '3 tools', label: 'web search, database CRUD, and candidate RAG search in one graph' },
     ],
     summary:
       'Conversational AI agent capable of dynamic database schema inspection and tool calling to safely query and mutate structured data.',
@@ -392,8 +389,8 @@ export const projects: Project[] = [
       paper: 'https://ieeexplore.ieee.org/document/10349000',
     },
     metrics: [
-      'Real-time spatial orientation tracking',
-      'IEEE TENCON 2023 presentation',
+      { value: '2023', label: 'IEEE TENCON publication and conference presentation' },
+      { value: '6-DOF', label: 'passive probe-tracking arm, implemented in C and MATLAB' },
     ],
     summary:
       'Developed and tested a 6-degree-of-freedom passive robotic arm probe tracking system to measure position and orientation accuracy during ultrasound medical training.',
@@ -412,8 +409,8 @@ export const projects: Project[] = [
       demo: 'https://heal.a2a.ing',
     },
     metrics: [
-      "Founder's Choice Award Winner",
-      'demo deployment at heal.a2a.ing',
+      { value: 'Live', label: 'deployed at heal.a2a.ing' },
+      { value: '2025', label: "Founder's Choice Award winner, Hack2Heal" },
     ],
     summary:
       'Community mental health peer support platform recognized with the Founder\'s Choice Award at the Hack2Heal Hackathon.',

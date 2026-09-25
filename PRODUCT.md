@@ -45,7 +45,7 @@ schema-safe pipelines, idempotent retries.
 The mechanism a neighboring portfolio could not truthfully copy: claims are
 settled by deterministic verification rather than prompt craft — Cypher
 traversal over a unified AST + ADR graph to catch the multi-file layer-boundary
-violations vector search misses, Inngest durable steps that resume mid-pipeline
+violations flat prompts and lint rules miss, Inngest durable steps that resume mid-pipeline
 without orphaning state, programmatic DOI/arXiv validation that rejects dangling
 citations. The physical-engineering background is the second differentiator:
 failure modes treated as absolute, not as edge cases.
@@ -112,11 +112,18 @@ failure modes treated as absolute, not as edge cases.
 
 - Four flagship case studies with complete four-part narratives, stack lists,
   and metrics — in `src/data/projects.ts` and `public/llms-full.txt`.
-- Verified outcomes: PyPI release (`uvx lit-review-council`); live deployment at
-  `http://207.148.87.49`; live `https://heal.a2a.ing`; GitHub Commit Status Check
-  integration for Shepherd; benchmarked 100% detection of multi-hop layer
-  violations missed by vector baselines; a 1,000,000+ row stress test with zero
-  worker memory spikes.
+- Verified outcomes: PyPI release (`uvx lit-review-council`); live
+  `https://heal.a2a.ing`; Shepherd's own eval log (`eval.md`) scoring 17 of 21
+  gold detection units on the home-assistant full graph (88,508 nodes) with each
+  miss traced to a recorded resolver edge choice; a five-repository, 63-unit
+  benchmark gold set; a 172-test NL2REGEX backend suite over the API surface,
+  Spark projection, Parquet normalization, pagination, and ReDoS safety; 5
+  documented NL2REGEX ADRs, including ADR 0004's measured 3-5 s Spark JVM
+  startup cost per task.
+- **Recorded decision — NL2REGEX demo.** The demo instance at
+  `207.148.87.49` was destroyed and the link was deleted rather than redeployed.
+  No shipping surface asserts a live NL2REGEX deployment; the video walkthrough
+  is the surviving demo evidence.
 - IEEE TENCON 2023 publication, co-author and presenter
   (`https://ieeexplore.ieee.org/document/10349000`), image at `/assets/IEEE.png`.
 - Hack2Heal Founder's Choice Award, image at `/assets/Hack2Heal.png`.

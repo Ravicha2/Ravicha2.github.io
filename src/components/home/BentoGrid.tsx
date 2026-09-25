@@ -61,10 +61,11 @@ export const BentoGrid: React.FC = () => {
                 {project.summary}
               </p>
 
-              {/* Single Quantified ROI Metric */}
+              {/* Single Quantified ROI Metric — the value only; its label lives on the catalog
+                  and case study surfaces, where there is room for it. */}
               {project.metrics && project.metrics.length > 0 && (
                 <div className="inline-flex items-center gap-2 px-2.5 py-1 text-xs rounded bg-canvas border border-border-subtle font-mono text-text-secondary">
-                  <span className="font-medium text-text-primary">{project.metrics[0]}</span>
+                  <span className="font-medium text-text-primary">{project.metrics[0].value}</span>
                 </div>
               )}
             </div>

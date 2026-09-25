@@ -98,7 +98,9 @@ export interface Project {
   timeline: string;
   tags: string[];
   links: ProjectLinks;
-  metrics?: string[];
+  // `value` is the measurement (a figure, count, rate, or verifiable state); `label` names
+  // what was measured. A category name belongs in the label, never the value.
+  metrics?: { value: string; label: string }[];
   summary: string;
   caseStudy?: CaseStudyContent;
   image?: string;

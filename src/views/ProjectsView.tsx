@@ -196,7 +196,10 @@ export const ProjectsView: React.FC = () => {
                         {project.metrics.map((metric, idx) => (
                           <li key={idx} className="flex items-start gap-1.5">
                             <span className="text-accent-solid font-bold select-none">›</span>
-                            <span>{metric}</span>
+                            <span>
+                              <span className="text-text-primary font-semibold">{metric.value}</span>{' '}
+                              {metric.label}
+                            </span>
                           </li>
                         ))}
                       </ul>

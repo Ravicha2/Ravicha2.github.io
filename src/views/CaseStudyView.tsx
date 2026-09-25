@@ -257,7 +257,10 @@ export const CaseStudyView: React.FC = () => {
                   className="flex items-center gap-2 p-3 rounded-md bg-canvas border border-border-subtle text-xs font-mono text-text-secondary"
                 >
                   <Activity className="w-3.5 h-3.5 text-accent-solid flex-shrink-0" aria-hidden="true" />
-                  <span>{metric}</span>
+                  <span>
+                    <span className="text-text-primary font-semibold">{metric.value}</span>{' '}
+                    {metric.label}
+                  </span>
                 </div>
               ))}
             </div>

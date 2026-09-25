@@ -148,7 +148,7 @@ export const publications: PublicationItem[] = [
     authors: ['Ravicha Suksawasdi Na Ayuthaya', 'Ronnapee Chaichaowarat'],
     description: [
       'Presented an ultrasound probe tracking system (position and orientation) to foster sonography training, implemented in C and MATLAB.',
-      'Conducted experimental trials demonstrating sub-millimeter position accuracy and real-time spatial orientation tracking.',
+      'Conducted experimental trials measuring probe position and orientation tracking in real time.',
     ],
     advisor: 'Assoc. Prof. Ronnapee Chaichaowarat, PhD',
     link: 'https://ieeexplore.ieee.org/document/10349000',

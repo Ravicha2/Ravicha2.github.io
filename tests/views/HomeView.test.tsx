@@ -85,9 +85,9 @@ describe('HomeView Component', () => {
           expect(within(card).getByText(project.tags[0])).toBeInTheDocument();
         }
 
-        // Metrics highlight
+        // Metrics highlight — the bento card carries the measured value only
         if (project.metrics && project.metrics.length > 0) {
-          expect(within(card).getByText(project.metrics[0])).toBeInTheDocument();
+          expect(within(card).getByText(project.metrics[0].value)).toBeInTheDocument();
         }
       }
     });

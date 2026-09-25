@@ -126,8 +126,11 @@ describe('ProjectsView Component', () => {
       expect(githubLink).toHaveAttribute('target', '_blank');
       expect(githubLink).toHaveAttribute('rel', expect.stringContaining('noopener'));
 
-      const demoLink = within(nl2regexCard).getByRole('link', { name: /demo/i });
-      expect(demoLink).toHaveAttribute('href', 'http://207.148.87.49');
+      // The demo instance was destroyed; the card must not link that host.
+      const hrefs = within(nl2regexCard)
+        .getAllByRole('link')
+        .map((link) => link.getAttribute('href') ?? '');
+      expect(hrefs.some((href) => href.includes('207.148.87.49'))).toBe(false);
 
       const videoLink = within(nl2regexCard).getByRole('link', { name: /video/i });
       expect(videoLink).toHaveAttribute('href', 'https://youtu.be/mFec2jMgosg');
@@ -136,9 +139,10 @@ describe('ProjectsView Component', () => {
     it('displays tech stack pills and metrics on project cards', () => {
       renderProjectsView();
       const shepherdCard = screen.getByTestId('project-card-shepherd');
+      const shepherdMetric = projects.find((p) => p.slug === 'shepherd')!.metrics![0];
       expect(within(shepherdCard).getByText('Neo4j')).toBeInTheDocument();
       expect(within(shepherdCard).getByText('Cypher')).toBeInTheDocument();
-      expect(within(shepherdCard).getByText(/Architectural Constraint Enforcement/i)).toBeInTheDocument();
+      expect(within(shepherdCard).getByText(shepherdMetric.value)).toBeInTheDocument();
     });
 
     it('makes the whole card activatable through a stretched link, keyboard included', async () => {

@@ -66,9 +66,13 @@ describe('AI Agent Protocol Files (llms.txt & llms-full.txt)', () => {
     it('reproduces every flagship project metric verbatim in llms-full.txt', () => {
       const content = read(llmsFullTxtPath);
       for (const project of featuredProjects) {
-        for (const metric of project.metrics ?? []) {
-          expect(content, `${project.slug}: metric "${metric}" is missing from llms-full.txt`).toContain(metric);
-        }
+        const metrics = project.metrics ?? [];
+        if (metrics.length === 0) continue;
+
+        // The dossier writes each metric as "value — label", joined with " · ", which is how the
+        // site renders the pair. Editing either side alone breaks this, which is the point.
+        const rendered = metrics.map((m) => `${m.value} — ${m.label}`).join(' · ');
+        expect(content, `${project.slug}: metrics line is missing from llms-full.txt`).toContain(rendered);
       }
     });
 

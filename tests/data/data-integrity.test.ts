@@ -81,6 +81,21 @@ describe('Data Layer Integrity', () => {
       });
     });
 
+    it('types every metric slot as a measured value plus a label', () => {
+      // `value` must be a figure, a count, or a verifiable state — a category name belongs in
+      // `label`. The states below are checked evidence (a live URL, a PyPI listing), not
+      // categories, so they may sit in the slot without a digit.
+      const nonNumericEvidence = ['Live', 'PyPI'];
+      projects.forEach((proj) => {
+        (proj.metrics ?? []).forEach((metric) => {
+          expect(metric.value.trim(), `${proj.slug}: empty metric value`).not.toBe('');
+          expect(metric.label.trim(), `${proj.slug}: empty metric label`).not.toBe('');
+          const measurable = /\d/.test(metric.value) || nonNumericEvidence.includes(metric.value);
+          expect(measurable, `${proj.slug}: "${metric.value}" is a label, not a measurement`).toBe(true);
+        });
+      });
+    });
+
     it('validates complete 4-part case study fields for all flagship projects', () => {
       featuredProjects.forEach((proj) => {
         expect(proj.caseStudy, `Flagship ${proj.slug} must have caseStudy`).toBeDefined();
