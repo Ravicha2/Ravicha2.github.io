@@ -99,7 +99,7 @@ failure modes treated as absolute, not as edge cases.
 - **Voice.** First-person, direct, plain, evidence-led. No hype adjectives, no
   marketing register. Claims carry links.
 - **Real identities, fixed.** GitHub `Ravicha2`, LinkedIn,
-  `rsuksawasdi@gmail.com`, `ravicha2.github.io`, and the PyPI package
+  `palm.ravicha@outlook.com`, `ravicha2.github.io`, and the PyPI package
   `lit-review-council`.
 - **The incumbent visual world is explicitly not binding.** The user confirmed
   the current ElevenLabs-derived editorial monochrome treatment may change.

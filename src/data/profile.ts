@@ -8,11 +8,11 @@ export const profile: Profile = {
   headline: 'Building fault-tolerant multi-agent pipelines, GraphRAG memory systems, and distributed data engines.',
   status: 'Master of IT at UNSW Sydney (WAM 83 / Distinction, graduating Dec 2026) · Open to full-time Applied AI & Backend Systems roles.',
   location: 'Sydney, Australia',
-  email: 'rsuksawasdi@gmail.com',
+  email: 'palm.ravicha@outlook.com',
   links: {
     github: 'https://github.com/Ravicha2',
     linkedin: 'https://www.linkedin.com/in/ravicha-suksawasdi-na-ayuthaya/',
-    email: 'mailto:rsuksawasdi@gmail.com',
+    email: 'mailto:palm.ravicha@outlook.com',
     website: 'https://ravicha2.github.io/',
   },
   narrative: {

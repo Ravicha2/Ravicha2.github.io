@@ -2,6 +2,8 @@ node_modules
 dist
 .DS_Store
 *.typ
+# The CV source is the tracked origin of public/cv.pdf; other typst files stay ignored.
+!Ravicha_cv_AU.typ
 .vite
 .impeccable/hook.cache.json
 .impeccable/live/

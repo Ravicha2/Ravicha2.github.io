@@ -70,6 +70,15 @@ export const ContactBlock: React.FC = () => {
           Email
         </a>
         <a
+          href="/cv.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Download CV (PDF, opens in a new tab)"
+          className={linkClass}
+        >
+          CV (PDF)
+        </a>
+        <a
           href={profile.links.github}
           target="_blank"
           rel="noopener noreferrer"

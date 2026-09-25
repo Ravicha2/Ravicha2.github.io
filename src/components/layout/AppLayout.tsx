@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useRef } from 'react';
 import { NavLink } from 'react-router-dom';
-import { User, FolderGit2, Briefcase } from 'lucide-react';
+import { User, FolderGit2, Briefcase, FileText } from 'lucide-react';
 import { SkipLink, RouteAnnouncer } from '../../accessibility';
 import { SEOHead } from '../seo/SEOHead';
 import { useViewTransitionNavigate } from '../../hooks/useViewTransitionNavigate';
@@ -83,6 +83,19 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
                 </NavLink>
               );
             })}
+
+            {/* Lives inside the nav so the header keeps its two-child geometry. */}
+            <a
+              href="/cv.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Download CV (PDF, opens in a new tab)"
+              title="Download CV (PDF)"
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs sm:text-sm rounded-md font-medium text-text-secondary hover:text-text-primary hover:bg-surface-hover border border-transparent transition-all duration-150 focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+            >
+              <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" aria-hidden="true" />
+              <span>CV</span>
+            </a>
           </nav>
         </div>
       </header>
