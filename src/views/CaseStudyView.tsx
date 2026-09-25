@@ -58,7 +58,7 @@ export const CaseStudyView: React.FC = () => {
         <div className="pt-4">
           <TransitionLink
             to="/projects"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent-solid text-white dark:text-zinc-950 text-sm font-semibold hover:bg-opacity-90 active:scale-[0.99] transition-all shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent-solid text-white text-sm font-semibold hover:opacity-90 active:scale-[0.99] transition-all shadow-sm"
           >
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             <span>Back to Projects</span>

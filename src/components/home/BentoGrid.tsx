@@ -33,7 +33,7 @@ export const BentoGrid: React.FC = () => {
             key={project.slug}
             data-testid={`bento-card-${project.slug}`}
             style={activeSlug === project.slug ? { viewTransitionName: `project-card-${project.slug}` } : undefined}
-            className="relative group/card bg-surface border border-border-subtle rounded-lg p-5 sm:p-6 flex flex-col justify-between hover:border-border-strong hover:bg-surface-hover/30 hover:shadow-sm cursor-pointer transition-all duration-200"
+            className="relative group/card bg-surface border border-border-subtle rounded-lg p-5 sm:p-6 flex flex-col justify-between hover:border-border-strong hover:bg-surface-hover hover:shadow-sm cursor-pointer transition-all duration-200"
           >
             <div className="space-y-3.5">
               {/* Header: Category & Timeline */}
@@ -63,7 +63,7 @@ export const BentoGrid: React.FC = () => {
 
               {/* Single Quantified ROI Metric */}
               {project.metrics && project.metrics.length > 0 && (
-                <div className="inline-flex items-center gap-2 px-2.5 py-1 text-xs text-bold rounded bg-canvas border border-border-subtle font-mono text-text-secondary">
+                <div className="inline-flex items-center gap-2 px-2.5 py-1 text-xs rounded bg-canvas border border-border-subtle font-mono text-text-secondary">
                   <span className="font-medium text-text-primary">{project.metrics[0]}</span>
                 </div>
               )}

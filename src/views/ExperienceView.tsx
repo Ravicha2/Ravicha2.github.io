@@ -302,7 +302,7 @@ export const ExperienceView: React.FC = () => {
                       loading="lazy"
                     />
                     {pub.imageCaption && (
-                      <div className="px-3 py-1.5 bg-canvas/95 border-t border-border-subtle text-[11px] font-mono text-text-muted flex items-center gap-1.5">
+                      <div className="px-3 py-1.5 bg-canvas border-t border-border-subtle text-[11px] font-mono text-text-muted flex items-center gap-1.5">
                         <span className="w-1.5 h-1.5 rounded-full bg-accent-solid flex-shrink-0" aria-hidden="true" />
                         <span className="truncate">{pub.imageCaption}</span>
                       </div>
@@ -379,7 +379,7 @@ export const ExperienceView: React.FC = () => {
                       loading="lazy"
                     />
                     {acc.imageCaption && (
-                      <div className="px-3 py-1.5 bg-canvas/95 border-t border-border-subtle text-[11px] font-mono text-text-muted flex items-center gap-1.5">
+                      <div className="px-3 py-1.5 bg-canvas border-t border-border-subtle text-[11px] font-mono text-text-muted flex items-center gap-1.5">
                         <span className="w-1.5 h-1.5 rounded-full bg-accent-solid flex-shrink-0" aria-hidden="true" />
                         <span className="truncate">{acc.imageCaption}</span>
                       </div>
