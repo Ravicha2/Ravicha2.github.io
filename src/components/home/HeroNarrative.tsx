@@ -70,7 +70,7 @@ export const HeroNarrative: React.FC = () => {
           <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 pt-2">
             <TransitionLink
               to="/projects"
-              className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-md bg-accent-solid text-white dark:text-zinc-950 hover:bg-opacity-90 active:scale-[0.99] transition-all shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-md bg-accent-solid text-white hover:opacity-90 active:scale-[0.99] transition-all shadow-sm"
             >
               <span>Explore Projects</span>
               <ArrowRight className="w-4 h-4" aria-hidden="true" />

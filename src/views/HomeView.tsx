@@ -88,7 +88,7 @@ export const HomeView: React.FC = () => {
             </TransitionLink>
             <TransitionLink
               to="/experience"
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-md bg-accent-solid text-white dark:text-zinc-950 hover:bg-opacity-90 active:scale-[0.99] transition-all"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-md bg-accent-solid text-white hover:opacity-90 active:scale-[0.99] transition-all"
             >
               <span>View full experience</span>
               <ArrowRight className="w-4 h-4" aria-hidden="true" />

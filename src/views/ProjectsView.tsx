@@ -87,15 +87,15 @@ export const ProjectsView: React.FC = () => {
                   onClick={() => handleSelectCategory(category.id)}
                   className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-md text-xs font-mono font-semibold transition-all duration-150 border ${
                     isSelected
-                      ? 'bg-accent-solid text-white dark:text-zinc-950 border-accent-solid font-bold'
+                      ? 'bg-accent-solid text-white border-accent-solid font-bold'
                       : 'bg-surface text-text-secondary border-border-subtle hover:text-text-primary hover:bg-surface-hover hover:border-border-strong'
                   }`}
                 >
                   <span>{category.label}</span>
                   <span
-                    className={`text-[10px] px-1.5 py-0.2 rounded font-mono font-bold ${
+                    className={`text-[10px] px-1.5 py-0.5 rounded font-mono font-bold ${
                       isSelected
-                        ? 'bg-white dark:bg-zinc-950 text-accent-solid'
+                        ? 'bg-white text-accent-solid'
                         : 'bg-canvas text-text-muted border border-border-subtle'
                     }`}
                   >
@@ -123,7 +123,7 @@ export const ProjectsView: React.FC = () => {
                 data-testid={`project-card-${project.slug}`}
                 style={activeSlug === project.slug ? { viewTransitionName: `project-card-${project.slug}` } : undefined}
                 className={`relative group/card bg-surface border border-border-subtle rounded-lg p-4 sm:p-6 flex flex-col justify-between hover:border-border-strong transition-all duration-200 ${
-                  hasCaseStudy ? 'cursor-pointer hover:bg-surface-hover/30 hover:shadow-sm' : ''
+                  hasCaseStudy ? 'cursor-pointer hover:bg-surface-hover hover:shadow-sm' : ''
                 }`}
               >
                 <div className="space-y-4">
@@ -177,7 +177,7 @@ export const ProjectsView: React.FC = () => {
                         loading="lazy"
                       />
                       {project.imageCaption && (
-                        <div className="px-3 py-1 bg-canvas/95 border-t border-border-subtle text-[11px] font-mono text-text-muted flex items-center gap-1.5">
+                        <div className="px-3 py-1 bg-canvas border-t border-border-subtle text-[11px] font-mono text-text-muted flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 rounded-full bg-accent-solid flex-shrink-0" aria-hidden="true" />
                           <span className="truncate">{project.imageCaption}</span>
                         </div>
