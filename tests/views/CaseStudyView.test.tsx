@@ -36,7 +36,7 @@ describe('CaseStudyView Component', () => {
 
       // Tech stack pills
       expect(screen.getAllByText('Neo4j').length).toBeGreaterThanOrEqual(1);
-      expect(screen.getAllByText('FastAPI').length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText('Docker').length).toBeGreaterThanOrEqual(1);
       expect(screen.getAllByText('Cypher').length).toBeGreaterThanOrEqual(1);
     });
 

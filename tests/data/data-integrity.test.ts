@@ -149,6 +149,28 @@ describe('Data Layer Integrity', () => {
       });
     });
 
+    it('marks at most one role as current, and any current role agrees with today', () => {
+      // HomeView falls back to the most recent role when nothing is current, so a second
+      // `isCurrent: true` would make the "Active Deployment" label ambiguous.
+      const currentRoles = workExperience.filter((w) => w.isCurrent);
+      expect(currentRoles.length).toBeLessThanOrEqual(1);
+
+      if (currentRoles.length === 1) {
+        expect(currentRoles[0].endDate).toBeUndefined();
+      }
+    });
+
+    it('dates every completed role with an end date and no end date on current ones', () => {
+      workExperience.forEach((item) => {
+        if (item.isCurrent) {
+          expect(item.endDate, `${item.company} is current but has an endDate`).toBeUndefined();
+        } else {
+          expect(item.endDate, `${item.company} is not current but has no endDate`).toBeDefined();
+          expect(item.period).not.toMatch(/present/i);
+        }
+      });
+    });
+
     it('contains all education milestones', () => {
       expect(education.length).toBeGreaterThanOrEqual(3);
 

@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
+import { featuredProjects } from '../../src/data/projects';
 
 describe('AI Agent Protocol Files (llms.txt & llms-full.txt)', () => {
   const publicDir = path.resolve(__dirname, '../../public');
@@ -52,5 +53,54 @@ describe('AI Agent Protocol Files (llms.txt & llms-full.txt)', () => {
     expect(content).toContain('Inngest');
     expect(content).toContain('Borda-Count Consensus');
     expect(content).toContain('TENCON 2023');
+  });
+
+  // The dossier files are hand-maintained. These tests are the tether: editing only the
+  // site data (or only the dossier) must fail loudly rather than shipping a silent split.
+  describe('Site ↔ dossier parity', () => {
+    const read = (file: string) => fs.readFileSync(file, 'utf-8');
+
+    // Scoped to the flagship case studies: the dossier details those four in full and has no
+    // supporting-projects section, so requiring node-api / robotic-arm / heal metrics here
+    // would demand content the dossier is not meant to carry.
+    it('reproduces every flagship project metric verbatim in llms-full.txt', () => {
+      const content = read(llmsFullTxtPath);
+      for (const project of featuredProjects) {
+        for (const metric of project.metrics ?? []) {
+          expect(content, `${project.slug}: metric "${metric}" is missing from llms-full.txt`).toContain(metric);
+        }
+      }
+    });
+
+    it('does not assert flagship claims that were removed from the project data', () => {
+      const stale = [
+        'Zero AST-ADR rule drift',
+        'Automated PR blocking status checks',
+        'Sub-second PR status check latency',
+        'false negative tolerance',
+        'Lead Researcher',
+        'Systems Engineering Intern',
+      ];
+      for (const file of [llmsFullTxtPath, llmsTxtPath]) {
+        const content = read(file);
+        for (const claim of stale) {
+          expect(content, `${path.basename(file)} still asserts "${claim}"`).not.toContain(claim);
+        }
+      }
+    });
+
+    it('does not attribute sub-millimeter accuracy to the robotics project entry', () => {
+      // The claim legitimately survives in the IEEE publication description (it is still in
+      // experience.ts), but it was removed from the robotic-arm project metrics — so the
+      // short dossier, which describes projects, must not re-assert it there.
+      expect(read(llmsTxtPath)).not.toContain('sub-millimeter');
+    });
+
+    it('keeps role titles and timelines in step with the experience data', () => {
+      const full = read(llmsFullTxtPath);
+      expect(full).toContain('Researcher & Developer (UNSW Sydney)');
+      expect(full).toContain('Field Engineering Intern');
+      expect(full).toContain('Jul 2026 – Sep 2026');
+    });
   });
 });

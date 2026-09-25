@@ -24,10 +24,11 @@ export const ViewTransitionProvider: React.FC<{ children: React.ReactNode }> = (
   const navigateWithTransition = useCallback(
     (to: string, options?: NavigateOptions, targetSlug?: string) => {
       // Check if View Transitions API is available and reduced motion is not requested
-      const prefersReducedMotion =
+      const prefersReducedMotion = Boolean(
         typeof window !== 'undefined' &&
         window.matchMedia &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.matchMedia('(prefers-reduced-motion: reduce)')?.matches
+      );
 
       const fromPath = location.pathname;
       const toPath = to.split('?')[0].split('#')[0];
@@ -63,7 +64,9 @@ export const ViewTransitionProvider: React.FC<{ children: React.ReactNode }> = (
         }
 
         if (slug) {
-          setActiveSlug(slug);
+          flushSync(() => {
+            setActiveSlug(slug);
+          });
         }
 
         const transition = (document as unknown as {
@@ -71,6 +74,9 @@ export const ViewTransitionProvider: React.FC<{ children: React.ReactNode }> = (
         }).startViewTransition(() => {
           flushSync(() => {
             navigate(to, options);
+            if (typeof window !== 'undefined') {
+              window.scrollTo(0, 0);
+            }
           });
         });
 
@@ -89,6 +95,9 @@ export const ViewTransitionProvider: React.FC<{ children: React.ReactNode }> = (
         }
         setActiveSlug(null);
         navigate(to, options);
+        if (typeof window !== 'undefined') {
+          window.scrollTo(0, 0);
+        }
       }
     },
     [navigate, location.pathname]
@@ -117,10 +126,11 @@ export const useViewTransitionNavigate = () => {
 
   return useCallback(
     (to: string, options?: NavigateOptions) => {
-      const prefersReducedMotion =
+      const prefersReducedMotion = Boolean(
         typeof window !== 'undefined' &&
         window.matchMedia &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.matchMedia('(prefers-reduced-motion: reduce)')?.matches
+      );
 
       const fromPath = location.pathname;
       const toPath = to.split('?')[0].split('#')[0];
@@ -150,6 +160,9 @@ export const useViewTransitionNavigate = () => {
         }).startViewTransition(() => {
           flushSync(() => {
             navigate(to, options);
+            if (typeof window !== 'undefined') {
+              window.scrollTo(0, 0);
+            }
           });
         });
 
@@ -163,6 +176,9 @@ export const useViewTransitionNavigate = () => {
           delete document.documentElement.dataset.transitionDirection;
         }
         navigate(to, options);
+        if (typeof window !== 'undefined') {
+          window.scrollTo(0, 0);
+        }
       }
     },
     [navigate, location.pathname]

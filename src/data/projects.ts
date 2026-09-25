@@ -17,15 +17,15 @@ export const projects: Project[] = [
     category: 'graph-rag',
     categoryLabel: 'Graph & Knowledge',
     featured: true,
-    role: 'Lead Researcher (UNSW Sydney)',
+    role: 'Researcher & Developer (UNSW Sydney)',
     timeline: 'Jun 2026',
-    tags: ['Python', 'FastAPI', 'Neo4j', 'Cypher', 'Docker', 'uv', 'GitHub Actions', 'GraphRAG'],
+    tags: ['Python', 'Neo4j', 'Cypher', 'Docker', 'uv', 'GitHub Actions', 'GraphRAG'],
     links: {
       github: 'https://github.com/Ravicha2/Shepherd',
     },
     metrics: [
-      'Zero AST-ADR rule drift',
-      'Automated PR blocking status checks',
+      'Architectural Constraint Enforcement',
+      'Natural Language to code constraint',
       'Deterministic Cypher graph traversal',
     ],
     summary:
@@ -41,13 +41,12 @@ export const projects: Project[] = [
       },
       problemEncountered: {
         edgeCases: [
-          'Multi-layer circular dependencies across dynamically imported modules',
           'ADR specifications written in ambiguous natural language requiring structured constraint extraction',
           'False positive alerts on legitimate mock dependencies in test suites',
         ],
         constraints: [
-          'Sub-second PR status check latency required to prevent blocking developer CI pipelines',
-          'Zero false negative tolerance on critical security and layer boundary separation rules',
+          'lean token consumption on architectural dependencies review',
+          'high precision and recall on AI code review.',
         ],
         summary:
           'Vector search cannot compute graph reachability or transitive import violations across code layers.',
@@ -393,7 +392,6 @@ export const projects: Project[] = [
       paper: 'https://ieeexplore.ieee.org/document/10349000',
     },
     metrics: [
-      'Sub-millimeter position accuracy',
       'Real-time spatial orientation tracking',
       'IEEE TENCON 2023 presentation',
     ],
@@ -415,8 +413,7 @@ export const projects: Project[] = [
     },
     metrics: [
       "Founder's Choice Award Winner",
-      'Production deployment at heal.a2a.ing',
-      'Real-time peer matching',
+      'demo deployment at heal.a2a.ing',
     ],
     summary:
       'Community mental health peer support platform recognized with the Founder\'s Choice Award at the Hack2Heal Hackathon.',

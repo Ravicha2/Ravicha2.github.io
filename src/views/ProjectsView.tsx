@@ -7,12 +7,11 @@ import {
   Terminal,
   FileText,
   Video,
-  Sparkles,
 } from 'lucide-react';
 import { projects, projectCategories, getProjectsByCategory } from '../data/projects';
 import { ProjectCategory, Project } from '../data/types';
 import { TransitionLink } from '../components/common/TransitionLink';
-import { useActiveTransitionSlug } from '../hooks/useViewTransitionNavigate';
+import { useActiveTransitionSlug, useViewTransitionNavigate } from '../hooks/useViewTransitionNavigate';
 
 const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg
@@ -33,6 +32,7 @@ const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' })
 export const ProjectsView: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeSlug = useActiveTransitionSlug();
+  const navigateWithTransition = useViewTransitionNavigate();
 
   const categoryParam = searchParams.get('category') as ProjectCategory | null;
   const validCategoryIds = projectCategories.map((c) => c.id);
@@ -62,15 +62,11 @@ export const ProjectsView: React.FC = () => {
     <div className="space-y-10">
       {/* Page Header */}
       <header className="space-y-4 border-b border-border-subtle pb-8">
-        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-accent-badge-bg border border-border-subtle text-accent-badge-text text-xs font-mono font-medium">
-          <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
-          <span>Technical Portfolio & Case Studies</span>
-        </div>
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-tight">
           Projects
         </h1>
         <p className="text-base sm:text-lg text-text-secondary max-w-3xl leading-relaxed">
-          Curated engineering projects and technical case studies across Agentic AI, Distributed Systems, Graph Knowledge Systems, and Medical Robotics.
+          I've always loved building and tinkering. My projects cover many different areas, but I'm most interested in AI that can act on its own.
         </p>
 
         {/* Category Filters */}
@@ -123,8 +119,11 @@ export const ProjectsView: React.FC = () => {
               <article
                 key={project.slug}
                 data-testid={`project-card-${project.slug}`}
+                onClick={hasCaseStudy ? () => navigateWithTransition(`/projects/${project.slug}`) : undefined}
                 style={activeSlug === project.slug ? { viewTransitionName: `project-card-${project.slug}` } : undefined}
-                className="group/card bg-surface border border-border-subtle rounded-lg p-4 sm:p-6 flex flex-col justify-between hover:border-border-strong transition-all duration-150"
+                className={`group/card bg-surface border border-border-subtle rounded-lg p-4 sm:p-6 flex flex-col justify-between hover:border-border-strong transition-all duration-200 ${
+                  hasCaseStudy ? 'cursor-pointer hover:bg-surface-hover/30 hover:shadow-sm' : ''
+                }`}
               >
                 <div className="space-y-4">
                   {/* Category, Badge & Timeline */}
@@ -235,6 +234,7 @@ export const ProjectsView: React.FC = () => {
                         href={project.links.github}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         className="p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
                         aria-label={`${project.title} GitHub repository (opens in a new tab)`}
                       >
@@ -246,6 +246,7 @@ export const ProjectsView: React.FC = () => {
                         href={project.links.demo}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         className="p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
                         aria-label={`${project.title} live demo (opens in a new tab)`}
                       >
@@ -257,6 +258,7 @@ export const ProjectsView: React.FC = () => {
                         href={project.links.pypi}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         className="p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
                         aria-label={`${project.title} PyPI package (opens in a new tab)`}
                       >
@@ -268,6 +270,7 @@ export const ProjectsView: React.FC = () => {
                         href={project.links.video}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         className="p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
                         aria-label={`${project.title} video walkthrough (opens in a new tab)`}
                       >
@@ -279,6 +282,7 @@ export const ProjectsView: React.FC = () => {
                         href={project.links.paper}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         className="p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors focus-visible:ring-2 focus-visible:ring-accent-solid focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
                         aria-label={`${project.title} published IEEE paper (opens in a new tab)`}
                       >

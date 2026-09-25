@@ -6,7 +6,11 @@ import { workExperience, education } from '../data/experience';
 import { TransitionLink } from '../components/common/TransitionLink';
 
 export const HomeView: React.FC = () => {
-  const currentWork = workExperience.find((w) => w.isCurrent) || workExperience[0];
+  // Show the current role when one exists, otherwise fall back to the most recent one.
+  // The fallback is deliberate, but the label must never claim currency the data does
+  // not support — so it is derived from `isCurrent` rather than hardcoded.
+  const currentWork = workExperience.find((w) => w.isCurrent) ?? workExperience[0];
+  const currentWorkLabel = currentWork?.isCurrent ? 'Active Deployment' : 'Most Recent Role';
   const primaryEducation = education[0];
 
   return (
@@ -30,21 +34,23 @@ export const HomeView: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {/* Current Experience Card */}
-          <div className="bg-surface border border-border-subtle rounded-lg p-4 sm:p-6 space-y-3.5 hover:border-border-strong transition-colors">
-            <div className="flex items-center gap-2 text-xs font-mono text-text-muted pb-2 border-b border-border-subtle">
-              <Briefcase className="w-4 h-4 text-accent-solid" aria-hidden="true" />
-              <span className="font-semibold text-text-primary">Active Deployment</span>
-            </div>
-            <div>
-              <h3 className="text-base sm:text-lg font-bold text-text-primary tracking-tight">{currentWork.role}</h3>
-              <p className="text-sm font-semibold text-accent-solid mt-0.5">
-                {currentWork.company} · <span className="font-mono text-xs text-text-muted font-normal">{currentWork.period}</span>
+          {currentWork && (
+            <div className="bg-surface border border-border-subtle rounded-lg p-4 sm:p-6 space-y-3.5 hover:border-border-strong transition-colors">
+              <div className="flex items-center gap-2 text-xs font-mono text-text-muted pb-2 border-b border-border-subtle">
+                <Briefcase className="w-4 h-4 text-accent-solid" aria-hidden="true" />
+                <span className="font-semibold text-text-primary">{currentWorkLabel}</span>
+              </div>
+              <div>
+                <h3 className="text-base sm:text-lg font-bold text-text-primary tracking-tight">{currentWork.role}</h3>
+                <p className="text-sm font-semibold text-accent-solid mt-0.5">
+                  {currentWork.company} · <span className="font-mono text-xs text-text-muted font-normal">{currentWork.period}</span>
+                </p>
+              </div>
+              <p className="text-sm text-text-secondary leading-relaxed">
+                {currentWork.description[0]}
               </p>
             </div>
-            <p className="text-sm text-text-secondary leading-relaxed">
-              {currentWork.description[0]}
-            </p>
-          </div>
+          )}
 
           {/* Education Card */}
           <div className="bg-surface border border-border-subtle rounded-lg p-4 sm:p-6 space-y-3.5 hover:border-border-strong transition-colors">

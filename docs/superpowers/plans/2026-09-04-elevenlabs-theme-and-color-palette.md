@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Implement the ElevenLabs-inspired Editorial Monochrome theme (Light Mode Only, strictly no status tag lines, strict layout invariance) across design tokens, global styles, and component views.
+**Goal:** Implement the ElevenLabs-inspired Editorial Monochrome theme (Light Mode Only, no status chrome, strict layout invariance) across design tokens, global styles, and component views.
 
 **Architecture:** Update CSS custom properties in `tokens.css` to match the warm ivory/obsidian ink palette, purge `.dark` class overrides to enforce single-mode light theme, clean up residual `dark:*` Tailwind classes from buttons/pills across all views, and ensure zero layout changes.
 
@@ -10,9 +10,9 @@
 
 ## Global Constraints
 
-- **Theme Palette**: Base canvas `#f7f7f5`, surface `#ffffff`, surface-hover `#f0eee9`, border-subtle `#e8e6e1`, border-strong `#d0ccc4`, text-primary `#18181b`, text-secondary `#57534e`, text-muted `#78716c`, accent-solid `#18181b`, accent-badge-bg `#f0eee9`, accent-badge-text `#18181b`.
+- **Theme Palette**: Base canvas `#f7f7f5`, surface `#ffffff`, surface-hover `#f0eee9`, border-subtle `#d5d0c7`, border-strong `#aca69c`, text-primary `#18181b`, text-secondary `#4a443f`, text-muted `#524b45`, accent-solid `#18181b`, accent-badge-bg `#f0eee9`, accent-badge-text `#18181b`. These differ from the original design spec: the earlier border and body-text values failed WCAG AA/AAA on the surfaces they are actually used on. See the design spec §1.5 and §2.2 for the measured ratios.
 - **Light Mode Only**: Zero `.dark` overrides or dual-theme classes.
-- **Strictly No Status Tag Line**: Hero and all views must contain zero status indicators or availability tag lines.
+- **Strictly No Status Chrome**: Zero status pills, badges, or availability dots. One factual prose availability line rendered from `profile.status` is permitted in the closing conversion block.
 - **Strict Layout Invariance**: Zero modifications to DOM layout hierarchies, grid structures, flex containers, padding, margins, or view transition names.
 
 ---
@@ -47,11 +47,14 @@ describe('ElevenLabs Editorial Design Tokens', () => {
   });
 
   it('defines warm hairline borders and high-contrast ink typography', () => {
-    expect(tokensContent).toContain('--border-subtle: #e8e6e1;');
-    expect(tokensContent).toContain('--border-strong: #d0ccc4;');
+    // Values corrected from the original spec: every text token must clear 7:1 against
+    // canvas (#f7f7f5), white panel, AND the hover/badge surface (#f0eee9), because
+    // --text-muted is used at 11px inside tag pills whose background is --bg-surface-hover.
+    expect(tokensContent).toContain('--border-subtle: #d5d0c7;');
+    expect(tokensContent).toContain('--border-strong: #aca69c;');
     expect(tokensContent).toContain('--text-primary: #18181b;');
-    expect(tokensContent).toContain('--text-secondary: #57534e;');
-    expect(tokensContent).toContain('--text-muted: #78716c;');
+    expect(tokensContent).toContain('--text-secondary: #4a443f;');
+    expect(tokensContent).toContain('--text-muted: #524b45;');
   });
 
   it('defines monochromatic ink accents and neutral badge pills', () => {
@@ -81,11 +84,11 @@ Update `src/styles/tokens.css`:
   --bg-canvas: #f7f7f5;
   --bg-surface: #ffffff;
   --bg-surface-hover: #f0eee9;
-  --border-subtle: #e8e6e1;
-  --border-strong: #d0ccc4;
+  --border-subtle: #d5d0c7;
+  --border-strong: #aca69c;
   --text-primary: #18181b;
-  --text-secondary: #57534e;
-  --text-muted: #78716c;
+  --text-secondary: #4a443f;
+  --text-muted: #524b45;
   --accent-solid: #18181b;
   --accent-badge-bg: #f0eee9;
   --accent-badge-text: #18181b;
@@ -256,8 +259,8 @@ git commit -m "refactor: remove residual dark mode classes and harmonize monochr
 - [ ] **Step 1: Update `DESIGN.md` with ElevenLabs Editorial design tokens & layout invariance rule**
 
 In `DESIGN.md`:
-- Update §1 (North Star & Core Philosophy) to document the ElevenLabs Editorial single-theme light mode, monochromatic ink actions, strict layout invariance, and zero status tag line rule.
-- Update §2.1 (Color Palette & Theme Tokens) with the `#f7f7f5` warm ivory palette table.
+- Update §1 (North Star & Core Philosophy) to document the ElevenLabs Editorial single-theme light mode, monochromatic ink actions, strict layout invariance, and the no-status-chrome rule (factual availability prose permitted).
+- Update §2.1 (Color Palette & Theme Tokens) with the `#f7f7f5` warm ivory palette table, including measured contrast ratios and the note that `--accent-solid` must not be used as a focus ring on `bg-accent-solid` controls.
 
 - [ ] **Step 2: Run entire test suite**
 

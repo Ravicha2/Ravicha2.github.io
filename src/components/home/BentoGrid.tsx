@@ -2,10 +2,11 @@ import type React from 'react';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import { featuredProjects } from '../../data/projects';
 import { TransitionLink } from '../common/TransitionLink';
-import { useActiveTransitionSlug } from '../../hooks/useViewTransitionNavigate';
+import { useActiveTransitionSlug, useViewTransitionNavigate } from '../../hooks/useViewTransitionNavigate';
 
 export const BentoGrid: React.FC = () => {
   const activeSlug = useActiveTransitionSlug();
+  const navigateWithTransition = useViewTransitionNavigate();
 
   return (
     <section aria-labelledby="bento-heading" className="space-y-6">
@@ -32,8 +33,9 @@ export const BentoGrid: React.FC = () => {
           <article
             key={project.slug}
             data-testid={`bento-card-${project.slug}`}
+            onClick={() => navigateWithTransition(`/projects/${project.slug}`)}
             style={activeSlug === project.slug ? { viewTransitionName: `project-card-${project.slug}` } : undefined}
-            className="group/card bg-surface border border-border-subtle rounded-lg p-5 sm:p-6 flex flex-col justify-between hover:border-border-strong hover:bg-surface-hover/30 transition-all duration-150"
+            className="group/card bg-surface border border-border-subtle rounded-lg p-5 sm:p-6 flex flex-col justify-between hover:border-border-strong hover:bg-surface-hover/30 hover:shadow-sm cursor-pointer transition-all duration-200"
           >
             <div className="space-y-3.5">
               {/* Header: Category & Timeline */}

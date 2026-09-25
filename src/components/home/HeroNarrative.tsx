@@ -50,7 +50,6 @@ export const HeroNarrative: React.FC = () => {
     // Immediate render if user prefers reduced motion
     const prefersReducedMotion =
       typeof window !== 'undefined' &&
-      typeof window.matchMedia === 'function' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (prefersReducedMotion) {

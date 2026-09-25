@@ -2,7 +2,7 @@
 
 > Applied AI & Backend Systems Engineer specializing in fault-tolerant multi-agent pipelines, GraphRAG architectural compliance, and distributed data engines.
 
-- **Current Status**: Master of IT Candidate at UNSW Sydney (WAM 83 / Distinction, graduating Dec 2026) · Open to full-time Applied AI & Backend Systems roles.
+- **Current Status**: Master of IT at UNSW Sydney (WAM 83 / Distinction, graduating Dec 2026) · Open to full-time Applied AI & Backend Systems roles.
 - **Full Dossier**: [https://ravicha2.github.io/llms-full.txt](https://ravicha2.github.io/llms-full.txt)
 - **Primary Website**: [https://ravicha2.github.io/](https://ravicha2.github.io/)
 - **GitHub**: [https://github.com/Ravicha2](https://github.com/Ravicha2)
@@ -21,8 +21,8 @@
 ## Supporting Projects
 
 - [Chatbot Agent with Dynamic DB Tools](https://ravicha2.github.io/projects/node-api): Conversational agent with dynamic database schema inspection and tool calling (TypeScript, Express, LangChain, PostgreSQL). GitHub: [https://github.com/Ravicha2/node-api](https://github.com/Ravicha2/node-api).
-- [6-DOF Robotic Arm for Medical Ultrasonography](https://ravicha2.github.io/projects/robotic-arm-ultrasound): Passive probe tracking system with sub-millimeter position accuracy (C, MATLAB). Published at IEEE TENCON 2023: [https://ieeexplore.ieee.org/document/10349000](https://ieeexplore.ieee.org/document/10349000).
-- [Heal: Community Mental Health Support](https://ravicha2.github.io/projects/heal-a2a): Real-time peer matching platform recognized with Founder's Choice Award at Hack2Heal. Live: [https://heal.a2a.ing](https://heal.a2a.ing).
+- [6-DOF Robotic Arm for Medical Ultrasonography](https://ravicha2.github.io/projects/robotic-arm-ultrasound): Passive probe tracking system measuring real-time position and orientation accuracy for ultrasound training (C, MATLAB). Published at IEEE TENCON 2023: [https://ieeexplore.ieee.org/document/10349000](https://ieeexplore.ieee.org/document/10349000).
+- [Heal: Community Mental Health Support](https://ravicha2.github.io/projects/heal-a2a): Community mental health peer support platform recognized with the Founder's Choice Award at the Hack2Heal Hackathon. Live: [https://heal.a2a.ing](https://heal.a2a.ing).
 
 ## Core Technical Skills
 

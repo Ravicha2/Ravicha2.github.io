@@ -22,18 +22,18 @@ Currently completing a Master of Information Technology at UNSW Sydney (Distinct
 ## 2. Flagship Case Studies (4-Part Engineering Deep Dives)
 
 ### Case Study 1: Shepherd — GraphRAG Architectural Decision Graph & Compliance Engine
-- **Role**: Lead Researcher (UNSW Sydney) · **Timeline**: Jun 2026
-- **Stack**: Python, FastAPI, Neo4j, Cypher, Docker, uv, GitHub Actions, GraphRAG
+- **Role**: Researcher & Developer (UNSW Sydney) · **Timeline**: Jun 2026
+- **Stack**: Python, Neo4j, Cypher, Docker, uv, GitHub Actions, GraphRAG
 - **Repository**: https://github.com/Ravicha2/Shepherd
-- **Metrics**: Zero AST-ADR rule drift · Automated PR blocking status checks · Deterministic Cypher graph traversal
+- **Metrics**: Architectural Constraint Enforcement · Natural Language to code constraint · Deterministic Cypher graph traversal
 
 #### 1. The Core Intuition & Friction
 - **The Spark**: As AI code generators produce code at unprecedented velocity, engineering teams lose visibility over whether newly generated implementations adhere to historical Architectural Decision Records (ADRs) buried in repository markdown files.
 - **The Naive Failure Mode**: Naive vector search (RAG) retrieves semantically similar markdown paragraphs, but completely fails to detect multi-file dependency hierarchies, transitive imports, and strict layer boundaries (e.g. Domain layer importing Infrastructure).
 
 #### 2. The Root Problem Encountered
-- **Edge Cases**: Multi-layer circular dependencies across dynamically imported modules; ADR specifications written in ambiguous natural language requiring structured constraint extraction; false positive alerts on legitimate mock dependencies in test suites.
-- **Constraints**: Sub-second PR status check latency required to prevent blocking developer CI pipelines; zero false negative tolerance on critical security and layer boundary separation rules.
+- **Edge Cases**: ADR specifications written in ambiguous natural language requiring structured constraint extraction; false positive alerts on legitimate mock dependencies in test suites.
+- **Constraints**: Lean token consumption on architectural dependencies review; high precision and recall on AI code review.
 
 #### 3. Why Built This Way
 - **Architectural Insight**: Representing both code AST structures and ADR constraints as a unified Neo4j property graph enables deterministic Cypher path queries to verify architectural boundaries mathematically.
@@ -100,7 +100,7 @@ Currently completing a Master of Information Technology at UNSW Sydney (Distinct
 ---
 
 ### Case Study 4: Lit-Review-Council MCP Server (Google ADK & Open Source)
-- **Role**: Author (Google × Kaggle AI Agents Intensive) · **Timeline**: Jun 2026
+- **Role**: Author / Google × Kaggle AI Agents Intensive · **Timeline**: Jun 2026
 - **Stack**: Google ADK, Python, MCP, OpenAlex API, ArXiv API, uv, Claude Code
 - **Links**: https://github.com/Ravicha2/lit-review-council · PyPI: https://pypi.org/project/lit-review-council/
 - **Metrics**: Published on PyPI (uvx lit-review-council) · 3-reviewer Borda-count ensemble · Zero dangling citations
@@ -128,9 +128,9 @@ Currently completing a Master of Information Technology at UNSW Sydney (Distinct
 ## 3. Supporting Experience & Accolades
 
 ### Work Experience
-1. **Tendor** (Jul 2026 – Present, Sydney, Australia)
+1. **Tendor** (Jul 2026 – Sep 2026, Sydney, Australia)
    - *Role*: Software Engineer Intern
-   - *Focus*: Contributing to backend services, automated workflows, and AI agent integrations; collaborating with engineering on scalable API development and reliable service infrastructure.
+   - *Focus*: Contributed to backend services, MCP, and AI agent integrations; collaborated with engineering on development and reliable service infrastructure.
    - *Tags*: TypeScript, Node.js, AI Agents, Backend Systems
 2. **NodesNow LLC** (Dec 2025 – Feb 2026, Bangkok, Thailand)
    - *Role*: Backend Engineer Intern
@@ -141,14 +141,14 @@ Currently completing a Master of Information Technology at UNSW Sydney (Distinct
    - *Focus*: Designed 2D and 3D route arrangements with stress calculations across 10+ UK sites; structural hazard mitigation and technical mentorship.
    - *Tags*: Civil 3D, sisKMR, Stress Calculations, CAD, Systems Engineering
 4. **Jardine Schindler Group** (Jun 2022 – Aug 2022, Bangkok, Thailand)
-   - *Role*: Systems Engineering Intern
-   - *Focus*: Electromechanical systems analysis for vertical transportation; installation tolerances, safety compliance standards, and diagnostics.
+   - *Role*: Field Engineering Intern
+   - *Focus*: Electromechanical systems engineering analysis for vertical transportation and elevator systems; inspected installation tolerances, safety compliance standards, and mechanical sensor systems; collaborated on preventative maintenance protocols and diagnostic workflows.
    - *Tags*: Electromechanical Systems, Safety Standards, Sensors, Diagnostics
 
 ### Education
 - **Master of Information Technology** (Feb 2025 – Dec 2026 Expected) — UNSW Sydney, Australia
    - *Grade*: Distinction average (WAM 83)
-   - *Focus*: Advanced Algorithms, Artificial Intelligence, Distributed Systems, Software Construction; GraphRAG research.
+   - *Focus*: Computer Science, Software Engineering, and AI; conducting research in GraphRAG memory management and architectural compliance for intelligent coding agents.
 - **Exchange Study - M.Sc. Information Technology (IoT)** (Sep 2022 – Jan 2023) — IMT Atlantique, Rennes, France
    - *Focus*: Architecture and Engineering in IoT, distributed systems, networking protocols, embedded Linux.
 - **Bachelor of Automotive Design and Manufacturing Engineering** (Aug 2019 – Aug 2023) — Chulalongkorn University, Bangkok, Thailand

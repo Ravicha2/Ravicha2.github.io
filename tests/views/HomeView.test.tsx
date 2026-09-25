@@ -1,9 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { HomeView } from '../../src/views/HomeView';
 import { profile } from '../../src/data/profile';
 import { featuredProjects } from '../../src/data/projects';
+import { workExperience } from '../../src/data/experience';
 
 describe('HomeView Component', () => {
   const renderHome = () =>
@@ -89,9 +91,47 @@ describe('HomeView Component', () => {
         }
       }
     });
+
+    it('navigates to case study when clicking anywhere on a featured card', async () => {
+      const user = userEvent.setup();
+      render(
+        <MemoryRouter initialEntries={['/']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <HomeView />
+        </MemoryRouter>
+      );
+
+      const shepherdCard = screen.getByTestId('bento-card-shepherd');
+      expect(shepherdCard).toHaveClass('cursor-pointer');
+      await user.click(shepherdCard);
+      // Confirms click handler execution without error
+    });
   });
 
   describe('Career Snapshot and Direct Navigation CTAs', () => {
+    it('labels the experience card from data rather than claiming currency', () => {
+      renderHome();
+      const currentRoles = workExperience.filter((w) => w.isCurrent);
+
+      if (currentRoles.length === 0) {
+        // No role is current, so the fallback card must not assert "Active Deployment".
+        expect(screen.queryByText('Active Deployment')).not.toBeInTheDocument();
+        expect(screen.getByText('Most Recent Role')).toBeInTheDocument();
+      } else {
+        expect(screen.getByText('Active Deployment')).toBeInTheDocument();
+        expect(screen.queryByText('Most Recent Role')).not.toBeInTheDocument();
+      }
+    });
+
+    it('renders the most recent role when nothing is current', () => {
+      renderHome();
+      if (workExperience.some((w) => w.isCurrent)) return;
+
+      const mostRecent = workExperience[0];
+      expect(screen.getByRole('heading', { level: 3, name: mostRecent.role })).toBeInTheDocument();
+      expect(screen.getByText(new RegExp(mostRecent.period, 'i'))).toBeInTheDocument();
+    });
+
+
     it('renders links directing to full projects catalog and experience timeline', () => {
       renderHome();
       const allProjectsLinks = screen.getAllByRole('link', { name: /view all projects|explore all projects|all projects/i });

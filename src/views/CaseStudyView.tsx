@@ -266,7 +266,7 @@ export const CaseStudyView: React.FC = () => {
 
       {/* 4-Part Case Study Content */}
       {cs ? (
-        <div className="space-y-12">
+        <div className="space-y-12 case-study-content">
           {/* Part 1: Core Intuition & Friction */}
           <section
             aria-labelledby="section-intuition"

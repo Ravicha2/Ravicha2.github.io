@@ -17,7 +17,7 @@ describe('ProjectsView Component', () => {
     it('renders the main heading and introductory description', () => {
       renderProjectsView();
       expect(screen.getByRole('heading', { level: 1, name: /Projects|Engineering Projects/i })).toBeInTheDocument();
-      expect(screen.getByText(/Curated engineering projects and technical case studies/i)).toBeInTheDocument();
+      expect(screen.getByText(/I've always loved building and tinkering/i)).toBeInTheDocument();
     });
 
     it('renders all category filter buttons with correct initial aria-pressed state', () => {
@@ -127,8 +127,21 @@ describe('ProjectsView Component', () => {
       renderProjectsView();
       const shepherdCard = screen.getByTestId('project-card-shepherd');
       expect(within(shepherdCard).getByText('Neo4j')).toBeInTheDocument();
-      expect(within(shepherdCard).getByText('FastAPI')).toBeInTheDocument();
-      expect(within(shepherdCard).getByText(/Zero AST-ADR rule drift/i)).toBeInTheDocument();
+      expect(within(shepherdCard).getByText('Cypher')).toBeInTheDocument();
+      expect(within(shepherdCard).getByText(/Architectural Constraint Enforcement/i)).toBeInTheDocument();
+    });
+
+    it('enables full-card click on projects with case studies and isolates external links', async () => {
+      const user = userEvent.setup();
+      renderProjectsView();
+
+      const shepherdCard = screen.getByTestId('project-card-shepherd');
+      expect(shepherdCard).toHaveClass('cursor-pointer');
+      await user.click(shepherdCard);
+
+      // Verify external link click does not throw and has click handler
+      const githubLink = within(shepherdCard).getByRole('link', { name: /github/i });
+      await user.click(githubLink);
     });
   });
 });

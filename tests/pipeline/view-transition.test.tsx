@@ -6,7 +6,7 @@ import { MemoryRouter, Routes, Route, useLocation } from 'react-router-dom';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { useViewTransitionNavigate } from '../../src/hooks/useViewTransitionNavigate';
+import { useViewTransitionNavigate, ViewTransitionProvider, useActiveTransitionSlug } from '../../src/hooks/useViewTransitionNavigate';
 import { TransitionLink } from '../../src/components/common/TransitionLink';
 import { BentoGrid } from '../../src/components/home/BentoGrid';
 import { ProjectsView } from '../../src/views/ProjectsView';
@@ -153,6 +153,43 @@ describe('useViewTransitionNavigate Hook & TransitionLink Component', () => {
     await user.click(screen.getByTestId('transition-link'));
     expect(mockStartViewTransition).toHaveBeenCalledTimes(1);
     expect(screen.getByText('Projects Destination')).toBeInTheDocument();
+  });
+
+  it('sets activeSlug synchronously when navigating to a case study under ViewTransitionProvider', async () => {
+    const user = userEvent.setup();
+    let capturedSlugDuringTransition: string | null = null;
+
+    const ActiveSlugConsumer = () => {
+      const activeSlug = useActiveTransitionSlug();
+      const navigate = useViewTransitionNavigate();
+      return (
+        <div>
+          <span data-testid="active-slug">{activeSlug || 'none'}</span>
+          <button onClick={() => navigate('/projects/shepherd')}>To Shepherd</button>
+        </div>
+      );
+    };
+
+    (document as any).startViewTransition = vi.fn((cb: () => void) => {
+      capturedSlugDuringTransition = screen.getByTestId('active-slug').textContent;
+      cb();
+      return { finished: Promise.resolve() };
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <ViewTransitionProvider>
+          <Routes>
+            <Route path="/" element={<ActiveSlugConsumer />} />
+            <Route path="/projects/shepherd" element={<div>Shepherd Page</div>} />
+          </Routes>
+        </ViewTransitionProvider>
+      </MemoryRouter>
+    );
+
+    await user.click(screen.getByRole('button', { name: /to shepherd/i }));
+    expect(capturedSlugDuringTransition).toBe('shepherd');
+    expect(screen.getByText('Shepherd Page')).toBeInTheDocument();
   });
 });
 

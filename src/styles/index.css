@@ -89,6 +89,21 @@ p {
   }
 }
 
+@keyframes content-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.case-study-content {
+  animation: 350ms cubic-bezier(0.16, 1, 0.3, 1) both content-slide-up;
+}
+
 #site-header {
   view-transition-name: app-header;
 }
@@ -133,8 +148,8 @@ p {
   ::view-transition-group(project-card-node-api),
   ::view-transition-group(project-card-robotic-arm-ultrasound),
   ::view-transition-group(project-card-heal-a2a) {
-    animation-duration: 250ms;
-    animation-timing-function: cubic-bezier(0.2, 0, 1, 1);
+    animation-duration: 320ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   ::view-transition-old(active-hero),
@@ -159,7 +174,7 @@ p {
     overflow: hidden;
     height: 100%;
     width: 100%;
-    animation-duration: 250ms;
-    animation-timing-function: cubic-bezier(0.2, 0, 1, 1);
+    animation-duration: 320ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   }
 }

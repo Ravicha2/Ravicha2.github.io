@@ -19,7 +19,7 @@ describe('ExperienceView Component', () => {
         screen.getByRole('heading', { level: 1, name: /Engineering Journey & Experience/i })
       ).toBeInTheDocument();
       expect(
-        screen.getByText(/A chronological progression from physical systems engineering to distributed & agentic AI architectures/i)
+        screen.getByText(/Originally trained in Automotive Design & Manufacturing Engineering/i)
       ).toBeInTheDocument();
     });
   });
@@ -50,7 +50,7 @@ describe('ExperienceView Component', () => {
       renderExperienceView();
 
       const tendorCard = screen.getByTestId('work-item-tendor');
-      expect(within(tendorCard).getByText(/backend services, automated workflows, and AI agent integrations/i)).toBeInTheDocument();
+      expect(within(tendorCard).getByText(/Contributed to backend services, MCP, and AI agent integrations/i)).toBeInTheDocument();
 
       const nodesNowCard = screen.getByTestId('work-item-nodesnow');
       expect(within(nodesNowCard).getByText(/fault-tolerant AI agent orchestration system using Inngest/i)).toBeInTheDocument();
@@ -112,7 +112,7 @@ describe('ExperienceView Component', () => {
       const unswItem = screen.getByTestId('edu-item-unsw');
       expect(within(unswItem).getAllByText(/WAM 83/i).length).toBeGreaterThanOrEqual(1);
       expect(within(unswItem).getAllByText(/Distinction/i).length).toBeGreaterThanOrEqual(1);
-      expect(within(unswItem).getByText(/Advanced Algorithms/i)).toBeInTheDocument();
+      expect(within(unswItem).getByText(/Software Engineering/i)).toBeInTheDocument();
     });
 
     it('renders IoT pivot narrative for IMT Atlantique', () => {

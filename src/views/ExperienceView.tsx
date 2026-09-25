@@ -4,7 +4,6 @@ import {
   GraduationCap,
   Award,
   BookOpen,
-  Sparkles,
   ExternalLink,
   MapPin,
   Calendar,
@@ -50,15 +49,11 @@ export const ExperienceView: React.FC = () => {
     <div className="space-y-16">
       {/* Page Header */}
       <header className="space-y-4 border-b border-border-subtle pb-6 sm:pb-8">
-        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-accent-badge-bg border border-border-subtle text-accent-badge-text text-xs font-mono font-medium">
-          <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
-          <span>Career & Education Timeline</span>
-        </div>
         <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-tight">
           Engineering Journey & Experience
         </h1>
         <p className="text-sm sm:text-lg text-text-secondary max-w-3xl leading-relaxed">
-          A chronological progression from physical systems engineering to distributed & agentic AI architectures—combining mechanical rigor, durable orchestration, and graph-based intelligence.
+          Originally trained in Automotive Design & Manufacturing Engineering at Chulalongkorn University. During an IoT exchange at IMT Atlantique in France right when modern LLMs took off, saw the potential of combining software intelligence with systems engineering and made a decisive pivot to Computer Science.
         </p>
       </header>
 

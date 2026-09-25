@@ -13,13 +13,13 @@ export const workExperience: WorkExperience[] = [
     company: 'Tendor',
     role: 'Software Engineer Intern',
     location: 'Sydney, Australia',
-    period: 'Jul 2026 - Present',
+    period: 'Jul 2026 - Sep 2026',
     startDate: '2026-07',
-    endDate: 'Present',
-    isCurrent: true,
+    endDate: '2026-09',
+    isCurrent: false,
     description: [
-      'Contributing to backend services, automated workflows, and AI agent integrations.',
-      'Collaborating with engineering on scalable API development and reliable service infrastructure.',
+      'Contributed to backend services, MCP, and AI agent integrations.',
+      'Collaborated with engineering on development and reliable service infrastructure.',
     ],
     highlights: [
       'Backend systems & API integration',
@@ -74,7 +74,7 @@ export const workExperience: WorkExperience[] = [
   {
     id: 'jardine-schindler',
     company: 'Jardine Schindler Group',
-    role: 'Systems Engineering Intern',
+    role: 'Field Engineering Intern',
     location: 'Bangkok, Thailand',
     period: 'Jun 2022 - Aug 2022',
     startDate: '2022-06',
@@ -104,7 +104,7 @@ export const education: EducationItem[] = [
     grade: 'WAM 83 (Distinction average)',
     details: [
       'Distinction average (WAM 83).',
-      'Relevant coursework in Advanced Algorithms, Artificial Intelligence, Distributed Systems, and Software Construction.',
+      'Relevant coursework in Computer Science, Software Engineering, and AI.',
       'Conducting research in GraphRAG memory management and architectural compliance for intelligent coding agents.',
     ],
   },
