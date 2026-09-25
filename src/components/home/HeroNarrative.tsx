@@ -1,5 +1,4 @@
 import type React from 'react';
-import { useState, useEffect } from 'react';
 import { Mail, ArrowRight } from 'lucide-react';
 import { profile } from '../../data/profile';
 import { TransitionLink } from '../common/TransitionLink';
@@ -39,43 +38,12 @@ const LinkedinIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' 
   </svg>
 );
 
-// Token chunks for generative AI streaming effect
-const HEADLINE_TOKENS = ['I', ' li','ke', ' bu', 'il', 'd', 'ing', ' A', 'gen', 'tic', ' Soft', 'wa', 're', '.'];
+const HEADLINE = 'I like building Agentic Software.';
 
 export const HeroNarrative: React.FC = () => {
-  const [displayedTokens, setDisplayedTokens] = useState<string[]>([]);
-  const [isComplete, setIsComplete] = useState(false);
-
-  useEffect(() => {
-    // Immediate render if user prefers reduced motion
-    const prefersReducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (prefersReducedMotion) {
-      setDisplayedTokens(HEADLINE_TOKENS);
-      setIsComplete(true);
-      return;
-    }
-
-    let currentIndex = 0;
-    const interval = setInterval(() => {
-      if (currentIndex < HEADLINE_TOKENS.length) {
-        const nextToken = HEADLINE_TOKENS[currentIndex];
-        setDisplayedTokens((prev) => [...prev, nextToken]);
-        currentIndex++;
-      } else {
-        setIsComplete(true);
-        clearInterval(interval);
-      }
-    }, 120);
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <section aria-labelledby="hero-title" className="space-y-6 pt-2 pb-6">
-      <div className="flex flex-col-reverse md:flex-row items-start md:items-center justify-between gap-6 md:gap-10">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-10">
         {/* Left: Text & Actions */}
         <div className="flex-1 space-y-4 max-w-xl">
           <div className="space-y-3">
@@ -87,26 +55,9 @@ export const HeroNarrative: React.FC = () => {
 
             <h1
               id="hero-title"
-              className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-[1.15] min-h-[2rem] sm:min-h-[3.25rem]"
+              className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-[1.15]"
             >
-              {displayedTokens.map((token, index) => (
-                <span
-                  key={index}
-                  className={`transition-colors duration-150 ${
-                    index === displayedTokens.length - 1 && !isComplete
-                      ? 'text-accent-solid'
-                      : 'text-text-primary'
-                  }`}
-                >
-                  {token}
-                </span>
-              ))}
-              {!isComplete && (
-                <span
-                  className="inline-block w-2 sm:w-2.5 h-5 sm:h-8 bg-accent-solid ml-1 align-middle animate-pulse"
-                  aria-hidden="true"
-                />
-              )}
+              {HEADLINE}
             </h1>
           </div>
 
