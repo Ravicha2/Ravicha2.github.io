@@ -85,7 +85,7 @@ export const HomeView: React.FC = () => {
 
       {/* The record, walked downward: artifacts first, at the weight they earned. */}
       <section aria-labelledby="record-heading" className="space-y-12">
-        <h2 id="record-heading" className="text-[15px] font-semibold tracking-[-0.01em]">
+        <h2 id="record-heading" className="text-[25px] font-semibold tracking-[-0.01em]">
           The record
         </h2>
 

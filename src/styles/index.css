@@ -94,8 +94,16 @@ p {
   view-transition-name: app-header;
 }
 
+/* The rail carries the same readout on every route, so it is pulled out of the
+   root snapshot and held still while the body slides under it. */
+#site-rail {
+  view-transition-name: app-rail;
+}
+
 ::view-transition-old(app-header),
-::view-transition-new(app-header) {
+::view-transition-new(app-header),
+::view-transition-old(app-rail),
+::view-transition-new(app-rail) {
   animation: none;
   mix-blend-mode: normal;
 }

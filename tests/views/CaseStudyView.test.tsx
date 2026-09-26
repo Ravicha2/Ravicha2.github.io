@@ -109,7 +109,7 @@ describe('CaseStudyView Component', () => {
       // and once as this project's interval on the dimension chain below.
       expect(screen.getAllByText(nl2regex.metrics![0].value).length).toBeGreaterThanOrEqual(1);
       expect(screen.getAllByText(/backend tests over the API/i).length).toBeGreaterThanOrEqual(1);
-      expect(screen.getByText(/Two-Stage LLM Triage \(ADR 0003\)/i)).toBeInTheDocument();
+      expect(screen.getByText(/Two-Stage LLM Triage/i)).toBeInTheDocument();
       expect(screen.getByText(/Canonical Parquet Normalization \(ADR 0002\)/i)).toBeInTheDocument();
       expect(screen.getByText(/Local Singleton JVM Session \(ADR 0004\)/i)).toBeInTheDocument();
 

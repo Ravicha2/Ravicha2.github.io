@@ -110,6 +110,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
         {/* The rail. Not a sidebar of links — the instrument readout, and the only
             chrome the bench has. Everything on it is true data. */}
         <aside
+          id="site-rail"
           aria-labelledby="rail-heading"
           className="border-b lg:border-b-0 lg:border-r border-rule px-4 sm:px-6 lg:px-5 xl:px-6 py-6 lg:py-7 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto"
         >

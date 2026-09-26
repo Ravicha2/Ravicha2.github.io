@@ -25,7 +25,7 @@ Currently completing a Master of Information Technology at UNSW Sydney (Distinct
 - **Role**: Researcher & Developer (UNSW Sydney) · **Timeline**: Jun 2026
 - **Stack**: Python, Neo4j, Cypher, Docker, uv, GitHub Actions, GraphRAG
 - **Repository**: https://github.com/Ravicha2/Shepherd
-- **Metrics**: 17/21 — gold violations detected on the home-assistant full graph (Shepherd eval.md) · 88,508 nodes — Architectural Decision Graph parsed from that repository · 5 repos / 63 units — benchmark gold set behind those detections
+- **Metrics**: 23.3% → 43.8% — pooled precision across the five-repo two-arm benchmark (baseline reviewer vs the CPT engine) · 564.1M → 216.8M — reviewer tokens over the same 65 commits, 62% lower with the engine · 5 repos / 65 commits — two-arm benchmark behind those pooled figures, 60 scored annotation sheets
 
 #### 1. The Core Intuition & Friction
 - **The Spark**: As AI code generators produce code at unprecedented velocity, engineering teams lose visibility over whether newly generated implementations adhere to historical Architectural Decision Records (ADRs) buried in repository markdown files.
@@ -41,7 +41,7 @@ Currently completing a Master of Information Technology at UNSW Sydney (Distinct
 - **Guardrails**: Automated AST parsing with robust syntax error handling; isolated Cypher query execution with query timeouts; violation lifecycle persistence, so a dismissed false positive stays dismissed across runs.
 
 #### 4. Outcomes, Verification & Key Takeaways
-- **Verification**: `cpt detect --json` emits machine-readable violations for CI scripts and PR checks; scored 17 of 21 gold detection units on the home-assistant full graph (88,508 nodes), with every miss traced to a recorded resolver edge choice.
+- **Verification**: `cpt detect --json` emits machine-readable violations for CI scripts and PR checks; pooled over 5 repos / 65 commits, the engine lifted reviewer precision from 23.3% to 43.8% while reporting 80 findings instead of 133. Caveat carried with the figure: the benchmark has a single annotator and no inter-annotator agreement was measured.
 - **Impact**: Automated architecture governance in AI-augmented codebases, eliminating architectural erosion in rapidly evolving repositories.
 - **Core Takeaway**: Non-deterministic AI code generation requires deterministic graph-based structural verification to maintain long-term software maintainability.
 
@@ -51,7 +51,7 @@ Currently completing a Master of Information Technology at UNSW Sydney (Distinct
 - **Role**: Creator / Full-Stack Engineer · **Timeline**: 2026
 - **Stack**: PySpark 3.5, Django 5, Celery, Redis, PostgreSQL, React 18, Docker Compose
 - **Links**: https://github.com/Ravicha2/NL2REGEX · Video: https://youtu.be/mFec2jMgosg
-- **Metrics**: 172 — backend tests over the API, Spark projection, Parquet normalization, and ReDoS safety · 3–5 s — Spark JVM startup per task avoided by the singleton session (ADR 0004) · 5 — documented architectural decision records (0001–0005)
+- **Metrics**: 172 cases — backend tests over the API, Spark projection, Parquet normalization, and ReDoS safety · 3–5 s — Spark JVM startup per task avoided by the singleton session (ADR 0004) · 5 — documented architectural decision records (0001–0005)
 
 #### 1. The Core Intuition & Friction
 - **The Spark**: Non-technical analysts and data engineers need to sanitize and reformat massive tabular datasets using natural language without writing fragile regex patterns or uploading sensitive multi-gigabyte files to cloud LLM APIs.

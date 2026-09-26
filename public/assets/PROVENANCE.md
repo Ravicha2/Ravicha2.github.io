@@ -51,7 +51,6 @@ Taken 2026-09-26: the repository and registry views with a headless Chrome at a
 
 | Shipped | Source | Settles |
 |---|---|---|
-| `captures/gh-shepherd-eval.png` | `github.com/Ravicha2/Shepherd/blob/e4d177fb173631f378010f416dc9ae18b3eb32ec/benchmark/reports/2026-09-17T20-09-41/AGGREGATE.md` | the 17/21 detection and FP 66 → 33 claim, at the pinned commit |
 | `captures/gh-doc-ingestion.png` | `github.com/Ravicha2/document-ingestion-agent` | the durable-step ingestion engine repository at commit `a698cbf` |
 | `captures/gh-shepherd.png` | `github.com/Ravicha2/Shepherd` | the repository the claim resolves to |
 | `captures/gh-nl2regex.png` | `github.com/Ravicha2/NL2REGEX` | the distributed regex engine repository |
@@ -64,18 +63,18 @@ Taken 2026-09-26: the repository and registry views with a headless Chrome at a
 
 | Shipped | What it is |
 |---|---|
-| `captures/shepherd.png` | The Shepherd project mark, supplied by the author. It names the project; the 17/21 detection is settled by `gh-shepherd-eval.png`. |
+| `captures/shepherd.png` | The Shepherd project mark, supplied by the author. It names the project and settles nothing else: Shepherd's shipped figures come from a two-arm annotation study in a private research repository, so no capture and no permalink backs them. |
 
 ## Kept but not shown
 
-Four captures ship in `dist/` and no page references them. `gh-litreview.png`
-and `gh-nl2regex.png` are repository pages, `gh-shepherd.png` a repository page,
-and `gh-shepherd-eval.png` the AGGREGATE.md file view. Each is superseded as
+Five captures ship in `dist/` and no page references them. `gh-litreview.png`,
+`gh-nl2regex.png` and `gh-shepherd.png` are repository pages; `gh-shepherd-eval.png`
+is the AGGREGATE.md file view from Shepherd's dev eval, and `gh-shepherd-eval.png`
+no longer underpins any shipped claim — the dev eval was replaced by the two-arm
+benchmark, which `projects.ts` carries without a permalink. Each is superseded as
 illustration — by the published package (`pypi-litreview.png`), the workspace
-(`NL2REGEX.png`), and the project mark (`shepherd.png`) respectively — and
-`gh-shepherd-eval.png` still settles the Shepherd claim in `projects.ts` as its
-quoted `proof`. They are superseded as illustration, not as evidence, so they
-stay.
+(`NL2REGEX.png`), and the project mark (`shepherd.png`) respectively. They are
+superseded as illustration, not as evidence, so they stay.
 
 Captures are not re-taken by a build step. Re-take them by hand when the thing
 in them changes, and update the date above — a capture that has drifted from its
