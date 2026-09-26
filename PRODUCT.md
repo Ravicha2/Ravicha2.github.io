@@ -113,13 +113,30 @@ failure modes treated as absolute, not as edge cases.
 - Four flagship case studies with complete four-part narratives, stack lists,
   and metrics — in `src/data/projects.ts` and `public/llms-full.txt`.
 - Verified outcomes: PyPI release (`uvx lit-review-council`); live
-  `https://heal.a2a.ing`; Shepherd's own eval log (`eval.md`) scoring 17 of 21
-  gold detection units on the home-assistant full graph (88,508 nodes) with each
-  miss traced to a recorded resolver edge choice; a five-repository, 63-unit
-  benchmark gold set; a 172-test NL2REGEX backend suite over the API surface,
+  `https://heal.a2a.ing`; a 172-test NL2REGEX backend suite over the API surface,
   Spark projection, Parquet normalization, pagination, and ReDoS safety; 5
   documented NL2REGEX ADRs, including ADR 0004's measured 3-5 s Spark JVM
   startup cost per task.
+- **Shepherd's headline figures — the two-arm benchmark, carried without a
+  permalink.** Pooled over 5 repos / 65 commits / 60 scored annotation sheets
+  (baseline reviewer vs the CPT engine): precision 23.3% → 43.8%, tokens
+  564.1M → 216.8M (−62%), wall 8.2h → 6.0h (−27%), findings reported 133 → 80.
+  The artifact is `benchmark_result.md` in the **private** repo
+  `Ravicha2/research-exp-setup` (generated 2026-09-20 by
+  `make_annotation_report.py`, issue #164), so there is no public permalink and
+  `projects.ts` carries no `proof` for Shepherd. **The work is in progress**, so
+  its status is deliberately not a settled one: the case study reads *"In
+  progress · not yet settled"* and its channel on the strip reads *"in progress"*,
+  not *"settled"* or *"open"*. Caveats that ship with the
+  figure: **single annotator, no inter-annotator agreement measured**, and the
+  home-assistant comparison inverts under a narrower reading of ADR-0019 (the
+  reviewer dismissed the `remote_rpi_gpio`/gpiozero flag on 10 of 13 scored
+  rows). The study records **no recall** — `benchmark/benchmark.md` states
+  "no absolute recall (no oracle)" — so no recall figure may be quoted.
+- **Shepherd's dev eval (`eval.md`, `AGGREGATE.md`), superseded.** The 17/21
+  gold detection units on the home-assistant full graph (88,508 nodes), the
+  5-repo / 63-unit gold set, and FP 66 → 33 are real and still in the public
+  repo, but they are dev-eval numbers and no longer headline the project.
 - **Recorded decision — NL2REGEX demo.** The demo instance at
   `207.148.87.49` was destroyed and the link was deleted rather than redeployed.
   No shipping surface asserts a live NL2REGEX deployment; the video walkthrough

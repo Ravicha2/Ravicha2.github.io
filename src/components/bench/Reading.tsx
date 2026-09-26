@@ -5,11 +5,15 @@ import type React from 'react';
  * read at. The mark's weight and style encode the verdict, but the verdict is
  * also written in words, so the state never rides on a visual channel alone.
  */
-export type Verdict = 'clean' | 'claimed' | 'failed';
+export type Verdict = 'clean' | 'claimed' | 'in-progress' | 'failed';
 
 const VERDICT: Record<Verdict, { mark: string; word: string; value: string }> = {
   clean: { mark: 'mark-clean', word: 'Measured · holds', value: 'text-signal' },
   claimed: { mark: 'mark-claimed', word: 'Claimed · not yet measured', value: 'text-ink' },
+  // Measured and still moving: the reading is real, the work is not finished, and
+  // no public artifact settles it yet. Distinct from `claimed` (not measured at
+  // all) and from `clean` (settled by an artifact anyone can open).
+  'in-progress': { mark: 'mark-claimed', word: 'In progress · not yet settled', value: 'text-ink' },
   failed: { mark: 'mark-failed', word: 'Measured · does not hold', value: 'text-nonconform' },
 };
 

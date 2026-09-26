@@ -24,34 +24,28 @@ export const projects: Project[] = [
       github: 'https://github.com/Ravicha2/Shepherd',
     },
     metrics: [
-      { value: '17/21', label: 'gold violations detected on the home-assistant full graph (Shepherd eval.md)' },
-      { value: '88,508 nodes', label: 'Architectural Decision Graph parsed from that repository' },
-      { value: '5 repos / 63 units', label: 'benchmark gold set behind those detections' },
+      {
+        value: '23.3% → 43.8%',
+        label: 'pooled precision across the five-repo two-arm benchmark (baseline reviewer vs the CPT engine)',
+      },
+      {
+        value: '564.1M → 216.8M',
+        label: 'reviewer tokens over the same 65 commits, 62% lower with the engine',
+      },
+      {
+        value: '5 repos / 65 commits',
+        label: 'two-arm benchmark behind those pooled figures, 60 scored annotation sheets',
+      },
     ],
-    proof: {
-      kind: 'table',
-      repo: 'Ravicha2/Shepherd',
-      commit: 'e4d177fb173631f378010f416dc9ae18b3eb32ec',
-      path: 'benchmark/reports/2026-09-17T20-09-41/AGGREGATE.md',
-      from: 13,
-      to: 19,
-      settles:
-        'False positives fall from 66 to 33 across the four-repo benchmark while detection holds at 17 exact units.',
-      quote: `| repo | base FP (zero/has) | new r1 | new r2 | worst (zero/has) | excl. tooling edges | detection violation e/p/m |
-|---|---|---|---|---|---|---|
-| python-tuf | 4 (3/1) | 1 (1/0) | 4 (4/0) | 4 (4/0) | 0 | 6/0/0 (base 6/0/0) |
-| flowkit | 45 (43/2) | 14 (12/2) | 15 (12/3) | **15 (12/3)** | 32 / 40 | r1 6/0/6, r2 9/0/3 (base 9/0/3) |
-| experimenter | 10 (8/2) | 14 (12/2) | 13 (12/1) | **14 (12/2)** | 1 / 0 | 1/0/17 (base 0/0/18) |
-| structurizr-python | 7 (7/0) | 0 (0/0) | 0 (0/0) | **0 (0/0)** | 13 / 13 | 4/0/2 (base 4/0/2) |
-| **total** | **66 (61/5)** | | | **33 (28/5)** | | **17/0/25** (base 19/0/23) |`,
-    },
-    proofLine: '4-repo benchmark · FP 66 → 33 · detection 17 exact / 0 partial / 25 miss',
+    // No public permalink: the two-arm study lives in a private research repo, so
+    // this figure is carried without an artifact to settle it. See PRODUCT.md.
+    proofLine: 'two-arm benchmark · 5 repos / 65 commits · precision 23.3% → 43.8% · tokens −62% · wall −27%',
     image: '/assets/captures/shepherd.png',
     imageAlt: 'The Shepherd project mark: a German shepherd’s head.',
     imageWidth: 689,
     imageHeight: 362,
     imageCaption:
-      'The Shepherd mark, supplied by the author — it names the project rather than settling a claim. The 17/21 detection is settled by benchmark/reports/2026-09-17T20-09-41/AGGREGATE.md at e4d177f.',
+      'The Shepherd mark, supplied by the author — it names the project rather than settling a claim. The benchmark figures are carried from the two-arm annotation study, which no public permalink settles.',
     summary:
       'End-to-end ADR violation detector for AI-generated code, ingesting source ASTs and architectural markdown documents into a Neo4j property graph to catch multi-file constraint conflicts.',
     caseStudy: {
@@ -103,7 +97,8 @@ export const projects: Project[] = [
       outcomes: {
         verification: [
           'cpt detect --json emits machine-readable violations for CI scripts and PR checks',
-          'Scored 17 of 21 gold detection units on the home-assistant full graph (88,508 nodes), with every miss traced to a recorded resolver edge choice',
+          'Pooled over 5 repos / 65 commits, the engine lifted reviewer precision from 23.3% to 43.8% while reporting 80 findings instead of 133',
+          'Single annotator: every verdict is the author’s own call, and no inter-annotator agreement was measured',
         ],
         impact: [
           'Automated architecture governance in AI-augmented codebases, ensuring AI-written code obeys human architectural decisions.',
@@ -131,9 +126,8 @@ export const projects: Project[] = [
       video: 'https://youtu.be/mFec2jMgosg',
     },
     metrics: [
-      { value: '172', label: 'backend tests over the API, Spark projection, Parquet normalization, and ReDoS safety' },
-      { value: '3–5 s', label: 'Spark JVM startup per task avoided by the singleton session (ADR 0004)' },
-      { value: '5', label: 'documented architectural decision records (0001–0005)' },
+      { value: '172 cases', label: 'backend tests over the API, Spark projection, Parquet normalization, and ReDoS safety' },
+      { value: '3–5 s', label: 'Spark JVM startup per task avoided by the singleton session' },
     ],
     proof: {
       kind: 'capture',
@@ -193,7 +187,7 @@ export const projects: Project[] = [
           'A two-stage pipeline separates schema verification from regex generation, while canonical Parquet normalization enables PySpark distributed execution without worker memory blowups.',
         tradeOffs: [
           {
-            decision: 'Two-Stage LLM Triage (ADR 0003)',
+            decision: 'Two-Stage LLM Triage',
             rationale:
               'Stage 1 validates target columns and transformation intent against verified schema headers; Stage 2 generates and validates regex syntax. Eliminates hallucinated columns.',
             vsAlternative: 'Single-prompt end-to-end generation',

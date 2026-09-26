@@ -6,7 +6,7 @@ import { useActiveTransitionSlug } from '../hooks/useViewTransitionNavigate';
 import { BenchEntry } from '../components/bench/BenchEntry';
 import { ChannelStrip } from '../components/bench/ChannelStrip';
 
-const isFlagship = (project: Project) => Boolean(project.proof && project.proofLine);
+const isFlagship = (project: Project) => Boolean(project.proofLine);
 
 export const ProjectsView: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();

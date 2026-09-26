@@ -38,8 +38,8 @@ export interface BenchEntryProps {
 /**
  * One catalog row. The two tiers are told apart by what is present, not by a badge:
  * a flagship row is ruled at full weight and carries one monochrome line of real
- * output with the permalink that settles it; a supporting row is a thin rule and
- * stops at its repository.
+ * output, with the permalink that settles it when a public artifact exists; a
+ * supporting row is a thin rule and stops at its repository.
  *
  * The row itself carries no handler — a real anchor stretched over it does the work,
  * which is what gives the row a keyboard equivalent.
@@ -50,7 +50,9 @@ export const BenchEntry: React.FC<BenchEntryProps> = ({
   viewTransitionName,
 }) => {
   const proof = project.proof;
-  const flagship = Boolean(proof && project.proofLine);
+  // The tier is the reading, not the link: a figure carried from a study with no
+  // public artifact is still a flagship reading, it just shows no permalink.
+  const flagship = Boolean(project.proofLine);
 
   const refLink =
     'relative font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-signal';
@@ -148,18 +150,20 @@ export const BenchEntry: React.FC<BenchEntryProps> = ({
           </dl>
         )}
 
-        {flagship && proof && (
+        {flagship && (
           <div className="pt-2 border-t border-rule space-y-1">
             <p className="font-mono text-[11px] leading-snug text-ink">{project.proofLine}</p>
-            <a
-              href={permalink(proof)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={refLink}
-              aria-label={`Open the artifact settling ${project.title}: ${shortRef(proof)} at ${proof.commit.slice(0, 7)} (opens in a new tab)`}
-            >
-              {shortRef(proof)} @ {proof.commit.slice(0, 7)}
-            </a>
+            {proof && (
+              <a
+                href={permalink(proof)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={refLink}
+                aria-label={`Open the artifact settling ${project.title}: ${shortRef(proof)} at ${proof.commit.slice(0, 7)} (opens in a new tab)`}
+              >
+                {shortRef(proof)} @ {proof.commit.slice(0, 7)}
+              </a>
+            )}
           </div>
         )}
       </div>

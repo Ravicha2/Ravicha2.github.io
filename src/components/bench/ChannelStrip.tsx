@@ -10,8 +10,12 @@ export interface Channel {
   value: string;
   /** What that value measured, so a channel is never a bare figure. */
   note: string;
-  /** Whether the channel's claim resolves to a real artifact on this bench. */
-  settled: boolean;
+  /**
+   * How far the channel's claim has got: `settled` when it resolves to an artifact
+   * anyone can open, `in progress` when it is measured but the work is unfinished
+   * and nothing public settles it, `open` when it carries no reading at all.
+   */
+  status: 'settled' | 'in progress' | 'open';
 }
 
 /** The four flagships as four channels, in the order the catalog states them. */
@@ -22,7 +26,7 @@ export const channels: Channel[] = featuredProjects.map((project) => ({
   label: project.title.split(':')[0] ?? project.title,
   value: project.metrics?.[0]?.value ?? project.timeline,
   note: project.metrics?.[0]?.label ?? project.role,
-  settled: Boolean(project.proof),
+  status: project.proof ? 'settled' : project.proofLine ? 'in progress' : 'open',
 }));
 
 /**
@@ -69,7 +73,7 @@ export const ChannelStrip: React.FC<{ currentSlug?: string; className?: string }
                   aria-hidden="true"
                   className="font-mono text-[11px] text-annotate transition-colors group-hover:text-signal"
                 >
-                  {channel.settled ? 'settled' : 'open'}
+                  {channel.status}
                 </span>
               </span>
 

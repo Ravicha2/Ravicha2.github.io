@@ -107,7 +107,7 @@ export const CaseStudyView: React.FC = () => {
         <Reading
           as="h1"
           id="case-heading"
-          verdict={proof ? 'clean' : 'claimed'}
+          verdict={proof ? 'clean' : project.proofLine ? 'in-progress' : 'claimed'}
           measured={project.title}
           value={project.proofLine ?? project.metrics?.[0]?.label ?? project.timeline}
           datum={
