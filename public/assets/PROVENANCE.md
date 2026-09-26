@@ -63,7 +63,7 @@ Taken 2026-09-26: the repository and registry views with a headless Chrome at a
 
 | Shipped | What it is |
 |---|---|
-| `captures/shepherd.png` | The Shepherd project mark, supplied by the author. It names the project and settles nothing else: Shepherd's shipped figures come from a two-arm annotation study in a private research repository, so no capture and no permalink backs them. |
+| `captures/shepherd.webp` | The Shepherd project mark, supplied by the author. Recompressed from the same 2,848×1,496 pixels (WebP q82) rather than redrawn. It names the project and settles nothing else: Shepherd's shipped figures come from a two-arm annotation study in a private research repository, so no capture and no permalink backs them. |
 
 ## Kept but not shown
 
@@ -73,7 +73,7 @@ is the AGGREGATE.md file view from Shepherd's dev eval, and `gh-shepherd-eval.pn
 no longer underpins any shipped claim — the dev eval was replaced by the two-arm
 benchmark, which `projects.ts` carries without a permalink. Each is superseded as
 illustration — by the published package (`pypi-litreview.png`), the workspace
-(`NL2REGEX.png`), and the project mark (`shepherd.png`) respectively. They are
+(`NL2REGEX.png`), and the project mark (`shepherd.webp`) respectively. They are
 superseded as illustration, not as evidence, so they stay.
 
 Captures are not re-taken by a build step. Re-take them by hand when the thing

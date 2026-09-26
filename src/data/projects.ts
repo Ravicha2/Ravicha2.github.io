@@ -40,10 +40,10 @@ export const projects: Project[] = [
     // No public permalink: the two-arm study lives in a private research repo, so
     // this figure is carried without an artifact to settle it. See PRODUCT.md.
     proofLine: 'two-arm benchmark · 5 repos / 65 commits · precision 23.3% → 43.8% · tokens −62% · wall −27%',
-    image: '/assets/captures/shepherd.png',
+    image: '/assets/captures/shepherd.webp',
     imageAlt: 'The Shepherd project mark: a German shepherd’s head.',
-    imageWidth: 689,
-    imageHeight: 362,
+    imageWidth: 2848,
+    imageHeight: 1496,
     imageCaption:
       'The Shepherd mark, supplied by the author — it names the project rather than settling a claim. The benchmark figures are carried from the two-arm annotation study, which no public permalink settles.',
     summary:
@@ -123,7 +123,6 @@ export const projects: Project[] = [
     tags: ['PySpark 3.5', 'Django 5', 'Celery', 'Redis', 'PostgreSQL', 'React 18', 'Docker Compose'],
     links: {
       github: 'https://github.com/Ravicha2/NL2REGEX',
-      video: 'https://youtu.be/mFec2jMgosg',
     },
     metrics: [
       { value: '172 cases', label: 'backend tests over the API, Spark projection, Parquet normalization, and ReDoS safety' },
@@ -573,6 +572,18 @@ export const projects: Project[] = [
 ];
 
 export const featuredProjects: Project[] = projects.filter((p) => p.featured);
+
+/**
+ * What a project's evidence is, read off what it ships rather than off a badge:
+ * `settled` when a public artifact settles the reading, `in-progress` when the
+ * figure is real but nothing public does, `supporting` when no reading is stated
+ * at all. The catalog tiers, the channel strip's status word and the case-study
+ * verdict all read this one predicate, so the three surfaces cannot disagree.
+ */
+export type ProjectTier = 'settled' | 'in-progress' | 'supporting';
+
+export const tierOf = (project: Project): ProjectTier =>
+  project.proof ? 'settled' : project.proofLine ? 'in-progress' : 'supporting';
 
 export function getProjectBySlug(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);

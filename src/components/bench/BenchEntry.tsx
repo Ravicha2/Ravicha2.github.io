@@ -1,7 +1,16 @@
 import type React from 'react';
 import type { Project, ProjectLinks } from '../../data/types';
+import { tierOf, type ProjectTier } from '../../data/projects';
 import { permalink, shortRef } from '../../data/proof';
 import { TransitionLink } from '../common/TransitionLink';
+
+/** The row's rule, and the verdict it states: settled 2 px solid, in progress
+ *  dashed, no reading at all a thin boundary. Matches `Reading`'s `mark` map. */
+const TIER_MARK: Record<ProjectTier, string> = {
+  settled: 'mark-clean',
+  'in-progress': 'mark-claimed',
+  supporting: 'mark-thin',
+};
 
 const REF_LABELS: Array<{ key: keyof ProjectLinks; label: string; name: (title: string) => string }> =
   [
@@ -14,11 +23,6 @@ const REF_LABELS: Array<{ key: keyof ProjectLinks; label: string; name: (title: 
       key: 'pypi',
       label: 'PyPI',
       name: (title) => `${title} PyPI package (opens in a new tab)`,
-    },
-    {
-      key: 'video',
-      label: 'Video',
-      name: (title) => `${title} video walkthrough (opens in a new tab)`,
     },
     {
       key: 'paper',
@@ -36,10 +40,11 @@ export interface BenchEntryProps {
 }
 
 /**
- * One catalog row. The two tiers are told apart by what is present, not by a badge:
- * a flagship row is ruled at full weight and carries one monochrome line of real
- * output, with the permalink that settles it when a public artifact exists; a
- * supporting row is a thin rule and stops at its repository.
+ * One catalog row. The tiers are told apart by what is present, not by a badge: a
+ * settled row is ruled at full weight and carries one monochrome line of real
+ * output plus the permalink that settles it; an in-progress row carries the same
+ * line but takes the dashed claimed rule, because its figure is real and nothing
+ * public settles it; a supporting row is a thin rule and stops at its own evidence.
  *
  * The row itself carries no handler — a real anchor stretched over it does the work,
  * which is what gives the row a keyboard equivalent.
@@ -51,8 +56,11 @@ export const BenchEntry: React.FC<BenchEntryProps> = ({
 }) => {
   const proof = project.proof;
   // The tier is the reading, not the link: a figure carried from a study with no
-  // public artifact is still a flagship reading, it just shows no permalink.
-  const flagship = Boolean(project.proofLine);
+  // public artifact is still a real reading — it is just not settled, so the row
+  // is dashed and the heading above it says so.
+  const tier = tierOf(project);
+  // A row carries a reading — and so a proof line — whenever it is not supporting.
+  const carriesReading = tier !== 'supporting';
 
   const refLink =
     'relative font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-signal';
@@ -63,9 +71,9 @@ export const BenchEntry: React.FC<BenchEntryProps> = ({
   return (
     <article
       data-testid={`project-card-${project.slug}`}
-      data-tier={flagship ? 'flagship' : 'supporting'}
+      data-tier={tier}
       style={viewTransitionName ? { viewTransitionName } : undefined}
-      className={`relative cursor-pointer ${flagship ? 'mark-clean' : 'mark-thin'} grid gap-x-5 gap-y-3 py-5 sm:grid-cols-[3rem_minmax(0,1fr)] lg:grid-cols-[3rem_minmax(0,1fr)_19rem]`}
+      className={`relative cursor-pointer ${TIER_MARK[tier]} grid gap-x-5 gap-y-3 py-5 sm:grid-cols-[3rem_minmax(0,1fr)] lg:grid-cols-[3rem_minmax(0,1fr)_19rem]`}
     >
       <p className="font-mono text-[11px] tracking-widest text-annotate pt-1">{catalogRef}</p>
 
@@ -150,7 +158,7 @@ export const BenchEntry: React.FC<BenchEntryProps> = ({
           </dl>
         )}
 
-        {flagship && (
+        {carriesReading && (
           <div className="pt-2 border-t border-rule space-y-1">
             <p className="font-mono text-[11px] leading-snug text-ink">{project.proofLine}</p>
             {proof && (

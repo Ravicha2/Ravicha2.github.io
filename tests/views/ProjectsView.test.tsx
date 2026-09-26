@@ -109,6 +109,41 @@ describe('ProjectsView Component', () => {
     });
   });
 
+  describe('Catalog tiers', () => {
+    it('files every row under a heading true of it, and marks the row to match', () => {
+      renderProjectsView();
+      const headingOf = (tier: string) =>
+        screen.getByText(
+          { settled: 'Measured to an artifact', 'in-progress': 'In progress · not yet settled', supporting: 'Supporting work' }[tier]!
+        );
+
+      // Shepherd's benchmark has no public artifact, so it is not settled — and the
+      // catalog must not say it is while the case study says otherwise.
+      const shepherd = screen.getByTestId('project-card-shepherd');
+      expect(shepherd).toHaveAttribute('data-tier', 'in-progress');
+      expect(shepherd.className).toContain('mark-claimed');
+      expect(headingOf('in-progress')).toBeInTheDocument();
+
+      // P.06 (an IEEE paper) and P.07 (live, plus an award) carry more than a
+      // repository, so the supporting heading may not claim otherwise.
+      for (const slug of ['robotic-arm-ultrasound', 'heal-a2a']) {
+        expect(screen.getByTestId(`project-card-${slug}`)).toHaveAttribute(
+          'data-tier',
+          'supporting'
+        );
+      }
+      expect(headingOf('supporting')).toBeInTheDocument();
+    });
+
+    it('marks a row with a public artifact as settled', () => {
+      renderProjectsView();
+      const nl2regex = screen.getByTestId('project-card-nl2regex');
+      expect(nl2regex).toHaveAttribute('data-tier', 'settled');
+      expect(nl2regex.className).toContain('mark-clean');
+      expect(within(nl2regex).getByRole('link', { name: /open the artifact settling/i })).toBeInTheDocument();
+    });
+  });
+
   describe('Project Card Details', () => {
     it('displays case study links for flagship projects with case study data', () => {
       renderProjectsView();
@@ -131,9 +166,6 @@ describe('ProjectsView Component', () => {
         .getAllByRole('link')
         .map((link) => link.getAttribute('href') ?? '');
       expect(hrefs.some((href) => href.includes('207.148.87.49'))).toBe(false);
-
-      const videoLink = within(nl2regexCard).getByRole('link', { name: /video/i });
-      expect(videoLink).toHaveAttribute('href', 'https://youtu.be/mFec2jMgosg');
     });
 
     it('displays tech stack pills and metrics on project cards', () => {

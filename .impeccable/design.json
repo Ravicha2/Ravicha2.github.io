@@ -1,0 +1,295 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-26T10:52:00Z",
+  "title": "Design System: The Bench — Palm Suksawasdi Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "signal": {
+        "role": "primary",
+        "displayName": "Live Signal / Brass",
+        "canonical": "oklch(0.72 0.12 85)",
+        "tonalRamp": [
+          "oklch(0.15 0.04 85)",
+          "oklch(0.28 0.06 85)",
+          "oklch(0.40 0.08 85)",
+          "oklch(0.52 0.10 85)",
+          "oklch(0.62 0.11 85)",
+          "oklch(0.72 0.12 85)",
+          "oklch(0.84 0.10 85)",
+          "oklch(0.95 0.06 85)"
+        ]
+      },
+      "nonconform": {
+        "role": "secondary",
+        "displayName": "Fault / Coral",
+        "canonical": "oklch(0.72 0.12 25)",
+        "tonalRamp": [
+          "oklch(0.15 0.04 25)",
+          "oklch(0.28 0.06 25)",
+          "oklch(0.40 0.08 25)",
+          "oklch(0.52 0.10 25)",
+          "oklch(0.62 0.11 25)",
+          "oklch(0.72 0.12 25)",
+          "oklch(0.84 0.10 25)",
+          "oklch(0.95 0.06 25)"
+        ]
+      },
+      "bench": {
+        "role": "neutral",
+        "displayName": "Bench",
+        "canonical": "oklch(0.19 0.006 75)",
+        "tonalRamp": [
+          "oklch(0.15 0.005 75)",
+          "oklch(0.19 0.006 75)",
+          "oklch(0.30 0.008 75)",
+          "oklch(0.45 0.010 75)",
+          "oklch(0.60 0.012 75)",
+          "oklch(0.74 0.014 75)",
+          "oklch(0.86 0.012 75)",
+          "oklch(0.95 0.008 75)"
+        ]
+      },
+      "well": {
+        "role": "neutral",
+        "displayName": "Well",
+        "canonical": "oklch(0.15 0.004 80)",
+        "tonalRamp": [
+          "oklch(0.15 0.004 80)",
+          "oklch(0.22 0.005 80)",
+          "oklch(0.33 0.006 80)",
+          "oklch(0.46 0.008 80)",
+          "oklch(0.60 0.010 80)",
+          "oklch(0.74 0.012 80)",
+          "oklch(0.86 0.010 80)",
+          "oklch(0.95 0.006 80)"
+        ]
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Panel",
+        "canonical": "oklch(0.25 0.008 65)",
+        "tonalRamp": [
+          "oklch(0.15 0.005 65)",
+          "oklch(0.25 0.008 65)",
+          "oklch(0.36 0.010 65)",
+          "oklch(0.48 0.012 65)",
+          "oklch(0.61 0.014 65)",
+          "oklch(0.74 0.015 65)",
+          "oklch(0.86 0.012 65)",
+          "oklch(0.95 0.008 65)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink / Bone",
+        "canonical": "oklch(0.92 0.02 85)",
+        "tonalRamp": [
+          "oklch(0.15 0.006 85)",
+          "oklch(0.28 0.010 85)",
+          "oklch(0.41 0.014 85)",
+          "oklch(0.54 0.017 85)",
+          "oklch(0.66 0.019 85)",
+          "oklch(0.78 0.021 85)",
+          "oklch(0.92 0.02 85)",
+          "oklch(0.97 0.01 85)"
+        ]
+      },
+      "annotate": {
+        "role": "neutral",
+        "displayName": "Annotate / Bark",
+        "canonical": "oklch(0.72 0.025 85)",
+        "tonalRamp": [
+          "oklch(0.15 0.008 85)",
+          "oklch(0.28 0.013 85)",
+          "oklch(0.41 0.017 85)",
+          "oklch(0.54 0.021 85)",
+          "oklch(0.63 0.023 85)",
+          "oklch(0.72 0.025 85)",
+          "oklch(0.84 0.020 85)",
+          "oklch(0.95 0.012 85)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule",
+        "canonical": "oklch(0.48 0.015 75)",
+        "tonalRamp": [
+          "oklch(0.15 0.006 75)",
+          "oklch(0.28 0.010 75)",
+          "oklch(0.38 0.013 75)",
+          "oklch(0.48 0.015 75)",
+          "oklch(0.60 0.016 75)",
+          "oklch(0.72 0.016 75)",
+          "oklch(0.85 0.013 75)",
+          "oklch(0.95 0.008 75)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The first viewport's h1 — the name, and the only element at display scale. Never animated, never typed."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "A Reading's measured line, section headings, and case-study claims."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Catalog and experience entry headings — the lighter step for a list of many."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Plain sentences, held to max-width 66ch. text-wrap: pretty."
+      },
+      "label": {
+        "displayName": "Label / Mono",
+        "purpose": "Every measured value, sha, line range, period, tag, chip, reference link and provenance caption. Never a label or a sentence."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "sweep",
+        "value": "900ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The one authored entrance: a brass hairline travels the viewport once on first paint, transform-only, then leaves. Never carries state; never under reduced motion."
+      },
+      {
+        "name": "develop",
+        "value": "clip-path: inset(0 0 100% 0) → inset(0 0 0 0); animation-timeline: view(); animation-range: entry 10% entry 90%; animation-duration: 1ms",
+        "purpose": "The reveal on real captures only. Clips, never fades. Firefox needs the 1ms duration or it drops the animation."
+      },
+      {
+        "name": "view-transition",
+        "value": "180ms / 200ms cubic-bezier(0.2, 0, 1, 1); shared element 320ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Route changes only, on ::view-transition snapshots. Suppressed wholesale under reduced motion."
+      },
+      {
+        "name": "transition-colors",
+        "value": "150ms cubic-bezier(0.4, 0, 0.2, 1)",
+        "purpose": "Hover and focus state changes on links, chips, rules and captions. Colour and border-colour only."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Reading",
+      "kind": "custom",
+      "refersTo": "reading",
+      "description": "The canonical statement of a measurement: what was measured, the value that came back, the datum it was read at, and the verdict — marked by weight and style, and written in words.",
+      "html": "<div class=\"ds-reading\" data-verdict=\"clean\"><h2 class=\"ds-reading__measured\">Does AI-written code still obey the decisions the team recorded?</h2><dl class=\"ds-reading__dl\"><div><dt class=\"ds-sr-only\">Reading</dt><dd class=\"ds-reading__value ds-reading__value--clean\">4-repo benchmark · FP 66 → 33 · detection 17 exact</dd></div><div><dt class=\"ds-sr-only\">Datum</dt><dd class=\"ds-reading__datum\">AGGREGATE.md#L13-L19 @ e4d177f</dd></div><div><dt class=\"ds-sr-only\">Verdict</dt><dd class=\"ds-reading__verdict\">Measured · holds</dd></div></dl></div>",
+      "css": ".ds-reading { border-top: 2px solid var(--signal); padding-top: 0.75rem; display: grid; column-gap: 2rem; row-gap: 0.75rem; } @media (min-width: 1024px) { .ds-reading { grid-template-columns: minmax(0, 1fr) 20rem; } } .ds-reading[data-verdict=\"claimed\"] { border-top: 2px dashed var(--annotate); } .ds-reading[data-verdict=\"failed\"] { border-top: 6px double var(--nonconform); } .ds-reading__measured { margin: 0; font-family: Barlow, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 1.25rem; font-weight: 600; line-height: 1.4; letter-spacing: -0.015em; color: var(--ink); text-wrap: balance; } .ds-reading__dl { margin: 0; } .ds-reading__dl > div + div { margin-top: 0.375rem; } .ds-reading__value { margin: 0; font-family: Iosevka, ui-monospace, monospace; font-size: 13px; line-height: 1.375; color: var(--signal); } .ds-reading__value--claimed { color: var(--ink); } .ds-reading__value--failed { color: var(--nonconform); } .ds-reading__datum { margin: 0; font-family: Iosevka, ui-monospace, monospace; font-size: 11px; line-height: 1.375; color: var(--annotate); } .ds-reading__verdict { margin: 0; font-family: Iosevka, ui-monospace, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--annotate); } .ds-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0; }"
+    },
+    {
+      "name": "Capture",
+      "kind": "card",
+      "refersTo": "capture-well",
+      "description": "A real artifact on the bench — a photograph or live capture — in a well, with the provenance that makes it checkable written underneath it. width/height are required so the box is reserved before the image loads.",
+      "html": "<figure class=\"ds-capture\"><span class=\"ds-capture__frame\"><img class=\"ds-capture__img\" src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='683'%3E%3Crect width='1440' height='683' fill='%230d0c0a'/%3E%3C/svg%3E\" alt=\"The Shepherd benchmark report, captured at its live state.\" width=\"1440\" height=\"683\"></span><figcaption class=\"ds-capture__caption\">benchmark/reports/2026-09-17T20-09-41/AGGREGATE.md at e4d177f — the batch that moved false positives 66 → 33.</figcaption></figure>",
+      "css": ".ds-capture { margin: 0; background-color: var(--well); border: 1px solid var(--rule); } .ds-capture__frame { display: block; overflow: hidden; } .ds-capture__img { display: block; width: 100%; height: auto; } .ds-capture__caption { border-top: 1px solid var(--rule); padding: 0.5rem 0.75rem; font-family: Iosevka, ui-monospace, monospace; font-size: 11px; line-height: 1.375; color: var(--annotate); word-break: break-all; transition: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-capture:hover .ds-capture__caption, .ds-capture:focus-within .ds-capture__caption { border-color: var(--signal); }"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "An outlined square chip. Tags, skills and reference links carry it; filters are real buttons with aria-pressed. Never a pill.",
+      "html": "<button class=\"ds-chip\" type=\"button\" aria-pressed=\"false\">Agentic AI &amp; MCP <span class=\"ds-chip__count\">3</span></button>",
+      "css": ".ds-chip { display: inline-block; border: 1px solid var(--rule); border-radius: 0; padding: 0.09rem 0.4rem; background: transparent; color: var(--annotate); font-family: Iosevka, ui-monospace, monospace; font-size: 11px; line-height: 1.375; cursor: pointer; transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1), border-color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-chip:hover, .ds-chip:focus-visible { border-color: var(--signal); color: var(--ink); } .ds-chip__count { margin-left: 0.375rem; font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "name": "Chip, selected",
+      "kind": "chip",
+      "refersTo": "chip-selected",
+      "description": "The selected filter: stated by border and fill, square and outlined, never a filled pill.",
+      "html": "<button class=\"ds-chip ds-chip--selected\" type=\"button\" aria-pressed=\"true\">Agentic AI &amp; MCP <span class=\"ds-chip__count\">3</span></button>",
+      "css": ".ds-chip { display: inline-block; border: 1px solid var(--rule); border-radius: 0; padding: 0.09rem 0.4rem; background: transparent; color: var(--annotate); font-family: Iosevka, ui-monospace, monospace; font-size: 11px; line-height: 1.375; cursor: pointer; transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1), border-color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-chip__count { margin-left: 0.375rem; font-variant-numeric: tabular-nums; } .ds-chip--selected { border-color: var(--ink); background-color: var(--panel); color: var(--ink); }"
+    },
+    {
+      "name": "Channel strip cell",
+      "kind": "nav",
+      "refersTo": "channel-current",
+      "description": "One of the four flagships as a channel: the label, the settled / in progress / open word (not aria-hidden — the strip is the only place a flagship verdict is stated on three routes, so the word joins the link's accessible name), the reading in brass, and the label that makes the reading checkable. The current route takes aria-current and the 2px brass top rule.",
+      "html": "<a class=\"ds-channel\" href=\"#\" aria-current=\"page\"><span class=\"ds-channel__top\"><span class=\"ds-channel__label\">Shepherd</span><span class=\"ds-channel__state\">in progress</span></span><span class=\"ds-channel__value\">23.3% → 43.8%</span><span class=\"ds-channel__note\">pooled precision across the five-repo two-arm benchmark (baseline reviewer vs the CPT engine)</span></a>",
+      "css": ".ds-channel { display: block; padding: 0.875rem 1rem; border-top: 2px solid transparent; border-left: 1px solid var(--rule); color: var(--ink); text-decoration: none; font-family: Barlow, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), border-color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-channel[aria-current=\"page\"], .ds-channel:hover, .ds-channel:focus-visible { border-top-color: var(--signal); background-color: var(--panel); } .ds-channel__top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; } .ds-channel__label { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; } .ds-channel__state { font-family: Iosevka, ui-monospace, monospace; font-size: 11px; color: var(--annotate); transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-channel:hover .ds-channel__state { color: var(--signal); } .ds-channel__value { display: block; margin-top: 0.375rem; font-family: Iosevka, ui-monospace, monospace; font-size: 13px; font-weight: 600; color: var(--signal); } .ds-channel__note { display: block; margin-top: 0.125rem; font-family: Iosevka, ui-monospace, monospace; font-size: 11px; line-height: 1.375; color: var(--annotate); }"
+    },
+    {
+      "name": "Primary reference link",
+      "kind": "link",
+      "refersTo": "link-primary",
+      "description": "The link that opens the thing itself — the pinned bytes, a case study, a deployment. Ink with a brass underline that thickens on hover.",
+      "html": "<a class=\"ds-link-primary\" href=\"#\">AGGREGATE.md#L13-L19 @ e4d177f</a>",
+      "css": ".ds-link-primary { font-family: Iosevka, ui-monospace, monospace; font-size: 11px; color: var(--ink); text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: 4px; transition: text-decoration-color 150ms cubic-bezier(0.4, 0, 0.2, 1), text-decoration-thickness 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-link-primary:hover, .ds-link-primary:focus-visible { text-decoration-thickness: 3px; text-decoration-color: var(--signal); }"
+    },
+    {
+      "name": "Reference link",
+      "kind": "link",
+      "refersTo": "link-reference",
+      "description": "Secondary references — GitHub, PyPI, IEEE paper, the copy control. Bark with a faint rule underline, raised to ink and brass on hover.",
+      "html": "<a class=\"ds-link-reference\" href=\"#\">Repository</a>",
+      "css": ".ds-link-reference { font-family: Iosevka, ui-monospace, monospace; font-size: 11px; color: var(--annotate); text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 4px; transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-link-reference:hover, .ds-link-reference:focus-visible { color: var(--ink); text-decoration-color: var(--signal); }"
+    },
+    {
+      "name": "Rail navigation item",
+      "kind": "nav",
+      "refersTo": "reading",
+      "description": "The datum rail's nav row: a 5px square dot — brass when current, rule otherwise — and the label. The rail is the only chrome the bench has.",
+      "html": "<a class=\"ds-rail-nav\" href=\"#\" aria-current=\"page\"><span class=\"ds-rail-nav__dot\" aria-hidden=\"true\"></span><span>Work</span></a>",
+      "css": ".ds-rail-nav { display: flex; align-items: flex-start; gap: 0.5rem; padding: 0.125rem 0; font-family: Barlow, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px; color: var(--annotate); text-decoration: none; transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-rail-nav:hover, .ds-rail-nav:focus-visible { color: var(--ink); } .ds-rail-nav[aria-current=\"page\"] { color: var(--ink); } .ds-rail-nav__dot { margin-top: 0.4em; width: 5px; height: 5px; flex-shrink: 0; background-color: var(--rule); } .ds-rail-nav[aria-current=\"page\"] .ds-rail-nav__dot { background-color: var(--signal); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Bench",
+    "overview": "The site is a dark instrument workroom, and the design is the instrument readout. Nothing on it is a product pitch: every claim ships as a reading — what was measured, the value or state that came back, the verdict that decides whether it holds, and the artifact plus the commit it was read at. The page is walked downward like a record, not composed like a landing page. The register is a design property: the user's correction during the build was \"These look like magazine more than portfolio flows. keep the casual feeling but need more informative flow, we not selling product.\" The room carries no colour at all — every chromatic element is a real photograph, a real capture, or the one author-supplied mark. The world refuses the dark terminal with a node graph and its tasteful opposite, the cream editorial page this site shipped until now, and it replaces a third world, \"the Tolerance Frame\" — a printed drafting sheet with feature control frames, dimension lines and chain references — which is the anti-reference, and not one of its devices, token names or rules is carried forward. Sizes measured on dist/ after npm run build on 2026-09-26: index.html 5.74 kB, index-DZf6Vztp.css 24.72 kB, index-CvW5cFSx.js 255.99 kB (gzip 1.72 / 5.60 / 80.22 kB), 56 modules.",
+    "keyCharacteristics": [
+      "A warm near-black workroom (--bench) with bone text that is never white and raised panels that are fills, never boundaries.",
+      "One continuous datum rail on every route: local Sydney time, availability, and the artifact currently under the lens.",
+      "Exactly two chromatic tokens, both warm and both meaning-carrying; every other surface is desaturated.",
+      "Verdicts are encoded weight-first, style-second, hue-third, and always written in words.",
+      "Every measured value, reference and permalink is Iosevka; prose and headings are Barlow.",
+      "Square corners everywhere, hairlines instead of boxes, and no shadows.",
+      "Real rasters only: event photographs, live captures, and the one author-supplied project mark (the Shepherd head, recompressed from the same pixels and settling nothing), each carrying its provenance.",
+      "Accessibility is a floor: WCAG AAA text, 3:1 rules, one focus indicator, full reduced-motion suppression."
+    ],
+    "rules": [
+      { "name": "The Develop-Not-Fade Rule", "body": "An artifact frame may develop; it may never fade. A mid-range opacity of 0.67 takes --annotate to 3.6:1 on the bench — and mid-range is exactly where the reading band is. The reveal is a clip-path on real captures, and prose is never in its scope.", "section": "overview" },
+      { "name": "The One-Moment Rule", "body": "Motion is allowed one authored entrance per viewport and nothing that loops. No ambient motion, no matrix rain, no scanline shimmer, no animated text, and no state carried by motion alone.", "section": "overview" },
+      { "name": "The One Room Rule", "body": "The room carries no colour of its own. Every chromatic element on the page is a real photograph or a real capture; the substrate, panels and wells are warm but desaturated and never compete with the artifacts sitting on them.", "section": "colors" },
+      { "name": "The Weight-Before-Hue Rule", "body": "A verdict is carried by mark weight and style first, hue second, and words always. Clean is a 2px solid rule, claimed is dashed, failed is a heavy double; colour is a redundant second channel that survives greyscale, colour blindness and forced-colours mode (WCAG 1.4.1 by construction).", "section": "colors" },
+      { "name": "The Reserved Fault Rule", "body": "--nonconform and .mark-failed mean exactly one thing — measured, and it does not hold. They are not decoration, not an accent, not a hover colour. The legend that once taught the mark on / was removed on 2026-09-26, so the reservation lives in this document and in src/styles/tokens.css rather than on the page.", "section": "colors" },
+      { "name": "The Value-Is-Mono Rule", "body": "Iosevka carries every measured value, reference, permalink, sha, line range, period and coordinate — and never a label or a sentence. If a thing was read off an artifact, it is mono; if it is somebody speaking, it is Barlow.", "section": "typography" },
+      { "name": "The Bench-Stays-Wide Rule", "body": "The bench is wide because artifacts are: a benchmark table and a quoted source range want every pixel. Prose alone is held to a measure (66ch) — the same rule applied to the artifact's own settle sentence (62ch) and to the rail's status line. A full-width paragraph is a bug.", "section": "typography" },
+      { "name": "The One-Chrome Rule", "body": "The datum rail is the only chrome. There is no second sidebar, no floating toolbar, no sticky CTA, and no card wrapping a card. Anything that would add a frame around the work is refused.", "section": "layout" },
+      { "name": "The Datum Rule", "body": "A value without its datum is not a reading. Every reading states the datum it was taken against; where a reading measures an artifact, the datum is the artifact, the sha7 and the line range, and the reference is a permalink to the commit, never a branch. A link to main at #L41 resolves to whatever the file says today, which is not what the claim was measured against.", "section": "layout" },
+      { "name": "The Rule-Not-A-Box Rule", "body": "Separation is always a rule; a panel or a well is a fill and never a boundary. The moment a fill is used to divide, the page becomes a grid of boxes and the bench is lost.", "section": "elevation" },
+      { "name": "The Square Corner Rule", "body": "Zero radius, everywhere, forever. A pill, a rounded card or a 4px corner is a different world's vocabulary and a tell that the bench is being decorated rather than used.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do mark a verdict with weight and style first — 2px solid --signal (clean), 2px dashed --annotate (claimed), 6px double --nonconform (failed) — then hue, and always write the verdict in words.",
+      "Do state the datum for every reading. Where it measures an artifact, give the artifact, the sha7, the line range, and a commit-pinned permalink. Never main, never #L41 alone.",
+      "Do hold prose to max-width: 66ch (.measure) and let the bench stay wide for tables and quoted source.",
+      "Do give every Capture its true intrinsic width/height, and ship a srcset plus a matching preload for the first viewport's largest paint.",
+      "Do keep the room desaturated and keep every chromatic surface a real photograph or capture.",
+      "Do keep exactly one focus indicator for the whole app: :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px } in src/styles/accessibility.css and nowhere else.",
+      "Do keep the accessibility floor: skip link to #main-content, labelled landmarks, a polite route announcer that does not write document.title, aria-hidden on decorative layers, and every state also in words.",
+      "Do keep all motion behind prefers-reduced-motion: no-preference and depend on no animation for readability.",
+      "Do keep the register casual and informative: a record walked downward, one reading at a time, in plain sentences."
+    ],
+    "donts": [
+      "Don't spend --nonconform or .mark-failed as decoration, an accent, a hover colour, or a way to add colour. It means one thing and nothing currently lights it.",
+      "Don't use radius, pills, or card silhouettes. Zero radius, everywhere; the scrollbar thumb included.",
+      "Don't put a fill behind anything to separate it, and don't add a shadow. Separation is a hairline; depth is tonal only.",
+      "Don't fade text, animate prose or headings, or use an entrance that loops. The develop reveal is a clip-path on real captures only.",
+      "Don't put a kicker or eyebrow above a heading. The craft floor bans it and the bench has no vocabulary for it.",
+      "Don't use hard offset shadows, glyph icons or icon fonts, a system display face, or any third-party font, CDN, image or animation library.",
+      "Don't wrap a container in a container, or frame the work in a card that adds nothing but a border.",
+      "Don't state a claim without its artifact, and don't imply the absences exist: no testimonials or referee quotes, no client or employer logos, no Tendor artifacts, repos or metrics, no traffic numbers for the site itself, no rates or salary figures, and no team sizes beyond those already recorded.",
+      "Don't add a dark/light toggle or a second theme. There is one room; tailwind.config.ts configures no darkMode and tokens.css declares a single :root."
+    ]
+  }
+}

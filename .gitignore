@@ -7,3 +7,6 @@ dist
 .vite
 .impeccable/hook.cache.json
 .impeccable/live/
+# Locally installed agent skills (skills CLI) — vendored third-party content, not part of the site.
+.agents/
+skills-lock.json

@@ -139,8 +139,8 @@ failure modes treated as absolute, not as edge cases.
   repo, but they are dev-eval numbers and no longer headline the project.
 - **Recorded decision — NL2REGEX demo.** The demo instance at
   `207.148.87.49` was destroyed and the link was deleted rather than redeployed.
-  No shipping surface asserts a live NL2REGEX deployment; the video walkthrough
-  is the surviving demo evidence.
+  No shipping surface asserts a live NL2REGEX deployment; the repository is the
+  only public artifact.
 - IEEE TENCON 2023 publication, co-author and presenter
   (`https://ieeexplore.ieee.org/document/10349000`), image at `/assets/IEEE.png`.
 - Hack2Heal Founder's Choice Award, image at `/assets/Hack2Heal.png`.

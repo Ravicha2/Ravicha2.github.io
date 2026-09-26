@@ -116,9 +116,6 @@ describe('CaseStudyView Component', () => {
       // The demo instance was destroyed; no surface may link that host.
       const hrefs = screen.getAllByRole('link').map((link) => link.getAttribute('href') ?? '');
       expect(hrefs.some((href) => href.includes('207.148.87.49'))).toBe(false);
-
-      const videoLinks = screen.getAllByRole('link', { name: /video/i });
-      expect(videoLinks.some((link) => link.getAttribute('href') === 'https://youtu.be/mFec2jMgosg')).toBe(true);
     });
   });
 

@@ -1,5 +1,5 @@
 import type React from 'react';
-import { featuredProjects } from '../../data/projects';
+import { featuredProjects, tierOf, type ProjectTier } from '../../data/projects';
 import { TransitionLink } from '../common/TransitionLink';
 
 export interface Channel {
@@ -18,6 +18,14 @@ export interface Channel {
   status: 'settled' | 'in progress' | 'open';
 }
 
+/** The tier, said in the strip's own words: the same predicate the catalog and
+ *  the case study read, so no two surfaces can state different verdicts. */
+const TIER_WORD: Record<ProjectTier, Channel['status']> = {
+  settled: 'settled',
+  'in-progress': 'in progress',
+  supporting: 'open',
+};
+
 /** The four flagships as four channels, in the order the catalog states them. */
 export const channels: Channel[] = featuredProjects.map((project) => ({
   to: `/projects/${project.slug}`,
@@ -26,7 +34,7 @@ export const channels: Channel[] = featuredProjects.map((project) => ({
   label: project.title.split(':')[0] ?? project.title,
   value: project.metrics?.[0]?.value ?? project.timeline,
   note: project.metrics?.[0]?.label ?? project.role,
-  status: project.proof ? 'settled' : project.proofLine ? 'in progress' : 'open',
+  status: TIER_WORD[tierOf(project)],
 }));
 
 /**
@@ -69,10 +77,10 @@ export const ChannelStrip: React.FC<{ currentSlug?: string; className?: string }
                 <span className="text-[15px] font-semibold tracking-[-0.01em] text-ink">
                   {channel.label}
                 </span>
-                <span
-                  aria-hidden="true"
-                  className="font-mono text-[11px] text-annotate transition-colors group-hover:text-signal"
-                >
+                {/* Not aria-hidden: on this route the status word is the only
+                    place the flagship verdicts are stated, so it has to reach
+                    assistive tech. It reads as part of the link's own name. */}
+                <span className="font-mono text-[11px] text-annotate transition-colors group-hover:text-signal">
                   {channel.status}
                 </span>
               </span>

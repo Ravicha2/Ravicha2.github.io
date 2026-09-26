@@ -120,7 +120,14 @@ live captures taken from the running systems:
 | `captures/heal-*.png` | `heal.a2a.ing` live, the running product | captured from the live deployment |
 | `captures/repo-*.png` | repo and file views at pinned shas | captured from GitHub at the pinned commit |
 | `captures/registry-*.png` | PyPI and MCP registry listings | captured from the live registries |
-| the eval drawing | the Shepherd benchmark table | drawn from `projects.ts` `proof.quote`, which is verbatim real output |
+
+One asset is deliberately not a capture. `captures/shepherd.webp` is the
+**author-supplied Shepherd project mark** — a drawn head, shipped and
+recompressed from the same pixels (2,848×1,496, WebP q82), never redrawn. It
+names the project and settles no claim: no photograph or live capture of
+Shepherd ships, because the two-arm annotation study behind its figures lives in
+a private research repository and no public permalink settles it. The eval
+drawing this table used to promise was dropped with the dev eval it quoted.
 
 **FINISH.** unreviewed and undocumented is unfinished; this build ends with the
 finish review, the verdict, DESIGN.md, and every shipping raster carrying its

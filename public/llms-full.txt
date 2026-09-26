@@ -50,7 +50,7 @@ Currently completing a Master of Information Technology at UNSW Sydney (Distinct
 ### Case Study 2: NL2REGEX — Distributed Natural Language to Regex Engine for Large Datasets
 - **Role**: Creator / Full-Stack Engineer · **Timeline**: 2026
 - **Stack**: PySpark 3.5, Django 5, Celery, Redis, PostgreSQL, React 18, Docker Compose
-- **Links**: https://github.com/Ravicha2/NL2REGEX · Video: https://youtu.be/mFec2jMgosg
+- **Links**: https://github.com/Ravicha2/NL2REGEX
 - **Metrics**: 172 cases — backend tests over the API, Spark projection, Parquet normalization, and ReDoS safety · 3–5 s — Spark JVM startup per task avoided by the singleton session (ADR 0004) · 5 — documented architectural decision records (0001–0005)
 
 #### 1. The Core Intuition & Friction

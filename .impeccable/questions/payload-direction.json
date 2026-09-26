@@ -1,0 +1,137 @@
+{
+  "title": "Choose the visual world",
+  "question": "Round 2 — the roll assigned Detection Waterfall. Every card below is now written as a portfolio flow, not a landing page: no pitch, no buy button, casual register, information carried progressively. (No image generation this session, so this builds code-led.)",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "Detection Waterfall",
+      "kicker": "THE ROLL",
+      "lineage": "radio-astronomy search consoles — time-frequency waterfalls and detection thresholds",
+      "thesis": "A field of noise with one line drawn across it. A signal is above the line or it isn't, and the misses stay as legible as the hits. It states the result and lets you check it.",
+      "palette": ["#0b0f14", "#e8ecef", "#2f6fb0", "#e0a22b", "#b8322c"],
+      "materials": ["time-frequency field", "threshold rule", "latched detection bands", "instrument readout block"],
+      "viewport": "No hero and no funnel. The page opens as a record: the Shepherd eval drawn from its real log, filling the width, with one threshold rule across it. The 17 detected units sit above as marked bands, each a link to the line that decided it; the 4 misses sit below, unmarked and visible. Scrolling walks the record downward — the other three flagships next, then the three supporting repos, each stated the same way at decreasing weight, until experience and the publication, and contact last. The sidebar is the instrument's readout, and it is the only chrome: my name, the one line about what I'm looking for, the repo and sha of whatever is currently on screen, and an address you can select and copy.",
+      "risk": "Adjacent to the world you just re-rolled — still a detection map with a threshold. Different apparatus and different material, but if sameness is what you rejected, say so and re-roll. Read as a marketing instrument it becomes the dark-terminal cliché; it only works if the ramp is real and the readout states facts.",
+      "raised": [
+        {
+          "from": "growth-metamorphosis-branching-ikebana-ma-arrangement",
+          "raise": "Charged emptiness: one element at maximum emphasis per screen and the field left genuinely open around it, so the record never densifies into a wall."
+        },
+        {
+          "from": "emigre-bitmap-specimen",
+          "raise": "Honest resolution: every value renders at the precision it was actually measured at, and nothing is smoothed to imply precision the data does not have."
+        },
+        {
+          "from": "cyworld-minihompy-room",
+          "raise": "Small honest chrome: the run's own metadata is the only counter on the page. No vanity telemetry, no invented activity."
+        }
+      ]
+    },
+    {
+      "id": "model-pick",
+      "label": "Signal Box",
+      "kicker": "IMPECCABLE'S PICK",
+      "lineage": "railway signal boxes — lever frames, interlocking, illuminated track diagrams",
+      "thesis": "An interlocking makes the unsafe state impossible around a fallible operator. Nothing moves until every condition it depends on is satisfied — and you can see which ones.",
+      "palette": ["#14171a", "#2f6fb0", "#b8322c", "#3f7f52", "#e6e2d6"],
+      "materials": ["painted steel frame", "brass levers with a detent", "illuminated diagram lamps", "enamelled number plates"],
+      "viewport": "A working panel rather than a page. The track diagram is the whole record at a glance — every project a station on one route, lit where you currently are, so the shape of the work is legible in one look. Below it the lever frame carries the detail: one lever per project, thrown or normal, its measured value stamped on the enamel plate beneath, and pulling a lever brings that entry up in full. The box's brass plate holds the plain facts — name, what I'm after, where I am, how to reach me.",
+      "risk": "The most literal world for the thesis, and therefore the easiest to over-explain. If the levers carry no real state they are a prop; the interlocking has to actually refuse something."
+    },
+    {
+      "id": "challenger-splitflap",
+      "label": "Split-Flap Concourse",
+      "verdict": "competitive",
+      "lineage": "station split-flap departure boards",
+      "thesis": "Rows are live entities ranked by time; columns never move, only their flaps. A changed row cascades character by character and restyles in place.",
+      "palette": ["#161719", "#e8e6df", "#d8a227", "#b8322c", "#6f757a"],
+      "materials": ["matte black flap faces", "white paint letters", "brushed steel frame", "amber row lamps"],
+      "viewport": "The board is the record and the grid is the whole composition: one row per project, columns for what it is, what it measured, and where it lives. Selecting a row cascades its flaps and expands the entry beneath; a non-conforming row drops to dim red without breaking the grid. Facts only — no brand block, no call to action.",
+      "case": "Takes audience identification outright, and the cascade is the signature motion you asked for. Loses on clarity: a departure board's grammar is time and destination, and the product has neither, so that part has to be imposed rather than inherited. It also carries the most product-marketing weight of the three — a board with row lamps and status chrome can read as a dashboard for a product.",
+      "risk": "Period charm outrunning substance; a cascade that fires on every scroll becomes noise.",
+      "hero": "https://impeccable.style/worlds/cards/signals-instruments-split-flap-concourse-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/signals-instruments-split-flap-concourse.webp"
+    },
+    {
+      "id": "challenger-glazier",
+      "label": "Glazier Partition",
+      "verdict": "competitive",
+      "lineage": "glazier's workshop partition walls — rolled glass in a black glazing grid",
+      "thesis": "Mostly clear and seeded-white glass with a few saturated panes placed like notes in a score. One pane, one statement; hierarchy by pane size and glass colour, never by type weight.",
+      "palette": ["#111111", "#e9ede7", "#2f5fa8", "#d8892b", "#7a2b2b"],
+      "materials": ["matte black glazing bars", "clear and seeded glass", "cobalt, amber and oxblood panes", "daylight"],
+      "viewport": "The catalogue as a wall elevation read left to right: mostly clear panes holding plain entries, mullions bounding each section of the record, and one saturated pane lit for whatever matters now. Hover backlights a pane, stepping up floods it. The wall is the wayfinding, so there is no separate nav to explain it.",
+      "case": "Holds clarity: colour reserved strictly for what matters now is the site's own discipline, and 'one pane, one statement' is a real layout rule that fights density. Loses narrowly on identification — a lit pane reads as architecture before it reads as a person's record.",
+      "risk": "Gorgeous and easy to under-fill; the few saturated panes have to be genuinely earned.",
+      "hero": "https://impeccable.style/worlds/cards/craft-making-glazier-colorfield-partition-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/craft-making-glazier-colorfield-partition.webp"
+    },
+    {
+      "id": "challenger-viewfinder",
+      "label": "Viewfinder HUD",
+      "verdict": "competitive",
+      "lineage": "camcorder viewfinders — framing brackets, zebra stripes, tape counter",
+      "thesis": "The artifact runs full-bleed beneath and the interface is OSD chrome pinned inside the safe area. Anything overexposed wears zebra stripes; the exposure is visible, not described.",
+      "palette": ["#0a0a0a", "#f2f4f2", "#d8892b", "#4f7fd0"],
+      "materials": ["segmented OSD ink", "corner focus brackets", "zebra stripe hatching", "letterbox ground"],
+      "viewport": "One full-bleed frame is the whole screen: the real artifact beneath, brackets snapping thin around whatever claim is under focus, a W-to-T bar mapping overview to detail, and the counter scrubbing between entries like tape. The readouts sit in the safe-area corners and report only true things — resolution, date, which file you are looking at.",
+      "case": "Holds clarity at the assignment's level: annotation over evidence is precisely the product's job, and zebra-on-overexposure is the best native failure-marking in this hand. Brackets, zebra and counter risk becoming costume laid over content instead of chrome reporting real state.",
+      "risk": "Consumer-camera nostalgia is a thin floor under a serious record; every OSD element must report something true.",
+      "hero": "https://impeccable.style/worlds/cards/pop-culture-shelf-viewfinder-bracket-hud-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/pop-culture-shelf-viewfinder-bracket-hud.webp"
+    },
+    {
+      "id": "challenger-ikebana",
+      "label": "Ikebana Ma",
+      "verdict": "declined",
+      "lineage": "tokonoma alcove arrangements",
+      "thesis": "Primary, secondary and supporting lines in an asymmetric triangle, with the emptiness left charged as ma.",
+      "palette": ["#e6e2d8", "#5c5347", "#4a6fa8", "#6b5138"],
+      "materials": ["pale plaster", "weathered pine", "iris blue", "bronze vessel"],
+      "case": "Fuses poorly: a recruiter has no reason to read interior arrangement as engineering evidence.",
+      "kept": "Ma — charged emptiness as an active compositional element.",
+      "hero": "https://impeccable.style/worlds/cards/growth-metamorphosis-branching-ikebana-ma-arrangement-hero.webp"
+    },
+    {
+      "id": "challenger-bitmap",
+      "label": "Emigre Bitmap Specimen",
+      "verdict": "declined",
+      "lineage": "Emigre bitmap type specimens",
+      "thesis": "Coarse pixel letterforms set proudly at poster scale; the low resolution is the aesthetic, not a defect.",
+      "palette": ["#f4f2ec", "#111111", "#d8452c"],
+      "materials": ["newsprint", "dot-matrix", "bitmap faces"],
+      "case": "Fuses poorly: the audience reads systems, not type construction.",
+      "kept": "Honest resolution — rendering a thing at the precision it actually has, with nothing antialiased to flatter it.",
+      "hero": "https://impeccable.style/worlds/cards/emigre-bitmap-specimen-hero.webp"
+    },
+    {
+      "id": "challenger-minihompy",
+      "label": "Minihompy Room",
+      "verdict": "declined",
+      "lineage": "Cyworld minihompy isometric rooms",
+      "thesis": "A furnishable miniature room, an acorn economy, and a visitor ledger make identity something you decorate.",
+      "palette": ["#dfe6f2", "#f0dfe4", "#8fb3d9", "#c9a86b"],
+      "materials": ["pastel tile", "sticker furnishing", "ledger chrome"],
+      "case": "Fuses poorly: a 2000s Korean social network carries no product truth for this audience.",
+      "kept": "Small honest chrome — counters that state only what is true.",
+      "hero": "https://impeccable.style/worlds/cards/cyworld-minihompy-room-hero.webp"
+    }
+  ],
+  "reroll": {
+    "registers": ["safer", "bolder"]
+  },
+  "buildPath": {
+    "value": "code",
+    "toggle": false
+  },
+  "canon": true,
+  "canonCard": {
+    "label": "The category standard",
+    "thesis": "What this category ships, executed impeccably.",
+    "palette": ["#ffffff", "#111827", "#2563eb"],
+    "materials": ["clean grid", "product photography"],
+    "viewport": "A hero statement, a card grid of projects, a contact footer. The arrangement a visitor expects — and the one closest to your 'casual and informative, not selling' brief.",
+    "risk": "Indistinguishable from the competition by design."
+  },
+  "steer": true
+}

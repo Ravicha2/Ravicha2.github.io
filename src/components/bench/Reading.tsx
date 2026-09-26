@@ -64,7 +64,7 @@ export const Reading: React.FC<ReadingProps> = ({
         </div>
         <div>
           <dt className="sr-only">Verdict</dt>
-          <dd className="font-mono text-[10px] uppercase tracking-[0.14em] text-annotate">
+          <dd className="font-mono text-[11px] uppercase tracking-[0.14em] text-annotate">
             {state.word}
           </dd>
         </div>

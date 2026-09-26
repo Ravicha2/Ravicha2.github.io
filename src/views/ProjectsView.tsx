@@ -1,12 +1,26 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { projects, projectCategories, getProjectsByCategory } from '../data/projects';
+import {
+  projects,
+  projectCategories,
+  getProjectsByCategory,
+  tierOf,
+  type ProjectTier,
+} from '../data/projects';
 import { ProjectCategory, Project } from '../data/types';
 import { useActiveTransitionSlug } from '../hooks/useViewTransitionNavigate';
 import { BenchEntry } from '../components/bench/BenchEntry';
 import { ChannelStrip } from '../components/bench/ChannelStrip';
 
-const isFlagship = (project: Project) => Boolean(project.proofLine);
+// The heading states the tier in words, so the row's rule is never the only
+// carrier of it. `in-progress` is the same word the case study writes out.
+const TIER_HEADING: Record<ProjectTier, string> = {
+  settled: 'Measured to an artifact',
+  'in-progress': 'In progress · not yet settled',
+  supporting: 'Supporting work',
+};
+
+const TIER_ORDER: ProjectTier[] = ['settled', 'in-progress', 'supporting'];
 
 export const ProjectsView: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -18,8 +32,10 @@ export const ProjectsView: React.FC = () => {
     categoryParam && validCategoryIds.includes(categoryParam) ? categoryParam : 'all';
 
   const filteredProjects = getProjectsByCategory(selectedCategory);
-  const flagship = filteredProjects.filter(isFlagship);
-  const supporting = filteredProjects.filter((p) => !isFlagship(p));
+  const tiered = TIER_ORDER.map((tier) => ({
+    tier,
+    rows: filteredProjects.filter((p) => tierOf(p) === tier),
+  })).filter(({ rows }) => rows.length > 0);
 
   const getCategoryCount = (categoryId: ProjectCategory | 'all'): number => {
     if (categoryId === 'all') return projects.length;
@@ -87,26 +103,10 @@ export const ProjectsView: React.FC = () => {
           {filteredProjects.length} {filteredProjects.length === 1 ? 'project' : 'projects'} shown
         </p>
 
-        {flagship.length > 0 && (
-          <>
-            <p className="font-mono text-[11px] text-annotate py-2">Measured to an artifact</p>
-            {flagship.map((project) => (
-              <BenchEntry
-                key={project.slug}
-                project={project}
-                catalogRef={catalogRef(project)}
-                viewTransitionName={
-                  activeSlug === project.slug ? `project-card-${project.slug}` : undefined
-                }
-              />
-            ))}
-          </>
-        )}
-
-        {supporting.length > 0 && (
-          <div className="mt-12">
-            <p className="font-mono text-[11px] text-annotate py-2">Repository only</p>
-            {supporting.map((project) => (
+        {tiered.map(({ tier, rows }, i) => (
+          <div key={tier} className={i === 0 ? '' : 'mt-12'}>
+            <p className="font-mono text-[11px] text-annotate py-2">{TIER_HEADING[tier]}</p>
+            {rows.map((project) => (
               <BenchEntry
                 key={project.slug}
                 project={project}
@@ -117,7 +117,7 @@ export const ProjectsView: React.FC = () => {
               />
             ))}
           </div>
-        )}
+        ))}
       </section>
     </div>
   );

@@ -52,4 +52,15 @@ describe('Focus indicator (WCAG 2.4.13)', () => {
     const offenders = sources.filter((f) => /\bring-/.test(read(path.join('src', f))));
     expect(offenders).toEqual([]);
   });
+
+  it('keeps its offset — no component overrides outline-offset', () => {
+    // A negative offset on a `overflow-hidden` frame put the ring outside the
+    // clip box, so the offset that carries the contrast was never painted.
+    const sources = fs
+      .readdirSync(path.join(process.cwd(), 'src'), { recursive: true, encoding: 'utf-8' })
+      .filter((f) => f.endsWith('.tsx') || f.endsWith('.css'))
+      .filter((f) => f !== path.join('styles', 'accessibility.css'));
+    const offenders = sources.filter((f) => /outline-offset/.test(read(path.join('src', f))));
+    expect(offenders).toEqual([]);
+  });
 });

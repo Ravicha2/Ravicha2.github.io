@@ -1,11 +1,11 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import type { ProjectLinks } from '../data/types';
-import { getProjectBySlug } from '../data/projects';
+import { getProjectBySlug, tierOf, type ProjectTier } from '../data/projects';
 import { permalink, shortRef } from '../data/proof';
 import { TransitionLink } from '../components/common/TransitionLink';
 import { ContactBlock } from '../components/common/ContactBlock';
-import { Reading } from '../components/bench/Reading';
+import { Reading, type Verdict } from '../components/bench/Reading';
 import { Capture } from '../components/bench/Capture';
 import { ProofArtifactView } from '../components/bench/ProofArtifact';
 import { ChannelStrip } from '../components/bench/ChannelStrip';
@@ -15,12 +15,19 @@ const REF_LABELS: Array<{ key: keyof ProjectLinks; label: string; name: (title: 
   [
     { key: 'demo', label: 'Live', name: (t) => `${t} live demo (opens in a new tab)` },
     { key: 'pypi', label: 'PyPI', name: (t) => `${t} PyPI package (opens in a new tab)` },
-    { key: 'video', label: 'Video', name: (t) => `${t} video walkthrough (opens in a new tab)` },
     { key: 'paper', label: 'IEEE paper', name: (t) => `${t} published IEEE paper (opens in a new tab)` },
   ];
 
 const refLink =
   'font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-signal';
+
+/** The same tier the catalog and the strip read, said as this page's verdict —
+ *  so a case study cannot claim a state its own catalog row denies. */
+const VERDICT_OF_TIER: Record<ProjectTier, Verdict> = {
+  settled: 'clean',
+  'in-progress': 'in-progress',
+  supporting: 'claimed',
+};
 
 const primaryRef =
   'font-mono text-[11px] text-ink underline decoration-signal underline-offset-4 transition-colors hover:decoration-[3px]';
@@ -107,7 +114,7 @@ export const CaseStudyView: React.FC = () => {
         <Reading
           as="h1"
           id="case-heading"
-          verdict={proof ? 'clean' : project.proofLine ? 'in-progress' : 'claimed'}
+          verdict={VERDICT_OF_TIER[tierOf(project)]}
           measured={project.title}
           value={project.proofLine ?? project.metrics?.[0]?.label ?? project.timeline}
           datum={

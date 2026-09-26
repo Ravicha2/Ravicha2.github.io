@@ -60,7 +60,11 @@ export const Capture: React.FC<CaptureProps> = ({
       height={height}
       loading={priority ? 'eager' : 'lazy'}
       decoding={priority ? 'sync' : 'async'}
-      fetchPriority={priority ? 'high' : 'auto'}
+      // React 18 does not know the camelCase form and warns about it on every
+      // render; the lowercase attribute React suggests is passed straight to the
+      // DOM, which is where the preload hint has to land. `auto` is the default,
+      // so omitting it is the same thing.
+      {...(priority ? ({ fetchpriority: 'high' } as Record<string, string>) : {})}
       className="block w-full h-auto"
     />
   );
@@ -79,7 +83,7 @@ export const Capture: React.FC<CaptureProps> = ({
         <TransitionLink
           to={to}
           aria-label={linkLabel}
-          className="block focus-visible:outline-offset-[-2px]"
+          className="block"
         >
           {frame}
         </TransitionLink>
@@ -89,7 +93,7 @@ export const Capture: React.FC<CaptureProps> = ({
           target="_blank"
           rel="noopener noreferrer"
           aria-label={linkLabel}
-          className="block focus-visible:outline-offset-[-2px]"
+          className="block"
         >
           {frame}
         </a>

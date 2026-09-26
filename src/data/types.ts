@@ -82,7 +82,6 @@ export interface ProjectLinks {
   github?: string;
   demo?: string;
   pypi?: string;
-  video?: string;
   paper?: string;
   docs?: string;
 }
