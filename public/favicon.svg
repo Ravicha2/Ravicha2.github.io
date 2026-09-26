@@ -1,7 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Palm Suksawasdi">
-  <!-- Square ink tile, not a rounded one: the same file is rasterised into the
-       opaque apple-touch-icon, and a rounded rect would leave white corners. -->
-  <rect width="64" height="64" fill="#09090b"/>
-  <path fill="#fafafa" fill-rule="evenodd"
+  <!-- Square bench tile, not a rounded one: the same file is rasterised into the
+       opaque apple-touch-icon, and a rounded rect would leave white corners. The
+       two hexes are the only place the palette is duplicated — an SVG favicon
+       cannot read a CSS custom property — so they are pinned by a test. -->
+  <rect width="64" height="64" fill="#14120f"/>
+  <path fill="#ece5d8" fill-rule="evenodd"
         d="M22 14h7a13 13 0 0 1 0 26v10h-7z M29 21a6 6 0 0 1 0 12z"/>
 </svg>

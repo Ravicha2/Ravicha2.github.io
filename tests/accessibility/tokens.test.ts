@@ -2,6 +2,24 @@ import { describe, it, expect } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 
+/**
+ * The floor the issue sets is 7:1 — AAA for body text — measured on the built
+ * site. The literals are read out of the stylesheet rather than restated here, so
+ * this fails the moment a token moves, instead of quietly checking a frozen copy
+ * of a palette that no longer ships.
+ */
+
+const tokensCss = fs.readFileSync(
+  path.join(process.cwd(), 'src', 'styles', 'tokens.css'),
+  'utf-8'
+);
+
+function tokenValue(name: string): string {
+  const match = tokensCss.match(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6})`));
+  if (!match) throw new Error(`--${name} not declared in src/styles/tokens.css`);
+  return match[1];
+}
+
 function getLuminance(hex: string): number {
   const rgb = hex
     .replace('#', '')
@@ -12,89 +30,68 @@ function getLuminance(hex: string): number {
 }
 
 function getContrastRatio(hex1: string, hex2: string): number {
-  const lum1 = getLuminance(hex1);
-  const lum2 = getLuminance(hex2);
-  const brightest = Math.max(lum1, lum2);
-  const darkest = Math.min(lum1, lum2);
+  const [brightest, darkest] = [getLuminance(hex1), getLuminance(hex2)].sort((a, b) => b - a);
   return (brightest + 0.05) / (darkest + 0.05);
 }
 
-describe('WCAG AAA Color Contrast Tokens', () => {
-  describe('Light Theme Tokens', () => {
-    const canvasBg = '#fafafa';
-    const surfaceBg = '#ffffff';
-    const textPrimary = '#09090b';
-    const textSecondary = '#3f3f46';
-    const textMuted = '#52525b';
-    const accentBlue = '#1e40af';
+describe('Bench palette contrast (WCAG AAA)', () => {
+  // Every colour a glyph can take, against every surface it can sit on. The
+  // failed verdict is included: "does not hold" is text, so it answers to the
+  // text floor, not to the non-text one.
+  const TEXT_TOKENS = ['ink', 'annotate', 'signal', 'nonconform'];
+  const SURFACES = ['bench', 'well', 'panel'];
 
-    it('text-primary achieves WCAG AAA (>= 7.0:1) on canvas and surface', () => {
-      expect(getContrastRatio(textPrimary, canvasBg)).toBeGreaterThanOrEqual(7.0);
-      expect(getContrastRatio(textPrimary, surfaceBg)).toBeGreaterThanOrEqual(7.0);
+  for (const text of TEXT_TOKENS) {
+    it(`--${text} clears 7:1 on every surface it is used on`, () => {
+      for (const surface of SURFACES) {
+        const ratio = getContrastRatio(tokenValue(text), tokenValue(surface));
+        expect(ratio, `--${text} on --${surface} is ${ratio.toFixed(2)}:1`).toBeGreaterThanOrEqual(
+          7.0
+        );
+      }
     });
+  }
 
-    it('text-secondary achieves WCAG AAA (>= 7.0:1) on canvas and surface', () => {
-      expect(getContrastRatio(textSecondary, canvasBg)).toBeGreaterThanOrEqual(7.0);
-      expect(getContrastRatio(textSecondary, surfaceBg)).toBeGreaterThanOrEqual(7.0);
-    });
-
-    it('text-muted achieves WCAG AAA (>= 7.0:1) on canvas', () => {
-      expect(getContrastRatio(textMuted, canvasBg)).toBeGreaterThanOrEqual(7.0);
-    });
-
-    it('accent action blue achieves WCAG AAA (>= 7.0:1) on canvas and surface', () => {
-      expect(getContrastRatio(accentBlue, canvasBg)).toBeGreaterThanOrEqual(7.0);
-      expect(getContrastRatio(accentBlue, surfaceBg)).toBeGreaterThanOrEqual(7.0);
-    });
+  it('clears the 3:1 non-text floor for the rule on every surface', () => {
+    for (const surface of SURFACES) {
+      const ratio = getContrastRatio(tokenValue('rule'), tokenValue(surface));
+      expect(ratio, `--rule on --${surface} is ${ratio.toFixed(2)}:1`).toBeGreaterThanOrEqual(3.0);
+    }
   });
 
-  describe('Dark Theme Tokens', () => {
-    const canvasBg = '#09090b';
-    const surfaceBg = '#121215';
-    const textPrimary = '#fafafa';
-    const textSecondary = '#d4d4d8';
-    const textMuted = '#a1a1aa';
-    const accentBlue = '#93c5fd';
-
-    it('text-primary achieves WCAG AAA (>= 7.0:1) on canvas and surface', () => {
-      expect(getContrastRatio(textPrimary, canvasBg)).toBeGreaterThanOrEqual(7.0);
-      expect(getContrastRatio(textPrimary, surfaceBg)).toBeGreaterThanOrEqual(7.0);
+  describe('tokens.css structure', () => {
+    it('declares the bench palette and nothing gradient-based', () => {
+      expect(tokensCss).not.toContain('gradient');
+      for (const name of [
+        'bench',
+        'well',
+        'panel',
+        'ink',
+        'annotate',
+        'signal',
+        'nonconform',
+        'rule',
+      ]) {
+        expect(tokensCss, `--${name} must be declared`).toContain(`--${name}:`);
+      }
     });
 
-    it('text-secondary achieves WCAG AAA (>= 7.0:1) on canvas and surface', () => {
-      expect(getContrastRatio(textSecondary, canvasBg)).toBeGreaterThanOrEqual(7.0);
-      expect(getContrastRatio(textSecondary, surfaceBg)).toBeGreaterThanOrEqual(7.0);
-    });
+    // The room carries no colour of its own: the substrate, the panels and every
+    // value that is merely read out are warm but desaturated, and the only two
+    // saturated values are the live signal (brass) and the failed reading (coral).
+    // The gap between the two bounds is deliberately empty, so a token that drifts
+    // toward coloured lands in neither class and fails loudly.
+    it('keeps the room desaturated and spends colour on exactly two meanings', () => {
+      const chroma = (hex: string) => {
+        const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+        return Math.max(r, g, b) - Math.min(r, g, b);
+      };
 
-    it('text-muted achieves WCAG AAA (>= 7.0:1) on canvas and surface', () => {
-      expect(getContrastRatio(textMuted, canvasBg)).toBeGreaterThanOrEqual(7.0);
-      expect(getContrastRatio(textMuted, surfaceBg)).toBeGreaterThanOrEqual(7.0);
-    });
-
-    it('accent text achieves WCAG AAA (>= 7.0:1) on canvas and surface', () => {
-      expect(getContrastRatio(accentBlue, canvasBg)).toBeGreaterThanOrEqual(7.0);
-      expect(getContrastRatio(accentBlue, surfaceBg)).toBeGreaterThanOrEqual(7.0);
-    });
-  });
-
-  describe('tokens.css Structure', () => {
-    it('defines all CSS variables for :root and .dark without gradients', () => {
-      const tokensCssPath = path.join(process.cwd(), 'src', 'styles', 'tokens.css');
-      expect(fs.existsSync(tokensCssPath)).toBe(true);
-
-      const content = fs.readFileSync(tokensCssPath, 'utf-8');
-      expect(content).not.toContain('gradient');
-      expect(content).toContain('--bg-canvas');
-      expect(content).toContain('--bg-surface');
-      expect(content).toContain('--bg-surface-hover');
-      expect(content).toContain('--border-subtle');
-      expect(content).toContain('--border-strong');
-      expect(content).toContain('--text-primary');
-      expect(content).toContain('--text-secondary');
-      expect(content).toContain('--text-muted');
-      expect(content).toContain('--accent-solid');
-      expect(content).toContain('--accent-badge-bg');
-      expect(content).toContain('--accent-badge-text');
+      for (const name of ['bench', 'well', 'panel', 'ink', 'annotate']) {
+        expect(chroma(tokenValue(name)), `--${name} is not desaturated`).toBeLessThan(40);
+      }
+      expect(chroma(tokenValue('signal')), '--signal must be a hue').toBeGreaterThan(60);
+      expect(chroma(tokenValue('nonconform')), '--nonconform must be a hue').toBeGreaterThan(60);
     });
   });
 });

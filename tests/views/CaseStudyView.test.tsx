@@ -105,8 +105,10 @@ describe('CaseStudyView Component', () => {
       const nl2regex = projects.find((p) => p.slug === 'nl2regex')!;
 
       expect(screen.getByRole('heading', { level: 1, name: new RegExp(nl2regex.title, 'i') })).toBeInTheDocument();
-      expect(screen.getByText(nl2regex.metrics![0].value)).toBeInTheDocument();
-      expect(screen.getByText(/backend tests over the API/i)).toBeInTheDocument();
+      // The headline metric appears twice on purpose: once in the measured block,
+      // and once as this project's interval on the dimension chain below.
+      expect(screen.getAllByText(nl2regex.metrics![0].value).length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText(/backend tests over the API/i).length).toBeGreaterThanOrEqual(1);
       expect(screen.getByText(/Two-Stage LLM Triage \(ADR 0003\)/i)).toBeInTheDocument();
       expect(screen.getByText(/Canonical Parquet Normalization \(ADR 0002\)/i)).toBeInTheDocument();
       expect(screen.getByText(/Local Singleton JVM Session \(ADR 0004\)/i)).toBeInTheDocument();

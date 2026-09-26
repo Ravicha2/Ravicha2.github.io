@@ -87,6 +87,33 @@ export interface ProjectLinks {
   docs?: string;
 }
 
+/**
+ * How a claim is settled. The shape of the rendered artifact follows the kind:
+ * a `table` is a real table, a `trace` is an ordered run of lines, a `capture`
+ * is a verbatim excerpt of the mechanism itself.
+ */
+export type ProofKind = 'table' | 'trace' | 'capture';
+
+/**
+ * Bytes quoted from a public repository, pinned to the commit they were read at.
+ * `commit` is a SHA and never a branch: a link to `main` at `#L41` drifts the
+ * moment the file changes, so the reference stops resolving to what it claims.
+ */
+export interface ProofArtifact {
+  kind: ProofKind;
+  /** `owner/name` */
+  repo: string;
+  commit: string;
+  path: string;
+  /** inclusive, 1-based, in the pinned blob */
+  from: number;
+  to: number;
+  /** the claim this artifact settles */
+  settles: string;
+  /** the quoted bytes, verbatim */
+  quote: string;
+}
+
 export interface Project {
   slug: string;
   title: string;
@@ -103,8 +130,16 @@ export interface Project {
   metrics?: { value: string; label: string }[];
   summary: string;
   caseStudy?: CaseStudyContent;
+  /** The artifact that settles this project's headline claim. Flagship tier only. */
+  proof?: ProofArtifact;
+  /** One monochrome line of real output, carried by the catalog's flagship tier. */
+  proofLine?: string;
   image?: string;
+  /** What the image shows, when it is not a capture of the repository. */
+  imageAlt?: string;
   imageCaption?: string;
+  imageWidth?: number;
+  imageHeight?: number;
 }
 
 export interface WorkExperience {
@@ -146,6 +181,8 @@ export interface PublicationItem {
   link?: string;
   image?: string;
   imageCaption?: string;
+  imageWidth?: number;
+  imageHeight?: number;
 }
 
 export interface AccoladeItem {
@@ -157,6 +194,8 @@ export interface AccoladeItem {
   link?: string;
   image?: string;
   imageCaption?: string;
+  imageWidth?: number;
+  imageHeight?: number;
 }
 
 export interface SkillCategory {

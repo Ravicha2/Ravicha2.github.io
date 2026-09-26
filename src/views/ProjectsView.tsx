@@ -1,33 +1,12 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import {
-  ArrowUpRight,
-  ExternalLink,
-  Activity,
-  Terminal,
-  FileText,
-  Video,
-} from 'lucide-react';
 import { projects, projectCategories, getProjectsByCategory } from '../data/projects';
 import { ProjectCategory, Project } from '../data/types';
-import { TransitionLink } from '../components/common/TransitionLink';
 import { useActiveTransitionSlug } from '../hooks/useViewTransitionNavigate';
+import { BenchEntry } from '../components/bench/BenchEntry';
+import { ChannelStrip } from '../components/bench/ChannelStrip';
 
-const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-    <path d="M9 18c-4.51 2-5-2-7-2" />
-  </svg>
-);
+const isFlagship = (project: Project) => Boolean(project.proof && project.proofLine);
 
 export const ProjectsView: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -39,6 +18,8 @@ export const ProjectsView: React.FC = () => {
     categoryParam && validCategoryIds.includes(categoryParam) ? categoryParam : 'all';
 
   const filteredProjects = getProjectsByCategory(selectedCategory);
+  const flagship = filteredProjects.filter(isFlagship);
+  const supporting = filteredProjects.filter((p) => !isFlagship(p));
 
   const getCategoryCount = (categoryId: ProjectCategory | 'all'): number => {
     if (categoryId === 'all') return projects.length;
@@ -46,257 +27,97 @@ export const ProjectsView: React.FC = () => {
   };
 
   const handleSelectCategory = (categoryId: ProjectCategory | 'all') => {
-    if (categoryId === 'all') {
-      const newParams = new URLSearchParams(searchParams);
-      newParams.delete('category');
-      setSearchParams(newParams, { replace: true });
-    } else {
-      const newParams = new URLSearchParams(searchParams);
-      newParams.set('category', categoryId);
-      setSearchParams(newParams, { replace: true });
-    }
+    const newParams = new URLSearchParams(searchParams);
+    if (categoryId === 'all') newParams.delete('category');
+    else newParams.set('category', categoryId);
+    setSearchParams(newParams, { replace: true });
   };
 
+  // The catalog ref carries the project's position, so a row and the chain above it
+  // name the same project the same way.
+  const catalogRef = (project: Project) =>
+    `P.${String(projects.findIndex((p) => p.slug === project.slug) + 1).padStart(2, '0')}`;
+
   return (
-    <div className="space-y-10">
-      {/* Page Header */}
-      <header className="space-y-4 border-b border-border-subtle pb-8">
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-tight">
-          Projects
+    <div className="space-y-12">
+      <header className="space-y-8">
+        <h1
+          id="catalog-heading"
+          className="text-xl sm:text-2xl font-semibold tracking-[-0.015em] text-pretty"
+        >
+          Engineering projects
         </h1>
-        <p className="text-base sm:text-lg text-text-secondary max-w-3xl leading-relaxed">
-          I've always loved building and tinkering. My projects cover many different areas, but I'm most interested in AI that can act on its own.
+
+        <p className="measure text-sm sm:text-base leading-relaxed text-pretty">
+          I've always loved building and tinkering. My projects cover many different areas, but
+          I'm most interested in AI that can act on its own — and in the checks that decide
+          whether it actually did.
         </p>
 
-        {/* Category Filters */}
-        <div className="pt-2 sm:pt-4">
-          <div
-            role="group"
-            aria-label="Filter projects by category"
-            className="flex flex-wrap gap-1.5 sm:gap-2"
-          >
-            {projectCategories.map((category) => {
-              const isSelected = selectedCategory === category.id;
-              const count = getCategoryCount(category.id);
-
-              return (
-                <button
-                  key={category.id}
-                  type="button"
-                  aria-pressed={isSelected}
-                  onClick={() => handleSelectCategory(category.id)}
-                  className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-md text-xs font-mono font-semibold transition-all duration-150 border ${
-                    isSelected
-                      ? 'bg-accent-solid text-white border-accent-solid font-bold'
-                      : 'bg-surface text-text-secondary border-border-subtle hover:text-text-primary hover:bg-surface-hover hover:border-border-strong'
-                  }`}
-                >
-                  <span>{category.label}</span>
-                  <span
-                    className={`text-[10px] px-1.5 py-0.5 rounded font-mono font-bold ${
-                      isSelected
-                        ? 'bg-white text-accent-solid'
-                        : 'bg-canvas text-text-muted border border-border-subtle'
-                    }`}
-                  >
-                    {count}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        <ChannelStrip />
       </header>
 
-      {/* Projects Grid */}
-      <section aria-label="Projects catalog" className="space-y-6">
+      {/* Filters, as chips — the same outlined square the tags use. The list
+          already opens with an "All Projects" entry, so there is no second one. */}
+      <section aria-labelledby="filter-heading">
+        <h2 id="filter-heading" className="sr-only">
+          Filter projects by category
+        </h2>
+        <div role="group" aria-label="Filter projects by category" className="flex flex-wrap gap-2">
+          {projectCategories.map((category) => (
+            <button
+              key={category.id}
+              type="button"
+              aria-pressed={selectedCategory === category.id}
+              onClick={() => handleSelectCategory(category.id)}
+              className="chip font-mono text-[11px] transition-colors"
+            >
+              {category.label}
+              <span className="ml-1.5 tabular-nums">{getCategoryCount(category.id)}</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section aria-labelledby="catalog-heading-2">
+        <h2 id="catalog-heading-2" className="sr-only">
+          Project catalog
+        </h2>
         <p role="status" aria-live="polite" className="sr-only">
           {filteredProjects.length} {filteredProjects.length === 1 ? 'project' : 'projects'} shown
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-          {filteredProjects.map((project: Project) => {
-            const hasCaseStudy = Boolean(project.caseStudy);
 
-            return (
-              <article
+        {flagship.length > 0 && (
+          <>
+            <p className="font-mono text-[11px] text-annotate py-2">Measured to an artifact</p>
+            {flagship.map((project) => (
+              <BenchEntry
                 key={project.slug}
-                data-testid={`project-card-${project.slug}`}
-                style={activeSlug === project.slug ? { viewTransitionName: `project-card-${project.slug}` } : undefined}
-                className={`relative group/card bg-surface border border-border-subtle rounded-lg p-4 sm:p-6 flex flex-col justify-between hover:border-border-strong transition-all duration-200 ${
-                  hasCaseStudy ? 'cursor-pointer hover:bg-surface-hover hover:shadow-sm' : ''
-                }`}
-              >
-                <div className="space-y-4">
-                  {/* Category, Badge & Timeline */}
-                  <div className="flex items-center justify-between gap-2 flex-wrap">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-mono font-medium px-2.5 py-0.5 rounded-md bg-accent-badge-bg text-accent-badge-text border border-border-subtle">
-                        {project.categoryLabel}
-                      </span>
-                      {hasCaseStudy && (
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-surface-hover text-text-muted border border-border-subtle font-medium">
-                          Case Study
-                        </span>
-                      )}
-                    </div>
-                    <span className="text-xs font-mono text-text-muted">{project.timeline}</span>
-                  </div>
+                project={project}
+                catalogRef={catalogRef(project)}
+                viewTransitionName={
+                  activeSlug === project.slug ? `project-card-${project.slug}` : undefined
+                }
+              />
+            ))}
+          </>
+        )}
 
-                  {/* Title & Role */}
-                  <div className="space-y-1">
-                    <h2 className="text-xl font-bold text-text-primary tracking-tight">
-                      {hasCaseStudy ? (
-                        /* Stretched link: makes the whole card clickable and, because it is a
-                           real anchor, keyboard-activatable — the article used to be a bare
-                           onClick with role=null, tabindex=null. */
-                        <TransitionLink
-                          to={`/projects/${project.slug}`}
-                          className="hover:text-accent-solid transition-colors rounded after:absolute after:inset-0 after:content-['']"
-                        >
-                          {project.title}
-                        </TransitionLink>
-                      ) : (
-                        <span>{project.title}</span>
-                      )}
-                    </h2>
-                    <p className="text-xs font-mono font-medium text-text-muted">{project.role}</p>
-                  </div>
-
-                  {/* Technical Summary */}
-                  <p className="text-sm text-text-secondary leading-relaxed">
-                    {project.summary}
-                  </p>
-
-                  {/* Optional Project Media Asset */}
-                  {project.image && (
-                    <div className="overflow-hidden rounded-md border border-border-subtle bg-canvas">
-                      <img
-                        src={project.image}
-                        alt={project.imageCaption || project.title}
-                        className="w-full h-36 sm:h-44 object-cover object-top hover:scale-[1.02] transition-transform duration-300"
-                        loading="lazy"
-                      />
-                      {project.imageCaption && (
-                        <div className="px-3 py-1 bg-canvas border-t border-border-subtle text-[11px] font-mono text-text-muted flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-accent-solid flex-shrink-0" aria-hidden="true" />
-                          <span className="truncate">{project.imageCaption}</span>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Highlights / Metrics */}
-                  {project.metrics && project.metrics.length > 0 && (
-                    <div className="bg-canvas border border-border-subtle rounded-md p-3.5 space-y-2">
-                      <div className="flex items-center gap-1.5 text-[11px] font-mono font-semibold text-text-muted">
-                        <Activity className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
-                        <span>Key Highlights</span>
-                      </div>
-                      <ul className="text-xs font-mono text-text-secondary space-y-1.5">
-                        {project.metrics.map((metric, idx) => (
-                          <li key={idx} className="flex items-start gap-1.5">
-                            <span className="text-accent-solid font-bold select-none">›</span>
-                            <span>
-                              <span className="text-text-primary font-semibold">{metric.value}</span>{' '}
-                              {metric.label}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* Tech Stack Pills */}
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-surface-hover text-text-secondary border border-border-subtle"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Card Actions Footer */}
-                <div className="pt-5 mt-6 border-t border-border-subtle flex items-center justify-between gap-3">
-                  {hasCaseStudy ? (
-                    <TransitionLink
-                      to={`/projects/${project.slug}`}
-                      className="relative group/link inline-flex items-center gap-1.5 text-sm font-semibold text-accent-solid hover:underline rounded px-1 py-0.5"
-                    >
-                      <span>Read Case Study</span>
-                      <ArrowUpRight className="w-4 h-4 transition-transform group-link:hover:translate-x-0.5 group-link:hover:-translate-y-0.5" aria-hidden="true" />
-                    </TransitionLink>
-                  ) : (
-                    <span className="text-xs font-mono text-text-muted">
-                      Direct Repository & Live Artifacts
-                    </span>
-                  )}
-
-                  <div className="flex items-center space-x-1.5">
-                    {project.links.github && (
-                      <a
-                        href={project.links.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors"
-                        aria-label={`${project.title} GitHub repository (opens in a new tab)`}
-                      >
-                        <GithubIcon className="w-4 h-4" />
-                      </a>
-                    )}
-                    {project.links.demo && (
-                      <a
-                        href={project.links.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors"
-                        aria-label={`${project.title} live demo (opens in a new tab)`}
-                      >
-                        <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                      </a>
-                    )}
-                    {project.links.pypi && (
-                      <a
-                        href={project.links.pypi}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors"
-                        aria-label={`${project.title} PyPI package (opens in a new tab)`}
-                      >
-                        <Terminal className="w-4 h-4" aria-hidden="true" />
-                      </a>
-                    )}
-                    {project.links.video && (
-                      <a
-                        href={project.links.video}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors"
-                        aria-label={`${project.title} video walkthrough (opens in a new tab)`}
-                      >
-                        <Video className="w-4 h-4" aria-hidden="true" />
-                      </a>
-                    )}
-                    {project.links.paper && (
-                      <a
-                        href={project.links.paper}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative p-1.5 text-text-muted hover:text-text-primary rounded-md hover:bg-surface-hover transition-colors"
-                        aria-label={`${project.title} published IEEE paper (opens in a new tab)`}
-                      >
-                        <FileText className="w-4 h-4" aria-hidden="true" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </article>
-            );
-          })}
-        </div>
+        {supporting.length > 0 && (
+          <div className="mt-12">
+            <p className="font-mono text-[11px] text-annotate py-2">Repository only</p>
+            {supporting.map((project) => (
+              <BenchEntry
+                key={project.slug}
+                project={project}
+                catalogRef={catalogRef(project)}
+                viewTransitionName={
+                  activeSlug === project.slug ? `project-card-${project.slug}` : undefined
+                }
+              />
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

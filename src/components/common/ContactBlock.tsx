@@ -1,71 +1,47 @@
 import React from 'react';
-import { Mail, Copy, Check, AlertTriangle } from 'lucide-react';
 import { profile } from '../../data/profile';
 import { useCopyToClipboard } from '../../hooks/useCopyToClipboard';
 
 const linkClass =
-  'text-sm font-semibold text-text-secondary hover:text-accent-solid underline decoration-border-strong underline-offset-4 rounded transition-colors';
+  'font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-signal';
 
 /**
- * Closing conversion block: the address as visible, selectable text plus a copy
- * button, the outbound profiles, and one factual availability line.
+ * Closing block: the address as visible, selectable text plus a copy button, the
+ * outbound profiles, and one factual availability line.
  *
- * Per spec §1.3 there is no status pill, badge, or dot here — a sentence is
- * information, a pill is decoration.
+ * There is no status pill, badge, or dot — a sentence is information, a pill is
+ * decoration, and the bench has no vocabulary for decoration.
  */
 export const ContactBlock: React.FC = () => {
   const { state, copy } = useCopyToClipboard();
 
   return (
-    <section
-      aria-labelledby="contact-heading"
-      className="pt-8 border-t border-border-subtle space-y-4"
-    >
+    <section aria-labelledby="contact-heading" className="mark-thin pt-6 space-y-4">
       <h2
         id="contact-heading"
-        className="text-xl sm:text-2xl font-bold tracking-tight text-text-primary"
+        className="text-xl sm:text-2xl font-semibold tracking-[-0.01em]"
       >
         Get in touch
       </h2>
 
-      <p className="text-sm sm:text-base text-text-secondary leading-relaxed max-w-3xl">
-        {profile.status}
-      </p>
+      <p className="measure text-sm sm:text-base leading-relaxed">{profile.status}</p>
 
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-        <Mail className="w-4 h-4 text-accent-solid flex-shrink-0" aria-hidden="true" />
+      <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2">
         {/* Plain text, not an anchor: a mailto: silently no-ops on managed machines,
             so the readable address has to be selectable and copyable on its own. */}
-        <span className="font-mono text-sm text-text-primary break-all select-text">
-          {profile.email}
-        </span>
+        <span className="font-mono text-[13px] break-all select-text text-ink">{profile.email}</span>
         <button
           type="button"
           onClick={() => copy(profile.email)}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-canvas border border-border-subtle text-xs font-mono text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors"
+          className={linkClass}
         >
-          <span aria-live="polite" className="inline-flex items-center gap-1.5">
-            {state === 'copied' ? (
-              <>
-                <Check className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
-                <span>Copied</span>
-              </>
-            ) : state === 'error' ? (
-              <>
-                <AlertTriangle className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
-                <span>Copy failed</span>
-              </>
-            ) : (
-              <>
-                <Copy className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>Copy</span>
-              </>
-            )}
+          <span aria-live="polite">
+            {state === 'copied' ? 'Copied' : state === 'error' ? 'Copy failed' : 'Copy'}
           </span>
         </button>
       </div>
 
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+      <p className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
         <a href={profile.links.email} className={linkClass}>
           Email
         </a>
@@ -94,8 +70,8 @@ export const ContactBlock: React.FC = () => {
         >
           LinkedIn
         </a>
-        <span className="font-mono text-xs text-text-muted">{profile.location}</span>
-      </div>
+        <span className="font-mono text-[11px] text-annotate">{profile.location}</span>
+      </p>
     </section>
   );
 };

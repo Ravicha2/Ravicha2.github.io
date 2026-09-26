@@ -43,7 +43,10 @@ describe('AppLayout Landmark Hierarchy', () => {
       </MemoryRouter>
     );
 
-    const activeLink = screen.getByRole('link', { name: /projects/i });
+    // The rail's own nav, not the mobile bar's: both render in jsdom, since there
+    // is no viewport to apply the breakpoint.
+    const railNav = screen.getByRole('navigation', { name: /main navigation/i });
+    const activeLink = within(railNav).getByRole('link', { name: 'Work' });
     expect(activeLink).toHaveAttribute('aria-current', 'page');
   });
 

@@ -2,24 +2,27 @@ import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  // The JIT scans raw file text, not class attributes, so ordinary words get
+  // compiled into utilities: `document.activeElement.blur()`, `Array.filter()`,
+  // and the phrase "rather than at a rounded one" each emitted a real rule that
+  // nothing used — issue #18's problem in reverse. `blocklist` is the intended
+  // fix and it cannot rot: the next `.filter(` call will not re-emit.
+  blocklist: ['rounded', 'blur', 'filter'],
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Geist Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        mono: ['"Geist Mono"', 'monospace'],
+        sans: ['Barlow', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        mono: ['Iosevka', 'ui-monospace', 'monospace'],
       },
       colors: {
-        canvas: 'var(--bg-canvas)',
-        surface: 'var(--bg-surface)',
-        'surface-hover': 'var(--bg-surface-hover)',
-        'border-subtle': 'var(--border-subtle)',
-        'border-strong': 'var(--border-strong)',
-        'text-primary': 'var(--text-primary)',
-        'text-secondary': 'var(--text-secondary)',
-        'text-muted': 'var(--text-muted)',
-        'accent-solid': 'var(--accent-solid)',
-        'accent-badge-bg': 'var(--accent-badge-bg)',
-        'accent-badge-text': 'var(--accent-badge-text)',
+        bench: 'var(--bench)',
+        well: 'var(--well)',
+        panel: 'var(--panel)',
+        ink: 'var(--ink)',
+        annotate: 'var(--annotate)',
+        signal: 'var(--signal)',
+        nonconform: 'var(--nonconform)',
+        rule: 'var(--rule)',
       },
     },
   },

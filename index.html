@@ -6,10 +6,12 @@
     <title>Palm Suksawasdi | Portfolio &amp; Systems Engineering</title>
     <meta name="description" content="Building fault-tolerant multi-agent pipelines, GraphRAG memory systems, and distributed data engines." />
     <meta name="author" content="Palm (Ravicha) Suksawasdi Na Ayuthaya" />
-    <meta name="theme-color" content="#fafafa" />
-    <!-- Preload the variable fonts so the first paint already uses Geist (font-display:swap would otherwise reflow the hero) -->
-    <link rel="preload" href="/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/GeistMono-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <meta name="theme-color" content="#14120f" />
+    <!-- Preload the faces the first viewport draws with, so the bench is already
+         lettered at first paint (font-display:swap would otherwise reflow it). -->
+    <link rel="preload" href="/fonts/Barlow-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/Barlow-600.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/Iosevka-400.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="canonical" href="https://ravicha2.github.io/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -112,7 +114,7 @@
       })(window.location);
     </script>
   </head>
-  <body class="bg-canvas text-text-primary min-h-screen">
+  <body class="bg-bench text-ink min-h-screen">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

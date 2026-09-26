@@ -1,19 +1,5 @@
 import type React from 'react';
 import {
-  Briefcase,
-  GraduationCap,
-  Award,
-  BookOpen,
-  ExternalLink,
-  MapPin,
-  Calendar,
-  Code2,
-  Layers,
-  Database,
-  Cloud,
-  CheckCircle2,
-} from 'lucide-react';
-import {
   workExperience,
   education,
   publications,
@@ -21,449 +7,470 @@ import {
   skillCategories,
 } from '../data/experience';
 import { ContactBlock } from '../components/common/ContactBlock';
+import { Capture } from '../components/bench/Capture';
 
-const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-    <path d="M9 18c-4.51 2-5-2-7-2" />
-  </svg>
-);
+const linkClass =
+  'font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-signal';
 
-const getCategoryIcon = (category: string) => {
-  if (/Languages/i.test(category)) return <Code2 className="w-4 h-4 text-accent-solid" aria-hidden="true" />;
-  if (/Frameworks|Libraries/i.test(category)) return <Layers className="w-4 h-4 text-accent-solid" aria-hidden="true" />;
-  if (/Data|Databases/i.test(category)) return <Database className="w-4 h-4 text-accent-solid" aria-hidden="true" />;
-  return <Cloud className="w-4 h-4 text-accent-solid" aria-hidden="true" />;
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+/** A dated run in the graph. `start`/`end` are decimal years, so a line can be
+ *  drawn at its true length rather than at a rounded one. */
+interface Span {
+  id: string;
+  label: string;
+  org: string;
+  period: string;
+  kind: 'work' | 'study';
+  start: number;
+  end: number;
+}
+
+const parseSpan = (
+  item: { id: string; period: string },
+  label: string,
+  org: string,
+  kind: Span['kind'],
+): Span | null => {
+  // Every period in the data reads "Mon YYYY - Mon YYYY", sometimes with a
+  // trailing "(Expected)". Anything that does not is left off the graph rather
+  // than guessed at.
+  const m = item.period.match(/([A-Z][a-z]{2}) (\d{4}) - ([A-Z][a-z]{2}) (\d{4})/);
+  if (!m) return null;
+  const [, sm, sy, em, ey] = m;
+  const startMonth = MONTHS.indexOf(sm);
+  const endMonth = MONTHS.indexOf(em);
+  if (startMonth < 0 || endMonth < 0) return null;
+  return {
+    id: item.id,
+    label,
+    org,
+    period: item.period.replace(' (Expected)', ''),
+    kind,
+    start: Number(sy) + startMonth / 12,
+    end: Number(ey) + (endMonth + 1) / 12,
+  };
 };
 
-export const ExperienceView: React.FC = () => {
+const spans: Span[] = [
+  ...workExperience.map((w) => parseSpan(w, w.role, w.company, 'work')),
+  ...education.map((e) => parseSpan(e, e.degree, e.institution, 'study')),
+].filter((s): s is Span => s !== null);
+
+/** The runs in the order they started, which is the order the graph is read in. */
+const GRAPH = [...spans].sort((a, b) => a.start - b.start);
+
+/** The graph's own coordinates. The line down the left is the record in order;
+ *  a run that began while something else was already going forks out to the right
+ *  and rejoins, which is the one thing a column of squares cannot say. */
+const SPINE = 13;
+const BRANCH = 39;
+const GUTTER = 52;
+
+/** Where a fork leaves the line and where it rejoins, as a fraction of the row.
+ *  Drawn just inside the row so both diagonals are visible — a fork and a merge
+ *  have no duration of their own to draw. */
+const FORK = 25;
+const MERGE = 75;
+
+/** Which month a decimal year falls in. `end` is the instant just past a run's
+ *  last month, so the month it was last running in is one less than this. */
+const monthOf = (year: number) => Math.floor(year * 12);
+
+/** A 1px edge, drawn in a space whose height is the row's height whatever that
+ *  is. `non-scaling-stroke` is what keeps the hairline a hairline once the
+ *  vertical scale has stretched it — without it the y-scaling thickens it. */
+const Edge: React.FC<{ x1: number; y1: number; x2: number; y2: number }> = (props) => (
+  <line {...props} stroke="var(--rule)" strokeWidth={1} vectorEffect="non-scaling-stroke" />
+);
+
+/** One run as a node on the graph. The line runs straight down every row: it is
+ *  the record in order, and it claims nothing beyond that — the gap between two
+ *  degrees is a gap in studying, not a break in the record, so the line does not
+ *  break for it either. A run that started while something else still had months
+ *  left forks off that line and rejoins it, and *that* is the overlap, drawn.
+ *
+ *  The square sits on the line the run belongs to, brass for work and bone for
+ *  study. The rows state their own dates, so the graph is a second telling of
+ *  them and is kept out of the accessibility tree rather than read out twice. */
+const GraphRow: React.FC<{ span: Span; index: number }> = ({ span, index }) => {
+  // Only earlier rows can have been running when this one started. The earlier
+  // run must still have months left, not merely be alive on the day: a run that
+  // begins in another's final month is a handover — the degree finished in August
+  // and the job started in August — so it carries on down the line rather than
+  // forking off it.
+  const forks = GRAPH.slice(0, index).some((o) => monthOf(o.end) - 1 > monthOf(span.start));
+
   return (
-    <div className="space-y-16">
-      {/* Page Header */}
-      <header className="space-y-4 border-b border-border-subtle pb-6 sm:pb-8">
-        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-tight">
-          Engineering Journey & Experience
-        </h1>
-        <p className="text-sm sm:text-lg text-text-secondary max-w-3xl leading-relaxed">
-          Originally trained in Automotive Design & Manufacturing Engineering at Chulalongkorn University. During an IoT exchange at IMT Atlantique in France right when modern LLMs took off, saw the potential of combining software intelligence with systems engineering and made a decisive pivot to Computer Science.
-        </p>
-      </header>
+    <li className="flex items-stretch border-b border-rule">
+      <div className="relative shrink-0" style={{ width: GUTTER }} aria-hidden="true">
+        {/* Absolute: in flow this SVG would size itself off its own 52:100
+            viewBox and set the row height to 100px. Out of flow it takes the
+            row's height from the flex stretch, which is what it should scale to. */}
+        <svg
+          viewBox={`0 0 ${GUTTER} 100`}
+          preserveAspectRatio="none"
+          className="absolute inset-0 h-full w-full"
+        >
+          <Edge x1={SPINE} y1={0} x2={SPINE} y2={100} />
+          {forks && (
+            <>
+              <Edge x1={SPINE} y1={0} x2={BRANCH} y2={FORK} />
+              <Edge x1={BRANCH} y1={FORK} x2={BRANCH} y2={MERGE} />
+              <Edge x1={BRANCH} y1={MERGE} x2={SPINE} y2={100} />
+            </>
+          )}
+        </svg>
+        <span
+          className={`absolute top-1/2 w-[9px] h-[9px] -translate-x-1/2 -translate-y-1/2 ${
+            span.kind === 'work' ? 'bg-signal' : 'bg-ink'
+          }`}
+          style={{ left: forks ? BRANCH : SPINE }}
+        />
+      </div>
+      <div className="flex min-w-0 flex-1 flex-wrap items-baseline gap-x-3 gap-y-0.5 py-3 pl-4">
+        <span className="text-[13px] text-ink">{span.label}</span>
+        <span className="font-mono text-[11px] text-annotate">{span.org}</span>
+        <span className="ml-auto shrink-0 font-mono text-[11px] text-annotate">{span.period}</span>
+      </div>
+    </li>
+  );
+};
 
-      {/* Section 1: Work Experience Timeline */}
-      <section aria-labelledby="work-experience-heading" className="space-y-6 sm:space-y-8">
-        <div className="flex items-center gap-3">
-          <div className="p-2 sm:p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary">
-            <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-accent-solid" aria-hidden="true" />
-          </div>
-          <div>
-            <h2 id="work-experience-heading" className="text-xl sm:text-2xl font-bold tracking-tight text-text-primary">
-              Work Experience
-            </h2>
-            <p className="text-xs font-mono text-text-muted mt-0.5">
-              Production engineering, distributed pipelines, and systems design
-            </p>
-          </div>
-        </div>
+/** A numbered run of lines, the same shape the proof traces are read in. */
+const Items: React.FC<{ items: string[]; className?: string }> = ({ items, className = '' }) => (
+  <ul className={`space-y-2 ${className}`}>
+    {items.map((item, i) => (
+      <li key={i} className="measure flex gap-3 text-sm leading-relaxed">
+        <span className="mt-[0.5em] w-[5px] h-[5px] shrink-0 bg-rule" aria-hidden="true" />
+        <span>{item}</span>
+      </li>
+    ))}
+  </ul>
+);
 
-        {/* Timeline Container */}
-        <div className="relative pl-5 sm:pl-8 border-l border-border-subtle space-y-6 sm:space-y-8">
-          {workExperience.map((item) => (
-            <article
-              key={item.id}
-              data-testid={`work-item-${item.id}`}
-              className="relative bg-surface border border-border-subtle rounded-lg p-4 sm:p-6 space-y-4 hover:border-border-strong transition-all duration-150"
-            >
-              {/* Timeline Node Bullet */}
-              <div
-                className={`absolute -left-[27px] sm:-left-[39px] top-5 sm:top-6 w-3.5 h-3.5 rounded-full border-2 border-canvas ${
-                  item.isCurrent ? 'bg-accent-solid ring-4 ring-accent-badge-bg' : 'bg-text-muted'
-                }`}
-                aria-hidden="true"
-              />
+const SectionHead: React.FC<{ id: string; heading: string; annotation: string }> = ({
+  id,
+  heading,
+  annotation,
+}) => (
+  <div className="mark-thin pt-6">
+    <h2 id={id} className="text-xl sm:text-2xl font-semibold tracking-[-0.015em]">
+      {heading}
+    </h2>
+    <p className="mt-1.5 text-[13px] text-annotate">{annotation}</p>
+  </div>
+);
 
-              {/* Header: Role, Company, Period, Location */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border-subtle pb-4">
-                <div>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h3 className="text-lg font-bold text-text-primary tracking-tight">
-                      {item.role}
-                    </h3>
-                    {item.isCurrent && (
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-semibold">
-                        Current Role
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-3 text-sm font-semibold text-accent-solid mt-0.5 flex-wrap">
-                    <span>{item.company}</span>
-                    <span className="text-text-muted select-none font-normal">·</span>
-                    <span className="text-xs font-mono text-text-muted font-normal flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
-                      {item.location}
-                    </span>
-                  </div>
-                </div>
+export const ExperienceView: React.FC = () => (
+  <div className="space-y-14">
+    <header className="space-y-8">
+      <h1
+        id="experience-heading"
+        className="text-xl sm:text-2xl font-semibold tracking-[-0.015em] text-pretty"
+      >
+        Engineering journey
+      </h1>
+      <p className="measure text-sm sm:text-base leading-relaxed text-pretty">
+        Originally trained in Automotive Design & Manufacturing Engineering at Chulalongkorn
+        University. During an IoT exchange at IMT Atlantique in France right when modern LLMs
+        took off, saw the potential of combining software intelligence with systems
+        engineering and made a decisive pivot to Computer Science.
+      </p>
+    </header>
 
-                <div className="flex items-center gap-1.5 text-xs font-mono text-text-muted bg-canvas px-2.5 py-1 rounded-md border border-border-subtle self-start sm:self-auto">
-                  <Calendar className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
-                  <span>{item.period}</span>
-                </div>
+    {/* The record as a graph. One row per run in the order they started, a line
+        down the whole thing, and a fork-and-rejoin wherever a run began while
+        something else was still going — so the overlap is the thing you see, and
+        the years that hold nothing but continuation need no row of their own. */}
+    <section aria-labelledby="graph-heading">
+      <SectionHead
+        id="graph-heading"
+        heading="Works and and Educations"
+        annotation="One row per run, in the order it started. A run that started while something else still had months left forks off the line and comes back to it."
+      />
+
+      <ol className="mt-6 border-t border-rule">
+        {GRAPH.map((span, i) => (
+          <GraphRow key={span.id} span={span} index={i} />
+        ))}
+      </ol>
+
+      {/* The key to the squares. Hidden with the graph it explains, for the same
+          reason: the rows state their own dates, so a reader who cannot see the
+          squares is not short of anything they carry. */}
+      <p
+        aria-hidden="true"
+        className="mt-3 flex flex-wrap items-baseline gap-x-5 gap-y-1.5 font-mono text-[11px] text-annotate"
+      >
+        <span className="flex items-center gap-2">
+          <span className="w-[7px] h-[7px] bg-signal" />
+          work
+        </span>
+        <span className="flex items-center gap-2">
+          <span className="w-[7px] h-[7px] bg-ink" />
+          study
+        </span>
+      </p>
+    </section>
+
+    {/* Work experience, as a record of engagements rather than a stack of cards. */}
+    <section aria-labelledby="work-experience-heading" className="space-y-6">
+      <SectionHead
+        id="work-experience-heading"
+        heading="Work experience"
+        annotation="Production engineering, distributed pipelines, and systems design"
+      />
+
+      <div>
+        {workExperience.map((item) => (
+          <article
+            key={item.id}
+            data-testid={`work-item-${item.id}`}
+            className="mark-thin pt-4 pb-6 grid gap-x-6 gap-y-3 sm:grid-cols-[10rem_minmax(0,1fr)]"
+          >
+            <div>
+              <p className="readout font-mono text-[13px] text-ink flex flex-wrap items-baseline gap-x-2">
+                <span>{item.period}</span>
+                {item.isCurrent && <span className="text-[11px] text-signal">current</span>}
+              </p>
+              <p className="font-mono text-[11px] text-annotate mt-1">{item.location}</p>
+            </div>
+
+            <div className="min-w-0 space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-x-6 gap-y-1">
+                <h3 className="text-lg font-semibold tracking-[-0.015em]">{item.role}</h3>
+                <p className="font-mono text-[13px] text-annotate shrink-0">{item.company}</p>
               </div>
 
-              {/* Descriptions / Technical Rationales */}
-              <ul className="space-y-2 text-sm text-text-secondary">
-                {item.description.map((desc, idx) => (
-                  <li key={idx} className="flex items-start gap-2 leading-relaxed">
-                    <span className="text-accent-solid font-mono font-bold select-none mt-0.5">›</span>
-                    <span>{desc}</span>
-                  </li>
-                ))}
-              </ul>
+              <Items items={item.description} />
 
-              {/* Highlights & Tags */}
-              <div className="space-y-3 pt-2">
-                {item.highlights && item.highlights.length > 0 && (
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-[11px] font-mono font-medium text-text-muted">
-                      Key Highlights:
-                    </span>
-                    {item.highlights.map((highlight, idx) => (
-                      <span
-                        key={idx}
-                        className="inline-flex items-center gap-1 text-xs font-mono px-2.5 py-0.5 rounded-md bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-medium"
-                      >
-                        <CheckCircle2 className="w-3 h-3 text-accent-solid" aria-hidden="true" />
-                        <span>{highlight}</span>
-                      </span>
-                    ))}
-                  </div>
-                )}
-
-                {/* Tech Stack Chips & Link */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-border-subtle">
-                  <div className="flex flex-wrap gap-1.5">
-                    {item.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-surface-hover text-text-secondary border border-border-subtle"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {item.link && (
-                    <a
-                      href={item.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent-solid hover:underline rounded px-1.5 py-0.5"
-                      aria-label={`${item.company} repository (opens in a new tab)`}
-                    >
-                      <GithubIcon className="w-3.5 h-3.5" />
-                      <span>View Repository</span>
-                      <ExternalLink className="w-3 h-3" aria-hidden="true" />
-                    </a>
-                  )}
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* Section 2: Education */}
-      <section aria-labelledby="education-heading" className="space-y-8">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary">
-            <GraduationCap className="w-5 h-5 text-accent-solid" aria-hidden="true" />
-          </div>
-          <div>
-            <h2 id="education-heading" className="text-2xl font-bold tracking-tight text-text-primary">
-              Education & Academic Foundations
-            </h2>
-            <p className="text-xs font-mono text-text-muted mt-0.5">
-              Degrees, international exchange study, and foundational engineering training
-            </p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 gap-6">
-          {education.map((edu) => (
-            <article
-              key={edu.id}
-              data-testid={`edu-item-${edu.id}`}
-              className="bg-surface border border-border-subtle rounded-lg p-6 space-y-4 hover:border-border-strong transition-all duration-150"
-            >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border-subtle pb-4">
-                <div>
-                  <h3 className="text-lg font-bold text-text-primary tracking-tight">
-                    {edu.degree}
-                  </h3>
-                  <div className="flex items-center gap-2 text-sm font-semibold text-accent-solid mt-0.5 flex-wrap">
-                    <span>{edu.institution}</span>
-                    <span className="text-text-muted select-none font-normal">·</span>
-                    <span className="text-xs font-mono text-text-muted font-normal flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
-                      {edu.location}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
-                  {edu.grade && (
-                    <span className="text-xs font-mono px-2.5 py-1 rounded-md bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-semibold">
-                      {edu.grade}
-                    </span>
-                  )}
-                  <span className="text-xs font-mono text-text-muted bg-canvas px-2.5 py-1 rounded-md border border-border-subtle flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
-                    <span>{edu.period}</span>
-                  </span>
-                </div>
-              </div>
-
-              {edu.field && (
-                <div className="text-xs font-mono text-text-muted">
-                  <span className="font-semibold">Field of Study:</span>{' '}
-                  <span className="text-text-primary font-medium">{edu.field}</span>
-                </div>
-              )}
-
-              <ul className="space-y-2 text-sm text-text-secondary">
-                {edu.details.map((detail, idx) => (
-                  <li key={idx} className="flex items-start gap-2 leading-relaxed">
-                    <span className="text-accent-solid font-mono font-bold select-none mt-0.5">›</span>
-                    <span>{detail}</span>
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* Section 3: Publications & Accolades */}
-      <section aria-labelledby="publications-accolades-heading" className="space-y-8">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary">
-            <Award className="w-5 h-5 text-accent-solid" aria-hidden="true" />
-          </div>
-          <div>
-            <h2 id="publications-accolades-heading" className="text-2xl font-bold tracking-tight text-text-primary">
-              Publications & Accolades
-            </h2>
-            <p className="text-xs font-mono text-text-muted mt-0.5">
-              Peer-reviewed research, hackathon awards, and leadership development
-            </p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Publications Card */}
-          {publications.map((pub) => (
-            <article
-              key={pub.id}
-              data-testid={`pub-item-${pub.id}`}
-              className="bg-surface border border-border-subtle rounded-lg p-6 space-y-4 flex flex-col justify-between hover:border-border-strong transition-all duration-150"
-            >
-              <div className="space-y-3">
-                <div className="flex items-center justify-between gap-2 flex-wrap">
-                  <span className="text-xs font-mono px-2.5 py-1 rounded-md bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-semibold flex items-center gap-1.5">
-                    <BookOpen className="w-3.5 h-3.5 text-accent-solid" aria-hidden="true" />
-                    <span>IEEE Publication</span>
-                  </span>
-                  <span className="text-xs font-mono text-text-muted">{pub.date}</span>
-                </div>
-
-                <h3 className="text-base font-bold text-text-primary leading-snug">
-                  {pub.title}
-                </h3>
-
-                <p className="text-xs font-mono text-accent-solid font-semibold">
-                  {pub.conference}
-                </p>
-
-                {pub.image && (
-                  <div className="overflow-hidden rounded-md border border-border-subtle bg-canvas">
-                    <img
-                      src={pub.image}
-                      alt={pub.imageCaption || pub.title}
-                      className="w-full h-48 sm:h-56 object-cover object-center hover:scale-[1.02] transition-transform duration-300"
-                      loading="lazy"
-                    />
-                    {pub.imageCaption && (
-                      <div className="px-3 py-1.5 bg-canvas border-t border-border-subtle text-[11px] font-mono text-text-muted flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-accent-solid flex-shrink-0" aria-hidden="true" />
-                        <span className="truncate">{pub.imageCaption}</span>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                <div className="text-xs font-mono text-text-muted space-y-1 bg-canvas p-3 rounded-md border border-border-subtle">
-                  <div>
-                    <span className="text-text-secondary font-medium">Authors:</span> {pub.authors.join(', ')}
-                  </div>
-                  {pub.advisor && (
-                    <div>
-                      <span className="text-text-secondary font-medium">Advisor:</span> {pub.advisor}
-                    </div>
-                  )}
-                  <div>
-                    <span className="text-text-secondary font-medium">Role:</span> {pub.role}
-                  </div>
-                </div>
-
-                <ul className="space-y-1.5 text-xs text-text-secondary pt-1">
-                  {pub.description.map((desc, idx) => (
-                    <li key={idx} className="flex items-start gap-1.5 leading-relaxed">
-                      <span className="text-accent-solid font-bold select-none">›</span>
-                      <span>{desc}</span>
+              {item.highlights && item.highlights.length > 0 && (
+                <ul className="flex flex-wrap gap-2 pt-1">
+                  {item.highlights.map((highlight, idx) => (
+                    <li key={idx} className="chip font-mono text-[11px] text-ink">
+                      {highlight}
                     </li>
                   ))}
                 </ul>
+              )}
+
+              <p className="flex flex-wrap items-baseline gap-x-4 gap-y-1.5 pt-1">
+                {item.tags.map((tag) => (
+                  <span key={tag} className="font-mono text-[11px] text-annotate">
+                    {tag}
+                  </span>
+                ))}
+                {item.link && (
+                  <a
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={linkClass}
+                    aria-label={`${item.company} repository (opens in a new tab)`}
+                  >
+                    View repository
+                  </a>
+                )}
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    {/* Education */}
+    <section aria-labelledby="education-heading" className="space-y-6">
+      <SectionHead
+        id="education-heading"
+        heading="Education & academic foundations"
+        annotation="Degrees, international exchange study, and foundational engineering training"
+      />
+
+      <div>
+        {education.map((edu) => (
+          <article
+            key={edu.id}
+            data-testid={`edu-item-${edu.id}`}
+            className="mark-thin pt-4 pb-6 grid gap-x-6 gap-y-3 sm:grid-cols-[10rem_minmax(0,1fr)]"
+          >
+            <div>
+              <p className="readout font-mono text-[13px] text-ink">{edu.period}</p>
+              {edu.grade && <p className="font-mono text-[11px] text-signal mt-1">{edu.grade}</p>}
+              <p className="font-mono text-[11px] text-annotate mt-1">{edu.location}</p>
+            </div>
+
+            <div className="min-w-0 space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-x-6 gap-y-1">
+                <h3 className="text-lg font-semibold tracking-[-0.015em]">{edu.degree}</h3>
+                <p className="font-mono text-[13px] text-annotate shrink-0">{edu.institution}</p>
               </div>
 
+              {edu.field && (
+                <p className="font-mono text-[11px] text-annotate">
+                  Field of study <span aria-hidden="true">·</span>{' '}
+                  <span className="text-ink">{edu.field}</span>
+                </p>
+              )}
+
+              <Items items={edu.details} />
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    {/* Publications and accolades, each with the photograph the event actually left. */}
+    <section aria-labelledby="publications-accolades-heading" className="space-y-6">
+      <SectionHead
+        id="publications-accolades-heading"
+        heading="Publications & accolades"
+        annotation="Peer-reviewed research, hackathon awards, and leadership development"
+      />
+
+      <div className="grid gap-10 lg:grid-cols-2">
+        {publications.map((pub) => (
+          <article key={pub.id} data-testid={`pub-item-${pub.id}`} className="space-y-4">
+            <div className="mark-thin pt-4 space-y-4">
+              <p className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 font-mono text-[11px] text-annotate">
+                <span>IEEE publication</span>
+                <span>{pub.date}</span>
+              </p>
+
+              <h3 className="text-base font-semibold leading-snug text-pretty">{pub.title}</h3>
+
+              <p className="font-mono text-[13px] text-annotate">{pub.conference}</p>
+
+              <dl className="font-mono text-[11px] space-y-1.5 border-y border-rule py-2.5">
+                <div className="flex gap-2">
+                  <dt className="text-annotate w-20 shrink-0">Authors</dt>
+                  <dd className="text-ink">{pub.authors.join(', ')}</dd>
+                </div>
+                {pub.advisor && (
+                  <div className="flex gap-2">
+                    <dt className="text-annotate w-20 shrink-0">Advisor</dt>
+                    <dd className="text-ink">{pub.advisor}</dd>
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <dt className="text-annotate w-20 shrink-0">Role</dt>
+                  <dd className="text-ink">{pub.role}</dd>
+                </div>
+              </dl>
+
+              <ul className="space-y-2">
+                {pub.description.map((desc, idx) => (
+                  <li key={idx} className="measure text-sm leading-relaxed">
+                    {desc}
+                  </li>
+                ))}
+              </ul>
+
               {pub.link && (
-                <div className="pt-4 border-t border-border-subtle">
+                <p>
                   <a
                     href={pub.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent-solid hover:underline rounded px-1.5 py-0.5"
-                    aria-label={`Read paper on IEEE Xplore (opens in a new tab)`}
+                    className={linkClass}
+                    aria-label="Read paper on IEEE Xplore (opens in a new tab)"
                   >
-                    <span>View on IEEE Xplore</span>
-                    <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
+                    View on IEEE Xplore
                   </a>
-                </div>
-              )}
-            </article>
-          ))}
-
-          {/* Accolades Cards */}
-          <div className="space-y-6">
-            {accolades.map((acc) => (
-              <article
-                key={acc.id}
-                data-testid={`accolade-item-${acc.id}`}
-                className="bg-surface border border-border-subtle rounded-lg p-5 space-y-3 hover:border-border-strong transition-all duration-150"
-              >
-                <div className="flex items-center justify-between gap-2 flex-wrap">
-                  <span className="text-xs font-mono px-2.5 py-0.5 rounded-md bg-accent-badge-bg text-accent-badge-text border border-border-subtle font-semibold">
-                    {acc.organization}
-                  </span>
-                  <span className="text-xs font-mono text-text-muted">{acc.date}</span>
-                </div>
-
-                <h3 className="text-sm font-bold text-text-primary">
-                  {acc.title}
-                </h3>
-
-                {acc.image && (
-                  <div className="overflow-hidden rounded-md border border-border-subtle bg-canvas">
-                    <img
-                      src={acc.image}
-                      alt={acc.imageCaption || acc.title}
-                      className="w-full h-40 sm:h-48 object-cover object-top hover:scale-[1.02] transition-transform duration-300"
-                      loading="lazy"
-                    />
-                    {acc.imageCaption && (
-                      <div className="px-3 py-1.5 bg-canvas border-t border-border-subtle text-[11px] font-mono text-text-muted flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-accent-solid flex-shrink-0" aria-hidden="true" />
-                        <span className="truncate">{acc.imageCaption}</span>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                <p className="text-xs text-text-secondary leading-relaxed">
-                  {acc.description}
                 </p>
-
-                {acc.link && (
-                  <div className="pt-2">
-                    <a
-                      href={acc.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent-solid hover:underline rounded px-1 py-0.5"
-                      aria-label={`View ${acc.title} project live platform at ${acc.link} (opens in a new tab)`}
-                    >
-                      <span>heal.a2a.ing</span>
-                      <ExternalLink className="w-3 h-3" aria-hidden="true" />
-                    </a>
-                  </div>
-                )}
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Section 4: Technical Skills Taxonomy */}
-      <section
-        id="skills-taxonomy"
-        data-testid="skills-taxonomy"
-        aria-labelledby="skills-taxonomy-heading"
-        className="space-y-8"
-      >
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-surface border border-border-subtle text-text-primary">
-            <Code2 className="w-5 h-5 text-accent-solid" aria-hidden="true" />
-          </div>
-          <div>
-            <h2 id="skills-taxonomy-heading" className="text-2xl font-bold tracking-tight text-text-primary">
-              Technical Skills Taxonomy
-            </h2>
-            <p className="text-xs font-mono text-text-muted mt-0.5">
-              Categorized matrix of languages, frameworks, storage systems, and infrastructure
-            </p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {skillCategories.map((group) => (
-            <div
-              key={group.category}
-              data-testid={`skill-group-${group.category.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
-              className="bg-surface border border-border-subtle rounded-lg p-5 space-y-3.5 hover:border-border-strong transition-all duration-150"
-            >
-              <div className="flex items-center gap-2 border-b border-border-subtle pb-2.5">
-                {getCategoryIcon(group.category)}
-                <h3 className="text-sm font-bold text-text-primary font-mono">
-                  {group.category}
-                </h3>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {group.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="text-xs font-mono px-2.5 py-1 rounded bg-canvas text-text-primary border border-border-subtle hover:border-accent-solid hover:text-accent-solid transition-colors"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
+              )}
             </div>
-          ))}
-        </div>
-      </section>
 
-      <ContactBlock />
-    </div>
-  );
-};
+            {pub.image && (
+              <Capture
+                src={pub.image}
+                width={pub.imageWidth ?? 1440}
+                height={pub.imageHeight ?? 900}
+                develop
+                alt={pub.imageCaption || pub.title}
+                source={pub.imageCaption ?? pub.title}
+              />
+            )}
+          </article>
+        ))}
+
+        {accolades.map((acc) => (
+          <article key={acc.id} data-testid={`accolade-item-${acc.id}`} className="space-y-4">
+            <div className="mark-thin pt-4 space-y-3">
+              <p className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 font-mono text-[11px] text-annotate">
+                <span>{acc.organization}</span>
+                <span>{acc.date}</span>
+              </p>
+
+              <h3 className="text-[15px] font-semibold text-pretty">{acc.title}</h3>
+
+              <p className="measure text-sm leading-relaxed">{acc.description}</p>
+
+              {acc.link && (
+                <p>
+                  <a
+                    href={acc.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={linkClass}
+                    aria-label={`${acc.title} live platform at ${acc.link} (opens in a new tab)`}
+                  >
+                    heal.a2a.ing
+                  </a>
+                </p>
+              )}
+            </div>
+
+            {acc.image && (
+              <Capture
+                src={acc.image}
+                width={acc.imageWidth ?? 1440}
+                height={acc.imageHeight ?? 900}
+                develop
+                alt={acc.imageCaption || acc.title}
+                source={acc.imageCaption ?? acc.title}
+              />
+            )}
+          </article>
+        ))}
+      </div>
+    </section>
+
+    {/* Skills */}
+    <section
+      id="skills-taxonomy"
+      data-testid="skills-taxonomy"
+      aria-labelledby="skills-taxonomy-heading"
+      className="space-y-6"
+    >
+      <SectionHead
+        id="skills-taxonomy-heading"
+        heading="Technical skills"
+        annotation="Categorized matrix of languages, frameworks, storage systems, and infrastructure"
+      />
+
+      <dl className="grid gap-x-8 gap-y-5 md:grid-cols-2">
+        {skillCategories.map((group) => (
+          <div
+            key={group.category}
+            data-testid={`skill-group-${group.category.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+            className="mark-thin pt-3"
+          >
+            <dt className="font-mono text-[11px] text-annotate">{group.category}</dt>
+            <dd className="mt-2 flex flex-wrap gap-2">
+              {group.skills.map((skill) => (
+                <span key={skill} className="chip font-mono text-[11px] text-ink">
+                  {skill}
+                </span>
+              ))}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <ContactBlock />
+  </div>
+);
 
 export default ExperienceView;

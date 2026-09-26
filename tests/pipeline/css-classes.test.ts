@@ -36,7 +36,7 @@ function expectAbsent(pattern: RegExp, why: string) {
 
 /** The token utilities resolve to `var(--…)`, not to a literal colour. */
 const TOKEN_COLOUR =
-  'canvas|surface|surface-hover|border-subtle|border-strong|text-primary|text-secondary|text-muted|accent-solid|accent-badge-bg|accent-badge-text';
+  'bench|well|panel|ink|annotate|signal|nonconform|rule';
 
 describe('utilities that generate no CSS', () => {
   it('applies no alpha modifier to a var()-declared colour', () => {

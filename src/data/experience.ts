@@ -152,7 +152,9 @@ export const publications: PublicationItem[] = [
     ],
     advisor: 'Assoc. Prof. Ronnapee Chaichaowarat, PhD',
     link: 'https://ieeexplore.ieee.org/document/10349000',
-    image: '/assets/IEEE.png',
+    image: '/assets/IEEE.jpg',
+    imageWidth: 1162,
+    imageHeight: 712,
     imageCaption: 'IEEE TENCON 2023 · Co-Author & Presenter with Chulalongkorn Engineering Cohort (Chiang Mai, Thailand)',
   },
 ];
@@ -166,7 +168,9 @@ export const accolades: AccoladeItem[] = [
     description:
       "Awarded Founder's Choice Award for developing and deploying a community mental health peer-support web platform (heal.a2a.ing).",
     link: 'https://heal.a2a.ing',
-    image: '/assets/Hack2Heal.png',
+    image: '/assets/Hack2Heal.jpg',
+    imageWidth: 1600,
+    imageHeight: 900,
     imageCaption: "Founder's Choice Award Winner with Team Bread at UNSW Founders Stage",
   },
   {

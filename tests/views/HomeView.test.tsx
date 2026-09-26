@@ -1,11 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { HomeView } from '../../src/views/HomeView';
 import { profile } from '../../src/data/profile';
 import { featuredProjects } from '../../src/data/projects';
-import { workExperience } from '../../src/data/experience';
+import { workExperience, education } from '../../src/data/experience';
 
 describe('HomeView Component', () => {
   const renderHome = () =>
@@ -15,140 +14,80 @@ describe('HomeView Component', () => {
       </MemoryRouter>
     );
 
-  describe('Hero Narrative Section', () => {
-    it('renders the name, primary role title, and hero heading', () => {
+  describe('First viewport', () => {
+    it('states the name as the only h1', () => {
       renderHome();
-      expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
-      expect(screen.getByText(new RegExp(profile.name, 'i'))).toBeInTheDocument();
+      const h1 = screen.getByRole('heading', { level: 1 });
+      expect(h1).toHaveTextContent(profile.name);
+      // The identity, and exactly one of it: the display heading is not a
+      // positioning line. `profile.headline` is the route's meta description.
+      expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
+    });
+
+    it('renders the role under the name rather than repeating the name', () => {
+      renderHome();
+      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(profile.name);
       expect(screen.getByText(new RegExp(profile.title, 'i'))).toBeInTheDocument();
     });
 
-    it('renders the narrative summary and explore projects CTA link', () => {
+    it('offers the way into the catalog and the profile links', () => {
       renderHome();
-      expect(screen.getByText(/Building fault-tolerant multi-agent pipelines/i)).toBeInTheDocument();
-      expect(screen.getByRole('link', { name: /explore projects/i })).toHaveAttribute('href', '/projects');
-    });
-
-    it('renders quick contact and social links with accessible attributes', () => {
-      renderHome();
-      const githubLinks = screen.getAllByRole('link', { name: /github/i });
-      expect(githubLinks.some((link) => link.getAttribute('href') === profile.links.github)).toBe(true);
-
-      const linkedinLinks = screen.getAllByRole('link', { name: /linkedin/i });
-      expect(linkedinLinks.some((link) => link.getAttribute('href') === profile.links.linkedin)).toBe(true);
-
-      const emailLinks = screen.getAllByRole('link', { name: /email/i });
-      expect(emailLinks.some((link) => link.getAttribute('href') === profile.links.email)).toBe(true);
-    });
-  });
-
-  describe('Bento Grid Flagship Showcase', () => {
-    it('renders the Bento Grid section heading', () => {
-      renderHome();
-      expect(
-        screen.getByRole('heading', { level: 2, name: /Featured Case Studies|Flagship Systems|Featured Systems/i })
-      ).toBeInTheDocument();
-    });
-
-    it('renders exactly 4 featured case study cards', () => {
-      renderHome();
-      const bentoGrid = screen.getByTestId('bento-grid');
-      expect(bentoGrid).toBeInTheDocument();
-
-      const expectedSlugs = ['shepherd', 'nl2regex', 'document-ingestion-agent', 'lit-review-council'];
-      expect(featuredProjects.map((p) => p.slug)).toEqual(expect.arrayContaining(expectedSlugs));
-
-      for (const slug of expectedSlugs) {
-        const card = screen.getByTestId(`bento-card-${slug}`);
-        expect(card).toBeInTheDocument();
-      }
-    });
-
-    it('displays project titles, stack pills, metrics, and case study links for each card', () => {
-      renderHome();
-
-      for (const project of featuredProjects) {
-        const card = screen.getByTestId(`bento-card-${project.slug}`);
-        expect(card).toBeInTheDocument();
-
-        // Project title or part of title in heading
-        expect(
-          within(card).getByRole('heading', { level: 3, name: new RegExp(project.title.split(':')[0], 'i') })
-        ).toBeInTheDocument();
-
-        // Case study navigation link
-        const caseStudyLink = within(card).getByRole('link', { name: /read case study|view case study|case study/i });
-        expect(caseStudyLink).toHaveAttribute('href', `/projects/${project.slug}`);
-
-        // Tags / stack pills
-        if (project.tags.length > 0) {
-          expect(within(card).getByText(project.tags[0])).toBeInTheDocument();
-        }
-
-        // Metrics highlight — the bento card carries the measured value only
-        if (project.metrics && project.metrics.length > 0) {
-          expect(within(card).getByText(project.metrics[0].value)).toBeInTheDocument();
-        }
-      }
-    });
-
-    it('makes the whole featured card activatable through a stretched link', async () => {
-      const user = userEvent.setup();
-      render(
-        <MemoryRouter initialEntries={['/']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-          <HomeView />
-        </MemoryRouter>
+      expect(screen.getByRole('link', { name: /all \d+ projects/i })).toHaveAttribute(
+        'href',
+        '/projects'
       );
 
-      const shepherdCard = screen.getByTestId('bento-card-shepherd');
-      expect(shepherdCard).toHaveClass('cursor-pointer');
-
-      const stretchedLink = within(shepherdCard).getByRole('link', {
-        name: 'Shepherd: GraphRAG Compliance Engine',
-      });
-      expect(stretchedLink).toHaveAttribute('href', '/projects/shepherd');
-      expect(stretchedLink.className).toContain('after:absolute');
-      expect(stretchedLink.className).toContain('after:inset-0');
-
-      await user.click(stretchedLink);
+      const hrefs = screen.getAllByRole('link').map((link) => link.getAttribute('href'));
+      expect(hrefs).toContain(profile.links.github);
+      expect(hrefs).toContain(profile.links.linkedin);
+      expect(hrefs).toContain(profile.links.email);
     });
   });
 
-  describe('Career Snapshot and Direct Navigation CTAs', () => {
-    it('labels the experience card from data rather than claiming currency', () => {
+  describe('Channel strip', () => {
+    it('carries all four flagship projects as channels of one strip', () => {
       renderHome();
-      const currentRoles = workExperience.filter((w) => w.isCurrent);
+      const strip = screen.getByRole('navigation', { name: /flagship projects/i });
+      const channels = within(strip).getAllByRole('listitem');
+      expect(channels).toHaveLength(featuredProjects.length);
 
-      if (currentRoles.length === 0) {
-        // No role is current, so the fallback card must not assert "Active Deployment".
-        expect(screen.queryByText('Active Deployment')).not.toBeInTheDocument();
-        expect(screen.getByText('Most Recent Role')).toBeInTheDocument();
-      } else {
-        expect(screen.getByText('Active Deployment')).toBeInTheDocument();
-        expect(screen.queryByText('Most Recent Role')).not.toBeInTheDocument();
+      for (const project of featuredProjects) {
+        const channel = within(strip).getByRole('link', {
+          name: new RegExp(project.title.split(':')[0], 'i'),
+        });
+        expect(channel).toHaveAttribute('href', `/projects/${project.slug}`);
+        expect(within(channel).getByText(project.metrics![0].value)).toBeInTheDocument();
+      }
+    });
+  });
+
+  describe('System context', () => {
+    it('labels the role from data rather than claiming currency it cannot check', () => {
+      renderHome();
+      const isCurrent = workExperience.some((w) => w.isCurrent);
+      expect(screen.getByText(isCurrent ? 'Now' : 'Most recent')).toBeInTheDocument();
+      expect(screen.queryByText('Active Deployment')).not.toBeInTheDocument();
+    });
+
+    it('renders the current role and the primary degree', () => {
+      renderHome();
+      const current = workExperience.find((w) => w.isCurrent) ?? workExperience[0];
+      // Regex, not exact: the row runs the company and the period into one line.
+      for (const text of [current.role, current.company, education[0].degree, education[0].institution]) {
+        expect(screen.getAllByText(new RegExp(text, 'i')).length).toBeGreaterThanOrEqual(1);
       }
     });
 
-    it('renders the most recent role when nothing is current', () => {
+    it('links on to the full catalog and the experience timeline', () => {
       renderHome();
-      if (workExperience.some((w) => w.isCurrent)) return;
-
-      const mostRecent = workExperience[0];
-      expect(screen.getByRole('heading', { level: 3, name: mostRecent.role })).toBeInTheDocument();
-      expect(screen.getByText(new RegExp(mostRecent.period, 'i'))).toBeInTheDocument();
-    });
-
-
-    it('renders links directing to full projects catalog and experience timeline', () => {
-      renderHome();
-      const allProjectsLinks = screen.getAllByRole('link', { name: /view all projects|explore all projects|all projects/i });
-      expect(allProjectsLinks.length).toBeGreaterThanOrEqual(1);
-      allProjectsLinks.forEach((link) => expect(link).toHaveAttribute('href', '/projects'));
-
-      const fullExperienceLink = screen.getByRole('link', {
-        name: /view full experience|full career timeline|view experience/i,
-      });
-      expect(fullExperienceLink).toHaveAttribute('href', '/experience');
+      expect(screen.getByRole('link', { name: /all \d+ projects/i })).toHaveAttribute(
+        'href',
+        '/projects'
+      );
+      expect(screen.getByRole('link', { name: 'Experience' })).toHaveAttribute(
+        'href',
+        '/experience'
+      );
     });
   });
 });
