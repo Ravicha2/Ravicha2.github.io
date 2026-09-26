@@ -46,6 +46,12 @@ export const projects: Project[] = [
 | **total** | **66 (61/5)** | | | **33 (28/5)** | | **17/0/25** (base 19/0/23) |`,
     },
     proofLine: '4-repo benchmark · FP 66 → 33 · detection 17 exact / 0 partial / 25 miss',
+    image: '/assets/captures/shepherd.png',
+    imageAlt: 'The Shepherd project mark: a German shepherd’s head.',
+    imageWidth: 689,
+    imageHeight: 362,
+    imageCaption:
+      'The Shepherd mark, supplied by the author — it names the project rather than settling a claim. The 17/21 detection is settled by benchmark/reports/2026-09-17T20-09-41/AGGREGATE.md at e4d177f.',
     summary:
       'End-to-end ADR violation detector for AI-generated code, ingesting source ASTs and architectural markdown documents into a Neo4j property graph to catch multi-file constraint conflicts.',
     caseStudy: {
@@ -151,6 +157,13 @@ export const projects: Project[] = [
             LLMRegexService.validate_regex_safety(pattern)`,
     },
     proofLine: '172 backend tests · ADR 0004 pays JVM startup once per worker, not per task',
+    image: '/assets/captures/NL2REGEX.png',
+    imageAlt:
+      'The NL2REGEX workspace: the uploaded file list, its parsed table, and the natural-language prompt box.',
+    imageWidth: 2848,
+    imageHeight: 1338,
+    imageCaption:
+      'The NL2REGEX workspace running from the repository at 9c9fe8a — the uploaded file, its parsed table, and the prompt that drives the job.',
     summary:
       'Distributed natural language to regex engine that transforms complex tabular dataset patterns using plain English, backed by PySpark and Celery with schema-validated triage.',
     caseStudy: {
@@ -297,6 +310,11 @@ export const projects: Project[] = [
             await step.sendEvent("dispatch-parallel-jobs", events);`,
     },
     proofLine: '8 durable steps / 4 worker functions · each stage retries alone',
+    image: '/assets/captures/gh-doc-ingestion.png',
+    imageWidth: 1428,
+    imageHeight: 705,
+    imageCaption:
+      "github.com/Ravicha2/document-ingestion-agent — captured at the current default branch.",
     summary:
       'Production-grade event-driven AI ingestion engine using Inngest durable steps, NestJS, and dual pgvector/Neo4j storage to eliminate orphaned state during multi-stage document processing.',
     caseStudy: {
@@ -416,6 +434,11 @@ export const projects: Project[] = [
     return top_label, reasons`,
     },
     proofLine: '3 reviewers · Borda 2/1 tally · winner returned with every rationale',
+    image: '/assets/captures/pypi-litreview.png',
+    imageWidth: 1440,
+    imageHeight: 683,
+    imageCaption:
+      "pypi.org/project/lit-review-council — published, not just committed.",
     summary:
       'Multi-agent research synthesis engine and Model Context Protocol (MCP) server that orchestrates parallel academic and practitioner research with Borda-count consensus.',
     caseStudy: {
@@ -545,6 +568,11 @@ export const projects: Project[] = [
       { value: 'Live', label: 'deployed at heal.a2a.ing' },
       { value: '2025', label: "Founder's Choice Award winner, Hack2Heal" },
     ],
+    image: '/assets/captures/heal-desktop.png',
+    imageWidth: 1440,
+    imageHeight: 683,
+    imageCaption:
+      "heal.a2a.ing — the product, live, as deployed.",
     summary:
       'Community mental health peer support platform recognized with the Founder\'s Choice Award at the Hack2Heal Hackathon.',
   },

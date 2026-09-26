@@ -45,12 +45,12 @@ describe('Static Baseline HTML Meta & OpenGraph (index.html)', () => {
     expect(content).toContain('<meta name="twitter:title" content="Palm Suksawasdi | Portfolio &amp; Systems Engineering" />');
   });
 
-  it('keeps theme-color bound to --panel rather than to a literal', () => {
-    // The panel is the ground the sheet is inset from, so it is the colour the
-    // browser chrome abuts on every route.
+  it('keeps theme-color bound to --bench rather than to a literal', () => {
+    // The bench is the substrate every route is drawn on, so it is the colour the
+    // browser chrome abuts.
     const themeColor = read('index.html').match(/<meta name="theme-color" content="([^"]+)" \/>/);
     expect(themeColor, 'no theme-color meta tag in index.html').not.toBeNull();
-    expect(themeColor![1]).toBe(token('panel'));
+    expect(themeColor![1]).toBe(token('bench'));
   });
 
   it('points og:image and twitter:image at the committed card, with its dimensions and alt text', () => {
@@ -99,7 +99,7 @@ describe('Static Baseline HTML Meta & OpenGraph (index.html)', () => {
     // one place the palette is necessarily duplicated — pin them to the tokens.
     const favicon = read('public/favicon.svg');
     expect(favicon).toContain(token('ink'));
-    expect(favicon).toContain(token('sheet'));
+    expect(favicon).toContain(token('bench'));
   });
 
   it('verifies index.html embeds valid static baseline schema.org/Person JSON-LD', () => {

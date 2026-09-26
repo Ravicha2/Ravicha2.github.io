@@ -27,10 +27,10 @@ const REF_LABELS: Array<{ key: keyof ProjectLinks; label: string; name: (title: 
     },
   ];
 
-export interface CatalogEntryProps {
+export interface BenchEntryProps {
   project: Project;
   /** The chain reference, e.g. `P.03`, so the catalog and the chain name it alike. */
-  sheetRef: string;
+  catalogRef: string;
   /** viewTransitionName, set only on the entry being navigated into. */
   viewTransitionName?: string;
 }
@@ -44,32 +44,35 @@ export interface CatalogEntryProps {
  * The row itself carries no handler — a real anchor stretched over it does the work,
  * which is what gives the row a keyboard equivalent.
  */
-export const CatalogEntry: React.FC<CatalogEntryProps> = ({
+export const BenchEntry: React.FC<BenchEntryProps> = ({
   project,
-  sheetRef,
+  catalogRef,
   viewTransitionName,
 }) => {
   const proof = project.proof;
   const flagship = Boolean(proof && project.proofLine);
 
   const refLink =
-    'relative font-mono text-[11px] uppercase tracking-widest text-annotate underline underline-offset-4 decoration-1 decoration-annotate hover:text-ink hover:decoration-ink rounded';
+    'relative font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-signal';
+
+  const primaryLink =
+    'relative font-mono text-[11px] text-ink underline decoration-signal underline-offset-4 transition-colors hover:decoration-[3px]';
 
   return (
     <article
       data-testid={`project-card-${project.slug}`}
       data-tier={flagship ? 'flagship' : 'supporting'}
       style={viewTransitionName ? { viewTransitionName } : undefined}
-      className={`relative cursor-pointer ${flagship ? 'rule-verified' : 'rule-thin'} grid gap-x-5 gap-y-3 py-5 sm:grid-cols-[3rem_minmax(0,1fr)] lg:grid-cols-[3rem_minmax(0,1fr)_19rem]`}
+      className={`relative cursor-pointer ${flagship ? 'mark-clean' : 'mark-thin'} grid gap-x-5 gap-y-3 py-5 sm:grid-cols-[3rem_minmax(0,1fr)] lg:grid-cols-[3rem_minmax(0,1fr)_19rem]`}
     >
-      <p className="font-mono text-[11px] tracking-widest text-annotate pt-1">{sheetRef}</p>
+      <p className="font-mono text-[11px] tracking-widest text-annotate pt-1">{catalogRef}</p>
 
       <div className="min-w-0 space-y-2">
         <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-x-6 gap-y-1">
           <h2 className="text-lg sm:text-xl font-semibold tracking-[-0.01em] text-pretty">
             <TransitionLink
               to={`/projects/${project.slug}`}
-              className="rounded underline underline-offset-4 decoration-1 hover:decoration-2 transition-[text-decoration-thickness] after:absolute after:inset-0 after:content-['']"
+              className="underline decoration-rule underline-offset-4 transition-colors hover:decoration-signal after:absolute after:inset-0 after:content-['']"
             >
               {project.title}
             </TransitionLink>
@@ -88,7 +91,7 @@ export const CatalogEntry: React.FC<CatalogEntryProps> = ({
         <p className="pt-1 flex flex-wrap items-baseline gap-x-5 gap-y-1.5">
           <TransitionLink
             to={`/projects/${project.slug}`}
-            className="relative font-mono text-[11px] uppercase tracking-widest text-ink underline underline-offset-4 decoration-1 hover:decoration-2 rounded"
+            className={primaryLink}
           >
             Read case study
           </TransitionLink>
@@ -146,7 +149,7 @@ export const CatalogEntry: React.FC<CatalogEntryProps> = ({
         )}
 
         {flagship && proof && (
-          <div className="pt-2 border-t border-annotate space-y-1">
+          <div className="pt-2 border-t border-rule space-y-1">
             <p className="font-mono text-[11px] leading-snug text-ink">{project.proofLine}</p>
             <a
               href={permalink(proof)}
@@ -164,4 +167,4 @@ export const CatalogEntry: React.FC<CatalogEntryProps> = ({
   );
 };
 
-export default CatalogEntry;
+export default BenchEntry;

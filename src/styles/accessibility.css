@@ -3,11 +3,11 @@
 /* The one focus indicator for the whole app (WCAG 2.4.13). It is declared here
    and nowhere else: per-element `ring-*` utilities used to compete with this
    rule and painted a ring in the element's own colour, i.e. invisible.
-   `--ink` contrasts 19.08:1 with the sheet and 17.64:1 with the panel, so the
-   indicator clears 3:1 against every control it can sit on; the 2px offset
-   shows the sheet through, which is what carries the contrast against an
-   ink-filled control. `outline` (not box-shadow) so the indicator survives
-   Windows High Contrast / forced-colors. */
+   `--ink` contrasts 14.93:1 with the bench, 13.80:1 with a panel and 15.61:1
+   with a well, so the indicator clears 3:1 against every control it can sit on;
+   the 2px offset shows the substrate through, which is what carries the contrast
+   against an ink-filled control. `outline` (not box-shadow) so the indicator
+   survives Windows High Contrast / forced-colors. */
 :focus-visible {
   outline: 2px solid var(--ink);
   outline-offset: 2px;

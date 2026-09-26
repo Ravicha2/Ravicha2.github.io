@@ -1,0 +1,205 @@
+/* The Bench.
+ *
+ * Four things live here and nothing else:
+ *   1. the mark vocabulary — how a reading is marked clean / claimed / failed by
+ *      line weight and style, never by colour;
+ *   2. the reading measure;
+ *   3. the sweep — one authored moment on first paint, then stillness;
+ *   4. the reveal, on real captures only, and the browser surfaces the page did
+ *      not draw.
+ */
+
+/* ---------------------------------------------------------------------------
+ * 1. Mark vocabulary
+ *
+ * Solid = a reading that came back clean. Dashed = claimed, not yet measured.
+ * Heavy double = measured, and it failed. Colour is a redundant second channel
+ * on the failed mark only, so all three stay distinguishable with colour
+ * disabled (WCAG 1.4.1 by construction).
+ * ------------------------------------------------------------------------- */
+
+.mark-clean {
+  border-top: 2px solid var(--signal);
+}
+
+.mark-claimed {
+  border-top: 2px dashed var(--annotate);
+}
+
+.mark-failed {
+  border-top: 6px double var(--nonconform);
+}
+
+/* A mark that is a section boundary rather than a verdict. */
+.mark-thin {
+  border-top: 1px solid var(--rule);
+}
+
+/* ---------------------------------------------------------------------------
+ * 2. The reading measure
+ *
+ * The bench is wide because artifacts are: a benchmark table and a quoted source
+ * range both want every pixel. Prose does not — it measured at 85-121 characters
+ * per line on the old world, past the point where the eye loses the line. So the
+ * bench stays wide and prose alone is held to a measure.
+ * ------------------------------------------------------------------------- */
+
+.measure {
+  max-width: 66ch;
+}
+
+/* A real capture, or any measured thing, sitting in a well. Square corners: the
+ * world has no rounded vocabulary, so nothing here can be mistaken for a card. */
+.well {
+  background-color: var(--well);
+  border: 1px solid var(--rule);
+}
+
+/* An outlined square chip. Tags and reference links carry this, never a pill. */
+.chip {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 0.09rem 0.4rem;
+  color: var(--annotate);
+}
+
+a.chip:hover,
+a.chip:focus-visible,
+button.chip:hover,
+button.chip:focus-visible {
+  border-color: var(--signal);
+  color: var(--ink);
+}
+
+button.chip {
+  cursor: pointer;
+}
+
+/* The selected filter. Square, outlined, and stated — never a filled pill. */
+.chip[aria-pressed='true'] {
+  border-color: var(--ink);
+  background-color: var(--panel);
+  color: var(--ink);
+}
+
+/* ---------------------------------------------------------------------------
+ * 3. The sweep
+ *
+ * One brass hairline travels the viewport once on first paint, then leaves. It is
+ * the viewport's single maximum-emphasis element, it never carries state, and it
+ * is transform-only so nothing reflows while it runs. `prefers-reduced-motion`
+ * never sees it at all.
+ * ------------------------------------------------------------------------- */
+
+.sweep {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sweep {
+    display: block;
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    z-index: 60;
+    pointer-events: none;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--signal) 18%,
+      var(--signal) 82%,
+      transparent
+    );
+    animation: sweep 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+@keyframes sweep {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100dvh);
+    opacity: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * 4a. The reveal — real captures only
+ *
+ * An artifact frame develops from undeveloped to full tone as it enters, once.
+ * Text and headings are deliberately excluded: imagery arrives like a print
+ * coming up, prose is simply already there. That asymmetry is the decision.
+ *
+ * Both the `@supports` guard and the motion guard mean a browser that supports
+ * neither renders the developed frame — the content never depends on the
+ * animation. `animation-duration: 1ms` is set for Firefox, which otherwise falls
+ * back to a 0s duration and skips the animation entirely.
+ * ------------------------------------------------------------------------- */
+
+@keyframes develop {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .develop {
+      animation: develop linear both;
+      animation-timeline: view();
+      animation-range: entry 10% entry 90%;
+      animation-duration: 1ms;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * 4b. Browser surfaces
+ *
+ * The parts the page did not draw still carry the design: selection, the caret,
+ * the scrollbar. All three are themed from the palette, and all three are square
+ * — the world has no rounded vocabulary, so the scrollbar thumb must not either.
+ * ------------------------------------------------------------------------- */
+
+::selection {
+  background: var(--signal);
+  color: var(--bench);
+}
+
+html {
+  caret-color: var(--signal);
+  scrollbar-color: var(--rule) var(--bench);
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bench);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--rule);
+  border: 2px solid var(--bench);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--signal);
+}
+
+/* The rail's readout: the live line that names whatever is on screen. */
+.readout {
+  font-variant-numeric: tabular-nums;
+}

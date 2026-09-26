@@ -8,7 +8,7 @@ import * as path from 'path';
 
 import { useViewTransitionNavigate, ViewTransitionProvider, useActiveTransitionSlug } from '../../src/hooks/useViewTransitionNavigate';
 import { TransitionLink } from '../../src/components/common/TransitionLink';
-import { SheetChain } from '../../src/components/sheet/SheetChain';
+import { ChannelStrip } from '../../src/components/bench/ChannelStrip';
 import { ProjectsView } from '../../src/views/ProjectsView';
 import { CaseStudyView } from '../../src/views/CaseStudyView';
 
@@ -360,16 +360,16 @@ describe('Navbar Directional Slide Transitions (Horizontal Slide Rules)', () => 
 });
 
 describe('Shared-Element View Transitions & Stylesheet Rules', () => {
-  it('verifies the chain never claims a viewTransitionName, so the root slide still runs', () => {
+  it('verifies the channel strip never claims a viewTransitionName, so the root slide still runs', () => {
     render(
       <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <SheetChain />
+        <ChannelStrip />
       </MemoryRouter>
     );
 
-    // Only the catalog entry morphs into the case-study header. A chain interval is a
-    // quarter-width cell, and morphing that into a page-wide header reads as a glitch,
-    // so the chain stays out of the shared-element transition entirely.
+    // Only the catalog row morphs into the case-study header. A channel is a
+    // quarter-width cell, and morphing that into a page-wide header reads as a
+    // glitch, so the strip stays out of the shared-element transition entirely.
     const intervals = Array.from(document.querySelectorAll<HTMLElement>('ol > li'));
     expect(intervals.length).toBeGreaterThan(0);
     intervals.forEach((li) => expect(li.style.viewTransitionName).toBeFalsy());

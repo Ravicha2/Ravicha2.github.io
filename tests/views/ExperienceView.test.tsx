@@ -17,7 +17,7 @@ describe('ExperienceView Component', () => {
     it('renders the main heading and progression narrative subtitle', () => {
       renderExperienceView();
       expect(
-        screen.getByRole('heading', { level: 1, name: /Engineering Journey & Experience/i })
+        screen.getByRole('heading', { level: 1, name: /Engineering journey/i })
       ).toBeInTheDocument();
       expect(
         screen.getByText(/Originally trained in Automotive Design & Manufacturing Engineering/i)
@@ -149,7 +149,7 @@ describe('ExperienceView Component', () => {
       expect(within(pubItem).getByText(/IEEE Region 10 Technical Conference \(TENCON 2023\)/i)).toBeInTheDocument();
 
       const ieeeImage = within(pubItem).getByRole('img');
-      expect(ieeeImage).toHaveAttribute('src', '/assets/IEEE.png');
+      expect(ieeeImage).toHaveAttribute('src', '/assets/IEEE.jpg');
 
       const paperLink = within(pubItem).getByRole('link', { name: /ieee xplore|read paper|ieee/i });
       expect(paperLink).toHaveAttribute('href', 'https://ieeexplore.ieee.org/document/10349000');
@@ -169,18 +169,18 @@ describe('ExperienceView Component', () => {
       // Hack2Heal link and image check
       const hack2healItem = screen.getByTestId('accolade-item-hack2heal');
       const hackImage = within(hack2healItem).getByRole('img');
-      expect(hackImage).toHaveAttribute('src', '/assets/Hack2Heal.png');
+      expect(hackImage).toHaveAttribute('src', '/assets/Hack2Heal.jpg');
 
       const hackLink = within(hack2healItem).getByRole('link', { name: /heal\.a2a\.ing/i });
       expect(hackLink).toHaveAttribute('href', 'https://heal.a2a.ing');
     });
   });
 
-  describe('Technical Skills Taxonomy', () => {
+  describe('Technical skills', () => {
     it('renders the skills matrix section heading', () => {
       renderExperienceView();
       expect(
-        screen.getByRole('heading', { level: 2, name: /Technical Skills Taxonomy/i })
+        screen.getByRole('heading', { level: 2, name: /Technical skills/i })
       ).toBeInTheDocument();
     });
 

@@ -28,28 +28,28 @@ describe('Focus indicator (WCAG 2.4.13)', () => {
   const accessibilityCss = read('src/styles/accessibility.css');
   const focusRule = accessibilityCss.match(/:focus-visible\s*\{([^}]*)\}/)?.[1] ?? '';
 
-  it('declares the ring with the ink token, never the hue', () => {
+  it('declares the ring with the ink token, never a hue', () => {
     expect(focusRule).toContain('var(--ink)');
     expect(focusRule).not.toContain('var(--nonconform)');
   });
 
-  it('separates the ring from the control with a sheet offset', () => {
+  it('separates the ring from the control with a substrate offset', () => {
     expect(focusRule).toMatch(/outline-offset:\s*2px/);
     expect(focusRule).toMatch(/outline:\s*2px solid/);
   });
 
   it('carries >= 3:1 against the surface behind it and against an ink-filled control', () => {
-    // The ring sits on the sheet; the offset gap is the sheet showing through.
-    expect(contrast(tokenValue('ink'), tokenValue('sheet'))).toBeGreaterThanOrEqual(3);
-    // The title block's primary action is an ink fill with sheet text on it.
-    expect(contrast(tokenValue('sheet'), tokenValue('ink'))).toBeGreaterThanOrEqual(3);
+    // The ring sits on the bench; the offset gap is the bench showing through.
+    expect(contrast(tokenValue('ink'), tokenValue('bench'))).toBeGreaterThanOrEqual(3);
+    // An ink-filled control carries bench text, and the gap around it is bench too.
+    expect(contrast(tokenValue('bench'), tokenValue('ink'))).toBeGreaterThanOrEqual(3);
   });
 
   it('is declared in exactly one place — no per-element ring utilities', () => {
     const sources = fs
       .readdirSync(path.join(process.cwd(), 'src'), { recursive: true, encoding: 'utf-8' })
       .filter((f) => f.endsWith('.tsx'));
-    const offenders = sources.filter((f) => read(path.join('src', f)).includes('ring-nonconform'));
+    const offenders = sources.filter((f) => /\bring-/.test(read(path.join('src', f))));
     expect(offenders).toEqual([]);
   });
 });

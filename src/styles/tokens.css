@@ -1,28 +1,47 @@
-/* Tolerance Frame — the palette.
+/* The Bench — the palette.
  *
- * One hue. Inspection red is the only chromatic value on the sheet and it is
- * permitted for non-conformance and nothing else: a navigation link takes ink
- * and an underline, never the hue. Everything else is the white sheet, dense
- * near-black linework, and a single grey that belongs to annotation and leader
- * lines.
+ * A dark workroom. The substrate is warm near-black, the text is warm bone and
+ * never white, and raised panels are fills that are never boundaries: separation
+ * is always a rule, so the page does not become a grid of boxes.
  *
- * Meaning is never carried by colour alone. Line weight and style carry it —
- * solid is verified, dashed is asserted, a heavy double rule is failed — so the
- * distinction survives greyscale, colour blindness and forced-colours mode.
+ * Two chromatic values, both warm, both meaning-carrying:
+ *   --signal     the live signal. A link, the row you are on, and a reading that
+ *                came back clean.
+ *   --nonconform a reading that failed. It appears nowhere else, ever, and it is
+ *                never a decoration, an accent, or a hover colour. Currently
+ *                unlit: no reading the site states fails, so this token and
+ *                `mark-failed` have no consumer. Reserved, not spent.
  *
- * Contrast, computed against both surfaces (sheet / panel):
- *   ink        #0d1013  19.08 / 17.64
- *   annotate   #474c53   8.65 /  8.00
- *   nonconform #9d1116   8.32 /  7.69
- * Every text token clears the 7:1 floor everywhere it is used.
+ * The room itself carries no colour at all: every chromatic element on the page
+ * is a real photograph or a real capture, so the artifacts hold all the colour
+ * and the substrate stays out of their way.
  *
- * `--panel` is a fill, never a boundary: panel-vs-sheet is 1.08:1 and carries no
- * meaning. Separation is always an ink rule.
+ * Meaning is never carried by colour alone. Clean and failed differ in mark as
+ * well as in hue — a clean reading is a solid rule, a claimed one is dashed, a
+ * failed one is a heavy double — so the verdict survives greyscale, colour
+ * blindness and forced-colours mode (WCAG 1.4.1 by construction).
+ *
+ * Contrast, computed against all three surfaces (bench / panel / well):
+ *   ink        #ece5d8  14.93 / 13.80 / 15.61
+ *   annotate   #b0a695   7.78 /  7.19 /  8.13
+ *   signal     #c9a04a   7.67 /  7.09 /  8.02
+ *   nonconform #f38d8a   8.00 /  7.40 /  8.37
+ *   rule       #6d655d   3.27 /  3.02 /  3.42   (non-text: boundary only)
+ * Every text token clears the 7:1 floor everywhere it is used; the rule clears
+ * the 3:1 non-text floor. `--well` is a fill for image frames and readouts, never
+ * a boundary: well-vs-bench is 1.05:1 and carries no meaning.
+ *
+ * --nonconform is as deep as a red can be and still read as text: below this it
+ * leaves AAA, which is why the failed reading is a coral rather than a crimson.
+ * It is still the only value on the bench that is not brass, bone or bark.
  */
 :root {
-  --sheet: #ffffff;
-  --panel: #f6f6f5;
-  --ink: #0d1013;
-  --annotate: #474c53;
-  --nonconform: #9d1116;
+  --bench: #14120f;
+  --well: #0d0c0a;
+  --panel: #1e1a16;
+  --ink: #ece5d8;
+  --annotate: #b0a695;
+  --signal: #c9a04a;
+  --nonconform: #f38d8a;
+  --rule: #6d655d;
 }

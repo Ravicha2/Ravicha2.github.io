@@ -34,10 +34,12 @@ function getContrastRatio(hex1: string, hex2: string): number {
   return (brightest + 0.05) / (darkest + 0.05);
 }
 
-describe('Sheet palette contrast (WCAG AAA)', () => {
-  // Every colour a glyph can take, against every surface it can sit on.
-  const TEXT_TOKENS = ['ink', 'annotate', 'nonconform'];
-  const SURFACES = ['sheet', 'panel'];
+describe('Bench palette contrast (WCAG AAA)', () => {
+  // Every colour a glyph can take, against every surface it can sit on. The
+  // failed verdict is included: "does not hold" is text, so it answers to the
+  // text floor, not to the non-text one.
+  const TEXT_TOKENS = ['ink', 'annotate', 'signal', 'nonconform'];
+  const SURFACES = ['bench', 'well', 'panel'];
 
   for (const text of TEXT_TOKENS) {
     it(`--${text} clears 7:1 on every surface it is used on`, () => {
@@ -50,25 +52,46 @@ describe('Sheet palette contrast (WCAG AAA)', () => {
     });
   }
 
+  it('clears the 3:1 non-text floor for the rule on every surface', () => {
+    for (const surface of SURFACES) {
+      const ratio = getContrastRatio(tokenValue('rule'), tokenValue(surface));
+      expect(ratio, `--rule on --${surface} is ${ratio.toFixed(2)}:1`).toBeGreaterThanOrEqual(3.0);
+    }
+  });
+
   describe('tokens.css structure', () => {
-    it('declares the sheet palette and nothing gradient-based', () => {
+    it('declares the bench palette and nothing gradient-based', () => {
       expect(tokensCss).not.toContain('gradient');
-      for (const name of ['sheet', 'panel', 'ink', 'annotate', 'nonconform']) {
+      for (const name of [
+        'bench',
+        'well',
+        'panel',
+        'ink',
+        'annotate',
+        'signal',
+        'nonconform',
+        'rule',
+      ]) {
         expect(tokensCss, `--${name} must be declared`).toContain(`--${name}:`);
       }
     });
 
-    // The world carries exactly one hue, and it is spent only on non-conformance.
-    it('keeps every token neutral but the one hue', () => {
+    // The room carries no colour of its own: the substrate, the panels and every
+    // value that is merely read out are warm but desaturated, and the only two
+    // saturated values are the live signal (brass) and the failed reading (coral).
+    // The gap between the two bounds is deliberately empty, so a token that drifts
+    // toward coloured lands in neither class and fails loudly.
+    it('keeps the room desaturated and spends colour on exactly two meanings', () => {
       const chroma = (hex: string) => {
         const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
         return Math.max(r, g, b) - Math.min(r, g, b);
       };
 
-      for (const name of ['sheet', 'panel', 'ink', 'annotate']) {
-        expect(chroma(tokenValue(name)), `--${name} is not neutral`).toBeLessThan(24);
+      for (const name of ['bench', 'well', 'panel', 'ink', 'annotate']) {
+        expect(chroma(tokenValue(name)), `--${name} is not desaturated`).toBeLessThan(40);
       }
-      expect(chroma(tokenValue('nonconform')), '--nonconform must be the hue').toBeGreaterThan(100);
+      expect(chroma(tokenValue('signal')), '--signal must be a hue').toBeGreaterThan(60);
+      expect(chroma(tokenValue('nonconform')), '--nonconform must be a hue').toBeGreaterThan(60);
     });
   });
 });

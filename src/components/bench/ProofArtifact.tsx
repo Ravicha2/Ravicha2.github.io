@@ -23,8 +23,8 @@ export const ProofArtifactView: React.FC<{ artifact: Artifact; className?: strin
 
   return (
     <section aria-labelledby="proof-heading" className={`${className}`}>
-      <div className="rule-verified pt-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1.5">
-        <h2 id="proof-heading" className="font-mono text-[11px] uppercase tracking-widest text-ink">
+      <div className="mark-clean pt-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1.5">
+        <h2 id="proof-heading" className="font-mono text-[11px] text-ink">
           {KIND_LABEL[kind]}
         </h2>
         <p className="font-mono text-[11px] text-annotate">
@@ -48,7 +48,7 @@ export const ProofArtifactView: React.FC<{ artifact: Artifact; className?: strin
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`Open ${shortRef(artifact)} at ${commit.slice(0, 7)} on GitHub (opens in a new tab)`}
-          className="font-mono text-xs text-ink underline underline-offset-4 decoration-1 hover:decoration-2"
+          className="font-mono text-xs text-ink underline decoration-signal underline-offset-4 transition-colors hover:decoration-[3px]"
         >
           {shortRef(artifact)} @ {commit.slice(0, 7)}
         </a>
@@ -65,7 +65,7 @@ const ProofTable: React.FC<{ quote: string; caption: string }> = ({ quote, capti
       <table className="w-full border-collapse text-left font-mono text-[11px] sm:text-xs">
         <caption className="sr-only">{caption}</caption>
         <thead>
-          <tr className="rule-thin">
+          <tr className="mark-thin">
             {head.map((h, i) => (
               <th
                 key={i}
@@ -79,7 +79,7 @@ const ProofTable: React.FC<{ quote: string; caption: string }> = ({ quote, capti
         </thead>
         <tbody>
           {rows.map((row, r) => (
-            <tr key={r} className="border-t border-annotate">
+            <tr key={r} className="border-t border-rule">
               {row.map((c, i) => (
                 <td
                   key={i}
@@ -104,11 +104,11 @@ const ProofTrace: React.FC<{ quote: string; from: number; repo: string }> = ({
   const steps = parseTrace(quote, from);
 
   return (
-    <ol className="mt-4 border-t border-annotate">
+    <ol className="mt-4 border-t border-rule">
       {steps.map((step, i) => (
         <li
           key={`${step.name}-${step.line}`}
-          className="flex items-baseline gap-3 py-2 border-b border-annotate"
+          className="flex items-baseline gap-3 py-2 border-b border-rule"
         >
           <span className="font-mono text-[11px] text-annotate w-7 shrink-0 tabular-nums">
             {String(i + 1).padStart(2, '0')}
@@ -126,7 +126,7 @@ const ProofTrace: React.FC<{ quote: string; from: number; repo: string }> = ({
 };
 
 const ProofCapture: React.FC<{ quote: string }> = ({ quote }) => (
-  <pre className="mt-4 overflow-x-auto py-3 border-y border-annotate font-mono text-[11px] sm:text-xs leading-relaxed text-ink">
+  <pre className="mt-4 overflow-x-auto py-3 border-y border-rule font-mono text-[11px] sm:text-xs leading-relaxed text-ink">
     <code>{quote}</code>
   </pre>
 );

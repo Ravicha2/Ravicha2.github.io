@@ -31,85 +31,163 @@ design's job is to stop flattening it into identical containers.
 
 ## Direction contract
 
-**THESIS.** Every claim on this site is stated as a feature control frame: a
-nominal, the tolerance it must hold, and the datum it was measured against —
-and it either conforms or it does not. It refuses both halves of the category:
-the dark terminal with a node graph, and its tasteful opposite, the cream
-editorial page this site currently ships.
+**THESIS.** Everything on this site was built, then measured, and not every
+measurement came back clean — the misses are on the page next to the hits. The
+site is the bench the work sits on: a real photograph of the person, real
+captures of the running systems, real numbers with the sha they were read at.
+It refuses both halves of the category: the dark terminal with a node graph, and
+its tasteful opposite, the cream editorial page this site shipped until now.
 
-**OWN-WORLD.** A printed drafting sheet. White sheet, dense near-black ruled
-linework, one grey for annotation and leader lines, and exactly one hue —
-inspection red — permitted only for non-conformance. Meaning is carried by line
-weight and style, never by colour alone: solid = verified, dashed = asserted,
-heavy double rule = failed. Technical lettering sans states the claim; a
-condensed mono carries every measured value, dimension, and permalink. The
-structure is a framed sheet with a corner title block and datum references, not
-a stack of cards.
+**OWN-WORLD.** A dark workroom. Warm near-black substrate (`#14120f`), warm bone
+text (`#ece5d8`) that is never white, raised panels a shade up (`#1e1a16`) that
+are fills and never boundaries, and faint blueprint rules (`#6d655d`) dividing
+the bench into channels. Two chromatic values, both meaning-carrying and both
+warm: **brass** (`#c9a04a`) is the live signal — a link, the row you are on, a
+reading that came back clean; and **fault** (`#f38d8a`) appears *only* on a
+reading that failed, and never as decoration. Fault is a coral rather than a
+crimson because the verdict is text: it had to clear the same 7:1 floor as the
+prose, and this is the deepest warm red that still does. The room itself carries no colour:
+**every chromatic element on the page is a real photograph or a real capture**,
+so the artifacts hold all the colour and the substrate stays out of their way.
+Meaning is never carried by colour alone — clean and failed differ in mark as
+well as in hue, so the distinction survives greyscale and forced-colours.
+Barlow states the voice; Iosevka carries every measured value (sha, DOI,
+timestamp, node count, coordinate, version) and never a label. The structure is
+**a bench with a continuous datum rail**, not a stack of cards: frames and
+fields, hairlines and channels.
 
-**STORY.** The visitor understands inside the first viewport that these claims
-are measured rather than asserted, and that the difference is visible. They
-believe the systems-engineering claim because clicking a value lands them on
-the bytes that produced it. They open a case study, follow one claim to its
-proof, and reach contact from the title block without hunting.
+Measured contrast, against all three surfaces (bench / panel / deep `#0d0c0a`),
+documented in `tokens.css` as the incumbent did:
 
-**FIRST VIEWPORT.** A framed sheet. The hero claim sits in a feature control
-frame at upper-left — nominal, tolerance, datum — at display scale. Below it a
-dimension line runs the sheet's width carrying the four flagship projects as
-dimensioned intervals. The right margin holds datum references and the
-availability line as annotation. The primary action sits bottom-right in the
-title block, where a drawing's action always is. One value in the first
-viewport already carries a live permalink to real bytes.
+| token | bench | panel | deep |
+|---|---|---|---|
+| ink `#ece5d8` | 14.93 | 13.80 | 15.61 |
+| annotate `#b0a695` | 7.78 | 7.19 | 8.13 |
+| signal `#c9a04a` | 7.67 | 7.09 | 8.02 |
+| nonconform `#f38d8a` | 8.00 | 7.40 | 8.37 |
+| rule `#6d655d` (non-text) | 3.27 | 3.02 | 3.42 |
 
-**FORM.** Tolerance frame — structural drafting sheet with GD&T notation.
-Ranked 1 of 7 on the grounded list; drawn as the pick from direction seed key
-`73676231`, whose roll assigned index 3 (Heat Main); the user chose the pick
-card over the assignment. Build path: code-led.
+Two values moved after this contract was written, both because the first pass
+was measured against the wrong floor: `nonconform` was picked at 5.91–6.18
+against a text floor of 7:1, and `rule` at 2.89 on panel against a non-text
+floor of 3:1. The shipped values are the ones above, and `tokens.test.ts`
+re-measures them out of the stylesheet rather than trusting this table.
+
+**STORY.** A recruiter ninety seconds between meetings sees a real person and a
+real number in the first viewport, and understands the number came from
+somewhere they can open. Scrolling walks the bench downward and the information
+arrives progressively: flagships with their artifacts, then supporting work at
+decreasing weight, then the graph of work and study, the publication, contact last. They leave
+knowing what he built, what it measured, what it missed, and how to reach him —
+without emailing first and without being sold anything.
+
+**FIRST VIEWPORT.** Not a hero and not a funnel. The bench as it actually looks:
+a real photograph of Palm at a work table, large and bled off one edge, and
+beside it the instrument readout already lit — his name as the only heading at
+display scale, one plain sentence of what he does, the availability line, and
+the first genuine reading of the Shepherd eval drawn from its own log with its
+sha and a live permalink to the bytes. The datum rail runs down the left and is
+the only chrome: local time in Sydney, availability, and the repo@sha of
+whatever is currently on screen, updating as you scroll. No pitch, no buy
+button, no kicker above any heading.
+
+**FORM.** The Bench — a dark instrument workroom with a living datum rail and a
+contact sheet of real artifacts. Direction re-derived after the roll's
+assignment (Detection Waterfall, round-2 payload
+`.impeccable/questions/payload-direction.json`) was declined by the user as
+adjacent to the already-re-rolled Yield Console; the reference the user supplied
+(`https://bryangarage.dev/`, inspected live) redirected the world to warm-dark
+material, real photography, and an asymmetric information flow. Taken from that
+reference: the material logic (one warm emissive accent against near-black, real
+photographs as the only chromatic content), the git-style graph as the spine of the
+experience route, the corner console readout, the numbered contact sheet of real
+frames, and outlined square chips over pills. **Deliberately not taken:** its
+kicker-above-heading scaffold (the craft floor bans it outright), its bootable
+terminal, radio, and desk-pet furniture (Palm's register is plainer and
+evidence-led), and its amber hue. Build path: code-led — no image generation is
+available this session (`OPENAI_API_KEY` unset), and none is wanted, because the
+imagery this world needs is evidence that cannot be generated.
+
+**Imagery — every raster is real and carries its provenance.** No generated
+illustration ships. The program is three real photographs already owned plus
+live captures taken from the running systems:
+
+| asset | what it is | provenance |
+|---|---|---|
+| `Hero.jpeg` | Palm at a work table, IEEE Thailand Section event | official event photograph, currently orphaned and unused |
+| `IEEE.png` | Chulalongkorn cohort, IEEE TENCON 2023, Chiang Mai | event photograph, shipped with `imageCaption` |
+| `Hack2Heal.png` | Team Bread, Founder's Choice Award, UNSW Founders Stage | event photograph, shipped with `imageCaption` |
+| `captures/heal-*.png` | `heal.a2a.ing` live, the running product | captured from the live deployment |
+| `captures/repo-*.png` | repo and file views at pinned shas | captured from GitHub at the pinned commit |
+| `captures/registry-*.png` | PyPI and MCP registry listings | captured from the live registries |
+| the eval drawing | the Shepherd benchmark table | drawn from `projects.ts` `proof.quote`, which is verbatim real output |
 
 **FINISH.** unreviewed and undocumented is unfinished; this build ends with the
 finish review, the verdict, DESIGN.md, and every shipping raster carrying its
 provenance.
 
+## Durable brief constraints
+
+- **Portfolio flow, not a magazine.** The user's words: *"These looks like
+  magazine more than portfolio flows. keep the casual feeling but need more
+  informative flow, we not selling product."* Every route is a record walked
+  downward, not a landing page. No funnel, no pitch, no buy button, no CTA above
+  the fold.
+- **The energy must come from colour and material, motion and interaction, and
+  real imagery and artifacts.** Type was deliberately not the axis, so do not
+  spend the build on typefaces.
+- **Banned:** anything that reads as a template or an AI default; anything too
+  dense to scan. Provenance must not be lost; style over substance is not the
+  failure mode being guarded against.
+
 ## Disciplines carried in from declined challengers
 
 - From **Hand-Bent Neon Circuit**: every value shows the constraint that
-  produced it — the tolerance is never decorative, it is the number that makes
-  the claim checkable.
+  produced it — the number that makes the claim checkable is never decorative.
 - From **Luminescent Understory**: exactly one element per viewport sits at
-  maximum emphasis; everything else recedes to thin rule.
-- From **Night Market Sign River**: one continuous dimension chain carries the
-  visitor across all four routes, so no route is an island.
+  maximum emphasis; everything else recedes, and in a dark room receding means
+  losing contrast, not losing the content.
+- From **Night Market Sign River**: one continuous rail carries the visitor
+  across all four routes, so no route is an island.
 
-## Motion: the plotter
+## Motion: the sweep
 
-Requested by the user: ASCII animation. It fits only as the sheet being produced
-by its machine, never as ambient decoration.
+The instrument sweeping the cell, once, and then stillness. Two mechanisms
+only — one load moment and one reveal — plus a state language. Nothing loops.
 
-Permitted:
+- **The sweep (the one authored moment).** On first paint a single brass
+  hairline travels the viewport once, top to bottom, then leaves. It is the
+  viewport's one maximum-emphasis element and it never coexists with a
+  headline mid-animation. Geometry is reserved before it runs, so nothing
+  reflows; the first-viewport heading is never animated by it — a typing
+  headline already produced CLS 0.187 here once, fixed in `169ef93`.
+- **The reveal, on real captures only.** Artifact frames resolve from
+  undeveloped to full tone through a `clip-path`/`mask` inset as they enter,
+  once, staggered within a group by no more than 80 ms. Text and headings are
+  simply present — they never animate. This asymmetry is the decision: imagery
+  arrives like a print developing; prose is already there.
+- **State language.** A frame raises its caption datum and its border mark on
+  hover and focus-visible; the fault mark goes full strength on a reading that
+  failed. Cheap, on the palette, and never the only carrier of the state.
 
-- **Plotter draw.** On first paint the frame, ruled lines, dimension line and
-  arrows extend in one ordered pass, as a pen plotter draws them. The geometry
-  is reserved before the animation runs so nothing reflows, and the hero H1 is
-  never animated — a typing headline already produced CLS 0.187 here once, fixed
-  in `169ef93`.
-- **One data-bearing character-cell artifact.** A case study's repo excerpt may
-  render in a real character-cell grid with the traversed path highlighting cell
-  by cell, so the ASCII carries the query rather than standing in for texture.
-
-Banned: looping glyph noise, matrix rain, scanline shimmer, or any ASCII running
-continuously; ASCII appearing in more than one place per viewport; any state
-conveyed by motion alone.
+Banned: looping ambient motion, matrix rain, scanline shimmer, continuous
+glyph noise, animated text, and any state conveyed by motion alone.
 
 Constraints: decorative layers are `aria-hidden` with a text equivalent;
-`prefers-reduced-motion` renders the finished sheet instantly; the animation is
-the viewport's single maximum-emphasis element, so it cannot coexist with the
-display claim in the same first viewport.
+`prefers-reduced-motion` renders the finished page instantly with all frames
+developed and no sweep. Browser surfaces are themed from the palette — text
+selection, caret, scrollbars, focus rings, underline offset, and tabular
+numerals on every measured value.
 
-## Unresolved decisions
+## Resolved
 
-- Typeface choice. Must not be a training-data default, and must survive a
-  self-hosting and licensing check; the site currently self-hosts Geist, whose
-  mono is the category's own default face.
-- Where the availability and visa prose line sits on the sheet.
-- Whether the catalog's category filters become the plan's legend or medium key.
-- Evidence repair must land before any claim can be rendered as a measured
-  value, since a nominal without a real tolerance has nothing to state.
+- **Typeface.** Barlow + Iosevka, already self-hosted, subset and licensed with
+  provenance in `public/fonts/PROVENANCE.md`. Kept: Barlow's signage-grotesque
+  lineage suits an instrument workroom, and Iosevka is a real technical mono
+  doing real work on real values. No font work in this build.
+- **Availability and location.** They live in the datum rail, present on every
+  route — `profile.status` and `profile.location` stop being dead data.
+- **Contact.** Reaches every route including the case studies, with a copyable
+  address and the CV, and is the last thing on the bench.
+- **Evidence repair.** Landed in `ee4ebec` (#21); every metric on the page now
+  resolves to a real artifact before it is rendered as a value.

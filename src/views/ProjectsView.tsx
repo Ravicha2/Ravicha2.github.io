@@ -3,9 +3,8 @@ import { useSearchParams } from 'react-router-dom';
 import { projects, projectCategories, getProjectsByCategory } from '../data/projects';
 import { ProjectCategory, Project } from '../data/types';
 import { useActiveTransitionSlug } from '../hooks/useViewTransitionNavigate';
-import { FeatureControlFrame } from '../components/sheet/FeatureControlFrame';
-import { CatalogEntry } from '../components/sheet/CatalogEntry';
-import { SheetChain } from '../components/sheet/SheetChain';
+import { BenchEntry } from '../components/bench/BenchEntry';
+import { ChannelStrip } from '../components/bench/ChannelStrip';
 
 const isFlagship = (project: Project) => Boolean(project.proof && project.proofLine);
 
@@ -34,88 +33,68 @@ export const ProjectsView: React.FC = () => {
     setSearchParams(newParams, { replace: true });
   };
 
-  // The intervals carry their catalog position, so the chain's references and the
-  // catalog rows name the same project the same way.
-  const intervalRef = (project: Project) =>
+  // The catalog ref carries the project's position, so a row and the chain above it
+  // name the same project the same way.
+  const catalogRef = (project: Project) =>
     `P.${String(projects.findIndex((p) => p.slug === project.slug) + 1).padStart(2, '0')}`;
 
   return (
-    <div className="space-y-10">
-      <header>
-        <FeatureControlFrame
-          as="h1"
-          nominal="Engineering Projects: seven built systems, four measured to an artifact."
-          tolerance={
-            <>
-              {projects.filter(isFlagship).length} flagship carry a settling artifact and one line of
-              real output · {projects.length - projects.filter(isFlagship).length} supporting resolve
-              to their repository
-            </>
-          }
-          datum="github.com/Ravicha2 · every artifact pinned to the commit it was read at"
-        />
+    <div className="space-y-12">
+      <header className="space-y-8">
+        <h1
+          id="catalog-heading"
+          className="text-xl sm:text-2xl font-semibold tracking-[-0.015em] text-pretty"
+        >
+          Engineering projects
+        </h1>
 
-        <p className="measure mt-5 text-sm sm:text-base leading-relaxed text-pretty">
+        <p className="measure text-sm sm:text-base leading-relaxed text-pretty">
           I've always loved building and tinkering. My projects cover many different areas, but
           I'm most interested in AI that can act on its own — and in the checks that decide
           whether it actually did.
         </p>
 
-        <SheetChain className="mt-9" note="The four flagship intervals, carried across every route" />
+        <ChannelStrip />
       </header>
 
-      {/* The category filters, drawn as the sheet's legend. */}
-      <section aria-labelledby="legend-heading" className="rule-verified pt-4">
-        <h2
-          id="legend-heading"
-          className="font-mono text-[10px] uppercase tracking-widest text-annotate"
-        >
-          Legend — filter by subject
+      {/* Filters, as chips — the same outlined square the tags use. The list
+          already opens with an "All Projects" entry, so there is no second one. */}
+      <section aria-labelledby="filter-heading">
+        <h2 id="filter-heading" className="sr-only">
+          Filter projects by category
         </h2>
-        <div
-          role="group"
-          aria-label="Filter projects by category"
-          className="mt-3 flex flex-wrap gap-x-5 gap-y-2"
-        >
-          {projectCategories.map((category) => {
-            const isSelected = selectedCategory === category.id;
-            return (
-              <button
-                key={category.id}
-                type="button"
-                aria-pressed={isSelected}
-                onClick={() => handleSelectCategory(category.id)}
-                className={`font-mono text-[11px] uppercase tracking-widest py-1 underline underline-offset-4 decoration-1 rounded transition-[text-decoration-thickness] ${
-                  isSelected
-                    ? 'text-ink decoration-2 decoration-ink font-semibold'
-                    : 'text-annotate decoration-annotate hover:text-ink hover:decoration-ink'
-                }`}
-              >
-                {category.label}
-                <span className="ml-1.5 tabular-nums">
-                  {getCategoryCount(category.id)}
-                </span>
-              </button>
-            );
-          })}
+        <div role="group" aria-label="Filter projects by category" className="flex flex-wrap gap-2">
+          {projectCategories.map((category) => (
+            <button
+              key={category.id}
+              type="button"
+              aria-pressed={selectedCategory === category.id}
+              onClick={() => handleSelectCategory(category.id)}
+              className="chip font-mono text-[11px] transition-colors"
+            >
+              {category.label}
+              <span className="ml-1.5 tabular-nums">{getCategoryCount(category.id)}</span>
+            </button>
+          ))}
         </div>
       </section>
 
-      <section aria-label="Projects catalog">
+      <section aria-labelledby="catalog-heading-2">
+        <h2 id="catalog-heading-2" className="sr-only">
+          Project catalog
+        </h2>
         <p role="status" aria-live="polite" className="sr-only">
           {filteredProjects.length} {filteredProjects.length === 1 ? 'project' : 'projects'} shown
         </p>
 
         {flagship.length > 0 && (
           <>
-            <h2 className="font-mono text-[10px] uppercase tracking-widest text-annotate pb-2">
-              Flagship — measured to an artifact
-            </h2>
+            <p className="font-mono text-[11px] text-annotate py-2">Measured to an artifact</p>
             {flagship.map((project) => (
-              <CatalogEntry
+              <BenchEntry
                 key={project.slug}
                 project={project}
-                sheetRef={intervalRef(project)}
+                catalogRef={catalogRef(project)}
                 viewTransitionName={
                   activeSlug === project.slug ? `project-card-${project.slug}` : undefined
                 }
@@ -125,15 +104,13 @@ export const ProjectsView: React.FC = () => {
         )}
 
         {supporting.length > 0 && (
-          <div className="mt-10">
-            <h2 className="font-mono text-[10px] uppercase tracking-widest text-annotate pb-2">
-              Supporting — repository only
-            </h2>
+          <div className="mt-12">
+            <p className="font-mono text-[11px] text-annotate py-2">Repository only</p>
             {supporting.map((project) => (
-              <CatalogEntry
+              <BenchEntry
                 key={project.slug}
                 project={project}
-                sheetRef={intervalRef(project)}
+                catalogRef={catalogRef(project)}
                 viewTransitionName={
                   activeSlug === project.slug ? `project-card-${project.slug}` : undefined
                 }

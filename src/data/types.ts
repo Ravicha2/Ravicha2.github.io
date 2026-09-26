@@ -135,7 +135,11 @@ export interface Project {
   /** One monochrome line of real output, carried by the catalog's flagship tier. */
   proofLine?: string;
   image?: string;
+  /** What the image shows, when it is not a capture of the repository. */
+  imageAlt?: string;
   imageCaption?: string;
+  imageWidth?: number;
+  imageHeight?: number;
 }
 
 export interface WorkExperience {
@@ -177,6 +181,8 @@ export interface PublicationItem {
   link?: string;
   image?: string;
   imageCaption?: string;
+  imageWidth?: number;
+  imageHeight?: number;
 }
 
 export interface AccoladeItem {
@@ -188,6 +194,8 @@ export interface AccoladeItem {
   link?: string;
   image?: string;
   imageCaption?: string;
+  imageWidth?: number;
+  imageHeight?: number;
 }
 
 export interface SkillCategory {
