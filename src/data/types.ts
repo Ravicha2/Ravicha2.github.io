@@ -134,6 +134,14 @@ export interface Project {
   /** One monochrome line of real output, carried by the catalog's flagship tier. */
   proofLine?: string;
   image?: string;
+  /**
+   * What the image *is*: a drawn `mark` that names the project and settles no
+   * claim, or a `capture` of the thing running. Declared here rather than
+   * inferred from whether `imageAlt` happens to be set — the same fact the datum
+   * rail reads out and `imageCaption` describes, so the two cannot disagree.
+   * Required on every project that ships an image.
+   */
+  imageKind?: 'mark' | 'capture';
   /** What the image shows, when it is not a capture of the repository. */
   imageAlt?: string;
   imageCaption?: string;

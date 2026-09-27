@@ -186,7 +186,7 @@ export const ExperienceView: React.FC = () => (
     <section aria-labelledby="graph-heading">
       <SectionHead
         id="graph-heading"
-        heading="Works and and Educations"
+        heading="Work and education"
         annotation="One row per run, in the order it started. A run that started while something else still had months left forks off the line and comes back to it."
       />
 

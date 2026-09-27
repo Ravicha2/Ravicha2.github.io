@@ -41,6 +41,7 @@ export const projects: Project[] = [
     // this figure is carried without an artifact to settle it. See PRODUCT.md.
     proofLine: 'two-arm benchmark · 5 repos / 65 commits · precision 23.3% → 43.8% · tokens −62% · wall −27%',
     image: '/assets/captures/shepherd.webp',
+    imageKind: 'mark',
     imageAlt: 'The Shepherd project mark: a German shepherd’s head.',
     imageWidth: 2848,
     imageHeight: 1496,
@@ -151,6 +152,7 @@ export const projects: Project[] = [
     },
     proofLine: '172 backend tests · ADR 0004 pays JVM startup once per worker, not per task',
     image: '/assets/captures/NL2REGEX.png',
+    imageKind: 'capture',
     imageAlt:
       'The NL2REGEX workspace: the uploaded file list, its parsed table, and the natural-language prompt box.',
     imageWidth: 2848,
@@ -304,6 +306,7 @@ export const projects: Project[] = [
     },
     proofLine: '8 durable steps / 4 worker functions · each stage retries alone',
     image: '/assets/captures/gh-doc-ingestion.png',
+    imageKind: 'capture',
     imageWidth: 1428,
     imageHeight: 705,
     imageCaption:
@@ -428,6 +431,7 @@ export const projects: Project[] = [
     },
     proofLine: '3 reviewers · Borda 2/1 tally · winner returned with every rationale',
     image: '/assets/captures/pypi-litreview.png',
+    imageKind: 'capture',
     imageWidth: 1440,
     imageHeight: 683,
     imageCaption:
@@ -562,6 +566,7 @@ export const projects: Project[] = [
       { value: '2025', label: "Founder's Choice Award winner, Hack2Heal" },
     ],
     image: '/assets/captures/heal-desktop.png',
+    imageKind: 'capture',
     imageWidth: 1440,
     imageHeight: 683,
     imageCaption:
@@ -584,6 +589,16 @@ export type ProjectTier = 'settled' | 'in-progress' | 'supporting';
 
 export const tierOf = (project: Project): ProjectTier =>
   project.proof ? 'settled' : project.proofLine ? 'in-progress' : 'supporting';
+
+/**
+ * The word the datum rail reads out beside a project's artifact: what the image
+ * *is*, read off the project's own declaration. It used to be inferred from
+ * whether `imageAlt` was set, which is right only while custom alt text happens
+ * to mean "drawn mark" — `NL2REGEX.png` is a capture and carries custom alt, so
+ * the rail called it a mark directly above a caption calling it a capture.
+ */
+export const imageKindOf = (project: Project): 'mark' | 'captured' =>
+  project.imageKind === 'mark' ? 'mark' : 'captured';
 
 export function getProjectBySlug(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);

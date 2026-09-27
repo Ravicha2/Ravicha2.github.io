@@ -52,10 +52,14 @@ export function getRouteMeta(pathname: string): RouteMeta {
     };
   }
 
+  // Nothing matched: an unknown path, or a slug that resolves to no project. The
+  // page renders a not-found view, so canonicalising it to its own URL tells a
+  // crawler to index a dead end as itself. Point at the root instead — the URL
+  // that does exist and does describe this person.
   return {
-    title: 'Palm Suksawasdi | Portfolio & Systems Engineering',
+    title: 'Page not found | Palm Suksawasdi',
     description: profile.headline,
-    canonicalUrl: `${baseUrl}${pathname}`,
+    canonicalUrl: `${baseUrl}/`,
     ogType: 'website',
   };
 }

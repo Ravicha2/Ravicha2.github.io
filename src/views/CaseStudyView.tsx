@@ -1,9 +1,10 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import type { ProjectLinks } from '../data/types';
-import { getProjectBySlug, tierOf, type ProjectTier } from '../data/projects';
+import { getProjectBySlug, imageKindOf, tierOf, type ProjectTier } from '../data/projects';
 import { permalink, shortRef } from '../data/proof';
 import { TransitionLink } from '../components/common/TransitionLink';
+import { NotFound } from '../components/common/NotFound';
 import { ContactBlock } from '../components/common/ContactBlock';
 import { Reading, type Verdict } from '../components/bench/Reading';
 import { Capture } from '../components/bench/Capture';
@@ -83,19 +84,12 @@ export const CaseStudyView: React.FC = () => {
 
   if (!project) {
     return (
-      <div className="space-y-6 py-16">
-        <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.02em]">
-          Project not found
-        </h1>
-        <p className="measure text-sm leading-relaxed text-annotate">
-          The project you are looking for does not exist or has been moved.
-        </p>
-        <p className="pt-2">
-          <TransitionLink to="/projects" className={primaryRef}>
-            Back to projects
-          </TransitionLink>
-        </p>
-      </div>
+      <NotFound
+        title="Project not found"
+        message="The project you are looking for does not exist or has been moved."
+        backTo="/projects"
+        backLabel="Back to projects"
+      />
     );
   }
 
@@ -241,7 +235,7 @@ export const CaseStudyView: React.FC = () => {
           develop
           alt={project.imageAlt ?? `${project.title}, captured at its live state.`}
           source={project.imageCaption ?? project.title}
-          readout={`${project.slug} · ${project.imageAlt ? 'mark' : 'captured'}`}
+          readout={`${project.slug} · ${imageKindOf(project)}`}
           href={project.links.github}
           linkLabel={`Open ${project.title} (opens in a new tab)`}
         />
