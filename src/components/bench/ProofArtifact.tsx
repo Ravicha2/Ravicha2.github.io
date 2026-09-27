@@ -61,7 +61,15 @@ const ProofTable: React.FC<{ quote: string; caption: string }> = ({ quote, capti
   const { head, rows } = parseMarkdownTable(quote);
 
   return (
-    <div className="mt-4 overflow-x-auto">
+    // A box that scrolls sideways is a control, so it is focusable and it says
+    // what it is: WebKit never makes one tabbable on its own, and no screen
+    // reader is told the region exists.
+    <div
+      className="mt-4 overflow-x-auto"
+      tabIndex={0}
+      role="region"
+      aria-label="Measured table, scrollable"
+    >
       <table className="w-full border-collapse text-left font-mono text-[11px] sm:text-xs">
         <caption className="sr-only">{caption}</caption>
         <thead>
@@ -125,8 +133,16 @@ const ProofTrace: React.FC<{ quote: string; from: number; repo: string }> = ({
   );
 };
 
+/** The quoted bytes, and the same scrollable-region contract the table carries:
+ *  at 390px roughly a third of a long line is off the right edge, reachable by
+ *  pointer alone unless the box itself takes focus. */
 const ProofCapture: React.FC<{ quote: string }> = ({ quote }) => (
-  <pre className="mt-4 overflow-x-auto py-3 border-y border-rule font-mono text-[11px] sm:text-xs leading-relaxed text-ink">
+  <pre
+    tabIndex={0}
+    role="region"
+    aria-label="Quoted source, scrollable"
+    className="mt-4 overflow-x-auto py-3 border-y border-rule font-mono text-[11px] sm:text-xs leading-relaxed text-ink"
+  >
     <code>{quote}</code>
   </pre>
 );

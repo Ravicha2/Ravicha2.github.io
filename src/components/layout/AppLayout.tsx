@@ -92,7 +92,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
                 end={item.to === '/'}
                 onClick={handleNavClick(item.to)}
                 className={({ isActive }) =>
-                  `font-mono text-[11px] tracking-[0.06em] uppercase py-1 border-b-2 transition-colors ${
+                  `touch-target font-mono text-[11px] tracking-[0.06em] uppercase border-b-2 transition-colors ${
                     isActive
                       ? 'text-ink border-signal'
                       : 'text-annotate border-transparent hover:text-ink hover:border-rule'
@@ -133,14 +133,14 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
 
           <p className="lg:mt-6 text-[13px] leading-relaxed text-annotate measure">{profile.status}</p>
 
-          <div className="mt-5 flex flex-wrap items-baseline gap-x-4 gap-y-2">
+          <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
             <span className="font-mono text-[12px] break-all select-text text-ink">
               {profile.email}
             </span>
             <button
               type="button"
               onClick={() => copy(profile.email)}
-              className="font-mono text-[11px] uppercase tracking-[0.06em] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-signal"
+              className="touch-target font-mono text-[11px] uppercase tracking-[0.06em] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-signal"
             >
               <span aria-live="polite">
                 {state === 'copied' ? 'Copied' : state === 'error' ? 'Failed' : 'Copy'}

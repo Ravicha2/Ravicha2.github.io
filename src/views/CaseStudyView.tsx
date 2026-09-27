@@ -190,13 +190,13 @@ export const CaseStudyView: React.FC = () => {
         </p>
 
         {project.slug === 'lit-review-council' && (
-          <div className="mark-thin pt-3 flex flex-wrap items-baseline gap-x-4 gap-y-2">
+          <div className="mark-thin pt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
             <span className="font-mono text-[11px] text-annotate">Install</span>
             <span className="font-mono text-[13px] text-ink select-all">uvx lit-review-council</span>
             <button
               type="button"
               onClick={() => copyCli('uvx lit-review-council')}
-              className={refLink}
+              className={`touch-target ${refLink}`}
             >
               <span aria-live="polite">
                 {cliCopyState === 'copied'
