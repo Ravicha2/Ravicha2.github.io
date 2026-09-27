@@ -100,6 +100,20 @@ describe('AI Agent Protocol Files (llms.txt & llms-full.txt)', () => {
       expect(read(llmsTxtPath)).not.toContain('sub-millimeter');
     });
 
+    it('marks Shepherd as not yet settled in the same entry that headlines its benchmark', () => {
+      // The two-arm figures are real but rest on a private, single-annotator study, so the
+      // entry that quotes them has to carry its own caveat. Dropping the caveat while keeping
+      // the numbers is exactly the failure this pins.
+      const line = read(llmsTxtPath)
+        .split('\n')
+        .find((l) => l.includes('projects/shepherd'));
+      expect(line, 'llms.txt has no Shepherd entry').toBeDefined();
+      expect(line).toContain('not yet settled');
+      expect(line).toMatch(/in progress/i);
+      expect(line).toMatch(/single annotator/i);
+      expect(line).toContain('private research repo');
+    });
+
     it('keeps role titles and timelines in step with the experience data', () => {
       const full = read(llmsFullTxtPath);
       expect(full).toContain('Researcher & Developer (UNSW Sydney)');

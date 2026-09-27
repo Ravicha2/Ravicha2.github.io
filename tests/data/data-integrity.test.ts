@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { profile } from '../../src/data/profile';
-import { projects, featuredProjects, getProjectBySlug, projectCategories } from '../../src/data/projects';
+import { projects, featuredProjects, getProjectBySlug, imageKindOf, projectCategories } from '../../src/data/projects';
 import {
   experience,
   workExperience,
@@ -59,6 +59,32 @@ describe('Data Layer Integrity', () => {
         expect(proj?.featured).toBe(true);
       }
       expect(featuredProjects.length).toBe(4);
+    });
+
+    it('declares what every shipped image is, and only where an image ships', () => {
+      projects.forEach((proj) => {
+        if (proj.image) {
+          expect(proj.imageKind, `${proj.slug} ships an image but declares no imageKind`).toBeDefined();
+        } else {
+          expect(proj.imageKind, `${proj.slug} declares an imageKind but ships no image`).toBeUndefined();
+        }
+      });
+    });
+
+    it('reads the kind off the declaration, not off the presence of alt text', () => {
+      // NL2REGEX carries custom alt text *and* is a capture, which is the case the
+      // old `imageAlt ? 'mark' : 'captured'` inference got wrong.
+      expect(imageKindOf(getProjectBySlug('nl2regex')!)).toBe('captured');
+      expect(imageKindOf(getProjectBySlug('shepherd')!)).toBe('mark');
+      expect(imageKindOf(getProjectBySlug('document-ingestion-agent')!)).toBe('captured');
+    });
+
+    it('agrees with the provenance caption that ships under it', () => {
+      for (const proj of projects.filter((p) => p.image)) {
+        const caption = proj.imageCaption ?? proj.title;
+        if (proj.imageKind === 'mark') expect(caption, proj.slug).toMatch(/\bmark\b/i);
+        else expect(caption, `${proj.slug} captions a capture as a mark`).not.toMatch(/\bmark\b/i);
+      }
     });
 
     it('contains supporting projects', () => {

@@ -119,6 +119,33 @@ describe('CaseStudyView Component', () => {
     });
   });
 
+  // The rail readout was inferred from whether `imageAlt` was set, which called
+  // NL2REGEX's capture a "mark" directly above a caption calling it a capture.
+  describe('Datum rail readout', () => {
+    const readoutOf = (slug: string) => {
+      const { container } = renderWithRoute(slug);
+      const frame = container.querySelector('figure[data-testid="capture"]');
+      return { readout: frame?.getAttribute('data-readout'), caption: frame?.textContent ?? '' };
+    };
+
+    it('reads the capture as captured', () => {
+      expect(readoutOf('nl2regex').readout).toBe('nl2regex · captured');
+    });
+
+    it('still reads the drawn mark as a mark', () => {
+      expect(readoutOf('shepherd').readout).toBe('shepherd · mark');
+    });
+
+    it('agrees with the provenance caption in the same figure', () => {
+      for (const slug of ['shepherd', 'nl2regex', 'document-ingestion-agent', 'lit-review-council']) {
+        const { readout, caption } = readoutOf(slug);
+        const kind = readout?.split(' · ')[1];
+        if (kind === 'mark') expect(caption).toMatch(/\bmark\b/i);
+        else expect(caption).not.toMatch(/\bmark\b/i);
+      }
+    });
+  });
+
   describe('Not Found / 404 Fallback State', () => {
     it('renders clean not-found message with back to projects link for invalid slug', () => {
       renderWithRoute('nonexistent-project-slug');
