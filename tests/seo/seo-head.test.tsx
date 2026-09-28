@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { SEOHead } from '../../src/components/seo/SEOHead';
-import { generateJsonLdForRoute } from '../../src/utils/seo';
+import { generateJsonLdForRoute, getRouteMeta } from '../../src/utils/seo';
 
 describe('Dynamic SEOHead & JSON-LD Structured Data Generator', () => {
   beforeEach(() => {
@@ -49,6 +49,19 @@ describe('Dynamic SEOHead & JSON-LD Structured Data Generator', () => {
     expect(article).toBeDefined();
     expect(article.name).toContain('Position Accuracy of a 6-DOF Passive Robotic Arm');
   });
+
+  // `public/404.html` hands every unresolvable path back to the SPA, so an unmatched
+  // path reaches a crawler as a real URL. Canonicalising it to itself would ask Google
+  // to index a dead end under a title that reads "Page not found".
+  it.each(['/nope-404', '/foo/bar', '/projects/no-such-project'])(
+    'points the canonical at the root, not at itself, for unmatched path %s',
+    (pathname) => {
+      const meta = getRouteMeta(pathname);
+      expect(meta.title).toMatch(/page not found/i);
+      expect(meta.canonicalUrl).toBe('https://ravicha2.github.io/');
+      expect(meta.canonicalUrl).not.toContain(pathname);
+    }
+  );
 
   it('SEOHead component dynamically updates title, canonical link, and dynamic-jsonld script in DOM', () => {
     render(

@@ -1,5 +1,5 @@
 import type React from 'react';
-import { getProjectBySlug, projects } from '../data/projects';
+import { getProjectBySlug, imageKindOf, projects } from '../data/projects';
 import { profile } from '../data/profile';
 import { workExperience, education } from '../data/experience';
 import { Capture } from '../components/bench/Capture';
@@ -158,7 +158,7 @@ export const HomeView: React.FC = () => {
                 develop
                 alt={project.imageAlt ?? `The ${project.title} repository, captured at its live state.`}
                 source={project.imageCaption ?? project.title}
-                readout={`${project.slug} · ${project.imageAlt ? 'mark' : 'captured'}`}
+                readout={`${project.slug} · ${imageKindOf(project)}`}
                 href={project.links.github}
                 linkLabel={`Open the ${project.title} repository (opens in a new tab)`}
               />
