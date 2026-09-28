@@ -13,6 +13,22 @@
   outline-offset: 2px;
 }
 
+/* Standalone controls answer to a finger, not just a cursor (WCAG 2.5.5, 44x44).
+   Only controls that stand on their own carry this: the 13-17px items that are
+   inline links inside a sentence keep their text size, which 2.5.8's inline
+   exception allows, and chips pass on spacing. Declared once so a restyle cannot
+   shrink one control without shrinking all of them, and pinned by
+   tests/accessibility/interactive-controls.test.tsx. It has to live before
+   `@tailwind utilities` in src/styles/index.css, so a `min-h-*` utility on the
+   same element would win — the test forbids exactly that pairing. */
+.touch-target {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

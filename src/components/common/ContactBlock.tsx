@@ -26,14 +26,14 @@ export const ContactBlock: React.FC = () => {
 
       <p className="measure text-sm sm:text-base leading-relaxed">{profile.status}</p>
 
-      <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
         {/* Plain text, not an anchor: a mailto: silently no-ops on managed machines,
             so the readable address has to be selectable and copyable on its own. */}
         <span className="font-mono text-[13px] break-all select-text text-ink">{profile.email}</span>
         <button
           type="button"
           onClick={() => copy(profile.email)}
-          className={linkClass}
+          className={`touch-target ${linkClass}`}
         >
           <span aria-live="polite">
             {state === 'copied' ? 'Copied' : state === 'error' ? 'Copy failed' : 'Copy'}
