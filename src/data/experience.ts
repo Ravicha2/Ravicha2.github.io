@@ -78,9 +78,9 @@ export const workExperience: WorkExperience[] = [
     company: 'Jardine Schindler Group',
     role: 'Field Engineering Intern',
     location: 'Bangkok, Thailand',
-    period: 'Jun 2022 - Aug 2022',
+    period: 'Jun 2022 - Jul 2022',
     startDate: '2022-06',
-    endDate: '2022-08',
+    endDate: '2022-07',
     isCurrent: false,
     description: [
       'Conducted electromechanical systems engineering analysis for vertical transportation and elevator systems.',
