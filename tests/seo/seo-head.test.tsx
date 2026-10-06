@@ -63,6 +63,29 @@ describe('Dynamic SEOHead & JSON-LD Structured Data Generator', () => {
     }
   );
 
+  // GitHub Pages 301s a bare directory route to its trailing-slash form, so a browser
+  // on /projects holds `/projects/` while the router and the build carry `/projects`.
+  // While the two disagreed, every deep route matched no branch above, canonicalised
+  // itself to the home page and announced "Page not found" — with the correct title
+  // sitting right there in the prerendered HTML for the client to overwrite.
+  it.each(['/projects', '/experience', '/projects/shepherd'])(
+    'reads the trailing-slash form GitHub Pages serves as the same route as %s',
+    (route) => {
+      expect(getRouteMeta(`${route}/`)).toEqual(getRouteMeta(route));
+      expect(getRouteMeta(`${route}/`).title).not.toMatch(/page not found/i);
+      expect(generateJsonLdForRoute(`${route}/`)).toEqual(generateJsonLdForRoute(route));
+    }
+  );
+
+  it('states the canonical as the URL the site is actually served at', () => {
+    expect(getRouteMeta('/').canonicalUrl).toBe('https://ravicha2.github.io/');
+    expect(getRouteMeta('/projects').canonicalUrl).toBe('https://ravicha2.github.io/projects/');
+    expect(getRouteMeta('/experience').canonicalUrl).toBe('https://ravicha2.github.io/experience/');
+    expect(getRouteMeta('/projects/shepherd').canonicalUrl).toBe(
+      'https://ravicha2.github.io/projects/shepherd/'
+    );
+  });
+
   it('SEOHead component dynamically updates title, canonical link, and dynamic-jsonld script in DOM', () => {
     render(
       <MemoryRouter initialEntries={['/projects/shepherd']}>

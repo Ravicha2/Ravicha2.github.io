@@ -9,45 +9,63 @@ export interface RouteMeta {
   ogType: 'website' | 'profile' | 'article';
 }
 
-export function getRouteMeta(pathname: string): RouteMeta {
-  const baseUrl = 'https://ravicha2.github.io';
+export const SITE = 'https://ravicha2.github.io';
 
-  if (pathname === '/') {
+/**
+ * GitHub Pages serves a directory-backed route at its trailing-slash URL and 301s the
+ * bare one, so a browser sitting on /projects holds `/projects/`. The router and the
+ * build both carry the bare form. The two have to reach the same meta: while they did
+ * not, every deep route matched no branch here and canonicalised itself to the home
+ * page under the title "Page not found" — the opposite of what prerendering was for.
+ */
+const normalize = (pathname: string): string => {
+  const bare = pathname.replace(/\/+$/, '');
+  return bare === '' ? '/' : bare;
+};
+
+/** The URL a route is actually served at. Bare directory routes 301, so state the served form. */
+export const canonicalUrlFor = (route: string): string =>
+  route === '/' ? `${SITE}/` : `${SITE}${route}/`;
+
+export function getRouteMeta(pathname: string): RouteMeta {
+  const path = normalize(pathname);
+
+  if (path === '/') {
     return {
       title: 'Palm Suksawasdi | Portfolio & Systems Engineering',
       description: profile.headline,
-      canonicalUrl: `${baseUrl}/`,
+      canonicalUrl: canonicalUrlFor(path),
       ogType: 'profile',
     };
   }
 
-  if (pathname === '/projects') {
+  if (path === '/projects') {
     return {
       title: 'Projects & Case Studies | Palm Suksawasdi',
       description: 'Curated engineering case studies in Agentic AI, GraphRAG, and Distributed Systems.',
-      canonicalUrl: `${baseUrl}/projects`,
+      canonicalUrl: canonicalUrlFor(path),
       ogType: 'website',
     };
   }
 
-  if (pathname.startsWith('/projects/')) {
-    const slug = pathname.replace('/projects/', '');
+  if (path.startsWith('/projects/')) {
+    const slug = path.replace('/projects/', '');
     const project = getProjectBySlug(slug);
     if (project) {
       return {
         title: `${project.title} | Palm Suksawasdi`,
         description: project.summary,
-        canonicalUrl: `${baseUrl}/projects/${slug}`,
+        canonicalUrl: canonicalUrlFor(`/projects/${slug}`),
         ogType: 'article',
       };
     }
   }
 
-  if (pathname === '/experience') {
+  if (path === '/experience') {
     return {
       title: 'Engineering Experience & Timeline | Palm Suksawasdi',
       description: 'Career journey, systems engineering background, education at UNSW and Chulalongkorn, and publications.',
-      canonicalUrl: `${baseUrl}/experience`,
+      canonicalUrl: canonicalUrlFor(path),
       ogType: 'profile',
     };
   }
@@ -59,21 +77,22 @@ export function getRouteMeta(pathname: string): RouteMeta {
   return {
     title: 'Page not found | Palm Suksawasdi',
     description: profile.headline,
-    canonicalUrl: `${baseUrl}/`,
+    canonicalUrl: `${SITE}/`,
     ogType: 'website',
   };
 }
 
 export function generateJsonLdForRoute(pathname: string): Record<string, any> {
-  const baseUrl = 'https://ravicha2.github.io';
+  const path = normalize(pathname);
+
   const personEntity = {
     '@type': 'Person',
-    '@id': `${baseUrl}/#person`,
+    '@id': `${SITE}/#person`,
     name: `${profile.preferredName} (${profile.fullName.split(' ')[0]}) ${profile.fullName.split(' ').slice(1).join(' ')}`,
     alternateName: profile.name,
     jobTitle: profile.title,
     description: profile.headline,
-    url: `${baseUrl}/`,
+    url: canonicalUrlFor("/"),
     email: profile.email,
     sameAs: [
       profile.links.github,
@@ -112,31 +131,31 @@ export function generateJsonLdForRoute(pathname: string): Record<string, any> {
     ],
   };
 
-  if (pathname === '/') {
+  if (path === '/') {
     return {
       '@context': 'https://schema.org',
       '@graph': [
         personEntity,
         {
           '@type': 'ProfilePage',
-          '@id': `${baseUrl}/#profilepage`,
-          url: `${baseUrl}/`,
+          '@id': `${SITE}/#profilepage`,
+          url: canonicalUrlFor("/"),
           name: 'Palm Suksawasdi | Portfolio & Systems Engineering',
-          mainEntity: { '@id': `${baseUrl}/#person` },
+          mainEntity: { '@id': `${SITE}/#person` },
         },
       ],
     };
   }
 
-  if (pathname === '/projects') {
+  if (path === '/projects') {
     return {
       '@context': 'https://schema.org',
       '@graph': [
         personEntity,
         {
           '@type': 'CollectionPage',
-          '@id': `${baseUrl}/projects#collection`,
-          url: `${baseUrl}/projects`,
+          '@id': `${SITE}/projects#collection`,
+          url: canonicalUrlFor("/projects"),
           name: 'Projects & Case Studies | Palm Suksawasdi',
           description: 'Engineering case studies covering Agentic AI, GraphRAG, Distributed Systems, and Robotics.',
           mainEntity: {
@@ -145,7 +164,7 @@ export function generateJsonLdForRoute(pathname: string): Record<string, any> {
               '@type': 'ListItem',
               position: idx + 1,
               name: p.title,
-              url: `${baseUrl}/projects/${p.slug}`,
+              url: canonicalUrlFor(`/projects/${p.slug}`),
               description: p.summary,
             })),
           },
@@ -154,8 +173,8 @@ export function generateJsonLdForRoute(pathname: string): Record<string, any> {
     };
   }
 
-  if (pathname.startsWith('/projects/')) {
-    const slug = pathname.replace('/projects/', '');
+  if (path.startsWith('/projects/')) {
+    const slug = path.replace('/projects/', '');
     const project = getProjectBySlug(slug);
 
     if (project) {
@@ -165,23 +184,23 @@ export function generateJsonLdForRoute(pathname: string): Record<string, any> {
           personEntity,
           {
             '@type': 'SoftwareSourceCode',
-            '@id': `${baseUrl}/projects/${slug}#software`,
+            '@id': `${SITE}/projects/${slug}#software`,
             name: project.title,
             description: project.summary,
-            url: `${baseUrl}/projects/${slug}`,
+            url: canonicalUrlFor(`/projects/${slug}`),
             codeRepository: project.links.github || undefined,
             programmingLanguage: project.tags.filter((t) =>
               ['Python', 'TypeScript', 'JavaScript', 'C', 'C++', 'SQL', 'Cypher'].includes(t)
             ),
             runtimePlatform: project.tags.join(', '),
-            author: { '@id': `${baseUrl}/#person` },
+            author: { '@id': `${SITE}/#person` },
           },
         ],
       };
     }
   }
 
-  if (pathname === '/experience') {
+  if (path === '/experience') {
     const pub = publications[0];
     return {
       '@context': 'https://schema.org',
@@ -189,17 +208,17 @@ export function generateJsonLdForRoute(pathname: string): Record<string, any> {
         personEntity,
         {
           '@type': 'AboutPage',
-          '@id': `${baseUrl}/experience#about`,
-          url: `${baseUrl}/experience`,
+          '@id': `${SITE}/experience#about`,
+          url: canonicalUrlFor("/experience"),
           name: 'Engineering Experience & Timeline | Palm Suksawasdi',
           description: 'Career journey, systems engineering background, education at UNSW, and publications.',
-          mainEntity: { '@id': `${baseUrl}/#person` },
+          mainEntity: { '@id': `${SITE}/#person` },
         },
         ...(pub
           ? [
               {
                 '@type': 'ScholarlyArticle',
-                '@id': `${baseUrl}/experience#publication-${pub.id}`,
+                '@id': `${SITE}/experience#publication-${pub.id}`,
                 name: pub.title,
                 headline: pub.title,
                 url: pub.link,

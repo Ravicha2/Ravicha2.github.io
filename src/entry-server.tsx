@@ -2,7 +2,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 import { App } from './App';
 import { projects } from './data/projects';
-import { generateJsonLdForRoute, getRouteMeta, type RouteMeta } from './utils/seo';
+import { canonicalUrlFor, generateJsonLdForRoute, getRouteMeta, type RouteMeta } from './utils/seo';
 
 /**
  * The build-time half of the site. `scripts/prerender.mjs` runs this over every
@@ -16,8 +16,6 @@ export interface PrerenderedRoute {
   jsonLd: Record<string, unknown>;
 }
 
-export const SITE = 'https://ravicha2.github.io';
-
 /** Every URL the site answers. The one list the prerenderer and the sitemap share. */
 export const routes = (): string[] => [
   '/',
@@ -29,9 +27,11 @@ export const routes = (): string[] => [
 /**
  * sitemap.xml, built from the same list that decides which files get rendered — so a
  * URL cannot be advertised without a page behind it, or ship a page without being
- * listed. `<loc>` only, plus `<lastmod>` when the caller can say when the content
- * last changed: Google ignores `<priority>` and `<changefreq>`, so ranking each route
- * would be hand-maintained precision that nothing reads.
+ * listed. Each `<loc>` is the route's canonical URL, the form the site is actually
+ * served at, so a crawler is not sent through a 301 it could have been spared.
+ * `<loc>` only, plus `<lastmod>` when the caller can say when the content last
+ * changed: Google ignores `<priority>` and `<changefreq>`, so ranking each route would
+ * be hand-maintained precision that nothing reads.
  */
 export const sitemap = (lastmod?: string): string =>
   [
@@ -40,7 +40,7 @@ export const sitemap = (lastmod?: string): string =>
     ...routes().map((route) =>
       [
         '  <url>',
-        `    <loc>${SITE}${route}</loc>`,
+        `    <loc>${canonicalUrlFor(route)}</loc>`,
         ...(lastmod ? [`    <lastmod>${lastmod}</lastmod>`] : []),
         '  </url>',
       ].join('\n')

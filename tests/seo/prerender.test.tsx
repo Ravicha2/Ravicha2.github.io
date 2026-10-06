@@ -38,6 +38,6 @@ describe('Prerendered routes', () => {
     const titles = routes().map((route) => render(route).meta.title);
 
     expect(new Set(titles).size).toBe(titles.length);
-    expect(render('/experience').meta.canonicalUrl).toBe('https://ravicha2.github.io/experience');
+    expect(render('/experience').meta.canonicalUrl).toBe('https://ravicha2.github.io/experience/');
   });
 });

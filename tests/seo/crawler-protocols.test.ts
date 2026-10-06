@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
-import { routes, sitemap, SITE } from '../../src/entry-server';
+import { routes, sitemap } from '../../src/entry-server';
+import { canonicalUrlFor } from '../../src/utils/seo';
 
 describe('Crawler Protocols (robots.txt & sitemap.xml)', () => {
   const publicDir = path.resolve(__dirname, '../../public');
@@ -31,7 +32,7 @@ describe('Crawler Protocols (robots.txt & sitemap.xml)', () => {
     expect(xml.trimEnd().endsWith('</urlset>')).toBe(true);
 
     const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-    expect(locs).toEqual(routes().map((route) => `${SITE}${route}`));
+    expect(locs).toEqual(routes().map(canonicalUrlFor));
     expect(new Set(locs).size).toBe(locs.length);
   });
 
