@@ -1,0 +1,66 @@
+import { renderToStaticMarkup } from 'react-dom/server';
+import { StaticRouter } from 'react-router-dom/server';
+import { App } from './App';
+import { projects } from './data/projects';
+import { generateJsonLdForRoute, getRouteMeta, type RouteMeta } from './utils/seo';
+
+/**
+ * The build-time half of the site. `scripts/prerender.mjs` runs this over every
+ * route after `vite build` so the deployed HTML carries the actual page rather
+ * than an empty `#root`, and so each route has a real file behind it instead of
+ * GitHub Pages' 404 redirect.
+ */
+export interface PrerenderedRoute {
+  html: string;
+  meta: RouteMeta;
+  jsonLd: Record<string, unknown>;
+}
+
+export const SITE = 'https://ravicha2.github.io';
+
+/** Every URL the site answers. The one list the prerenderer and the sitemap share. */
+export const routes = (): string[] => [
+  '/',
+  '/projects',
+  ...projects.map((project) => `/projects/${project.slug}`),
+  '/experience',
+];
+
+/**
+ * sitemap.xml, built from the same list that decides which files get rendered — so a
+ * URL cannot be advertised without a page behind it, or ship a page without being
+ * listed. `<loc>` only, plus `<lastmod>` when the caller can say when the content
+ * last changed: Google ignores `<priority>` and `<changefreq>`, so ranking each route
+ * would be hand-maintained precision that nothing reads.
+ */
+export const sitemap = (lastmod?: string): string =>
+  [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...routes().map((route) =>
+      [
+        '  <url>',
+        `    <loc>${SITE}${route}</loc>`,
+        ...(lastmod ? [`    <lastmod>${lastmod}</lastmod>`] : []),
+        '  </url>',
+      ].join('\n')
+    ),
+    '</urlset>',
+    '',
+  ].join('\n');
+
+export function render(path: string): PrerenderedRoute {
+  return {
+    html: renderToStaticMarkup(
+      <StaticRouter location={path}>
+        <App />
+      </StaticRouter>
+    ),
+    // Both are pure and read only from src/data, but they live here rather than in
+    // the script because the app already derives its own head from them at runtime
+    // (src/components/seo/SEOHead.tsx). One source, so the static page and the
+    // hydrated one cannot describe the person differently.
+    meta: getRouteMeta(path),
+    jsonLd: generateJsonLdForRoute(path),
+  };
+}

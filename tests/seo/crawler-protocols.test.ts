@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
+import { routes, sitemap, SITE } from '../../src/entry-server';
 
 describe('Crawler Protocols (robots.txt & sitemap.xml)', () => {
   const publicDir = path.resolve(__dirname, '../../public');
   const robotsTxtPath = path.join(publicDir, 'robots.txt');
-  const sitemapXmlPath = path.join(publicDir, 'sitemap.xml');
 
   it('verifies public/robots.txt allows all standard and AI user agents and declares sitemap', () => {
     expect(fs.existsSync(robotsTxtPath)).toBe(true);
@@ -20,28 +20,26 @@ describe('Crawler Protocols (robots.txt & sitemap.xml)', () => {
     expect(content).toContain('llms.txt');
   });
 
-  it('verifies public/sitemap.xml is valid XML and contains all canonical routes', () => {
-    expect(fs.existsSync(sitemapXmlPath)).toBe(true);
-    const content = fs.readFileSync(sitemapXmlPath, 'utf-8');
+  // sitemap.xml is generated from routes() and written into dist/ by
+  // scripts/prerender.mjs, so it cannot advertise a URL the site does not render and
+  // no route can ship unlisted. What is left to break is the file being a sitemap.
+  it('generates a well-formed sitemap listing every rendered route, once each', () => {
+    const xml = sitemap();
 
-    expect(content).toContain('<?xml version="1.0" encoding="UTF-8"?>');
-    expect(content).toContain('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
+    expect(xml).toContain('<?xml version="1.0" encoding="UTF-8"?>');
+    expect(xml).toContain('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
+    expect(xml.trimEnd().endsWith('</urlset>')).toBe(true);
 
-    const expectedUrls = [
-      'https://ravicha2.github.io/',
-      'https://ravicha2.github.io/projects',
-      'https://ravicha2.github.io/projects/shepherd',
-      'https://ravicha2.github.io/projects/nl2regex',
-      'https://ravicha2.github.io/projects/document-ingestion-agent',
-      'https://ravicha2.github.io/projects/lit-review-council',
-      'https://ravicha2.github.io/projects/node-api',
-      'https://ravicha2.github.io/projects/robotic-arm-ultrasound',
-      'https://ravicha2.github.io/projects/heal-a2a',
-      'https://ravicha2.github.io/experience',
-    ];
+    const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+    expect(locs).toEqual(routes().map((route) => `${SITE}${route}`));
+    expect(new Set(locs).size).toBe(locs.length);
+  });
 
-    expectedUrls.forEach((url) => {
-      expect(content).toContain(`<loc>${url}</loc>`);
-    });
+  it('stamps lastmod on every URL when it has a date, and none when it does not', () => {
+    // The date comes from git at build time; without one, a URL is still valid.
+    expect(sitemap()).not.toContain('<lastmod>');
+
+    const dated = sitemap('2026-10-07');
+    expect(dated.match(/<lastmod>2026-10-07<\/lastmod>/g)).toHaveLength(routes().length);
   });
 });

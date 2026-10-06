@@ -1,5 +1,7 @@
 node_modules
 dist
+# Build-time SSR bundle (npm run build:ssr), consumed by scripts/prerender.mjs.
+.ssr
 .DS_Store
 *.typ
 # The CV source is the tracked origin of public/cv.pdf; other typst files stay ignored.

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   projects,
@@ -28,8 +28,16 @@ export const ProjectsView: React.FC = () => {
 
   const categoryParam = searchParams.get('category') as ProjectCategory | null;
   const validCategoryIds = projectCategories.map((c) => c.id);
-  const selectedCategory: ProjectCategory | 'all' =
+  const urlCategory: ProjectCategory | 'all' =
     categoryParam && validCategoryIds.includes(categoryParam) ? categoryParam : 'all';
+
+  // The prerendered /projects file was built without a query string, so the first
+  // render has to be the unfiltered one on both sides. Deriving the filter straight
+  // from the URL would hydrate a shorter catalog on any shared ?category= link and
+  // make React throw the server markup away. The effect adopts the URL's filter
+  // immediately after, and the chips keep the URL shareable.
+  const [selectedCategory, setSelectedCategory] = useState<ProjectCategory | 'all'>('all');
+  useEffect(() => setSelectedCategory(urlCategory), [urlCategory]);
 
   const filteredProjects = getProjectsByCategory(selectedCategory);
   const tiered = TIER_ORDER.map((tier) => ({
@@ -43,6 +51,7 @@ export const ProjectsView: React.FC = () => {
   };
 
   const handleSelectCategory = (categoryId: ProjectCategory | 'all') => {
+    setSelectedCategory(categoryId);
     const newParams = new URLSearchParams(searchParams);
     if (categoryId === 'all') newParams.delete('category');
     else newParams.set('category', categoryId);

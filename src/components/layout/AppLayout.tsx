@@ -22,7 +22,10 @@ const NAV = [
 /** Local time on the bench. A recruiter in another timezone is the reason this
  *  is worth a clock: the number answers "is he awake right now". */
 function useLocalTime(timeZone: string) {
-  const [now, setNow] = useState(() => new Date());
+  // Null until mounted. Read during render, the prerendered HTML would carry the
+  // build machine's clock and then disagree with the browser's at hydration — and
+  // Node's ICU need not spell the zone the way the browser does either.
+  const [now, setNow] = useState<Date | null>(null);
   const format = useMemo(
     () =>
       new Intl.DateTimeFormat('en-AU', {
@@ -36,11 +39,12 @@ function useLocalTime(timeZone: string) {
   );
 
   useEffect(() => {
+    setNow(new Date());
     const id = window.setInterval(() => setNow(new Date()), 20_000);
     return () => window.clearInterval(id);
   }, []);
 
-  return format.format(now);
+  return now ? format.format(now) : '--:--';
 }
 
 const linkClass =
@@ -177,7 +181,10 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
               it and would hear a live region on every scroll. */}
           <div aria-hidden="true" className="hidden lg:block mt-7 pt-6 border-t border-rule">
             <p className="readout font-mono text-[11px] text-annotate">
-              {profile.location.replace(', Australia', '')} {time}
+              {profile.location.replace(', Australia', '')}{' '}
+              {/* Reserved at the width a formatted time occupies, so the placeholder
+                  filling in does not reflow the rail. */}
+              <span className="inline-block w-[10ch]">{time}</span>
             </p>
             <p className="readout mt-2 flex gap-2 font-mono text-[11px] leading-snug text-annotate min-h-[2.6em]">
               <span

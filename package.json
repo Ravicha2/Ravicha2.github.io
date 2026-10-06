@@ -7,7 +7,8 @@
     "dev": "vite",
     "cv:build": "typst compile Ravicha_cv_AU.typ public/cv.pdf",
     "og:build": "node scripts/build-og-image.mjs",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && npm run build:ssr && node scripts/prerender.mjs",
+    "build:ssr": "vite build --ssr src/entry-server.tsx --outDir .ssr",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest"

@@ -65,17 +65,23 @@ failure modes treated as absolute, not as edge cases.
   pipeline, the MCP-exposed signing service, and tender submission automation —
   may remain on the site, kept in step with `Ravicha_cv_AU.typ`. No Tendor
   artifacts, repos, or metrics.
-- **Dual publication.** Content ships twice: human surfaces (React SPA) and
+- **Dual publication.** Content ships twice: the pages themselves, and the
   static machine-readable files (`public/llms.txt`, `public/llms-full.txt`,
-  `sitemap.xml`, `robots.txt`, JSON-LD). The two must stay in sync — the machine
-  files are maintained by hand, not generated from the app.
+  `public/robots.txt`, JSON-LD). The two must stay in sync — the `llms*.txt`
+  dossiers are still maintained by hand, not generated from the app.
+  `sitemap.xml` is the exception: `scripts/prerender.mjs` writes it from the same
+  `routes()` in `src/entry-server.tsx` that decides which pages get rendered, so
+  it cannot advertise a URL the site does not serve.
 - **Case study structure.** Flagship projects follow a fixed four-part shape:
   Intuition & Friction → Problem Encountered → Why Built This Way → Outcomes &
   Verification.
 - **Research context.** Concurrent UNSW research on GraphRAG architectural
   compliance, plus open-source agent tooling.
-- **Deployment.** GitHub Pages static SPA, with a `404.html` redirect handler so
-  deep links like `/projects/shepherd` survive a hard reload.
+- **Deployment.** GitHub Pages. Each route is prerendered to its own `index.html`
+  by `scripts/prerender.mjs`, so `/projects/shepherd` is a real file that answers
+  200 with the page content in the markup — crawled without JavaScript, and
+  hydrated in place in the browser. `public/404.html` keeps its redirect handler,
+  now as the fallback for URLs no route answers.
 
 ## Capabilities and Constraints
 
