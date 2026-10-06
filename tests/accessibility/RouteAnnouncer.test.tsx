@@ -50,8 +50,8 @@ describe('RouteAnnouncer Component', () => {
   it('announces the new page on navigation, and leaves document.title to SEOHead', () => {
     // Seeded with a title the announcer must not touch. It used to write one of
     // its own, which doubled the site name on every route
-    // ("Overview | Palm Suksawasdi | Palm Suksawasdi").
-    document.title = 'Projects | Palm Suksawasdi';
+    // ("Overview | Ravicha Suksawasdi Na Ayuthaya | Ravicha Suksawasdi Na Ayuthaya").
+    document.title = 'Projects | Ravicha Suksawasdi Na Ayuthaya';
 
     render(
       <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }} initialEntries={['/']}>
@@ -66,7 +66,7 @@ describe('RouteAnnouncer Component', () => {
 
     const announcer = screen.getByRole('status');
     expect(announcer.textContent).toContain('Navigated to Projects');
-    expect(document.title).toBe('Projects | Palm Suksawasdi');
+    expect(document.title).toBe('Projects | Ravicha Suksawasdi Na Ayuthaya');
   });
 
   it('does not steal focus into main on the initial mount', () => {

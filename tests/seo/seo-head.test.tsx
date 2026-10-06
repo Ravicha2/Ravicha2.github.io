@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { SEOHead } from '../../src/components/seo/SEOHead';
 import { generateJsonLdForRoute, getRouteMeta } from '../../src/utils/seo';
+import { profile } from '../../src/data/profile';
 
 describe('Dynamic SEOHead & JSON-LD Structured Data Generator', () => {
   beforeEach(() => {
@@ -19,7 +20,10 @@ describe('Dynamic SEOHead & JSON-LD Structured Data Generator', () => {
 
     const person = schema['@graph'].find((item: any) => item['@type'] === 'Person');
     expect(person).toBeDefined();
-    expect(person.name).toContain('Palm');
+    // The legal name is what a crawler matches against LinkedIn and the CV; "Palm"
+    // rides alongside as the nickname those same tools may know this person by.
+    expect(person.name).toBe(profile.name);
+    expect(person.alternateName).toBe('Palm');
   });
 
   it('generates valid SoftwareSourceCode JSON-LD for project detail route "/projects/shepherd"', () => {

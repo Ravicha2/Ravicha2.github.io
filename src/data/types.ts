@@ -16,7 +16,6 @@ export interface ProfileNarrative {
 export interface Profile {
   name: string;
   preferredName: string;
-  fullName: string;
   title: string;
   headline: string;
   status: string;

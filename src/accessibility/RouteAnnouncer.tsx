@@ -22,7 +22,8 @@ export const RouteAnnouncer: React.FC<RouteAnnouncerProps> = ({ pageTitle }) => 
   useEffect(() => {
     // The title is not set here. SEOHead owns it, and every title it writes
     // already ends in the site name — a second writer here produced
-    // "Overview | Palm Suksawasdi | Palm Suksawasdi" on every route.
+    // "Overview | Ravicha Suksawasdi Na Ayuthaya | Ravicha Suksawasdi Na Ayuthaya"
+    // on every route.
     if (announcedPathname.current === location.pathname) return;
     announcedPathname.current = location.pathname;
 

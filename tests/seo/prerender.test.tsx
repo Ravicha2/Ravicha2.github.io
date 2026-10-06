@@ -14,7 +14,9 @@ describe('Prerendered routes', () => {
   it('puts the page content in the markup instead of an empty root div', () => {
     const { html } = render('/');
 
-    expect(html).toContain(profile.name);
+    // The hero holds "Na Ayuthaya" in a no-wrap span so the surname cannot break after
+    // "Na", so the name reaches a crawler as contiguous text once the tags come off.
+    expect(html.replace(/<[^>]+>/g, '')).toContain(profile.name);
     expect(html).toContain(profile.narrative.systemsMindset);
     expect(html).toContain(profile.links.github);
   });

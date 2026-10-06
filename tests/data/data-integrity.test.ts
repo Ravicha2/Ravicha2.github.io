@@ -14,8 +14,9 @@ describe('Data Layer Integrity', () => {
   describe('Profile Data', () => {
     it('exports valid personal details and professional title', () => {
       expect(profile).toBeDefined();
-      expect(profile.name).toMatch(/Palm|Ravicha/);
-      expect(profile.fullName).toBe('Ravicha Suksawasdi Na Ayuthaya');
+      // The surname is the two-part "Suksawasdi Na Ayuthaya". The site used to trim it
+      // to "Suksawasdi", which is a different name.
+      expect(profile.name).toBe('Ravicha Suksawasdi Na Ayuthaya');
       expect(profile.preferredName).toBe('Palm');
       expect(profile.title).toContain('Applied AI');
       expect(profile.headline).toBeDefined();

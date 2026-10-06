@@ -85,8 +85,10 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
         className="lg:hidden sticky top-0 z-40 bg-bench border-b border-rule"
       >
         <div className="flex items-center justify-between gap-4 px-4 sm:px-6 h-14">
+          {/* The bar shares its row with the nav, and the full name needs two lines
+              in the width that is left on a phone. The rail below carries it in full. */}
           <NavLink to="/" className="text-[15px] font-semibold tracking-[-0.01em]">
-            {profile.name}
+            {profile.preferredName}
           </NavLink>
           <nav aria-label="Main" className="flex items-center gap-4">
             {NAV.map((item) => (
@@ -245,7 +247,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
           {/* The route always ends here, and on mobile the rail has scrolled away,
               so the footer carries the address rather than assuming the rail. */}
           <p className="font-mono text-[11px] text-annotate shrink-0">
-            {profile.name} · {profile.location} ·{' '}
+            {profile.preferredName} · {profile.location} ·{' '}
             <a href={profile.links.email} className={linkClass}>
               {profile.email}
             </a>

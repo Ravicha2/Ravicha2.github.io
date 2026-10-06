@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { AppLayout } from './components/layout/AppLayout';
 import { ViewTransitionProvider } from './hooks/useViewTransitionNavigate';
 import { getProjectBySlug } from './data/projects';
+import { profile } from './data/profile';
 
 import { HomeView } from './views/HomeView';
 import { ProjectsView } from './views/ProjectsView';
@@ -10,21 +11,21 @@ import { CaseStudyView } from './views/CaseStudyView';
 import { ExperienceView } from './views/ExperienceView';
 import { NotFound } from './components/common/NotFound';
 
-const NOT_FOUND_TITLE = 'Page not found | Palm Suksawasdi';
+const NOT_FOUND_TITLE = `Page not found | ${profile.name}`;
 
 export const App: React.FC = () => {
   const location = useLocation();
 
   const getPageTitle = (pathname: string) => {
-    if (pathname === '/') return 'Overview | Palm Suksawasdi';
-    if (pathname === '/projects') return 'Projects | Palm Suksawasdi';
+    if (pathname === '/') return `Overview | ${profile.name}`;
+    if (pathname === '/projects') return `Projects | ${profile.name}`;
     if (pathname.startsWith('/projects/')) {
       // A slug that resolves to nothing is a dead end, and the announcer has to
       // say so too — the route below renders the not-found page for it.
       const slug = pathname.slice('/projects/'.length);
-      return getProjectBySlug(slug) ? 'Case Study | Palm Suksawasdi' : NOT_FOUND_TITLE;
+      return getProjectBySlug(slug) ? `Case Study | ${profile.name}` : NOT_FOUND_TITLE;
     }
-    if (pathname === '/experience') return 'Experience | Palm Suksawasdi';
+    if (pathname === '/experience') return `Experience | ${profile.name}`;
     return NOT_FOUND_TITLE;
   };
 

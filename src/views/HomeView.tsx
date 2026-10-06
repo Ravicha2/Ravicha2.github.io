@@ -13,6 +13,18 @@ const linkClass =
 /** The two flagships whose artifact is strongest get their own row on the bench. */
 const FEATURED_ARTIFACT_ROWS = ['shepherd', 'nl2regex'];
 
+/**
+ * The heading is a single string, but where it may break is not arbitrary. The
+ * surname is "Suksawasdi Na Ayuthaya", and at the widths where the whole thing is
+ * wider than the column, an unheld break lands after "Na" and reads as though the
+ * surname were "Suksawasdi Na". "Na Ayuthaya" is short enough to hold together at
+ * every width, so it does; what is left breaks between "Ravicha" and "Suksawasdi".
+ */
+const [nameHead, nameTail] = (() => {
+  const words = profile.name.split(' ');
+  return [words.slice(0, -2).join(' '), words.slice(-2).join(' ')];
+})();
+
 export const HomeView: React.FC = () => {
   const recordRows = FEATURED_ARTIFACT_ROWS.map((slug) => getProjectBySlug(slug)).filter(
     (p): p is NonNullable<typeof p> => Boolean(p?.image),
@@ -34,12 +46,15 @@ export const HomeView: React.FC = () => {
             id="bench-heading"
             className="text-[clamp(1.7rem,4.2vw,3rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-pretty"
           >
-            {profile.name}
+            {nameHead} <span className="whitespace-nowrap">{nameTail}</span>
           </h1>
 
-          {/* The name is the heading, so this line carries the role and not a
-              second copy of the name. */}
-          <p className="mt-4 font-mono text-[12px] text-annotate">{profile.title}</p>
+          {/* The name is the heading, so this line carries the nickname and the role
+              rather than a second copy of the name. The nickname matters here: it is
+              what LinkedIn, PyPI and the IEEE paper know this person by. */}
+          <p className="mt-4 font-mono text-[12px] text-annotate">
+            {profile.preferredName} · {profile.title}
+          </p>
 
           <p className="measure mt-5 text-sm sm:text-[15px] leading-relaxed text-annotate text-pretty">
             {profile.narrative.systemsMindset}
@@ -75,7 +90,7 @@ export const HomeView: React.FC = () => {
           width={1400}
           height={933}
           priority
-          alt="Palm Suksawasdi at a work table, reaching across it mid-conversation."
+          alt="Palm at a work table, reaching across it mid-conversation."
           source="Palm at work — IEEE Thailand Section event photograph"
         />
       </section>

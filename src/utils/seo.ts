@@ -11,6 +11,9 @@ export interface RouteMeta {
 
 export const SITE = 'https://ravicha2.github.io';
 
+/** The name as it is written in a title. Declared once so the ten titles below cannot drift apart. */
+const NAME = profile.name;
+
 /**
  * GitHub Pages serves a directory-backed route at its trailing-slash URL and 301s the
  * bare one, so a browser sitting on /projects holds `/projects/`. The router and the
@@ -32,7 +35,7 @@ export function getRouteMeta(pathname: string): RouteMeta {
 
   if (path === '/') {
     return {
-      title: 'Palm Suksawasdi | Portfolio & Systems Engineering',
+      title: `${NAME} | Portfolio & Systems Engineering`,
       description: profile.headline,
       canonicalUrl: canonicalUrlFor(path),
       ogType: 'profile',
@@ -41,7 +44,7 @@ export function getRouteMeta(pathname: string): RouteMeta {
 
   if (path === '/projects') {
     return {
-      title: 'Projects & Case Studies | Palm Suksawasdi',
+      title: `Projects & Case Studies | ${NAME}`,
       description: 'Curated engineering case studies in Agentic AI, GraphRAG, and Distributed Systems.',
       canonicalUrl: canonicalUrlFor(path),
       ogType: 'website',
@@ -53,7 +56,7 @@ export function getRouteMeta(pathname: string): RouteMeta {
     const project = getProjectBySlug(slug);
     if (project) {
       return {
-        title: `${project.title} | Palm Suksawasdi`,
+        title: `${project.title} | ${NAME}`,
         description: project.summary,
         canonicalUrl: canonicalUrlFor(`/projects/${slug}`),
         ogType: 'article',
@@ -63,7 +66,7 @@ export function getRouteMeta(pathname: string): RouteMeta {
 
   if (path === '/experience') {
     return {
-      title: 'Engineering Experience & Timeline | Palm Suksawasdi',
+      title: `Engineering Experience & Timeline | ${NAME}`,
       description: 'Career journey, systems engineering background, education at UNSW and Chulalongkorn, and publications.',
       canonicalUrl: canonicalUrlFor(path),
       ogType: 'profile',
@@ -75,7 +78,7 @@ export function getRouteMeta(pathname: string): RouteMeta {
   // crawler to index a dead end as itself. Point at the root instead — the URL
   // that does exist and does describe this person.
   return {
-    title: 'Page not found | Palm Suksawasdi',
+    title: `Page not found | ${NAME}`,
     description: profile.headline,
     canonicalUrl: `${SITE}/`,
     ogType: 'website',
@@ -88,8 +91,10 @@ export function generateJsonLdForRoute(pathname: string): Record<string, any> {
   const personEntity = {
     '@type': 'Person',
     '@id': `${SITE}/#person`,
-    name: `${profile.preferredName} (${profile.fullName.split(' ')[0]}) ${profile.fullName.split(' ').slice(1).join(' ')}`,
-    alternateName: profile.name,
+    name: NAME,
+    // The nickname, so a tool that knows this person as "Palm" — LinkedIn, PyPI, the
+    // IEEE paper — lands on the same entity as one that knows them as "Ravicha".
+    alternateName: profile.preferredName,
     jobTitle: profile.title,
     description: profile.headline,
     url: canonicalUrlFor("/"),
@@ -140,7 +145,7 @@ export function generateJsonLdForRoute(pathname: string): Record<string, any> {
           '@type': 'ProfilePage',
           '@id': `${SITE}/#profilepage`,
           url: canonicalUrlFor("/"),
-          name: 'Palm Suksawasdi | Portfolio & Systems Engineering',
+          name: getRouteMeta('/').title,
           mainEntity: { '@id': `${SITE}/#person` },
         },
       ],
@@ -156,7 +161,7 @@ export function generateJsonLdForRoute(pathname: string): Record<string, any> {
           '@type': 'CollectionPage',
           '@id': `${SITE}/projects#collection`,
           url: canonicalUrlFor("/projects"),
-          name: 'Projects & Case Studies | Palm Suksawasdi',
+          name: getRouteMeta('/projects').title,
           description: 'Engineering case studies covering Agentic AI, GraphRAG, Distributed Systems, and Robotics.',
           mainEntity: {
             '@type': 'ItemList',
@@ -210,7 +215,7 @@ export function generateJsonLdForRoute(pathname: string): Record<string, any> {
           '@type': 'AboutPage',
           '@id': `${SITE}/experience#about`,
           url: canonicalUrlFor("/experience"),
-          name: 'Engineering Experience & Timeline | Palm Suksawasdi',
+          name: getRouteMeta('/experience').title,
           description: 'Career journey, systems engineering background, education at UNSW, and publications.',
           mainEntity: { '@id': `${SITE}/#person` },
         },

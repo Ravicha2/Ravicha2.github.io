@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
 import { profile } from '../../src/data/profile';
+import { getRouteMeta } from '../../src/utils/seo';
 
 const root = path.resolve(__dirname, '../..');
 const read = (file: string) => fs.readFileSync(path.join(root, file), 'utf-8');
@@ -32,17 +33,17 @@ describe('Static Baseline HTML Meta & OpenGraph (index.html)', () => {
 
     // Canonical & Basic
     expect(content).toContain('<link rel="canonical" href="https://ravicha2.github.io/" />');
-    expect(content).toContain('<meta name="author" content="Palm (Ravicha) Suksawasdi Na Ayuthaya" />');
+    expect(content).toContain('<meta name="author" content="Ravicha Suksawasdi Na Ayuthaya (Palm)" />');
 
     // OpenGraph
-    expect(content).toContain('<meta property="og:site_name" content="Palm Suksawasdi Portfolio" />');
+    expect(content).toContain('<meta property="og:site_name" content="Ravicha Suksawasdi Na Ayuthaya Portfolio" />');
     expect(content).toContain('<meta property="og:type" content="profile" />');
     expect(content).toContain('<meta property="og:url" content="https://ravicha2.github.io/" />');
-    expect(content).toContain('<meta property="og:title" content="Palm Suksawasdi | Portfolio &amp; Systems Engineering" />');
+    expect(content).toContain('<meta property="og:title" content="Ravicha Suksawasdi Na Ayuthaya | Portfolio &amp; Systems Engineering" />');
 
     // Twitter
     expect(content).toContain('<meta name="twitter:card" content="summary_large_image" />');
-    expect(content).toContain('<meta name="twitter:title" content="Palm Suksawasdi | Portfolio &amp; Systems Engineering" />');
+    expect(content).toContain('<meta name="twitter:title" content="Ravicha Suksawasdi Na Ayuthaya | Portfolio &amp; Systems Engineering" />');
   });
 
   it('keeps theme-color bound to --bench rather than to a literal', () => {
@@ -114,8 +115,27 @@ describe('Static Baseline HTML Meta & OpenGraph (index.html)', () => {
 
     const person = parsed['@graph'].find((item: any) => item['@type'] === 'Person');
     expect(person).toBeDefined();
-    expect(person.name).toBe('Palm (Ravicha) Suksawasdi Na Ayuthaya');
+    expect(person.name).toBe('Ravicha Suksawasdi Na Ayuthaya (Palm)');
     expect(person.jobTitle).toBe('Applied AI & Backend Systems Engineer');
     expect(person.sameAs).toContain('https://github.com/Ravicha2');
+  });
+
+  // index.html is the one surface that writes the name out by hand — everything else
+  // interpolates profile.name. That is where "Palm Suksawasdi" survived a surname
+  // correction in nine other places, so it is the copy that needs the guard.
+  it('spells the name in index.html the same way profile does', () => {
+    const content = fs.readFileSync(indexHtmlPath, 'utf-8');
+    const parsed = JSON.parse(
+      content.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)![1]
+    );
+    const person = parsed['@graph'].find((item: any) => item['@type'] === 'Person');
+
+    // index.html escapes the ampersand in the brand suffix; the title itself does not.
+    const escaped = getRouteMeta('/').title.replaceAll('&', '&amp;');
+    expect(content).toContain(`<title>${escaped}</title>`);
+    expect(content).toContain(`<meta property="og:title" content="${escaped}" />`);
+    expect(person.alternateName).toBe(profile.preferredName);
+    // The surname is the whole thing, not its first word.
+    expect(profile.name).toContain('Suksawasdi Na Ayuthaya');
   });
 });

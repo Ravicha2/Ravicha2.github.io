@@ -13,7 +13,7 @@ describe('AI Agent Protocol Files (llms.txt & llms-full.txt)', () => {
     const content = fs.readFileSync(llmsTxtPath, 'utf-8');
 
     // Header & High level summary
-    expect(content).toContain('# Palm (Ravicha) Suksawasdi Na Ayuthaya');
+    expect(content).toContain('# Ravicha Suksawasdi Na Ayuthaya (Palm)');
     expect(content).toContain('Applied AI & Backend Systems Engineer');
     expect(content).toContain('UNSW Sydney');
 

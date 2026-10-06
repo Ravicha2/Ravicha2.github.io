@@ -1,9 +1,11 @@
 import { Profile } from './types';
 
 export const profile: Profile = {
-  name: 'Palm Suksawasdi',
+  // The surname is "Suksawasdi Na Ayuthaya", not "Suksawasdi" — the shorter form
+  // used to sit here and in nine hand-written titles across the site, which is how
+  // it stayed wrong in some of them. It is stated once, here.
+  name: 'Ravicha Suksawasdi Na Ayuthaya',
   preferredName: 'Palm',
-  fullName: 'Ravicha Suksawasdi Na Ayuthaya',
   // Matches the jobTitle in index.html's JSON-LD. Two titles for the same person
   // is one claim too many.
   title: 'Applied AI & Backend Systems Engineer',
