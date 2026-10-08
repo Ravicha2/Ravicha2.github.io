@@ -27,14 +27,17 @@ export const projects: Project[] = [
       {
         value: '23.3% → 43.8%',
         label: 'pooled precision across the five-repo two-arm benchmark (baseline reviewer vs the CPT engine)',
+        short: 'pooled precision, five-repo two-arm benchmark',
       },
       {
         value: '564.1M → 216.8M',
         label: 'reviewer tokens over the same 65 commits, 62% lower with the engine',
+        short: 'reviewer tokens over the same commits',
       },
       {
         value: '5 repos / 65 commits',
         label: 'two-arm benchmark behind those pooled figures, 60 scored annotation sheets',
+        short: 'the benchmark behind those figures',
       },
     ],
     // No public permalink: the two-arm study lives in a private research repo, so
@@ -126,8 +129,8 @@ export const projects: Project[] = [
       github: 'https://github.com/Ravicha2/NL2REGEX',
     },
     metrics: [
-      { value: '172 cases', label: 'backend tests over the API, Spark projection, Parquet normalization, and ReDoS safety' },
-      { value: '3–5 s', label: 'Spark JVM startup per task avoided by the singleton session' },
+      { value: '172 cases', label: 'backend tests over the API, Spark projection, Parquet normalization, and ReDoS safety', short: 'backend tests: API, Spark, Parquet, ReDoS safety' },
+      { value: '3–5 s', label: 'Spark JVM startup per task avoided by the singleton session', short: 'JVM startup avoided per task' },
     ],
     proof: {
       kind: 'capture',
@@ -244,8 +247,8 @@ export const projects: Project[] = [
       github: 'https://github.com/Ravicha2/document-ingestion-agent',
     },
     metrics: [
-      { value: '8', label: 'durable Inngest steps across 4 worker functions, each retryable on its own' },
-      { value: '2 stores', label: 'pgvector embeddings and Neo4j graph entities, written per step' },
+      { value: '8', label: 'durable Inngest steps across 4 worker functions, each retryable on its own', short: 'durable Inngest steps, each retryable' },
+      { value: '2 stores', label: 'pgvector embeddings and Neo4j graph entities, written per step', short: 'pgvector + Neo4j, written per step' },
     ],
     proof: {
       kind: "trace",
@@ -391,9 +394,9 @@ export const projects: Project[] = [
       pypi: 'https://pypi.org/project/lit-review-council/',
     },
     metrics: [
-      { value: 'PyPI', label: 'published, install via uvx lit-review-council; listed on the MCP Registry' },
-      { value: '3', label: 'independent reviewer agents ranked by Borda count' },
-      { value: '2', label: 'research tracks per topic: academic (ArXiv/OpenAlex) and practitioner (GitHub)' },
+      { value: 'PyPI', label: 'published, install via uvx lit-review-council; listed on the MCP Registry', short: 'published · uvx · MCP Registry' },
+      { value: '3', label: 'independent reviewer agents ranked by Borda count', short: 'reviewer agents, Borda-ranked' },
+      { value: '2', label: 'research tracks per topic: academic (ArXiv/OpenAlex) and practitioner (GitHub)', short: 'research tracks: academic + practitioner' },
     ],
     proof: {
       kind: "capture",
@@ -521,9 +524,9 @@ export const projects: Project[] = [
       github: 'https://github.com/Ravicha2/node-api',
     },
     metrics: [
-      { value: '3 tables / 5 operations', label: 'SQL surface exposed to the agent as typed tools' },
-      { value: '1,536-dim', label: 'pgvector embeddings with cosine-similarity search' },
-      { value: '3 tools', label: 'web search, database CRUD, and candidate RAG search in one graph' },
+      { value: '3 tables / 5 operations', label: 'SQL surface exposed to the agent as typed tools', short: 'SQL surface as typed tools' },
+      { value: '1,536-dim', label: 'pgvector embeddings with cosine-similarity search', short: 'pgvector embeddings, cosine search' },
+      { value: '3 tools', label: 'web search, database CRUD, and candidate RAG search in one graph', short: 'search + CRUD + RAG in one graph' },
     ],
     summary:
       'Conversational AI agent capable of dynamic database schema inspection and tool calling to safely query and mutate structured data.',
@@ -542,8 +545,8 @@ export const projects: Project[] = [
       paper: 'https://ieeexplore.ieee.org/document/10349000',
     },
     metrics: [
-      { value: '2023', label: 'IEEE TENCON publication and conference presentation' },
-      { value: '6-DOF', label: 'passive probe-tracking arm, implemented in C and MATLAB' },
+      { value: '2023', label: 'IEEE TENCON publication and conference presentation', short: 'IEEE TENCON publication' },
+      { value: '6-DOF', label: 'passive probe-tracking arm, implemented in C and MATLAB', short: 'passive probe-tracking arm, C + MATLAB' },
     ],
     summary:
       'Developed and tested a 6-degree-of-freedom passive robotic arm probe tracking system to measure position and orientation accuracy during ultrasound medical training.',

@@ -55,7 +55,8 @@
   border: 1px solid var(--rule);
 }
 
-/* An outlined square chip. Tags and reference links carry this, never a pill. */
+/* An outlined square chip. Tags and reference links carry this, never a pill.
+ * Hover warms it to the bench lamp: the outline answers, the label catches. */
 .chip {
   display: inline-block;
   border: 1px solid var(--rule);
@@ -67,7 +68,7 @@ a.chip:hover,
 a.chip:focus-visible,
 button.chip:hover,
 button.chip:focus-visible {
-  border-color: var(--signal);
+  border-color: var(--spark);
   color: var(--ink);
 }
 
@@ -75,20 +76,22 @@ button.chip {
   cursor: pointer;
 }
 
-/* The selected filter. Square, outlined, and stated — never a filled pill. */
+/* The selected filter. Square, outlined, and stated — never a filled pill. Lit
+ * from the lamp rather than the signal: it is a control position, not a reading. */
 .chip[aria-pressed='true'] {
-  border-color: var(--ink);
+  border-color: var(--signal);
   background-color: var(--panel);
-  color: var(--ink);
+  color: var(--spark);
 }
 
 /* ---------------------------------------------------------------------------
  * 3. The sweep
  *
- * One brass hairline travels the viewport once on first paint, then leaves. It is
- * the viewport's single maximum-emphasis element, it never carries state, and it
- * is transform-only so nothing reflows while it runs. `prefers-reduced-motion`
- * never sees it at all.
+ * One hairline travels the viewport once on first paint, then leaves. It is the
+ * viewport's single maximum-emphasis element, it never carries state, and it is
+ * transform-only so nothing reflows while it runs. It runs warm at the head and
+ * settles to the signal behind: the bench lamp passing over, not an alarm.
+ * `prefers-reduced-motion` never sees it at all.
  * ------------------------------------------------------------------------- */
 
 .sweep {
@@ -107,7 +110,8 @@ button.chip {
     background: linear-gradient(
       to right,
       transparent,
-      var(--signal) 18%,
+      var(--spark) 18%,
+      var(--signal) 60%,
       var(--signal) 82%,
       transparent
     );
@@ -171,7 +175,7 @@ button.chip {
  * ------------------------------------------------------------------------- */
 
 ::selection {
-  background: var(--signal);
+  background: var(--spark);
   color: var(--bench);
 }
 
@@ -196,7 +200,7 @@ html {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--signal);
+  background: var(--spark);
 }
 
 /* The rail's readout: the live line that names whatever is on screen. */

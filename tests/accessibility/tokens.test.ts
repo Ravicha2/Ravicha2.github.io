@@ -38,7 +38,7 @@ describe('Bench palette contrast (WCAG AAA)', () => {
   // Every colour a glyph can take, against every surface it can sit on. The
   // failed verdict is included: "does not hold" is text, so it answers to the
   // text floor, not to the non-text one.
-  const TEXT_TOKENS = ['ink', 'annotate', 'signal', 'nonconform'];
+  const TEXT_TOKENS = ['ink', 'annotate', 'signal', 'spark', 'nonconform'];
   const SURFACES = ['bench', 'well', 'panel'];
 
   for (const text of TEXT_TOKENS) {
@@ -69,6 +69,7 @@ describe('Bench palette contrast (WCAG AAA)', () => {
         'ink',
         'annotate',
         'signal',
+        'spark',
         'nonconform',
         'rule',
       ]) {
@@ -77,11 +78,12 @@ describe('Bench palette contrast (WCAG AAA)', () => {
     });
 
     // The room carries no colour of its own: the substrate, the panels and every
-    // value that is merely read out are warm but desaturated, and the only two
-    // saturated values are the live signal (brass) and the failed reading (coral).
-    // The gap between the two bounds is deliberately empty, so a token that drifts
+    // value that is merely read out are warm but desaturated, while the three
+    // saturated values — the live signal (brass), the bench lamp (peach amber)
+    // and the failed reading (coral) — are the only hues the page spends. The
+    // gap between the two bounds is deliberately empty, so a token that drifts
     // toward coloured lands in neither class and fails loudly.
-    it('keeps the room desaturated and spends colour on exactly two meanings', () => {
+    it('keeps the room desaturated and spends colour on exactly three meanings', () => {
       const chroma = (hex: string) => {
         const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
         return Math.max(r, g, b) - Math.min(r, g, b);
@@ -91,6 +93,7 @@ describe('Bench palette contrast (WCAG AAA)', () => {
         expect(chroma(tokenValue(name)), `--${name} is not desaturated`).toBeLessThan(40);
       }
       expect(chroma(tokenValue('signal')), '--signal must be a hue').toBeGreaterThan(60);
+      expect(chroma(tokenValue('spark')), '--spark must be a hue').toBeGreaterThan(60);
       expect(chroma(tokenValue('nonconform')), '--nonconform must be a hue').toBeGreaterThan(60);
     });
   });

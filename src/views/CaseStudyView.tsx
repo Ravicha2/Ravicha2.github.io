@@ -20,7 +20,7 @@ const REF_LABELS: Array<{ key: keyof ProjectLinks; label: string; name: (title: 
   ];
 
 const refLink =
-  'font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-signal';
+  'font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-spark';
 
 /** The same tier the catalog and the strip read, said as this page's verdict —
  *  so a case study cannot claim a state its own catalog row denies. */
@@ -120,7 +120,7 @@ export const CaseStudyView: React.FC = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Open the artifact settling ${project.title}: ${shortRef(proof)} at ${proof.commit.slice(0, 7)} (opens in a new tab)`}
-                  className="text-signal underline decoration-rule underline-offset-4 transition-colors hover:decoration-signal"
+                  className="text-signal underline decoration-rule underline-offset-4 transition-colors hover:decoration-spark"
                 >
                   {shortRef(proof)} @ {proof.commit.slice(0, 7)}
                 </a>
@@ -269,7 +269,7 @@ export const CaseStudyView: React.FC = () => {
 
           <Claim
             id="section-architecture"
-            heading="Why built this way (architectural decisions & trade-offs)"
+            heading="Why built this way"
           >
             <Note title="Key architectural insight">
               {cs.whyBuiltThisWay.architecturalInsight}
@@ -301,7 +301,7 @@ export const CaseStudyView: React.FC = () => {
             )}
           </Claim>
 
-          <Claim id="section-outcomes" heading="Outcomes, verification & key takeaways">
+          <Claim id="section-outcomes" heading="Outcomes & verification">
             <Pair
               left={
                 <div>

@@ -101,7 +101,7 @@ export const Capture: React.FC<CaptureProps> = ({
         frame
       )}
 
-      <figcaption className="border-t border-rule px-3 py-2 font-mono text-[11px] leading-snug text-annotate transition-colors group-hover:border-signal">
+      <figcaption className="border-t border-rule px-3 py-2 font-mono text-[11px] leading-snug text-annotate transition-colors group-hover:border-spark group-hover:text-ink">
         <span className="block break-all">{source}</span>
       </figcaption>
     </figure>

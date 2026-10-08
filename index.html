@@ -6,13 +6,22 @@
     <title>Ravicha Suksawasdi Na Ayuthaya | Portfolio &amp; Systems Engineering</title>
     <meta name="description" content="Building fault-tolerant multi-agent pipelines, GraphRAG memory systems, and distributed data engines." />
     <meta name="author" content="Ravicha Suksawasdi Na Ayuthaya (Palm)" />
-    <meta name="theme-color" content="#14120f" />
+    <meta name="theme-color" content="#1c1613" />
     <!-- Preload the faces the first viewport draws with, so the bench is already
          lettered at first paint (font-display:swap would otherwise reflow it). -->
     <link rel="preload" href="/fonts/Barlow-400.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/Barlow-600.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/Iosevka-400.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="canonical" href="https://ravicha2.github.io/" />
+    <!-- The markdown twin of this page. GitHub Pages derives a file's type from
+         its extension, so /index.md is genuinely served as text/markdown while
+         this file is served as text/html — the alternate is a real document, not
+         a same-looking fallback. There is no way to make the origin vary on
+         Accept:, so the twin is advertised rather than negotiated. -->
+    <link rel="alternate" type="text/markdown" href="/index.md" title="This page as markdown" />
+    <!-- The machine-readable descriptions. rel="describedby" is the closest
+         standard relation for a service description the page is about. -->
+    <link rel="describedby" type="application/json" href="/openapi.json" title="OpenAPI 3.1 description of this site's agent API" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 

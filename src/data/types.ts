@@ -125,7 +125,11 @@ export interface Project {
   links: ProjectLinks;
   // `value` is the measurement (a figure, count, rate, or verifiable state); `label` names
   // what was measured. A category name belongs in the label, never the value.
-  metrics?: { value: string; label: string }[];
+  // `short` is the catalog's own length of the same label: the scanning surfaces (the
+  // channel strip, the home record, the catalog rows) show it, while the case study and
+  // the machine dossiers keep the full sentence. A short label never drops a qualifier
+  // the figure depends on — it only stops restating the method.
+  metrics?: { value: string; label: string; short?: string }[];
   summary: string;
   caseStudy?: CaseStudyContent;
   /** The artifact that settles this project's headline claim. Flagship tier only. */

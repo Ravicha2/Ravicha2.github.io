@@ -10,7 +10,7 @@ import { ContactBlock } from '../components/common/ContactBlock';
 import { Capture } from '../components/bench/Capture';
 
 const linkClass =
-  'font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-signal';
+  'font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-spark';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -187,7 +187,7 @@ export const ExperienceView: React.FC = () => (
       <SectionHead
         id="graph-heading"
         heading="Work and education"
-        annotation="One row per run, in the order it started. A run that started while something else still had months left forks off the line and comes back to it."
+        annotation="Runs in the order they started. An overlap forks off the line and rejoins it."
       />
 
       <ol className="mt-6 border-t border-rule">
@@ -219,7 +219,7 @@ export const ExperienceView: React.FC = () => (
       <SectionHead
         id="work-experience-heading"
         heading="Work experience"
-        annotation="Production engineering, distributed pipelines, and systems design"
+        annotation="Where the production hours went."
       />
 
       <div>
@@ -284,7 +284,7 @@ export const ExperienceView: React.FC = () => (
       <SectionHead
         id="education-heading"
         heading="Education & academic foundations"
-        annotation="Degrees, international exchange study, and foundational engineering training"
+        annotation="Degrees, an exchange, and the pivot itself."
       />
 
       <div>
@@ -325,7 +325,7 @@ export const ExperienceView: React.FC = () => (
       <SectionHead
         id="publications-accolades-heading"
         heading="Publications & accolades"
-        annotation="Peer-reviewed research, hackathon awards, and leadership development"
+        annotation="Peer-reviewed work, an award, and leadership training."
       />
 
       <div className="grid gap-10 lg:grid-cols-2">
@@ -446,7 +446,7 @@ export const ExperienceView: React.FC = () => (
       <SectionHead
         id="skills-taxonomy-heading"
         heading="Technical skills"
-        annotation="Categorized matrix of languages, frameworks, storage systems, and infrastructure"
+        annotation="The toolkit, grouped by what it is used for."
       />
 
       <dl className="grid gap-x-8 gap-y-5 md:grid-cols-2">
