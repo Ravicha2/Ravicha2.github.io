@@ -7,9 +7,9 @@ import { profile } from './profile';
  * document has to be written by hand. What keeps it from rotting is that it is
  * written *here*, next to the pages that describe it, and emitted by
  * `scripts/prerender.mjs` — so the spec cannot advertise a URL the build does not
- * write. `tests/agent-protocols.test.ts` holds the other end: every path in
- * `paths` has to resolve to a file in `public/` or to one of the route-markdown
- * twins the prerenderer emits.
+ * write. `tests/agent-protocols.test.ts` holds the other end: every operation has a
+ * unique `operationId`, a `summary`, a `description` and a typed response schema, and
+ * the endpoint tables on /docs and /developers are derived from the same list.
  *
  * Every operation below is a `GET` of a file that is really served, and each one
  * carries an `operationId` and a description because that is what an agent reads

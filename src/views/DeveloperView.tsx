@@ -192,7 +192,7 @@ export const DeveloperView: React.FC = () => (
           </thead>
           <tbody>
             {apiEndpoints.map((endpoint) => (
-              <tr key={endpoint.operationId} className="border-b border-rule/40 align-top">
+              <tr key={endpoint.operationId} className="border-b border-rule align-top">
                 <td className="py-2 pr-4 text-ink">
                   <a
                     href={endpoint.path}

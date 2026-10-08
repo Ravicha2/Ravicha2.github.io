@@ -345,7 +345,7 @@ const markdownApi = (): string => {
     '## Schema components',
     '',
     ...Object.entries(openApiDocument.components.schemas).map(([name, schema]) => {
-      const required = (schema as { required?: string[] }).required ?? [];
+      const required = (schema as { required?: readonly string[] }).required ?? [];
       const description = (schema as { description?: string }).description ?? '';
       return `- **${name}** — ${description}${required.length ? ` Required: ${required.join(', ')}.` : ''}`;
     }),
@@ -525,7 +525,10 @@ export function renderMarkdown(pathname: string): string | null {
 
   if (bare === '/') return markdownHome();
   if (bare === '/projects') return markdownProjects();
-  if (bare.startsWith('/projects/')) return markdownProject(bare.replace('/projects/', ''));
+  // A slug that resolves to no project is served by the not-found view, not a page,
+  // so it has no twin. `null` keeps that contract with the rest of this function and
+  // the prerenderer, which refuses to write a twin that is empty or headingless.
+  if (bare.startsWith('/projects/')) return markdownProject(bare.replace('/projects/', '')) || null;
   if (bare === '/experience') return markdownExperience();
   if (bare === '/docs') return markdownApi();
   if (bare === '/developers') return markdownDevelopers();

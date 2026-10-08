@@ -198,7 +198,7 @@ export const DocsView: React.FC = () => {
             </thead>
             <tbody>
               {Object.entries(openApiDocument.components.schemas).map(([name, schema]) => {
-                const required = (schema as { required?: string[] }).required ?? [];
+                const required = (schema as { required?: readonly string[] }).required ?? [];
                 const path = apiEndpoints.find(
                   (e) =>
                     e.operationId ===
@@ -212,7 +212,7 @@ export const DocsView: React.FC = () => {
                     }[name],
                 );
                 return (
-                  <tr key={name} className="border-b border-rule/40 align-top">
+                  <tr key={name} className="border-b border-rule align-top">
                     <td className="py-2 pr-4 text-ink">{name}</td>
                     <td className="py-2 pr-4 text-annotate">
                       {required.length > 0 ? required.join(', ') : '—'}
