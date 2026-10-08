@@ -21,6 +21,7 @@
 // Reads dist/index.html (run after `vite build`) and .ssr/entry-server.js (run after
 // `vite build --ssr`). Both are wired into `npm run build`.
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -29,9 +30,18 @@ const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const dist = path.join(root, 'dist');
 const ssr = path.join(root, '.ssr');
 
-const { render, routes, sitemap, renderMarkdown, markdownPathFor, openApiJson } = await import(
-  path.join(ssr, 'entry-server.js')
-);
+const {
+  render,
+  routes,
+  sitemap,
+  renderMarkdown,
+  markdownPathFor,
+  openApiJson,
+  discoveryDocuments,
+  discoveryDocumentPaths,
+  skillDocuments,
+  skillFileContent,
+} = await import(path.join(ssr, 'entry-server.js'));
 
 const attr = (value) =>
   String(value)
@@ -138,6 +148,52 @@ for (const route of routes()) {
 // file under public/, so the spec and the pages that render it cannot drift.
 await writeFile(path.join(dist, 'openapi.json'), openApiJson());
 console.log('wrote dist/openapi.json');
+
+// The /.well-known/ discovery documents. None of them is a page, so none is
+// rendered: discoveryDocuments() hands back the bytes, keyed by the path under
+// dist/ that serves them. Both copies of the Server Card come from one object, and
+// the skills index is assembled from digests computed here, over the exact strings
+// written below — so the index cannot carry a digest of a document that changed
+// after the index was built, and no file here is hand-maintained.
+//
+// The directory itself is hidden: a build that writes these but ships them with an
+// uploader that drops dot-directories publishes nothing at all. deploy.yml sets
+// include-hidden-files: true on actions/upload-pages-artifact@v5 for that reason.
+const skillDigests = Object.fromEntries(
+  Object.keys(skillDocuments).map((name) => [
+    name,
+    createHash('sha256').update(skillFileContent(name), 'utf8').digest('hex'),
+  ])
+);
+
+const discoveryFiles = discoveryDocuments(skillDigests);
+for (const relative of discoveryDocumentPaths()) {
+  const content = discoveryFiles[relative];
+  if (typeof content !== 'string') {
+    throw new Error(`prerender: discoveryDocuments() has no string for ${relative}`);
+  }
+  const file = path.join(dist, relative);
+  await mkdir(path.dirname(file), { recursive: true });
+  await writeFile(file, content);
+  console.log(`wrote ${path.relative(root, file)}`);
+}
+
+// Re-read the skill documents and check them against the index that ships beside
+// them. The digests are computed from the strings above, so this can only fail if
+// something transforms a file on the way to disk — which is precisely the failure
+// the digest exists to catch, and the build is the last place it can be caught.
+const skillsIndex = JSON.parse(discoveryFiles['.well-known/agent-skills/index.json']);
+for (const skill of skillsIndex.skills) {
+  const written = await readFile(
+    path.join(dist, '.well-known/agent-skills', skill.name, 'SKILL.md')
+  );
+  const actual = `sha256:${createHash('sha256').update(written).digest('hex')}`;
+  if (actual !== skill.digest) {
+    throw new Error(
+      `prerender: ${skill.name} SKILL.md digest is ${skill.digest} but the bytes on disk hash to ${actual}`
+    );
+  }
+}
 
 // When the words last changed, taken from git rather than from the clock. A build
 // date would stamp today on all ten URLs on every deploy, including the deploys that
