@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { AGENT_OPERATIONS, apiEndpoints, openApiDocument } from '../src/data/api';
+import { render, renderMarkdown } from '../src/entry-server';
 
 /**
  * The published OpenAPI document is the machine surface an agent reads before it
@@ -81,5 +84,89 @@ describe('Published OpenAPI document', () => {
     expect(apiEndpoints.map((e) => e.path)).toEqual(paths.map(([path]) => path));
     const tablePaths = apiEndpoints.map((e) => e.path);
     expect(new Set(tablePaths).size).toBe(tablePaths.length);
+  });
+});
+
+/**
+ * Issue #37 chose Option 1: accept the GitHub Pages limitation and state it, rather
+ * than add an edge layer. These tests hold the honesty rather than the implementation:
+ * the real 404 is HTML, the JSON envelope is named as *not served*, no promissory
+ * language ("not served yet", "when this origin can send it") creeps back in, and no
+ * agent-facing document claims a markdown or JSON error body.
+ */
+describe('The error model states the limitation instead of promising a fix', () => {
+  const paths = Object.entries(openApiDocument.paths) as Array<
+    [string, { get: { responses: Record<string, { content?: Record<string, unknown> }> } }]
+  >;
+  const model = openApiDocument['x-error-model'] as unknown as {
+    status: string;
+    decision: string;
+    note: string;
+    served: Record<string, { content: Record<string, { schema: { type: string } }> }>;
+    unsupported: Record<string, string>;
+  };
+
+  it('documents the real 404 body as text/html', () => {
+    expect(Object.keys(model.served['404'].content)).toEqual(['text/html']);
+    expect(model.served['404'].content['text/html'].schema.type).toBe('string');
+  });
+
+  it('records a settled decision, not a plan', () => {
+    expect(model.status).toBe('not-supported');
+    expect(model.status).not.toBe('planned');
+  });
+
+  it('names the JSON envelope and Vary: Accept as unsupported', () => {
+    expect(model.unsupported['application/problem+json']).toBeTruthy();
+    expect(model.unsupported.vary).toMatch(/Accept/);
+  });
+
+  it("keeps every operation's documented 404 an HTML response", () => {
+    for (const [path, item] of paths) {
+      const notFound = item.get.responses['404'];
+      expect(Object.keys(notFound.content ?? {}), `${path} 404 is not text/html`).toEqual([
+        'text/html',
+      ]);
+    }
+  });
+
+  it('uses no language that promises the capability later', () => {
+    const text = [model.decision, model.note, ...Object.values(model.unsupported)].join(' ');
+    expect(text).not.toMatch(/not served yet|not yet served|will not need changing|would send/i);
+  });
+
+  it('describes the envelope as not served on /developers and in its markdown twin', () => {
+    for (const [label, text] of [
+      ['/developers HTML', render('/developers').html],
+      ['/developers.md', renderMarkdown('/developers') ?? ''],
+    ] as const) {
+      expect(text, `${label} stopped naming the envelope`).toContain('components.schemas.Problem');
+      expect(text, `${label} stopped saying it is not served`).toMatch(/is not served/);
+      expect(text, `${label} promises it will be served later`).not.toMatch(
+        /will not need changing|when this origin can send/i
+      );
+    }
+  });
+
+  it('has no agent-facing document claiming a markdown or JSON error body, or Vary: Accept', () => {
+    const publicDir = path.resolve(__dirname, '../public');
+    const documents = ['llms.txt', 'agents.md', '404.html'].map((name) => ({
+      name,
+      text: fs.readFileSync(path.join(publicDir, name), 'utf-8'),
+    }));
+    documents.push(
+      { name: '/docs.md', text: renderMarkdown('/docs') ?? '' },
+      { name: '/developers.md', text: renderMarkdown('/developers') ?? '' }
+    );
+
+    for (const { name, text } of documents) {
+      expect(text, `${name} claims the error body is markdown or JSON`).not.toMatch(
+        /error (body|response)[^.\n]{0,20}(markdown|json)/i
+      );
+      expect(text, `${name} claims a Vary: Accept header`).not.toMatch(/Vary:\s*Accept/i);
+      expect(text, `${name} promises the envelope later`).not.toMatch(
+        /not served yet|not yet served|when this origin can send|will not need changing/i
+      );
+    }
   });
 });
