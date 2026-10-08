@@ -8,7 +8,7 @@ import { ContactBlock } from '../components/common/ContactBlock';
 import { TransitionLink } from '../components/common/TransitionLink';
 
 const linkClass =
-  'font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-signal';
+  'font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-spark';
 
 /** The two flagships whose artifact is strongest get their own row on the bench. */
 const FEATURED_ARTIFACT_ROWS = ['shepherd', 'nl2regex'];
@@ -70,6 +70,21 @@ export const HomeView: React.FC = () => {
             <TransitionLink to="/experience" className={linkClass}>
               Experience
             </TransitionLink>
+            {/* The machine surface, linked from the homepage because that is the
+                page an agent crawls first: a spec nothing points at is a spec
+                nothing finds. */}
+            <TransitionLink to="/docs" className={linkClass}>
+              API docs
+            </TransitionLink>
+            <TransitionLink to="/developers" className={linkClass}>
+              Developers
+            </TransitionLink>
+            <TransitionLink to="/about" className={linkClass}>
+              About
+            </TransitionLink>
+            <TransitionLink to="/contact" className={linkClass}>
+              Contact
+            </TransitionLink>
             <a
               href={profile.links.github}
               target="_blank"
@@ -117,7 +132,7 @@ export const HomeView: React.FC = () => {
                 <h3 className="text-xl sm:text-2xl font-semibold tracking-[-0.02em] text-pretty">
                   <TransitionLink
                     to={`/projects/${project.slug}`}
-                    className="underline decoration-rule underline-offset-4 transition-colors hover:decoration-signal"
+                    className="underline decoration-rule underline-offset-4 transition-colors hover:decoration-spark"
                   >
                     {project.title}
                   </TransitionLink>
@@ -138,7 +153,7 @@ export const HomeView: React.FC = () => {
                     <div key={metric.label} className="flex flex-wrap items-baseline gap-x-2.5">
                       <dt className="font-mono text-[12px] text-ink shrink-0">{metric.value}</dt>
                       <dd className="font-mono text-[11px] leading-snug text-annotate">
-                        {metric.label}
+                        {metric.short ?? metric.label}
                       </dd>
                     </div>
                   ))}
@@ -191,7 +206,7 @@ export const HomeView: React.FC = () => {
                   className="group grid gap-x-6 gap-y-1.5 py-4 sm:grid-cols-[minmax(0,1fr)_auto]"
                 >
                   <span className="min-w-0">
-                    <span className="block text-[15px] font-semibold tracking-[-0.01em] text-ink transition-colors group-hover:text-signal">
+                    <span className="block text-[15px] font-semibold tracking-[-0.01em] text-ink transition-colors group-hover:text-spark">
                       {project.title}
                     </span>
                     <span className="mt-1 block text-[13px] leading-relaxed text-annotate text-pretty">
@@ -285,9 +300,15 @@ export const HomeView: React.FC = () => {
                   {primaryEducation.institution}
                   {primaryEducation.grade && ` · ${primaryEducation.grade}`}
                 </span>
-                <span className="measure block mt-2.5 text-sm leading-relaxed text-annotate">
-                  {profile.narrative.origin}
-                </span>
+                {/* The origin story is told once, on /experience, where the timeline
+                    it explains lives. On the overview it was a second telling of the
+                    same paragraph directly under the hero's own version of it. */}
+                <TransitionLink
+                  to="/experience"
+                  className="mt-2 inline-block font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-spark"
+                >
+                  How that became Applied AI
+                </TransitionLink>
               </dd>
             </div>
           )}

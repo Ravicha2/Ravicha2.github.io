@@ -29,7 +29,9 @@ const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const dist = path.join(root, 'dist');
 const ssr = path.join(root, '.ssr');
 
-const { render, routes, sitemap } = await import(path.join(ssr, 'entry-server.js'));
+const { render, routes, sitemap, renderMarkdown, markdownPathFor, openApiJson } = await import(
+  path.join(ssr, 'entry-server.js')
+);
 
 const attr = (value) =>
   String(value)
@@ -85,6 +87,14 @@ function withHead(html, meta, jsonLd, route) {
     metaTag('twitter:description', meta.description),
     'twitter:description'
   );
+  // The markdown twin, pointed at the right file for this route. Left unswapped it
+  // would advertise the home page's twin on all nineteen routes.
+  html = swap(
+    html,
+    /<link rel="alternate" type="text\/markdown" href="[^"]*" title="This page as markdown" \/>/,
+    `<link rel="alternate" type="text/markdown" href="${attr(markdownPathFor(route))}" title="This page as markdown" />`,
+    'markdown alternate link'
+  );
   // The baseline block in index.html is the first ld+json on the page, and this
   // replaces it with the route's own graph.
   return swap(
@@ -107,6 +117,27 @@ for (const route of routes()) {
   await writeFile(file, withBody(withHead(template, meta, jsonLd, route), html));
   console.log(`wrote ${path.relative(root, file)}`);
 }
+
+// The markdown twin of each route, at the path the page advertises. GitHub Pages
+// derives the content type from the extension, so `<route>.md` is served as
+// text/markdown while `<route>/index.html` is served as text/html. Written from
+// the same route list as the HTML, so a page cannot ship without its twin.
+for (const route of routes()) {
+  const markdown = renderMarkdown(route);
+  if (!markdown) throw new Error(`prerender: no markdown twin for ${route}`);
+  if (!markdown.startsWith('# ')) {
+    throw new Error(`prerender: ${route} markdown does not open with a top-level heading`);
+  }
+  const file = path.join(dist, markdownPathFor(route).slice(1));
+  await mkdir(path.dirname(file), { recursive: true });
+  await writeFile(file, markdown.endsWith('\n') ? markdown : `${markdown}\n`);
+  console.log(`wrote ${path.relative(root, file)}`);
+}
+
+// The OpenAPI document. Generated from src/data/api.ts rather than committed as a
+// file under public/, so the spec and the pages that render it cannot drift.
+await writeFile(path.join(dist, 'openapi.json'), openApiJson());
+console.log('wrote dist/openapi.json');
 
 // When the words last changed, taken from git rather than from the clock. A build
 // date would stamp today on all ten URLs on every deploy, including the deploys that

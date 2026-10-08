@@ -3,7 +3,7 @@ import { profile } from '../../data/profile';
 import { useCopyToClipboard } from '../../hooks/useCopyToClipboard';
 
 const linkClass =
-  'font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-signal';
+  'font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-spark';
 
 /**
  * Closing block: the address as visible, selectable text plus a copy button, the

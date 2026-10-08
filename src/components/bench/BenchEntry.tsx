@@ -63,7 +63,7 @@ export const BenchEntry: React.FC<BenchEntryProps> = ({
   const carriesReading = tier !== 'supporting';
 
   const refLink =
-    'relative font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-signal';
+    'relative font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-spark';
 
   const primaryLink =
     'relative font-mono text-[11px] text-ink underline decoration-signal underline-offset-4 transition-colors hover:decoration-[3px]';
@@ -82,7 +82,7 @@ export const BenchEntry: React.FC<BenchEntryProps> = ({
           <h2 className="text-lg sm:text-xl font-semibold tracking-[-0.01em] text-pretty">
             <TransitionLink
               to={`/projects/${project.slug}`}
-              className="underline decoration-rule underline-offset-4 transition-colors hover:decoration-signal after:absolute after:inset-0 after:content-['']"
+              className="underline decoration-rule underline-offset-4 transition-colors hover:decoration-spark after:absolute after:inset-0 after:content-['']"
             >
               {project.title}
             </TransitionLink>
@@ -151,7 +151,7 @@ export const BenchEntry: React.FC<BenchEntryProps> = ({
                   {metric.value}
                 </dt>
                 <dd className="font-mono text-[11px] leading-snug text-annotate">
-                  {metric.label}
+                  {metric.short ?? metric.label}
                 </dd>
               </div>
             ))}

@@ -21,6 +21,7 @@ const config: Config = {
         ink: 'var(--ink)',
         annotate: 'var(--annotate)',
         signal: 'var(--signal)',
+        spark: 'var(--spark)',
         nonconform: 'var(--nonconform)',
         rule: 'var(--rule)',
       },

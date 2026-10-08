@@ -3,7 +3,7 @@
        opaque apple-touch-icon, and a rounded rect would leave white corners. The
        two hexes are the only place the palette is duplicated — an SVG favicon
        cannot read a CSS custom property — so they are pinned by a test. -->
-  <rect width="64" height="64" fill="#14120f"/>
-  <path fill="#ece5d8" fill-rule="evenodd"
+  <rect width="64" height="64" fill="#1c1613"/>
+  <path fill="#f6efe2" fill-rule="evenodd"
         d="M22 14h7a13 13 0 0 1 0 26v10h-7z M29 21a6 6 0 0 1 0 12z"/>
 </svg>

@@ -48,7 +48,7 @@ function useLocalTime(timeZone: string) {
 }
 
 const linkClass =
-  'font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-signal';
+  'font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-spark';
 
 export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => {
   const navigateWithTransition = useViewTransitionNavigate();
@@ -120,9 +120,14 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
           aria-labelledby="rail-heading"
           className="border-b lg:border-b-0 lg:border-r border-rule px-4 sm:px-6 lg:px-5 xl:px-6 py-6 lg:py-7 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto"
         >
-          <h2 id="rail-heading" className="sr-only">
+          {/* Not a heading. This rail is chrome, and it renders above <main> on
+              every route, so an <h2> here put a level-2 heading in front of the
+              page's own <h1> — a heading order no page can fix from inside its
+              view. `aria-labelledby` labels the aside just as well from a
+              paragraph, and the label stays out of the document outline. */}
+          <p id="rail-heading" className="sr-only">
             Status and contact
-          </h2>
+          </p>
 
           <div className="hidden lg:block">
             <NavLink
@@ -146,7 +151,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
             <button
               type="button"
               onClick={() => copy(profile.email)}
-              className="touch-target font-mono text-[11px] uppercase tracking-[0.06em] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-signal"
+              className="touch-target font-mono text-[11px] uppercase tracking-[0.06em] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-spark"
             >
               <span aria-live="polite">
                 {state === 'copied' ? 'Copied' : state === 'error' ? 'Failed' : 'Copy'}
@@ -189,8 +194,10 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
               <span className="inline-block w-[10ch]">{time}</span>
             </p>
             <p className="readout mt-2 flex gap-2 font-mono text-[11px] leading-snug text-annotate min-h-[2.6em]">
+              {/* The lamp: warm while something is under the lens, bark when the
+                  readout has nothing to name. */}
               <span
-                className={`mt-[0.35em] w-[5px] h-[5px] shrink-0 ${readout ? 'bg-signal' : 'bg-rule'}`}
+                className={`mt-[0.35em] w-[5px] h-[5px] shrink-0 ${readout ? 'bg-spark' : 'bg-rule'}`}
               />
               <span>{readout ?? 'nothing under the lens'}</span>
             </p>

@@ -8,7 +8,8 @@ export interface Channel {
   label: string;
   /** The reading this channel is dimensioned to. */
   value: string;
-  /** What that value measured, so a channel is never a bare figure. */
+  /** What that value measured, in catalog length — the long form belongs to the
+   *  case study, not to a strip that repeats on every route. */
   note: string;
   /**
    * How far the channel's claim has got: `settled` when it resolves to an artifact
@@ -33,7 +34,7 @@ export const channels: Channel[] = featuredProjects.map((project) => ({
   // "Shepherd: GraphRAG Compliance Engine" reads as "Shepherd" on a channel width.
   label: project.title.split(':')[0] ?? project.title,
   value: project.metrics?.[0]?.value ?? project.timeline,
-  note: project.metrics?.[0]?.label ?? project.role,
+  note: project.metrics?.[0]?.short ?? project.metrics?.[0]?.label ?? project.role,
   status: TIER_WORD[tierOf(project)],
 }));
 
@@ -70,7 +71,7 @@ export const ChannelStrip: React.FC<{ currentSlug?: string; className?: string }
                 'border-t-2 transition-colors',
                 here
                   ? 'border-signal bg-panel'
-                  : 'border-transparent hover:border-signal hover:bg-panel',
+                  : 'border-transparent hover:border-spark hover:bg-panel',
               ].join(' ')}
             >
               <span className="flex items-baseline justify-between gap-2">
@@ -80,7 +81,7 @@ export const ChannelStrip: React.FC<{ currentSlug?: string; className?: string }
                 {/* Not aria-hidden: on this route the status word is the only
                     place the flagship verdicts are stated, so it has to reach
                     assistive tech. It reads as part of the link's own name. */}
-                <span className="font-mono text-[11px] text-annotate transition-colors group-hover:text-signal">
+                <span className="font-mono text-[11px] text-annotate transition-colors group-hover:text-spark">
                   {channel.status}
                 </span>
               </span>

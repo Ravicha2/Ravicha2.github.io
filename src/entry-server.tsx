@@ -2,7 +2,9 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 import { App } from './App';
 import { projects } from './data/projects';
+import { openApiDocument } from './data/api';
 import { canonicalUrlFor, generateJsonLdForRoute, getRouteMeta, type RouteMeta } from './utils/seo';
+import { markdownPathFor, renderMarkdown } from './utils/markdown';
 
 /**
  * The build-time half of the site. `scripts/prerender.mjs` runs this over every
@@ -16,12 +18,22 @@ export interface PrerenderedRoute {
   jsonLd: Record<string, unknown>;
 }
 
+export { markdownPathFor, renderMarkdown };
+
+/** The published OpenAPI document, serialised. Written to dist/openapi.json by the prerenderer. */
+export const openApiJson = (): string => `${JSON.stringify(openApiDocument, null, 2)}\n`;
+
 /** Every URL the site answers. The one list the prerenderer and the sitemap share. */
 export const routes = (): string[] => [
   '/',
   '/projects',
   ...projects.map((project) => `/projects/${project.slug}`),
   '/experience',
+  '/about',
+  '/contact',
+  '/privacy',
+  '/developers',
+  '/docs',
 ];
 
 /**

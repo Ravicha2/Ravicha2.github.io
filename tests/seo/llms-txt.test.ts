@@ -121,4 +121,17 @@ describe('AI Agent Protocol Files (llms.txt & llms-full.txt)', () => {
       expect(full).toContain('Jul 2026 – Sep 2026');
     });
   });
+
+  // improve_agent.md item 10: an agent instruction file with when-to-use guidance.
+  // The section has to name the jobs the material is right for, say how to call it,
+  // and be honest about the jobs it is wrong for — generic marketing copy does not
+  // read as guidance.
+  it('carries a "When to use" section naming best-fit use cases', () => {
+    const content = fs.readFileSync(llmsTxtPath, 'utf-8');
+    expect(content).toMatch(/^## When to use\b/m);
+    expect(content).toMatch(/evaluating/i);
+    expect(content).toMatch(/read-only/i);
+    expect(content).toContain('/agents.md');
+    expect(content).toMatch(/\*\*Do not use this site\*\*/);
+  });
 });
