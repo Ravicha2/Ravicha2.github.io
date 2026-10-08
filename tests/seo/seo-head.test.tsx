@@ -26,6 +26,21 @@ describe('Dynamic SEOHead & JSON-LD Structured Data Generator', () => {
     expect(person.alternateName).toBe('Palm');
   });
 
+  it('makes the root route and its ProfilePage name the real discipline', () => {
+    const schema = generateJsonLdForRoute('/');
+    const profilePage = schema['@graph'].find((item: any) => item['@type'] === 'ProfilePage');
+    const person = schema['@graph'].find((item: any) => item['@type'] === 'Person');
+
+    // The page entity is named the same way as the route title, and the title states
+    // the discipline rather than the container the material is stored in.
+    expect(profilePage.name).toBe(getRouteMeta('/').title);
+    expect(profilePage.name).toContain(profile.discipline);
+    // The discipline is backed by the jobTitle and skills the Person node already
+    // carries, so the title is a restatement, not a new claim.
+    expect(person.jobTitle).toBe(profile.title);
+    expect(person.knowsAbout).toContain('Applied AI');
+  });
+
   it('generates valid SoftwareSourceCode JSON-LD for project detail route "/projects/shepherd"', () => {
     const schema = generateJsonLdForRoute('/projects/shepherd');
     const software = schema['@graph'].find((item: any) => item['@type'] === 'SoftwareSourceCode');

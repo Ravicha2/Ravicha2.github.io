@@ -24,6 +24,15 @@ describe('HomeView Component', () => {
       expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
     });
 
+    it('names the discipline in the one h1 as well as the person', () => {
+      renderHome();
+      const h1 = screen.getByRole('heading', { level: 1 });
+      // The discipline rides in the heading for a crawler that reads only the
+      // heading; it is the same field the title, description and JSON-LD carry, so
+      // the page cannot describe a different field depending on where you look.
+      expect(h1).toHaveTextContent(profile.discipline);
+    });
+
     it('renders the role under the name rather than repeating the name', () => {
       renderHome();
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(profile.name);

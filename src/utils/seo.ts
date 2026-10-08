@@ -88,7 +88,12 @@ export function getRouteMeta(pathname: string): RouteMeta {
 
   if (path === '/') {
     return {
-      title: `${NAME} | Portfolio & Systems Engineering`,
+      // The name first — a crawler matches the person on it — then the discipline
+      // the whole site is about, not the container it sits in. "Portfolio &
+      // Systems Engineering" named the format and dropped the field that llms.txt
+      // ("Applied AI & Backend Systems Engineer") and the Person JSON-LD
+      // (`knowsAbout: "Applied AI"`) already state.
+      title: `${NAME} | ${profile.discipline}`,
       description: profile.headline,
       canonicalUrl: canonicalUrlFor(path),
       ogType: 'profile',

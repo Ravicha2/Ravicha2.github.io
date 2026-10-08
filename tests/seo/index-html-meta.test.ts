@@ -39,11 +39,38 @@ describe('Static Baseline HTML Meta & OpenGraph (index.html)', () => {
     expect(content).toContain('<meta property="og:site_name" content="Ravicha Suksawasdi Na Ayuthaya Portfolio" />');
     expect(content).toContain('<meta property="og:type" content="profile" />');
     expect(content).toContain('<meta property="og:url" content="https://ravicha2.github.io/" />');
-    expect(content).toContain('<meta property="og:title" content="Ravicha Suksawasdi Na Ayuthaya | Portfolio &amp; Systems Engineering" />');
 
     // Twitter
     expect(content).toContain('<meta name="twitter:card" content="summary_large_image" />');
-    expect(content).toContain('<meta name="twitter:title" content="Ravicha Suksawasdi Na Ayuthaya | Portfolio &amp; Systems Engineering" />');
+
+    // The og/twitter titles are the route's own title, derived rather than retyped,
+    // so the static head cannot keep describing a page the SPA has stopped claiming.
+    const title = getRouteMeta('/').title;
+    expect(content).toContain(`<meta property="og:title" content="${title}" />`);
+    expect(content).toContain(`<meta name="twitter:title" content="${title}" />`);
+  });
+
+  it('names the real discipline on every homepage surface, not just "Portfolio"', () => {
+    const content = read('index.html');
+    const title = getRouteMeta('/').title;
+    const person = JSON.parse(
+      content.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)![1]
+    )['@graph'].find((item: any) => item['@type'] === 'Person');
+    const profilePage = JSON.parse(
+      content.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)![1]
+    )['@graph'].find((item: any) => item['@type'] === 'ProfilePage');
+
+    // The audited query is "…Portfolio AI engineering": the title has to carry both
+    // the full name and the discipline in one honest phrase, and the description and
+    // H1 (asserted in HomeView.test) have to say the same thing.
+    expect(title).toContain(profile.name);
+    expect(title).toContain(profile.discipline);
+    expect(content).toContain(`<meta name="description" content="${profile.headline}" />`);
+    expect(profile.headline).toContain(profile.discipline);
+    expect(profilePage.name).toBe(title);
+    // The discipline is not a claim invented for the title: the Person JSON-LD
+    // already states the jobTitle the profile carries.
+    expect(person.jobTitle).toBe(profile.title);
   });
 
   it('keeps theme-color bound to --bench rather than to a literal', () => {

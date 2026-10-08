@@ -47,6 +47,11 @@ export const HomeView: React.FC = () => {
             className="text-[clamp(1.7rem,4.2vw,3rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-pretty"
           >
             {nameHead} <span className="whitespace-nowrap">{nameTail}</span>
+            {/* The one h1 names the discipline as well as the person, so a crawler
+                that reads only the heading learns what the page is about. Visually
+                hidden rather than shown: the role already appears on the line below,
+                and on screen the heading's job is the name. */}
+            <span className="sr-only"> — {profile.discipline}</span>
           </h1>
 
           {/* The name is the heading, so this line carries the nickname and the role

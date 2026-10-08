@@ -1,4 +1,4 @@
-# Ravicha Suksawasdi Na Ayuthaya (Palm) - Portfolio & Systems Engineering
+# Ravicha Suksawasdi Na Ayuthaya (Palm) - Applied AI Engineering
 
 > Applied AI & Backend Systems Engineer specializing in fault-tolerant multi-agent pipelines, GraphRAG architectural compliance, and distributed data engines.
 

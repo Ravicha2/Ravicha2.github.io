@@ -46,6 +46,40 @@ We adopt **Option 1: accept the limitation and state it.**
 Items 1 and 4 — and the `Vary: Accept` variant of item 5 — are recorded as **knowingly
 unreachable on this host**, not as work still waiting to be done.
 
+## Evidence (re-verified 2026-10-08)
+The author was asked again whether to reverse this decision to recover audit items 1-3
+and chose "Keep GitHub Pages — accept items 1-3". The probes below are the basis for
+that, re-run on 2026-10-08, so the decision rests on current measurements rather than
+the assertion in the Context section above. Each block is the raw status line,
+`content-type` and `vary` header from the command named above it.
+
+```
+$ curl -sS -L -i -H 'Accept: text/markdown' https://ravicha2.github.io/__probe-does-not-exist
+HTTP/2 404
+content-type: text/html; charset=utf-8
+vary: Accept-Encoding
+```
+
+```
+$ curl -sS -L -i -H 'Accept: application/json' https://ravicha2.github.io/__probe-does-not-exist
+HTTP/2 404
+content-type: text/html; charset=utf-8
+vary: Accept-Encoding
+```
+
+```
+$ curl -sS -L -i -H 'Accept: text/markdown' https://ravicha2.github.io/
+HTTP/2 200
+content-type: text/html; charset=utf-8
+vary: Accept-Encoding
+```
+
+An unmatched path returns `404 text/html` for **both** `Accept: text/markdown` and
+`Accept: application/json`, so item 1's markdown body and item 4's JSON envelope are
+still unreachable. The homepage returns `200 text/html` for `Accept: text/markdown`,
+so item 5's `Vary: Accept` variant is unreachable too. The only `vary` value served is
+`Accept-Encoding`, which no response header the origin can set will change.
+
 ## Rejected alternatives
 **Option 2 — an edge layer.** Rejected. It would recover items 1 and 4 (and item 5's
 `Vary` variant) at the cost of a second deployment target in front of the first, a

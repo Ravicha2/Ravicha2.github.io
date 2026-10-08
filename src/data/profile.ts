@@ -1,5 +1,14 @@
 import { Profile } from './types';
 
+/**
+ * The discipline, stated once. This is the noun phrase the homepage title, meta
+ * description and h1 all carry, so no surface can name a different field. It is the
+ * honest short form of `title` below, and it is what the rest of the site — llms.txt
+ * and the Person JSON-LD's `knowsAbout` — already said while the homepage title
+ * still said "Portfolio & Systems Engineering".
+ */
+const DISCIPLINE = 'Applied AI Engineering';
+
 export const profile: Profile = {
   // The surname is "Suksawasdi Na Ayuthaya", not "Suksawasdi" — the shorter form
   // used to sit here and in nine hand-written titles across the site, which is how
@@ -9,7 +18,8 @@ export const profile: Profile = {
   // Matches the jobTitle in index.html's JSON-LD. Two titles for the same person
   // is one claim too many.
   title: 'Applied AI & Backend Systems Engineer',
-  headline: 'Building fault-tolerant multi-agent pipelines, GraphRAG memory systems, and distributed data engines.',
+  discipline: DISCIPLINE,
+  headline: `${DISCIPLINE} — fault-tolerant multi-agent pipelines, GraphRAG memory systems, and distributed data engines.`,
   status: 'Master of IT at UNSW Sydney (WAM 83 / Distinction, graduating Dec 2026) · Open to full-time Applied AI & Backend Systems roles.',
   location: 'Sydney, Australia',
   email: 'palm.ravicha@outlook.com',
