@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { SkipLink, RouteAnnouncer } from '../../accessibility';
 import { SEOHead } from '../seo/SEOHead';
+import { WebMcpTools } from '../../webmcp/WebMcpTools';
 import { useViewTransitionNavigate } from '../../hooks/useViewTransitionNavigate';
 import { useActiveReadout } from '../../hooks/useActiveReadout';
 import { profile } from '../../data/profile';
@@ -74,6 +75,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
   return (
     <div className="min-h-screen bg-bench text-ink flex flex-col">
       <SEOHead />
+      <WebMcpTools />
       <SkipLink />
       <RouteAnnouncer pageTitle={pageTitle} />
       <span className="sweep" aria-hidden="true" />
