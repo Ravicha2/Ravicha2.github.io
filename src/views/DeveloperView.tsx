@@ -219,12 +219,16 @@ export const DeveloperView: React.FC = () => (
       annotation="A first-party Model Context Protocol server is published with the lit-review-council project."
     >
       <p className="measure text-[13px] leading-relaxed text-annotate">
-        Its Server Card — the transport and address, with no tool list, because agents read tools
-        from the server itself — is at{' '}
+        Its Server Card — the transport, with no tool list, because agents read tools from the
+        server itself — is at{' '}
+        <a href="/.well-known/mcp/server-card.json" className={linkClass}>
+          /.well-known/mcp/server-card.json
+        </a>
+        , and the bare namespace path{' '}
         <a href="/.well-known/mcp" className={linkClass}>
           /.well-known/mcp
-        </a>
-        . The Python distribution that carries it is{' '}
+        </a>{' '}
+        redirects to it. The Python distribution that carries it is{' '}
         <a href="https://pypi.org/project/lit-review-council/" className={linkClass}>
           lit-review-council on PyPI
         </a>

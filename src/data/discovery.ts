@@ -14,6 +14,21 @@ import { profile } from './profile';
  * document here advertises one; the OAuth metadata below points at this origin
  * because the RFC requires a value, and the accompanying prose says that the
  * only method is anonymous read.
+ *
+ * Two honest gaps GitHub Pages forces, stated here rather than papered over:
+ *
+ * 1. An extensionless file is served as `application/octet-stream`, so
+ *    `/.well-known/api-catalog` cannot carry the `application/linkset+json`
+ *    Content-Type RFC 9727 asks for. The document is a linkset; the header is not
+ *    set, and `src/data/api.ts` says so in the operation that describes it.
+ * 2. A file and a directory cannot share a name, so `/.well-known/mcp` cannot be a
+ *    file while `/.well-known/mcp/server-card.json` sits beneath it. SEP-2127's
+ *    slash form treats `mcp` as a namespace directory, so that is the tree
+ *    written: the card is a real file at `/.well-known/mcp/server-card.json`, and
+ *    the bare `/.well-known/mcp` is served from the directory's `index.html`,
+ *    which carries the same JSON bytes. GitHub Pages answers the bare path with a
+ *    301 to the trailing-slash form before serving it; every path still resolves
+ *    to the card.
  */
 
 export const SITE = 'https://ravicha2.github.io';
@@ -60,26 +75,50 @@ export const mcpServerCard = {
 } as const;
 
 /**
+ * The card plus the two fields MCP scanners read off an `initialize` result.
+ *
+ * SEP-2127 defines the card on its own; the registry scanner and several clients
+ * look for `serverInfo` and `transport` beside it. Both paths that advertise the
+ * card — `/.well-known/mcp` and `/.well-known/mcp/server-card.json` — carry this
+ * one object, so there is nothing to keep in step. `transport` describes the
+ * local process, not an address: this server is `uvx`-installed stdio with no
+ * remote endpoint, so there is no `url` to name and `remotes` stays absent.
+ */
+export const mcpDiscoveryDocument = {
+  ...mcpServerCard,
+  serverInfo: {
+    name: MCP_SERVER.name,
+    title: MCP_SERVER.title,
+    version: mcpServerCard.version,
+  },
+  transport: {
+    type: 'stdio',
+    command: 'uvx',
+    args: ['lit-review-council'],
+  },
+} as const;
+
+/**
  * The A2A agent card, in the v1.0 shape.
  *
  * v1.0 sets `additionalProperties: false` and moved the endpoint out of a
  * top-level `url` into `supportedInterfaces[]`, so the legacy 0.3.0 key set
  * would be rejected outright. Every key below is one of the required members.
+ *
+ * `supportedInterfaces` is present and empty, which is the honest answer: an
+ * A2A interface is a JSON-RPC service, and a static GitHub Pages origin cannot
+ * run one. Naming `/a2a` here would advertise an endpoint that answers 404.
+ * Empty is the A2A v1.0 way to say "this card describes an identity and its
+ * skills, and there is no interface to call"; the description says the same in
+ * words, so a reader does not have to infer it. `capabilities: {}` follows: no
+ * streaming, no push notifications, no extended card.
  */
 export const agentCard = {
   name: `${profile.name} — Portfolio Agent`,
   description:
-    'Answers questions about the engineering work recorded on this site: what was built, which artifacts settle each figure, and how to reach the author.',
+    'Describes the engineering work recorded on this site: what was built, which artifacts settle each figure, and how to reach the author. No A2A interface is served — this origin is static and read-only.',
   version: '1.0.0',
-  supportedInterfaces: [
-    {
-      // No A2A server is running on a static host. The card names the endpoint
-      // the interface would be served at rather than claiming one is live.
-      url: `${SITE}/a2a`,
-      protocolBinding: 'JSONRPC',
-      protocolVersion: '1.0',
-    },
-  ],
+  supportedInterfaces: [],
   capabilities: {},
   defaultInputModes: ['text/plain'],
   defaultOutputModes: ['text/plain'],
@@ -288,6 +327,77 @@ export const agentSkillsIndex = (digests: Record<string, string>) => ({
     description:
       'What the Ravicha Suksawasdi Na Ayuthaya engineering dossier contains, how to cite it, and when it is the wrong source.',
     url: `/.well-known/agent-skills/${name}/SKILL.md`,
-    digest: digests[name],
+    // The published 0.2.0 index writes `sha256:<hex>`, so the caller hands in the
+    // bare hex and the algorithm is named here rather than assumed by the reader.
+    digest: `sha256:${digests[name]}`,
   })),
 });
+
+/**
+ * The Web Bot Auth directory (draft-meunier-web-bot-auth-architecture).
+ *
+ * This origin makes no signed outbound requests, so it has no key to publish and
+ * the directory is empty. An empty `keys` array is a valid JWKS and the honest
+ * answer; inventing a key so the file looks populated would advertise a
+ * credential surface that does not exist. `comment` travels beside it because an
+ * empty directory with no explanation reads as a broken file.
+ */
+export const httpMessageSignaturesDirectory = {
+  keys: [],
+  comment:
+    'This origin does not sign outbound requests, so it publishes no verification keys. The directory is intentionally empty.',
+} as const;
+
+/** The bytes written for one skill document, newline-terminated like every other file the build emits. */
+export const skillFileContent = (name: string): string => {
+  const body = skillDocuments[name];
+  if (body === undefined) throw new Error(`discovery: no skill document named ${name}`);
+  return body.endsWith('\n') ? body : `${body}\n`;
+};
+
+/**
+ * Every `/.well-known/` document, keyed by its path relative to `dist/`.
+ *
+ * `scripts/prerender.mjs` writes exactly this map and `tests/agent-protocols.test.ts`
+ * reads it, so a path cannot be advertised without being written. The digests are
+ * passed in rather than computed here: the caller hashes the bytes it is about to
+ * write, and the skills index is built from that same map, so the index cannot
+ * carry a digest of something other than the SKILL.md beside it.
+ */
+export const discoveryDocuments = (digests: Record<string, string>): Record<string, string> => {
+  const json = (value: unknown): string => `${JSON.stringify(value, null, 2)}\n`;
+  const documents: Record<string, string> = {
+    // `.well-known/mcp` is the SEP-2127 namespace directory, not a file: the card
+    // is the file inside it, and `index.html` carries the same JSON bytes so the
+    // bare namespace path resolves to the card as well.
+    '.well-known/mcp/server-card.json': json(mcpDiscoveryDocument),
+    '.well-known/mcp/index.html': json(mcpDiscoveryDocument),
+    '.well-known/agent-card.json': json(agentCard),
+    '.well-known/agent-skills/index.json': json(agentSkillsIndex(digests)),
+    '.well-known/api-catalog': json(apiCatalog),
+    '.well-known/oauth-protected-resource': json(protectedResourceMetadata),
+    '.well-known/oauth-authorization-server': json(authorizationServerMetadata),
+    '.well-known/ard.json': json(ardCatalog),
+    '.well-known/ai-catalog.json': json(aiCatalog),
+    '.well-known/http-message-signatures-directory': json(httpMessageSignaturesDirectory),
+  };
+  for (const name of Object.keys(skillDocuments)) {
+    documents[`.well-known/agent-skills/${name}/SKILL.md`] = skillFileContent(name);
+  }
+  return documents;
+};
+
+/** The paths `discoveryDocuments` writes, enumerable without digests. Kept beside it so the two can be compared. */
+export const discoveryDocumentPaths = (): string[] => [
+  '.well-known/mcp/server-card.json',
+  '.well-known/mcp/index.html',
+  '.well-known/agent-card.json',
+  '.well-known/agent-skills/index.json',
+  '.well-known/api-catalog',
+  '.well-known/oauth-protected-resource',
+  '.well-known/oauth-authorization-server',
+  '.well-known/ard.json',
+  '.well-known/ai-catalog.json',
+  '.well-known/http-message-signatures-directory',
+  ...Object.keys(skillDocuments).map((name) => `.well-known/agent-skills/${name}/SKILL.md`),
+];

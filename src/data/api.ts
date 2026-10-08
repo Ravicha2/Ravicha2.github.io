@@ -126,22 +126,28 @@ const linksetSchema = {
 
 const skillIndexSchema = {
   type: 'object',
-  description: 'An Agent Skills index: what this origin can be asked for, in the order to ask for it.',
-  required: ['version', 'name', 'skills'],
+  description: 'An Agent Skills discovery index (v0.2.0): the skills this origin offers, each with a description and the URL that serves it.',
+  required: ['$schema', 'skills'],
   properties: {
-    version: { type: 'string' },
-    name: { type: 'string' },
-    description: { type: 'string' },
+    $schema: {
+      type: 'string',
+      format: 'uri',
+      description: 'The discovery schema this index conforms to, version 0.2.0.',
+    },
     skills: {
       type: 'array',
       items: {
         type: 'object',
-        required: ['name', 'description'],
+        required: ['name', 'type', 'description', 'url', 'digest'],
         properties: {
           name: { type: 'string' },
+          type: { type: 'string', description: 'The kind of document the entry points at; skill-md here.' },
           description: { type: 'string' },
-          url: { type: 'string', format: 'uri' },
-          tags: { type: 'array', items: { type: 'string' } },
+          url: { type: 'string', description: 'The path that serves the skill document.' },
+          digest: {
+            type: 'string',
+            description: 'The SHA-256 of the skill document bytes, written as sha256:<hex>.',
+          },
         },
       },
     },
@@ -150,24 +156,48 @@ const skillIndexSchema = {
 
 const agentCardSchema = {
   type: 'object',
-  description: 'An Agent2Agent agent card (A2A protocol).',
-  required: ['name', 'description', 'url', 'version', 'capabilities', 'defaultInputModes', 'defaultOutputModes', 'skills'],
+  description:
+    'An Agent2Agent agent card, in the v1.0 shape. The endpoint lives in supportedInterfaces[], not in a top-level url, and there is no top-level protocolVersion.',
+  required: [
+    'name',
+    'description',
+    'supportedInterfaces',
+    'version',
+    'capabilities',
+    'defaultInputModes',
+    'defaultOutputModes',
+    'skills',
+  ],
   properties: {
-    protocolVersion: { type: 'string' },
     name: { type: 'string' },
     description: { type: 'string' },
-    url: { type: 'string', format: 'uri' },
     version: { type: 'string' },
+    supportedInterfaces: {
+      type: 'array',
+      description: 'Where the agent is reachable, in preference order. Empty here: no A2A interface is served.',
+      items: {
+        type: 'object',
+        required: ['url', 'protocolBinding', 'protocolVersion'],
+        properties: {
+          url: { type: 'string', format: 'uri' },
+          protocolBinding: { type: 'string' },
+          protocolVersion: { type: 'string' },
+          tenant: { type: 'string' },
+        },
+      },
+    },
     provider: {
       type: 'object',
       properties: { organization: { type: 'string' }, url: { type: 'string', format: 'uri' } },
     },
     capabilities: {
       type: 'object',
+      description: 'What the agent can do beyond a plain request/response. Empty: nothing beyond a static read.',
       properties: {
         streaming: { type: 'boolean' },
         pushNotifications: { type: 'boolean' },
-        stateTransitionHistory: { type: 'boolean' },
+        extendedAgentCard: { type: 'boolean' },
+        extensions: { type: 'array', items: { type: 'object' } },
       },
     },
     defaultInputModes: { type: 'array', items: { type: 'string' } },
@@ -251,7 +281,7 @@ export const AGENT_OPERATIONS: OperationSpec[] = [
     operationId: 'getMcpServerCard',
     summary: 'MCP Server Card for the published MCP server',
     description:
-      'A Server Card describing how to reach the first-party MCP server, per the server-card extension chartered by SEP-2127. Contains no tools: agents read those from the server itself with tools/list.',
+      'A Server Card describing how to reach the first-party MCP server, per the server-card extension chartered by SEP-2127. Contains no tools: agents read those from the server itself with tools/list. The card is a real file here; the bare SEP-2127 namespace path /.well-known/mcp is a directory on GitHub Pages and carries the same bytes from its index, reached through a trailing-slash redirect.',
     schema: mcpServerCardSchema,
     contentType: 'application/json',
     returns: 'A Server Card.',
@@ -271,7 +301,7 @@ export const AGENT_OPERATIONS: OperationSpec[] = [
     operationId: 'getAgentCard',
     summary: 'A2A agent card',
     description:
-      'The Agent2Agent card: who this is, and the tasks an agent can delegate. Every skill is read-only research over published material.',
+      'The Agent2Agent card: who this is, and the tasks an agent can delegate. Every skill is read-only research over published material. No A2A interface is served — this origin is static — so supportedInterfaces is empty and capabilities declares nothing.',
     schema: agentCardSchema,
     contentType: 'application/json',
     returns: 'The agent card.',
@@ -281,7 +311,7 @@ export const AGENT_OPERATIONS: OperationSpec[] = [
     operationId: 'getApiCatalog',
     summary: 'RFC 9727 API catalog',
     description:
-      'An RFC 9264 linkset, profiled by RFC 9727, pointing at this document and the other machine-readable service descriptions on the origin. Served as application/linkset+json.',
+      'An RFC 9264 linkset, profiled by RFC 9727, pointing at this document and the other machine-readable service descriptions on the origin. The document is a linkset; GitHub Pages derives the Content-Type from the file extension, and this path has none, so it is served as application/octet-stream rather than the application/linkset+json RFC 9727 asks for. A static origin cannot set that header, and this document says so instead of claiming it.',
     schema: linksetSchema,
     contentType: 'application/linkset+json',
     returns: 'A linkset with one item per service description.',
@@ -379,7 +409,7 @@ export const AGENT_OPERATIONS: OperationSpec[] = [
 /** The path each operation is served at. Derived, so a path cannot be listed without its operation. */
 const PATH_OF_OPERATION: Record<string, string> = {
   getOpenApiDocument: '/openapi.json',
-  getMcpServerCard: '/.well-known/mcp',
+  getMcpServerCard: '/.well-known/mcp/server-card.json',
   getAgentSkillsIndex: '/.well-known/agent-skills/index.json',
   getAgentCard: '/.well-known/agent-card.json',
   getApiCatalog: '/.well-known/api-catalog',

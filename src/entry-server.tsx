@@ -20,6 +20,17 @@ export interface PrerenderedRoute {
 
 export { markdownPathFor, renderMarkdown };
 
+// The `/.well-known/` documents. They are not pages, so they are not rendered: the
+// prerenderer writes the map straight to `dist/`, and the paths in the map are the
+// only paths the site advertises as its machine surface. Re-exported here because
+// scripts/prerender.mjs loads this bundle, not the TypeScript sources.
+export {
+  discoveryDocuments,
+  discoveryDocumentPaths,
+  skillDocuments,
+  skillFileContent,
+} from './data/discovery';
+
 /** The published OpenAPI document, serialised. Written to dist/openapi.json by the prerenderer. */
 export const openApiJson = (): string => `${JSON.stringify(openApiDocument, null, 2)}\n`;
 
