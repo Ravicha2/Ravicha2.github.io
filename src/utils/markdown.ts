@@ -498,7 +498,7 @@ const markdownDevelopers = (): string =>
     '',
     openApiDocument['x-error-model'].note,
     '',
-    'The intended envelope is declared in the spec as `components.schemas.Problem`, so a client can be written against it today.',
+    'The `application/problem+json` envelope is described in the spec as `components.schemas.Problem` and is not served: this origin cannot set a response content type or vary a body by `Accept`. That is a decision, recorded in `docs/adr/0004-accept-html-404s-on-static-hosting.md`.',
     '',
     '## Endpoints',
     '',

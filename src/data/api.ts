@@ -38,7 +38,7 @@ export interface AgentEndpoint {
 const problemSchema = {
   type: 'object',
   description:
-    'RFC 9457 problem details. Not yet served: GitHub Pages answers an unmatched path with the 404.html document as text/html and offers no way to set a response header or override the body per media type.',
+    'RFC 9457 problem details. Described for completeness and deliberately not served: GitHub Pages answers an unmatched path with the 404.html document as text/html for every Accept, and offers no way to set a response header or override the body per media type. See x-error-model and ADR 0004.',
   required: ['type', 'title', 'status'],
   properties: {
     type: { type: 'string', format: 'uri', description: 'A URI identifying the problem type.' },
@@ -422,7 +422,7 @@ export const openApiDocument = {
       '',
       '**Versioning.** The document carries a semantic `info.version`. The paths are stable; a breaking change to a documented shape increments the major version and is announced in `/llms.txt`, which is the changelog agents are told to watch.',
       '',
-      '**Errors.** Every operation documents the 404 it really returns: the site 404 document as `text/html`. See the `x-error-model` extension below for the `application/problem+json` envelope this API would send from an origin that could set response headers, and which static hosting cannot.',
+      '**Errors.** Every operation documents the 404 it really returns: the site 404 document as `text/html`, for every `Accept`. The `application/problem+json` envelope is described under `x-error-model` and `components.schemas.Problem` but is not served and cannot be on static hosting. ADR 0004 records the decision to accept the limitation and state it rather than add an edge layer.',
     ].join('\n'),
     contact: { name: profile.name, email: profile.email, url: `${SITE}/contact/` },
     license: { name: 'Content published for reference and citation.', identifier: 'CC-BY-4.0' },
@@ -463,9 +463,28 @@ export const openApiDocument = {
     },
   },
   'x-error-model': {
-    status: 'planned',
-    note: 'The 404 documented on each operation is the text/html page GitHub Pages serves for an unmatched path. RFC 9457 application/problem+json is the intended shape and is described by components.schemas.Problem, but a static host cannot set a response content type or vary a body by Accept, so it is not served yet.',
-    schema: '#/components/schemas/Problem',
+    status: 'not-supported',
+    decision:
+      'ADR 0004 accepts the HTML 404 and states the limitation, instead of adding an edge layer or changing the host.',
+    // What the origin really sends for a path it cannot serve.
+    served: {
+      '404': {
+        description:
+          'GitHub Pages serves the site 404.html document, as text/html, for every unmatched path. It ignores Accept, so a caller that sends text/markdown or application/problem+json gets the same HTML body. The body carries no machine-readable code; an agent has to branch on the 404 status.',
+        content: {
+          'text/html': {
+            schema: { type: 'string', description: 'The 404.html document, as HTML.' },
+          },
+        },
+      },
+    },
+    // Described, deliberately not served on this host.
+    unsupported: {
+      'application/problem+json':
+        'The RFC 9457 envelope declared as components.schemas.Problem. A static host cannot set a response content type or vary a body by Accept, so this shape is describable but unreachable here.',
+      vary: 'Accept. GitHub Pages varies only on Accept-Encoding and offers no way to add Vary: Accept.',
+    },
+    note: 'The 404 documented on each operation is the text/html document GitHub Pages serves for an unmatched path; the request also lands in the SPA, which renders the same message for a browser. RFC 9457 application/problem+json is described by components.schemas.Problem but is not served, and cannot be on static hosting: the origin cannot set a response content type or vary a body by Accept. ADR 0004 records the decision to accept this and state it.',
   },
   'x-authentication': {
     required: false,
