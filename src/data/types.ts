@@ -17,6 +17,13 @@ export interface Profile {
   name: string;
   preferredName: string;
   title: string;
+  /**
+   * The discipline this site is about, as the noun phrase the homepage title, meta
+   * description and h1 all use. Declared once so those surfaces cannot describe
+   * different fields: the site previously said "Portfolio & Systems Engineering" in
+   * its title while llms.txt and the Person JSON-LD already said "Applied AI".
+   */
+  discipline: string;
   headline: string;
   status: string;
   location: string;
