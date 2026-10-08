@@ -217,7 +217,7 @@ export const DocsView: React.FC = () => {
                     <td className="py-2 pr-4 text-annotate">
                       {required.length > 0 ? required.join(', ') : '—'}
                     </td>
-                    <td className="py-2 text-annotate">{path ? path.path : 'not served yet'}</td>
+                    <td className="py-2 text-annotate">{path ? path.path : 'not served'}</td>
                   </tr>
                 );
               })}

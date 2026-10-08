@@ -158,9 +158,11 @@ export const DeveloperView: React.FC = () => (
         {openApiDocument['x-error-model'].note}
       </p>
       <p className="measure text-[13px] leading-relaxed text-annotate">
-        The intended envelope is declared in the spec as{' '}
-        <code>components.schemas.Problem</code>, so a client can be written against it today and will
-        not need changing when this origin can send it.
+        The <code>application/problem+json</code> envelope is described in the spec as{' '}
+        <code>components.schemas.Problem</code> and is not served: this origin cannot set a response
+        content type or vary a body by <code>Accept</code>. That is a decision rather than an
+        oversight — it is recorded in{' '}
+        <code>docs/adr/0004-accept-html-404s-on-static-hosting.md</code>.
       </p>
     </Block>
 
