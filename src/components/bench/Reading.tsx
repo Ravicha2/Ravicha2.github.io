@@ -7,7 +7,7 @@ import type React from 'react';
  */
 export type Verdict = 'clean' | 'claimed' | 'in-progress' | 'failed';
 
-const VERDICT: Record<Verdict, { mark: string; word: string; value: string }> = {
+export const VERDICT: Record<Verdict, { mark: string; word: string; value: string }> = {
   clean: { mark: 'mark-clean', word: 'Measured · holds', value: 'text-signal' },
   claimed: { mark: 'mark-claimed', word: 'Claimed · not yet measured', value: 'text-ink' },
   // Measured and still moving: the reading is real, the work is not finished, and

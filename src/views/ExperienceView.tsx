@@ -102,7 +102,10 @@ const GraphRow: React.FC<{ span: Span; index: number }> = ({ span, index }) => {
   const forks = GRAPH.slice(0, index).some((o) => monthOf(o.end) - 1 > monthOf(span.start));
 
   return (
-    <li className="flex items-stretch border-b border-rule">
+    <li
+      data-readout={`${span.label} · ${span.org}`}
+      className="flex items-stretch border-b border-rule"
+    >
       <div className="relative shrink-0" style={{ width: GUTTER }} aria-hidden="true">
         {/* Absolute: in flow this SVG would size itself off its own 52:100
             viewBox and set the row height to 100px. Out of flow it takes the
@@ -227,6 +230,7 @@ export const ExperienceView: React.FC = () => (
           <article
             key={item.id}
             data-testid={`work-item-${item.id}`}
+            data-readout={`${item.role} · ${item.company}`}
             className="mark-thin pt-4 pb-6 grid gap-x-6 gap-y-3 sm:grid-cols-[10rem_minmax(0,1fr)]"
           >
             <div>
@@ -292,6 +296,7 @@ export const ExperienceView: React.FC = () => (
           <article
             key={edu.id}
             data-testid={`edu-item-${edu.id}`}
+            data-readout={`${edu.degree} · ${edu.institution}`}
             className="mark-thin pt-4 pb-6 grid gap-x-6 gap-y-3 sm:grid-cols-[10rem_minmax(0,1fr)]"
           >
             <div>
@@ -330,7 +335,12 @@ export const ExperienceView: React.FC = () => (
 
       <div className="grid gap-10 lg:grid-cols-2">
         {publications.map((pub) => (
-          <article key={pub.id} data-testid={`pub-item-${pub.id}`} className="space-y-4">
+          <article
+            key={pub.id}
+            data-testid={`pub-item-${pub.id}`}
+            data-readout={pub.title}
+            className="space-y-4"
+          >
             <div className="mark-thin pt-4 space-y-4">
               <p className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 font-mono text-[11px] text-annotate">
                 <span>IEEE publication</span>
@@ -395,7 +405,12 @@ export const ExperienceView: React.FC = () => (
         ))}
 
         {accolades.map((acc) => (
-          <article key={acc.id} data-testid={`accolade-item-${acc.id}`} className="space-y-4">
+          <article
+            key={acc.id}
+            data-testid={`accolade-item-${acc.id}`}
+            data-readout={acc.title}
+            className="space-y-4"
+          >
             <div className="mark-thin pt-4 space-y-3">
               <p className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 font-mono text-[11px] text-annotate">
                 <span>{acc.organization}</span>

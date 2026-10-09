@@ -39,6 +39,12 @@
  * leaves AAA, which is why the failed reading is a coral rather than a crimson.
  * --spark is the hue the bench lamp would make: amber pulled toward peach, so
  * the warmth is felt without turning the room yellow.
+ *
+ * --lamplight is not a colour the page ever paints flat. It is the ceiling on
+ * the room light: the last value that still holds --annotate at 7:1, computed
+ * rather than chosen (annotate L 0.5064 -> ground L 0.0295). The room may be lit
+ * up to here and no further, and every glyph sits on top of whatever the light
+ * is doing. Move either end and tokens.test.ts fails before a reader does.
  */
 :root {
   --bench: #1c1613;
@@ -50,4 +56,5 @@
   --spark: #ffb26b;
   --nonconform: #f6938e;
   --rule: #8a7e6e;
+  --lamplight: #362e29;
 }

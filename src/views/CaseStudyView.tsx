@@ -1,12 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import type { ProjectLinks } from '../data/types';
+import type { ProjectLinks, Project } from '../data/types';
 import { getProjectBySlug, imageKindOf, tierOf, type ProjectTier } from '../data/projects';
 import { permalink, shortRef } from '../data/proof';
 import { TransitionLink } from '../components/common/TransitionLink';
 import { NotFound } from '../components/common/NotFound';
 import { ContactBlock } from '../components/common/ContactBlock';
-import { Reading, type Verdict } from '../components/bench/Reading';
+import { Reading, VERDICT, type Verdict } from '../components/bench/Reading';
 import { Capture } from '../components/bench/Capture';
 import { ProofArtifactView } from '../components/bench/ProofArtifact';
 import { ChannelStrip } from '../components/bench/ChannelStrip';
@@ -32,6 +32,28 @@ const VERDICT_OF_TIER: Record<ProjectTier, Verdict> = {
 
 const primaryRef =
   'font-mono text-[11px] text-ink underline decoration-signal underline-offset-4 transition-colors hover:decoration-[3px]';
+
+const SITE = 'https://ravicha2.github.io';
+
+/**
+ * The readings on this page, as text a visitor can take away: the title, the
+ * verdict in words, every figure with its label, and the datum that settles it —
+ * the same qualification the page shows, so a pasted number cannot arrive in
+ * someone else's document stripped of the commit it was read at.
+ */
+export function readingsText(project: Project): string {
+  const proof = project.proof;
+  return [
+    `${project.title} — ${VERDICT[VERDICT_OF_TIER[tierOf(project)]].word}`,
+    `${SITE}/projects/${project.slug}`,
+    '',
+    ...(project.metrics ?? []).map((metric) => `${metric.value} — ${metric.label}`),
+    '',
+    proof
+      ? `Datum ${shortRef(proof)} @ ${proof.commit.slice(0, 7)} — ${permalink(proof)}`
+      : 'No public artifact settles these figures yet.',
+  ].join('\n');
+}
 
 /** One part of the case study: a ruled block. */
 const Claim: React.FC<{
@@ -81,6 +103,7 @@ export const CaseStudyView: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const project = slug ? getProjectBySlug(slug) : undefined;
   const { state: cliCopyState, copy: copyCli } = useCopyToClipboard();
+  const { state: readingsState, copy: copyReadings } = useCopyToClipboard();
 
   if (!project) {
     return (
@@ -204,16 +227,34 @@ export const CaseStudyView: React.FC = () => {
         )}
 
         {project.metrics && project.metrics.length > 0 && (
-          <dl className="border-y border-rule divide-y divide-rule">
-            {project.metrics.map((metric, idx) => (
-              <div key={idx} className="flex flex-wrap items-baseline gap-x-4 py-2.5">
-                <dt className="font-mono text-[15px] font-semibold text-signal shrink-0 w-40">
-                  {metric.value}
-                </dt>
-                <dd className="measure text-sm leading-relaxed">{metric.label}</dd>
-              </div>
-            ))}
-          </dl>
+          <div className="space-y-3" data-readout={`${project.title} readings`}>
+            <dl className="border-y border-rule divide-y divide-rule">
+              {project.metrics.map((metric, idx) => (
+                <div key={idx} className="flex flex-wrap items-baseline gap-x-4 py-2.5">
+                  <dt className="font-mono text-[15px] font-semibold text-signal shrink-0 w-40">
+                    {metric.value}
+                  </dt>
+                  <dd className="measure text-sm leading-relaxed">{metric.label}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
+              <button
+                type="button"
+                onClick={() => copyReadings(readingsText(project))}
+                className={`touch-target ${refLink}`}
+              >
+                Copy the readings
+              </button>
+              <span aria-live="polite" className="font-mono text-[11px] text-annotate">
+                {readingsState === 'copied'
+                  ? 'Copied — figures and datum'
+                  : readingsState === 'error'
+                    ? 'Copy failed'
+                    : ''}
+              </span>
+            </p>
+          </div>
         )}
 
         <ul className="flex flex-wrap gap-2">

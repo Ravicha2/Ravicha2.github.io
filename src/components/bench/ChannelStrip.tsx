@@ -55,6 +55,7 @@ export const ChannelStrip: React.FC<{ currentSlug?: string; className?: string }
         return (
           <li
             key={channel.to}
+            data-readout={`${channel.label} · ${channel.status}`}
             className={[
               'min-w-0 border-rule',
               // Column rules between channels, and a top row rule on the wrap.

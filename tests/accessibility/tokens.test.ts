@@ -52,6 +52,16 @@ describe('Bench palette contrast (WCAG AAA)', () => {
     });
   }
 
+  // The room light is bounded by the text floor rather than by taste. The
+  // brightest the substrate may ever go is --lamplight, and every glyph on the
+  // site sits on top of the light rather than beside it, so this single pair is
+  // the whole budget. Move either end and the light must be re-derived, not
+  // re-guessed.
+  it('caps the room light at the last value that still holds body text at 7:1', () => {
+    const ratio = getContrastRatio(tokenValue('annotate'), tokenValue('lamplight'));
+    expect(ratio, `--annotate on --lamplight is ${ratio.toFixed(2)}:1`).toBeGreaterThanOrEqual(7.0);
+  });
+
   it('clears the 3:1 non-text floor for the rule on every surface', () => {
     for (const surface of SURFACES) {
       const ratio = getContrastRatio(tokenValue('rule'), tokenValue(surface));
@@ -89,7 +99,7 @@ describe('Bench palette contrast (WCAG AAA)', () => {
         return Math.max(r, g, b) - Math.min(r, g, b);
       };
 
-      for (const name of ['bench', 'well', 'panel', 'ink', 'annotate']) {
+      for (const name of ['bench', 'well', 'panel', 'ink', 'annotate', 'lamplight']) {
         expect(chroma(tokenValue(name)), `--${name} is not desaturated`).toBeLessThan(40);
       }
       expect(chroma(tokenValue('signal')), '--signal must be a hue').toBeGreaterThan(60);

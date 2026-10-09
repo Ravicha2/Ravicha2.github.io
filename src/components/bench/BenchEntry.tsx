@@ -72,6 +72,7 @@ export const BenchEntry: React.FC<BenchEntryProps> = ({
     <article
       data-testid={`project-card-${project.slug}`}
       data-tier={tier}
+      data-readout={`${catalogRef} ${project.title}`}
       style={viewTransitionName ? { viewTransitionName } : undefined}
       className={`relative cursor-pointer ${TIER_MARK[tier]} grid gap-x-5 gap-y-3 py-5 sm:grid-cols-[3rem_minmax(0,1fr)] lg:grid-cols-[3rem_minmax(0,1fr)_19rem]`}
     >

@@ -45,11 +45,6 @@ describe('public/404.html has a real body', () => {
     expect(html).toMatch(/<a\s[^>]*href="\/sitemap\.xml"/);
   });
 
-  it('links an agent to a real recovery target', () => {
-    // `/developers` is a real route in src/App.tsx, not a hopeful URL.
-    expect(html).toMatch(/<a\s[^>]*href="\/(?:developers|docs)"/);
-  });
-
   it('keeps the SPA redirect script intact and executing', () => {
     const script = html.match(/<script[\s\S]*?<\/script>/i)?.[0] ?? '';
     expect(script).toContain('location.replace');

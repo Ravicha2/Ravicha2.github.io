@@ -22,7 +22,11 @@ export const ProofArtifactView: React.FC<{ artifact: Artifact; className?: strin
   const href = permalink(artifact);
 
   return (
-    <section aria-labelledby="proof-heading" className={`${className}`}>
+    <section
+      aria-labelledby="proof-heading"
+      data-readout={`${KIND_LABEL[kind]} · ${shortRef(artifact)} @ ${commit.slice(0, 7)}`}
+      className={`${className}`}
+    >
       <div className="mark-clean pt-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1.5">
         <h2 id="proof-heading" className="font-mono text-[11px] text-ink">
           {KIND_LABEL[kind]}

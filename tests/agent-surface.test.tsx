@@ -9,7 +9,7 @@ import { apiEndpoints } from '../src/data/api';
  * The pages an agent or a trust-checking crawler lands on, rendered as the router
  * renders them and as the prerenderer serialises them. The raw-HTML checks matter
  * most: an agent that does not run JavaScript reads the server markup, so the H1 has
- * to be the first heading there and the homepage has to link to the machine surface.
+ * to be the first heading there.
  */
 const renderRoute = (route: string) =>
   renderDom(
@@ -29,11 +29,16 @@ describe('Agent and trust pages render', () => {
     expect((main.textContent ?? '').trim().length).toBeGreaterThan(500);
   });
 
-  it('links the machine surface and the trust pages from the homepage', () => {
+  it('links the trust pages from the homepage, but not the machine surface', () => {
     const { container } = renderRoute('/');
     const hrefs = [...container.querySelectorAll('a')].map((a) => a.getAttribute('href'));
-    for (const route of ['/docs', '/developers', '/about', '/contact']) {
+    for (const route of ['/about', '/contact']) {
       expect(hrefs, `homepage does not link ${route}`).toContain(route);
+    }
+    // /docs and /developers stay reachable by URL and advertised in sitemap.xml for
+    // crawlers; they are deliberately not put in front of a person browsing the site.
+    for (const route of ['/docs', '/developers']) {
+      expect(hrefs, `the homepage exposes ${route} to a human`).not.toContain(route);
     }
   });
 
