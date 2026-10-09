@@ -1,29 +1,13 @@
 import type React from 'react';
 import { apiEndpoints, openApiDocument } from '../data/api';
 import { TransitionLink } from '../components/common/TransitionLink';
+import { Block, PageHead } from '../components/common/PageBlocks';
 
 const linkClass =
   'font-mono text-[11px] text-annotate underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-spark';
 
 const primaryLink =
   'font-mono text-[12px] text-ink underline decoration-signal underline-offset-4 transition-colors hover:decoration-[3px]';
-
-const Block: React.FC<{ id: string; heading: string; annotation?: string; children: React.ReactNode }> = ({
-  id,
-  heading,
-  annotation,
-  children,
-}) => (
-  <section aria-labelledby={id} className="mark-thin pt-6">
-    <h2 id={id} className="text-xl sm:text-2xl font-semibold tracking-[-0.015em] text-pretty">
-      {heading}
-    </h2>
-    {annotation && (
-      <p className="measure mt-2 text-[13px] leading-relaxed text-annotate">{annotation}</p>
-    )}
-    <div className="mt-5 space-y-5">{children}</div>
-  </section>
-);
 
 const Code: React.FC<{ label?: string; children: React.ReactNode }> = ({ label, children }) => (
   <figure className="space-y-2">
@@ -42,7 +26,7 @@ const Operation: React.FC<{ index: number }> = ({ index }) => {
       <h3 className="font-mono text-[12px] text-ink">
         <span className="text-annotate">GET</span> {endpoint.path}
       </h3>
-      <p className="measure text-[13px] leading-relaxed text-annotate">
+      <p className="measure text-sm leading-relaxed">
         {endpoint.summary} Returns {endpoint.returns.toLowerCase()} as{' '}
         <code>{endpoint.contentType}</code>. <code>operationId</code>:{' '}
         <code>{endpoint.operationId}</code>.
@@ -60,20 +44,19 @@ export const DocsView: React.FC = () => {
 
   return (
     <div className="space-y-14 sm:space-y-16">
-      <section aria-labelledby="docs-heading">
-        <h1
-          id="docs-heading"
-          className="text-[clamp(1.7rem,3.6vw,2.6rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-pretty"
-        >
-          API reference
-        </h1>
-        <p className="measure mt-4 text-sm sm:text-[15px] leading-relaxed text-annotate text-pretty">
-          The published OpenAPI 3.1 document describes {apiEndpoints.length} operations, all of them
-          GETs of documents that really exist at the URLs given. This page is a rendering of that
-          document, not a second source: the tables and the spec come from one list, so a path cannot
-          be documented here without also being declared there.
-        </p>
-        <p className="mt-6 flex flex-wrap items-baseline gap-x-5 gap-y-2">
+      <PageHead
+        id="docs-heading"
+        title="API reference"
+        lead={
+          <>
+            The published OpenAPI 3.1 document describes {apiEndpoints.length} operations, all of them
+            GETs of documents that really exist at the URLs given. This page is a rendering of that
+            document, not a second source: the tables and the spec come from one list, so a path cannot
+            be documented here without also being declared there.
+          </>
+        }
+      >
+        <p className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
           <a href="/openapi.json" className={primaryLink}>
             /openapi.json
           </a>
@@ -84,7 +67,7 @@ export const DocsView: React.FC = () => {
             /auth.md
           </a>
         </p>
-      </section>
+      </PageHead>
 
       <Block
         id="base-url-heading"
@@ -92,7 +75,7 @@ export const DocsView: React.FC = () => {
         annotation="One origin, no version prefix in the path. The API version is carried in the document."
       >
         <Code>{`https://ravicha2.github.io`}</Code>
-        <p className="measure text-[13px] leading-relaxed text-annotate">
+        <p className="measure text-sm leading-relaxed">
           Every path below is relative to it. There is no <code>api.</code> subdomain: the documents
           are served from the same origin as the pages that describe them, which is what lets the
           discovery files and the pages cite each other without a cross-origin hop.
@@ -104,7 +87,7 @@ export const DocsView: React.FC = () => {
         heading="Authentication"
         annotation="Required: no. Documented anyway, because an agent should not have to prove that by trying."
       >
-        <p className="measure text-[13px] leading-relaxed text-annotate">
+        <p className="measure text-sm leading-relaxed">
           {openApiDocument['x-authentication'].note} The spec publishes no{' '}
           <code>securitySchemes</code> and no operation declares a <code>security</code> requirement,
           so a conforming client will send no credential and will be answered in full. The walkthrough
@@ -125,7 +108,7 @@ export const DocsView: React.FC = () => {
         heading="Conventions"
         annotation="Four things an agent can rely on without checking, and one it cannot."
       >
-        <ul className="measure space-y-3 text-[13px] leading-relaxed text-annotate">
+        <ul className="measure space-y-3 text-sm leading-relaxed">
           <li>
             <span className="text-ink">Read-only.</span> No <code>POST</code>, <code>PUT</code>,{' '}
             <code>PATCH</code> or <code>DELETE</code> is implemented on any path. A write method is

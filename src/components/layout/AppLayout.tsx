@@ -1,13 +1,15 @@
 import type React from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { SkipLink, RouteAnnouncer } from '../../accessibility';
 import { SEOHead } from '../seo/SEOHead';
 import { WebMcpTools } from '../../webmcp/WebMcpTools';
 import { useViewTransitionNavigate } from '../../hooks/useViewTransitionNavigate';
-import { useActiveReadout } from '../../hooks/useActiveReadout';
+import { useActiveReadout, type LensState } from '../../hooks/useActiveReadout';
 import { profile } from '../../data/profile';
 import { useCopyToClipboard } from '../../hooks/useCopyToClipboard';
+import { readClocks, type Clocks } from '../../utils/clocks';
+import { RoomLight } from '../bench/RoomLight';
 
 export interface AppLayoutProps {
   children: React.ReactNode;
@@ -20,32 +22,53 @@ const NAV = [
   { to: '/experience', label: 'Experience' },
 ];
 
-/** Local time on the bench. A recruiter in another timezone is the reason this
- *  is worth a clock: the number answers "is he awake right now". */
-function useLocalTime(timeZone: string) {
-  // Null until mounted. Read during render, the prerendered HTML would carry the
-  // build machine's clock and then disagree with the browser's at hydration — and
-  // Node's ICU need not spell the zone the way the browser does either.
-  const [now, setNow] = useState<Date | null>(null);
-  const format = useMemo(
-    () =>
-      new Intl.DateTimeFormat('en-AU', {
-        timeZone,
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-        timeZoneName: 'short',
-      }),
-    [timeZone],
-  );
+const BENCH_ZONE = 'Australia/Sydney';
+
+/** The lamp. Three states, each carried by the words beside it as well as by the
+ *  hue: the room is idle, something is under the lens, or the visitor has reached
+ *  for something. */
+const LAMP: Record<LensState, string> = {
+  idle: 'bg-rule',
+  under: 'bg-signal',
+  reach: 'bg-spark',
+};
+
+/**
+ * The bench clock and the visitor's, on a 20 s tick.
+ *
+ * The second clock is the humane half: a recruiter three zones away reads the
+ * gap and knows immediately whether the person is awake, without converting
+ * anything. Null until mounted — read during render, the prerendered HTML would
+ * carry the build machine's zone and then disagree with the browser's at
+ * hydration, and Node's ICU need not spell a zone the way the browser does.
+ */
+function useClocks(benchZone: string): Clocks | null {
+  const [clocks, setClocks] = useState<Clocks | null>(null);
 
   useEffect(() => {
-    setNow(new Date());
-    const id = window.setInterval(() => setNow(new Date()), 20_000);
-    return () => window.clearInterval(id);
-  }, []);
+    // A zone the platform cannot resolve would throw inside the formatter, so the
+    // bench's own clock is the fallback rather than a broken rail.
+    let visitorZone = benchZone;
+    try {
+      visitorZone = Intl.DateTimeFormat().resolvedOptions().timeZone || benchZone;
+    } catch {
+      visitorZone = benchZone;
+    }
 
-  return now ? format.format(now) : '--:--';
+    const tick = () => {
+      try {
+        setClocks(readClocks(new Date(), benchZone, visitorZone));
+      } catch {
+        setClocks(null);
+      }
+    };
+
+    tick();
+    const id = window.setInterval(tick, 20_000);
+    return () => window.clearInterval(id);
+  }, [benchZone]);
+
+  return clocks;
 }
 
 const linkClass =
@@ -53,8 +76,8 @@ const linkClass =
 
 export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => {
   const navigateWithTransition = useViewTransitionNavigate();
-  const readout = useActiveReadout(pageTitle);
-  const time = useLocalTime('Australia/Sydney');
+  const lens = useActiveReadout(pageTitle);
+  const clocks = useClocks(BENCH_ZONE);
   const { state, copy } = useCopyToClipboard();
 
   const handleNavClick =
@@ -73,7 +96,9 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
     };
 
   return (
-    <div className="min-h-screen bg-bench text-ink flex flex-col">
+    <div className="min-h-screen text-ink flex flex-col">
+      {/* The substrate itself is the body background; this only lights it. */}
+      <RoomLight />
       <SEOHead />
       <WebMcpTools />
       <SkipLink />
@@ -189,19 +214,35 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle }) => 
               on the page, so it is aria-hidden: a screen reader gains nothing from
               it and would hear a live region on every scroll. */}
           <div aria-hidden="true" className="hidden lg:block mt-7 pt-6 border-t border-rule">
-            <p className="readout font-mono text-[11px] text-annotate">
-              {profile.location.replace(', Australia', '')}{' '}
-              {/* Reserved at the width a formatted time occupies, so the placeholder
-                  filling in does not reflow the rail. */}
-              <span className="inline-block w-[10ch]">{time}</span>
-            </p>
-            <p className="readout mt-2 flex gap-2 font-mono text-[11px] leading-snug text-annotate min-h-[2.6em]">
-              {/* The lamp: warm while something is under the lens, bark when the
-                  readout has nothing to name. */}
+            <dl className="font-mono text-[11px] leading-snug text-annotate space-y-1">
+              <div className="flex">
+                <dt className="sr-only">Local time</dt>
+                {/* The clock is reserved at the width a formatted time occupies, so
+                    the placeholder filling in does not reflow the rail. */}
+                <dd className="readout min-w-0">
+                  <span className="inline-block w-[11ch] text-ink">{clocks?.here ?? '--:--'}</span>
+                  {profile.location.replace(', Australia', '')}
+                </dd>
+              </div>
+              {clocks?.yours && (
+                <div className="flex">
+                  <dt className="sr-only">Your time</dt>
+                  <dd className="readout min-w-0">
+                    <span className="inline-block w-[11ch] text-ink">{clocks.yours}</span>
+                    your time{clocks.gap ? ` · ${clocks.gap}` : ''}
+                  </dd>
+                </div>
+              )}
+            </dl>
+
+            <p className="readout mt-2.5 flex gap-2 font-mono text-[11px] leading-snug text-annotate min-h-[2.6em]">
+              {/* The lamp: bark when the lens is over the room, brass while something
+                  is under it, and the bench's warmer amber the moment the visitor
+                  reaches for something. The readout line says which, in words. */}
               <span
-                className={`mt-[0.35em] w-[5px] h-[5px] shrink-0 ${readout ? 'bg-spark' : 'bg-rule'}`}
+                className={`mt-[0.35em] w-[5px] h-[5px] shrink-0 transition-colors ${LAMP[lens.state]}`}
               />
-              <span>{readout ?? 'nothing under the lens'}</span>
+              <span>{lens.label ?? 'nothing under the lens'}</span>
             </p>
           </div>
 

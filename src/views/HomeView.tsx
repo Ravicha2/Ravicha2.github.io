@@ -75,30 +75,12 @@ export const HomeView: React.FC = () => {
             <TransitionLink to="/experience" className={linkClass}>
               Experience
             </TransitionLink>
-            {/* The machine surface, linked from the homepage because that is the
-                page an agent crawls first: a spec nothing points at is a spec
-                nothing finds. */}
-            <TransitionLink to="/docs" className={linkClass}>
-              API docs
-            </TransitionLink>
-            <TransitionLink to="/developers" className={linkClass}>
-              Developers
-            </TransitionLink>
             <TransitionLink to="/about" className={linkClass}>
               About
             </TransitionLink>
             <TransitionLink to="/contact" className={linkClass}>
               Contact
             </TransitionLink>
-            <a
-              href={profile.links.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub (opens in a new tab)"
-              className={linkClass}
-            >
-              GitHub
-            </a>
           </p>
         </div>
 
@@ -129,6 +111,7 @@ export const HomeView: React.FC = () => {
           return (
             <article
               key={project.slug}
+              data-readout={project.title}
               className="mark-thin pt-6 grid gap-6 lg:grid-cols-12 lg:gap-9"
             >
               <div
@@ -205,7 +188,7 @@ export const HomeView: React.FC = () => {
         <div className="mark-thin pt-2">
           <ul>
             {remaining.map((project) => (
-              <li key={project.slug} className="border-b border-rule">
+              <li key={project.slug} data-readout={project.title} className="border-b border-rule">
                 <TransitionLink
                   to={`/projects/${project.slug}`}
                   className="group grid gap-x-6 gap-y-1.5 py-4 sm:grid-cols-[minmax(0,1fr)_auto]"
@@ -249,7 +232,10 @@ export const HomeView: React.FC = () => {
               linkLabel="Open heal.a2a.ing (opens in a new tab)"
             />
           </div>
-          <div className="lg:col-span-5 lg:col-start-8 min-w-0 lg:pt-2">
+          <div
+            className="lg:col-span-5 lg:col-start-8 min-w-0 lg:pt-2"
+            data-readout={`${heal.slug} · live`}
+          >
             <h2 id="live-heading" className="text-xl sm:text-2xl font-semibold tracking-[-0.02em]">
               {heal.title}
             </h2>

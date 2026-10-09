@@ -17,6 +17,17 @@ describe('Bench motion (the one sweep, the develop reveal, and nothing else)', (
     expect(names.sort()).toEqual(['develop', 'sweep']);
   });
 
+  // The room light is the third moving thing on the page and deliberately not a
+  // third moment: it is ambient, it never ends, and it is drawn in JS. Keeping it
+  // out of bench.css's keyframes is what stops it being counted beside the sweep
+  // and the reveal — so this guards the count as much as the light itself.
+  it('keeps the room light ambient: drawn in JS, gated on reduced motion', () => {
+    expect(benchCss, 'the room light is styled, not keyframed').toContain('.room-light');
+    const source = read('src/components/bench/RoomLight.tsx');
+    expect(source, 'the room light ignores prefers-reduced-motion').toContain('useReducedMotion');
+    expect(source, 'the room light must not outlive the route').toContain('cancelAnimationFrame');
+  });
+
   it('never fades text: the develop reveal clips, it does not dissolve', () => {
     // Measured on the built site: a mid-range opacity of 0.67 takes --annotate to
     // 3.61:1 on the bench — and mid-range is exactly where the reading band is.

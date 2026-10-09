@@ -1,12 +1,15 @@
 /* The Bench.
  *
- * Four things live here and nothing else:
+ * Five things live here and nothing else:
  *   1. the mark vocabulary — how a reading is marked clean / claimed / failed by
  *      line weight and style, never by colour;
  *   2. the reading measure;
  *   3. the sweep — one authored moment on first paint, then stillness;
  *   4. the reveal, on real captures only, and the browser surfaces the page did
- *      not draw.
+ *      not draw;
+ *   5. the room light — the one layer that never stops, held below the palette's
+ *      own contrast ceiling. Deliberately not a keyframe: the two moments above
+ *      happen once each, and this is not a third one competing with them.
  */
 
 /* ---------------------------------------------------------------------------
@@ -206,4 +209,29 @@ html {
 /* The rail's readout: the live line that names whatever is on screen. */
 .readout {
   font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------------------------
+ * 5. The room light
+ *
+ * The lowest layer on the page: a slow warm drift across the substrate, leaning
+ * toward the pointer, so the room answers when a visitor reaches into it. It is
+ * drawn by `RoomLight.tsx` rather than by a keyframe, and that is the point —
+ * the two authored moments above each happen once and then stop, and this one
+ * never stops, so it is not one of them and must not be counted as one.
+ *
+ * It is bounded by the palette and not by taste: the room may be lit up to
+ * `--lamplight` and no further, because that is the last value holding
+ * `--annotate` at 7:1. Every glyph sits on top of the light. The canvas takes no
+ * pointer events, so nothing under it is ever unreachable.
+ * ------------------------------------------------------------------------- */
+
+.room-light {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
