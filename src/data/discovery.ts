@@ -401,3 +401,42 @@ export const discoveryDocumentPaths = (): string[] => [
   '.well-known/http-message-signatures-directory',
   ...Object.keys(skillDocuments).map((name) => `.well-known/agent-skills/${name}/SKILL.md`),
 ];
+
+/**
+ * The published discovery paths that are deliberately not operations.
+ *
+ * Every path `discoveryDocumentPaths()` writes is either described by an operation
+ * in `src/data/api.ts` or named here, and a test holds the two lists to exactly the
+ * published set, so a document cannot go live while staying invisible to the spec
+ * (ADR 0005, decision 6). A path earns a place here rather than an operation in one
+ * of two ways: it is a byte-identical alias of a path that already has one, so a
+ * second operation would describe the same bytes twice, or it is a convention-
+ * mandated document this origin publishes with nothing to call — an empty directory
+ * of keys, or metadata for a server that issues no credential. The `reason` is the
+ * whole point of the entry: an alias names the path it duplicates, and a convention
+ * document says why it is published but not described. A blank reason would turn
+ * the list into a place to park an undocumented path, so the census test refuses
+ * an empty one rather than letting the exception list hide a gap.
+ */
+export const discoveryExceptions: ReadonlyArray<{ path: string; reason: string }> = [
+  {
+    path: '.well-known/mcp/index.html',
+    reason:
+      'The directory index that serves the bare /.well-known/mcp namespace, carrying the same bytes as .well-known/mcp/server-card.json; getMcpServerCard already describes that card, so a second operation would only describe the same document twice.',
+  },
+  {
+    path: '.well-known/ai-catalog.json',
+    reason:
+      'A byte-identical alias of .well-known/ard.json, written for readers that fetch the older path; getArdCatalog already describes the catalog, and this copy adds no document of its own.',
+  },
+  {
+    path: '.well-known/oauth-authorization-server',
+    reason:
+      'RFC 8414 metadata for an authorization server this origin does not run. It is published because a reader expects the path beside the protected-resource metadata and it states that the only method is anonymous read, so there is no credential-issuing surface for an operation to describe.',
+  },
+  {
+    path: '.well-known/http-message-signatures-directory',
+    reason:
+      'A Web Bot Auth directory whose keys array is empty because this origin signs no outbound request. It is published so the path resolves rather than 404s, but there is no signing surface here to describe as an operation.',
+  },
+];

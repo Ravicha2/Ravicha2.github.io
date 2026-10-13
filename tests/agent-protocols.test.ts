@@ -6,6 +6,7 @@ import { AGENT_OPERATIONS, apiEndpoints, openApiDocument } from '../src/data/api
 import {
   discoveryDocumentPaths,
   discoveryDocuments,
+  discoveryExceptions,
   skillDocuments,
   skillFileContent,
 } from '../src/data/discovery';
@@ -465,6 +466,56 @@ describe('Published discovery documents (/.well-known)', () => {
         ).toBe(true);
       }
     });
+  });
+});
+
+/**
+ * The /.well-known surface is a census: every document the build publishes there is
+ * either described by an operation in the OpenAPI document or named as a declared
+ * exception with a written reason. The tests above prove advertised to served;
+ * these prove served to described, so a document cannot go live and stay invisible
+ * to the spec (ADR 0005, decision 6).
+ */
+describe('The /.well-known census', () => {
+  // The two spellings differ by one character, and that is the whole bridge: the
+  // discovery module writes paths relative to dist/ (`.well-known/...`) while an
+  // operation is served at an absolute path (`/.well-known/...`). Comparing the
+  // raw strings would compare nothing, so each operation is reduced to the form
+  // the discovery module uses before the two lists meet. Only the operations on
+  // the discovery surface are in scope; the pages, the sitemap and the CV are
+  // served outside /.well-known and belong to no census of it.
+  const described = apiEndpoints
+    .map((endpoint) => endpoint.path)
+    .filter((path) => path.startsWith('/.well-known/'))
+    .map((path) => path.replace(/^\//, ''));
+  const excepted = discoveryExceptions.map((exception) => exception.path);
+
+  it('covers every published path exactly once, as an operation or a declared exception', () => {
+    expect(described.length, 'no discovery operation is described at all').toBeGreaterThan(0);
+    const covered = [...described, ...excepted];
+    expect(new Set(covered).size, `a published path is covered twice: ${covered.join(', ')}`).toBe(
+      covered.length
+    );
+    // The whole census in one line: what the build publishes is exactly what the
+    // document describes plus what the exception list accounts for. A document
+    // added to discoveryDocumentPaths() and nowhere else fails here, which is the
+    // point — it cannot go live until it is described or excepted.
+    expect(covered.sort()).toEqual([...discoveryDocumentPaths()].sort());
+  });
+
+  it('gives every exception a real reason and a path the build really publishes', () => {
+    const published = new Set(discoveryDocumentPaths());
+    for (const exception of discoveryExceptions) {
+      expect(exception.reason.length, `${exception.path} has no reason`).toBeGreaterThan(20);
+      expect(
+        published.has(exception.path),
+        `${exception.path} is declared an exception but is not published`
+      ).toBe(true);
+      expect(
+        described,
+        `${exception.path} is both excepted and described by an operation`
+      ).not.toContain(exception.path);
+    }
   });
 });
 
