@@ -191,11 +191,13 @@ a visitor's browser.
 - The prose describing the surface exists in six hand-maintained places. A test holds them
   together, but the test enforces the presence of the tool names and the caveat, not the
   quality of the sentences around them.
-- Two published discovery documents are declared exceptions rather than operations
-  (`/.well-known/oauth-authorization-server`, because no credential is issued;
+- Four published discovery documents are declared exceptions rather than operations:
+  `/.well-known/mcp/index.html` and `/.well-known/ai-catalog.json`, because each is a
+  byte-identical alias of a document that already has an operation;
+  `/.well-known/oauth-authorization-server`, because no credential is issued; and
   `/.well-known/http-message-signatures-directory`, because this origin signs no outbound
-  request), and the exception list is a place a future document can be parked instead of
-  described. The reason field is what keeps that honest.
+  request. The exception list is a place a future document can be parked instead of
+  described, and the reason field is what keeps that honest.
 
 ### What would retire this ADR
 
