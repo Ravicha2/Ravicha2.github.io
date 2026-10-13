@@ -388,6 +388,16 @@ export const AGENT_OPERATIONS: OperationSpec[] = [
   },
   {
     tags: ['context'],
+    operationId: 'getPortfolioSkill',
+    summary: 'The portfolio knowledge skill, as markdown',
+    description:
+      'The skill document behind the Agent Skills index, served as markdown: what this portfolio contains, how to cite it, and when it is the wrong source. It is the document getAgentSkillsIndex digests and points at, so an agent can read the skill directly instead of resolving it through the index first.',
+    schema: textDocument('text/markdown', 'The portfolio skill document.'),
+    contentType: 'text/markdown',
+    returns: 'A markdown skill document.',
+  },
+  {
+    tags: ['context'],
     operationId: 'getSitemap',
     summary: 'Sitemap',
     description: 'Every URL the site answers, with the date its content last changed.',
@@ -420,6 +430,7 @@ const PATH_OF_OPERATION: Record<string, string> = {
   getAgentsMd: '/agents.md',
   getAuthMd: '/auth.md',
   getMarkdownHome: '/index.md',
+  getPortfolioSkill: '/.well-known/agent-skills/portfolio/SKILL.md',
   getSitemap: '/sitemap.xml',
   getCurriculumVitae: '/cv.pdf',
 };
