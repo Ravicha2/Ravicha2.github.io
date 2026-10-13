@@ -311,9 +311,9 @@ export const AGENT_OPERATIONS: OperationSpec[] = [
     operationId: 'getApiCatalog',
     summary: 'RFC 9727 API catalog',
     description:
-      'An RFC 9264 linkset, profiled by RFC 9727, pointing at this document and the other machine-readable service descriptions on the origin. The document is a linkset; GitHub Pages derives the Content-Type from the file extension, and this path has none, so it is served as application/octet-stream rather than the application/linkset+json RFC 9727 asks for. A static origin cannot set that header, and this document says so instead of claiming it.',
+      'An RFC 9264 linkset, profiled by RFC 9727, pointing at this document and the other machine-readable service descriptions on the origin. The document is a linkset, and RFC 9727 asks for the application/linkset+json media type; GitHub Pages derives the content type from the file extension, and this path has none, so the origin cannot send that type and serves the document as application/octet-stream instead. A static host cannot set the header, so the document states the gap rather than claiming the type. ADR 0005 decision 5 records the rule.',
     schema: linksetSchema,
-    contentType: 'application/linkset+json',
+    contentType: 'application/octet-stream',
     returns: 'A linkset with one item per service description.',
   },
   {
@@ -321,9 +321,9 @@ export const AGENT_OPERATIONS: OperationSpec[] = [
     operationId: 'getProtectedResourceMetadata',
     summary: 'OAuth 2.0 protected resource metadata',
     description:
-      'RFC 9728 metadata for this resource. It is public and read-only, so no authorization server is advertised and no scope is required.',
+      'RFC 9728 metadata for this resource. It is public and read-only, so no authorization server is advertised and no scope is required. RFC 9728 asks for the application/json media type, but GitHub Pages derives the content type from the file extension and this path has none, so the origin cannot send that type and serves the document as application/octet-stream instead. The document states the gap rather than claiming the type. ADR 0005 decision 5 records the rule.',
     schema: protectedResourceSchema,
-    contentType: 'application/json',
+    contentType: 'application/octet-stream',
     returns: 'Protected resource metadata.',
   },
   {
