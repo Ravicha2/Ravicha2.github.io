@@ -11,6 +11,7 @@ import {
   skillFileContent,
 } from '../src/data/discovery';
 import { markdownPathFor, render, renderMarkdown, routes } from '../src/entry-server';
+import { webMcpTools } from '../src/webmcp/tools';
 
 /**
  * The media type GitHub Pages really sends, derived from the path rather than
@@ -378,6 +379,93 @@ describe('Published discovery documents (/.well-known)', () => {
       expect(jsonOf('.well-known/ard.json').entries).toEqual(
         jsonOf('.well-known/ai-catalog.json').entries
       );
+    });
+
+    // The in-page tools are described in one entry carried as inline `data`, since
+    // there is no URL at which a reader could call them. These tests hold that entry
+    // to the tools the page really registers: the descriptors are projected from
+    // webMcpTools here, independently of the projection that builds the document, so
+    // a descriptor that drifts from the tool fails here rather than agreeing with a
+    // copy that drifted beside it.
+    const toolsEntry = (path = '.well-known/ard.json') => {
+      const entry = jsonOf(path).entries.find(
+        (candidate: { identifier: string }) =>
+          candidate.identifier === 'urn:air:ravicha2.github.io:tools:portfolio'
+      );
+      expect(entry, `${path} has no in-page tools entry`).toBeDefined();
+      return entry;
+    };
+
+    it('describes the in-page tools as one inline-data entry, projected from webMcpTools', () => {
+      const projected = webMcpTools.map((tool) => ({
+        name: tool.name,
+        title: tool.title,
+        description: tool.description,
+        inputSchema: tool.inputSchema,
+      }));
+      for (const path of ['.well-known/ard.json', '.well-known/ai-catalog.json']) {
+        const entry = toolsEntry(path);
+        expect(entry, `${path} points the tools at a url`).not.toHaveProperty('url');
+        expect(entry).toHaveProperty('data');
+        expect(entry.identifier).toMatch(/^urn:air:/);
+        expect(entry.type).toBe('application/json');
+        expect(entry.data.tools, `${path} tool descriptors drifted from webMcpTools`).toEqual(
+          projected
+        );
+      }
+    });
+
+    it('carries only the four descriptor fields per tool, never a handler', () => {
+      const entry = toolsEntry();
+      const descriptorKeys = ['description', 'inputSchema', 'name', 'title'];
+      expect(entry.data.tools).toHaveLength(webMcpTools.length);
+      for (const tool of entry.data.tools) {
+        expect(Object.keys(tool).sort(), `${tool.name} carries more than its descriptor`).toEqual(
+          descriptorKeys
+        );
+      }
+      for (const path of ['.well-known/ard.json', '.well-known/ai-catalog.json']) {
+        expect(files[path], `${path} leaks a tool handler`).not.toContain('execute');
+      }
+    });
+
+    it('says the tools are browser-mediated and names only static equivalents the build writes', () => {
+      const entry = toolsEntry();
+      expect(entry.description).toMatch(/document\.modelContext/);
+      expect(entry.description).toMatch(/no HTTP client can invoke a tool/);
+      expect(entry.description).toMatch(/cannot run one/);
+      for (const named of [
+        `${SITE}/llms.txt`,
+        `${SITE}/projects.md`,
+        `${SITE}/openapi.json`,
+        `${SITE}/sitemap.xml`,
+      ]) {
+        expect(entry.description, `the entry does not name ${named}`).toContain(named);
+      }
+
+      // Every origin URL the entry names is a document the build really writes. The
+      // check is derived, not a hand-list: the produced set is built from the same
+      // route list the prerenderer and the sitemap use.
+      const produced = new Set([
+        ...routes(),
+        ...routes().map(markdownPathFor),
+        ...discoveryDocumentPaths().map((relative) => `/${relative}`),
+        '/llms.txt',
+        '/llms-full.txt',
+        '/openapi.json',
+        '/sitemap.xml',
+        '/agents.md',
+        '/auth.md',
+        '/cv.pdf',
+        '/robots.txt',
+      ]);
+      const named = [
+        ...entry.description.matchAll(/https:\/\/ravicha2\.github\.io(\/[A-Za-z0-9._/-]*)?/g),
+      ].map((match) => match[1] ?? '/');
+      expect(named.length, 'the entry names no static equivalent').toBeGreaterThan(0);
+      for (const url of named) {
+        expect(produced.has(url), `the entry names ${url}, which the build never writes`).toBe(true);
+      }
     });
   });
 

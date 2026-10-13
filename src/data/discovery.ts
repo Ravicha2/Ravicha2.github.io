@@ -1,4 +1,6 @@
 import { profile } from './profile';
+import { webMcpTools } from '../webmcp/tools';
+import type { ModelContextTool } from '../webmcp/types';
 
 /**
  * The discovery documents this origin publishes under /.well-known.
@@ -222,6 +224,45 @@ export const authorizationServerMetadata = {
 } as const;
 
 /**
+ * The in-page tools as one ARD entry, projected from `webMcpTools` rather than
+ * written by hand so the entry cannot name a tool the page does not register.
+ *
+ * A reader that fetches only discovery paths cannot reach a tool that lives in the
+ * page's own JavaScript, so the honest thing to publish is a description of the
+ * tools rather than an address for them. That is why the entry carries inline
+ * `data` and not a `url`: there is no address at which a reader could call one, and
+ * the ARD model allows exactly one of the two. `type` is the media type of the
+ * inline data, since that is the only thing the entry actually carries.
+ *
+ * Only the four descriptor fields travel. The handler behind each tool runs in a
+ * visitor's browser and means nothing off the page, so `execute` is never copied
+ * here — the projection selects the fields rather than spreading the tool, which
+ * also keeps a future field on `ModelContextTool` from reaching the document by
+ * accident. The description carries the browser caveat and names the static
+ * document that already answers each tool, so an agent that cannot call the tools
+ * still learns what they do and where the same answers live.
+ */
+const inPageToolsEntry = (tools: ModelContextTool[]) => ({
+  identifier: 'urn:air:ravicha2.github.io:tools:portfolio',
+  displayName: 'In-page portfolio tools',
+  type: 'application/json',
+  description: `The read-only tools this site registers in the visitor's page through document.modelContext, carried as inline data because there is no address to call: a browser that exposes document.modelContext registers them when the page loads, and no HTTP client can invoke a tool, so a reader of this document cannot run one. Nothing here claims the tools are reachable remotely. Every answer they give already exists as a static document. search-projects is answered by ${SITE}/llms.txt and by ${SITE}/projects.md which lists every project. get-project is answered by the markdown twin of any project page, at the project's path with .md appended, such as ${SITE}/projects/shepherd.md for the shepherd case study. describe-site is answered by ${SITE}/llms.txt and the machine-readable files ${SITE}/openapi.json and ${SITE}/sitemap.xml which list the API and the routes.`,
+  data: {
+    tools: tools.map((tool) => ({
+      name: tool.name,
+      title: tool.title,
+      description: tool.description,
+      inputSchema: tool.inputSchema,
+    })),
+  },
+  representativeQueries: [
+    'find projects about a topic',
+    "read one project's trade-offs",
+    'what does this site publish',
+  ],
+});
+
+/**
  * The Agentic Resource Discovery catalog (https://agenticresourcediscovery.org/).
  *
  * The spec's canonical path is `/.well-known/ard.json`. A second copy is written
@@ -258,6 +299,9 @@ export const ardEntries = [
     description: 'What this portfolio contains, how to cite it, and when it is the wrong source.',
     representativeQueries: ['what has this engineer built', 'how do I cite this work'],
   },
+  // The in-page tools: described, not addressed. Both catalogs spread this one
+  // array, so the two documents carry the same four entries and cannot drift.
+  inPageToolsEntry(webMcpTools),
 ] as const;
 
 const ARD_CONTEXT = 'https://agenticresourcediscovery.org/context/v1';
