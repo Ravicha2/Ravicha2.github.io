@@ -512,6 +512,10 @@ const markdownDevelopers = (): string =>
     '',
     'The first-party Model Context Protocol server published with the lit-review-council project advertises its transport in a Server Card at /.well-known/mcp. The Python distribution is https://pypi.org/project/lit-review-council/.',
     '',
+    '## In-page tools',
+    '',
+    'The page registers three read-only tools — `search-projects`, `get-project`, and `describe-site` — through `document.modelContext` when it loads. They run in a visitor\'s browser, so they need a browser that exposes `document.modelContext`; registering a tool is not a claim that it is callable remotely, and no HTTP client can invoke one. Every answer they give already exists as a static document: `search-projects` is answered by `llms.txt` and `/projects.md`, `get-project` by the markdown twin of a project page (its path with `.md` appended), and `describe-site` by `llms.txt`, `/openapi.json` and `/sitemap.xml`. The decision is recorded in `docs/adr/0005-webmcp-is-browser-mediated.md`.',
+    '',
     footer('/developers'),
   ].join('\n');
 

@@ -238,6 +238,41 @@ export const DeveloperView: React.FC = () => (
     </Block>
 
     <Block
+      id="in-page-tools-heading"
+      heading="In-page tools"
+      annotation="The page registers three read-only tools through document.modelContext. They are real, and they are browser-mediated: a crawler cannot call one, so each names the static document that answers it instead."
+    >
+      <p className="measure text-[13px] leading-relaxed text-annotate">
+        The page registers <code>search-projects</code>, <code>get-project</code>, and{' '}
+        <code>describe-site</code> when it loads, through the browser's{' '}
+        <code>document.modelContext</code>. They run in a visitor's browser, so they need a browser
+        that exposes <code>document.modelContext</code>; registering a tool is not a claim that it
+        is callable remotely, and no HTTP client can invoke one. Every answer they give already
+        exists as a static document:
+      </p>
+      <ul className="measure space-y-2 text-[13px] leading-relaxed text-annotate">
+        <li>
+          <code>search-projects</code> is answered by{' '}
+          <a href="/llms.txt" className={linkClass}>/llms.txt</a> and{' '}
+          <a href="/projects.md" className={linkClass}>/projects.md</a>.
+        </li>
+        <li>
+          <code>get-project</code> is answered by the markdown twin of a project page, at its path
+          with <code>.md</code> appended.
+        </li>
+        <li>
+          <code>describe-site</code> is answered by{' '}
+          <a href="/llms.txt" className={linkClass}>/llms.txt</a>,{' '}
+          <a href="/openapi.json" className={linkClass}>/openapi.json</a>, and{' '}
+          <a href="/sitemap.xml" className={linkClass}>/sitemap.xml</a>.
+        </li>
+      </ul>
+      <p className="measure text-[13px] leading-relaxed text-annotate">
+        The decision is recorded in <code>docs/adr/0005-webmcp-is-browser-mediated.md</code>.
+      </p>
+    </Block>
+
+    <Block
       id="contact-heading-dev"
       heading="Reaching a person"
       annotation="There is no support desk behind a static site. There is an inbox, and it is read."

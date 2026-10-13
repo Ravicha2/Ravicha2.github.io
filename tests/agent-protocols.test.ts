@@ -4,6 +4,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { AGENT_OPERATIONS, apiEndpoints, openApiDocument } from '../src/data/api';
 import {
+  ardEntries,
   discoveryDocumentPaths,
   discoveryDocuments,
   discoveryExceptions,
@@ -11,7 +12,7 @@ import {
   skillFileContent,
 } from '../src/data/discovery';
 import { markdownPathFor, render, renderMarkdown, routes } from '../src/entry-server';
-import { webMcpTools } from '../src/webmcp/tools';
+import { describeSite, webMcpTools } from '../src/webmcp/tools';
 
 /**
  * The media type GitHub Pages really sends, derived from the path rather than
@@ -687,6 +688,49 @@ describe('The error model states the limitation instead of promising a fix', () 
       expect(text, `${name} promises the envelope later`).not.toMatch(
         /not served yet|not yet served|when this origin can send|will not need changing/i
       );
+    }
+  });
+});
+
+/**
+ * The in-page tools live only in the page's JavaScript, so a reader that never runs
+ * it — a crawler, a fetcher of a markdown twin, an agent reading the skill document —
+ * learns the surface exists only from these hand-maintained sentences. A test pins
+ * them: every published surface must name all three tools and the browser caveat, and
+ * the names it checks are read from `webMcpTools`, so renaming a tool fails here
+ * instead of letting a stale name ship on six documents at once. The ARD entry #53
+ * publishes is held to the same standard (ADR 0005, decision 3).
+ */
+describe('Every published surface names the in-page tools', () => {
+  const publicDir = path.resolve(__dirname, '../public');
+
+  // The one entry the ARD catalogs carry for the tools, found by the identifier it
+  // declares rather than by position, so reordering the catalog cannot hide it.
+  const ardToolsEntry = ardEntries.find(
+    (entry) => entry.identifier === 'urn:air:ravicha2.github.io:tools:portfolio'
+  );
+
+  it('names every in-page tool and the browser caveat on every published surface', () => {
+    // The names come from the tools the page really registers; none of the surfaces
+    // below hard-codes them, so this test tracks webMcpTools rather than a copy of it.
+    const names = webMcpTools.map((tool) => tool.name);
+    expect(names, 'webMcpTools no longer declares three tools').toHaveLength(3);
+
+    const surfaces: Array<[string, string]> = [
+      ['/developers (HTML)', render('/developers').html],
+      ['/developers.md', renderMarkdown('/developers') ?? ''],
+      ['public/llms.txt', fs.readFileSync(path.join(publicDir, 'llms.txt'), 'utf-8')],
+      ['public/agents.md', fs.readFileSync(path.join(publicDir, 'agents.md'), 'utf-8')],
+      ['the portfolio SKILL.md', skillDocuments.portfolio],
+      ['describe-site output', describeSite()],
+      ['the ARD in-page tools entry', ardToolsEntry?.description ?? ''],
+    ];
+
+    for (const [label, text] of surfaces) {
+      for (const name of names) {
+        expect(text, `${label} does not name the tool ${name}`).toContain(name);
+      }
+      expect(text, `${label} does not carry the browser caveat`).toContain('document.modelContext');
     }
   });
 });
