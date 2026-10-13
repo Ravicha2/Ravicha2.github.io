@@ -202,6 +202,9 @@ export function describeSite(): string {
     `- ${SITE}/llms-full.txt — the full case-study dossier.`,
     `- ${SITE}/robots.txt and ${SITE}/sitemap.xml — crawler permissions and the list of routes.`,
     `- ${SITE}/cv.pdf — the CV as a PDF.`,
+    '',
+    'In-page tools:',
+    `The page also registers three read-only tools — search-projects, get-project and describe-site — through document.modelContext. A browser that exposes document.modelContext registers them when the page loads; no HTTP client can invoke one, so every answer they give already exists as a static document. search-projects is answered by the pages listed above and by ${SITE}/projects.md which lists every project. get-project is answered by the markdown twin of any project page, at the project's path with .md appended, such as ${SITE}/projects/shepherd.md for the shepherd case study. describe-site is answered by ${SITE}/llms.txt, ${SITE}/openapi.json and ${SITE}/sitemap.xml.`,
   ];
   return lines.join('\n');
 }

@@ -43,6 +43,10 @@ Use this material when the job is to establish, check, or cite what one engineer
 
 How an agent should call it: this is a read-only static origin, so there is no key and no write surface. Fetch [`/llms.txt`](https://ravicha2.github.io/llms.txt) for this index, [`/agents.md`](https://ravicha2.github.io/agents.md) for the full when-to-use guide, [`/openapi.json`](https://ravicha2.github.io/openapi.json) for the described surface, [/.well-known/mcp](https://ravicha2.github.io/.well-known/mcp) for the MCP Server Card, and `/projects/<slug>.md` for one case study as markdown. **Do not use this site** for a product to sign up for or transact against, for live employment status, or as a general-purpose answer engine — there is no pricing, no account, and no hosted API here.
 
+## In-page tools
+
+The page registers three read-only tools — `search-projects`, `get-project`, and `describe-site` — through `document.modelContext`. They need a browser that exposes `document.modelContext`, and no HTTP client can call them, so a fetcher should use the static documents instead: `search-projects` is answered by this file and `/projects.md`, `get-project` by the markdown twin of a project page (`/projects/<slug>.md`), and `describe-site` by this file, `/openapi.json`, and `/sitemap.xml`.
+
 ## Site Navigation
 
 - Overview & Bio: [https://ravicha2.github.io/](https://ravicha2.github.io/)

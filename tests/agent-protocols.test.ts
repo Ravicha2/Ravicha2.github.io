@@ -4,6 +4,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { AGENT_OPERATIONS, apiEndpoints, openApiDocument } from '../src/data/api';
 import {
+  ardEntries,
   discoveryDocumentPaths,
   discoveryDocuments,
   discoveryExceptions,
@@ -11,7 +12,7 @@ import {
   skillFileContent,
 } from '../src/data/discovery';
 import { markdownPathFor, render, renderMarkdown, routes } from '../src/entry-server';
-import { webMcpTools } from '../src/webmcp/tools';
+import { describeSite, webMcpTools } from '../src/webmcp/tools';
 
 /**
  * The media type GitHub Pages really sends, derived from the path rather than
@@ -687,6 +688,97 @@ describe('The error model states the limitation instead of promising a fix', () 
       expect(text, `${name} promises the envelope later`).not.toMatch(
         /not served yet|not yet served|when this origin can send|will not need changing/i
       );
+    }
+  });
+});
+
+/**
+ * The in-page tools live only in the page's JavaScript, so a reader that never runs
+ * it — a crawler, a fetcher of a markdown twin, an agent reading the skill document —
+ * learns the surface exists only from these hand-maintained sentences. A test pins
+ * them: every published surface must name all three tools, carry the browser caveat,
+ * and point at the static equivalents ADR 0005 decision 3 names for each tool. The
+ * tool names are read from `webMcpTools` and the equivalents from the build's own
+ * tables, so a rename or a dropped document fails here instead of letting a stale
+ * name or a missing path ship on six documents at once. The ARD entry #53 publishes
+ * is held to the same standard.
+ */
+describe('Every published surface names the in-page tools', () => {
+  const publicDir = path.resolve(__dirname, '../public');
+
+  // The one entry the ARD catalogs carry for the tools, found by the identifier it
+  // declares rather than by position, so reordering the catalog cannot hide it.
+  const ardToolsEntry = ardEntries.find(
+    (entry) => entry.identifier === 'urn:air:ravicha2.github.io:tools:portfolio'
+  );
+
+  // Decision 3 names the document that answers each tool. The tool names come from
+  // webMcpTools; the documents are read from the build's own tables and reduced to
+  // their base name, so a surface may write `/openapi.json`, `${SITE}/openapi.json`
+  // or `openapi.json` and still match. `projects.md` is the markdown twin of the
+  // catalog, which markdownPathFor produces for /projects.
+  const docNameOf = (servedPath: string) => servedPath.split('/').pop() ?? '';
+  const pathOfOperation = (operationId: string): string => {
+    const endpoint = apiEndpoints.find((candidate) => candidate.operationId === operationId);
+    expect(endpoint, `${operationId} is not in the endpoint table`).toBeDefined();
+    return endpoint!.path;
+  };
+  const llmsTxt = docNameOf(pathOfOperation('getLlmsTxt'));
+  const equivalentDocuments = [
+    llmsTxt,
+    docNameOf(markdownPathFor('/projects')),
+    docNameOf(pathOfOperation('getOpenApiDocument')),
+    docNameOf(pathOfOperation('getSitemap')),
+  ];
+
+  it('names every in-page tool, the browser caveat and the static equivalents on every published surface', () => {
+    // The names come from the tools the page really registers; none of the surfaces
+    // below hard-codes them, so this test tracks webMcpTools rather than a copy of it.
+    const names = webMcpTools.map((tool) => tool.name);
+    expect(names, 'webMcpTools no longer declares three tools').toHaveLength(3);
+    expect(ardToolsEntry, 'the ARD catalogs carry no in-page tools entry').toBeDefined();
+
+    const surfaces: Array<[string, string]> = [
+      ['/developers (HTML)', render('/developers').html],
+      ['/developers.md', renderMarkdown('/developers') ?? ''],
+      ['public/llms.txt', fs.readFileSync(path.join(publicDir, 'llms.txt'), 'utf-8')],
+      ['public/agents.md', fs.readFileSync(path.join(publicDir, 'agents.md'), 'utf-8')],
+      ['the portfolio SKILL.md', skillDocuments.portfolio],
+      ['describe-site output', describeSite()],
+      ['the ARD in-page tools entry', ardToolsEntry!.description],
+    ];
+
+    for (const [label, text] of surfaces) {
+      for (const name of names) {
+        expect(text, `${label} does not name the tool ${name}`).toContain(name);
+      }
+      // The caveat is two claims, and both have to survive: the tools need a browser
+      // that exposes the API, and a reader that has one is still not being offered
+      // something it can call. Pinning only the token would let a surface drop the
+      // second half and still pass.
+      expect(text, `${label} does not name document.modelContext`).toContain(
+        'document.modelContext'
+      );
+      expect(text, `${label} does not say no HTTP client can call the tools`).toMatch(
+        /no HTTP client can (call|invoke)/
+      );
+
+      for (const document of equivalentDocuments) {
+        // /llms.txt is itself one of the equivalents, so that surface may name itself
+        // as "this file" rather than repeating its own name; every other surface must
+        // write the document out.
+        const named =
+          text.includes(document) ||
+          (label === 'public/llms.txt' && document === llmsTxt && text.includes('this file'));
+        expect(named, `${label} does not point at ${document}`).toBe(true);
+      }
+
+      // get-project's equivalent is the markdown twin of a project page: prose on
+      // most surfaces, the `/projects/<slug>.md` template on /agents.md.
+      expect(
+        text.includes('markdown twin') || text.includes('projects/<slug>.md'),
+        `${label} does not point at the markdown twin of a project page`
+      ).toBe(true);
     }
   });
 });

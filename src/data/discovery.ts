@@ -354,6 +354,10 @@ This skill covers the engineering dossier published at ${SITE}: what was built, 
 - \`${SITE}/openapi.json\` — the OpenAPI 3.1 description of every document this origin serves.
 - \`${SITE}/agents.md\` — when this material is and is not the right source.
 
+## In-page tools
+
+The page registers three read-only tools — \`search-projects\`, \`get-project\`, and \`describe-site\` — through \`document.modelContext\`. They need a browser that exposes \`document.modelContext\`, and no HTTP client can call them, so use the static documents above instead: \`${SITE}/llms.txt\` and \`${SITE}/projects.md\` answer \`search-projects\`, the markdown twin of a project page (\`${SITE}/projects/shepherd.md\` for the shepherd case study) answers \`get-project\`, and \`${SITE}/llms.txt\`, \`${SITE}/openapi.json\` and \`${SITE}/sitemap.xml\` answer \`describe-site\`.
+
 ## Citation
 
 Attribute to "${profile.name}" and link the page the claim came from. Figures are pinned to a repository and a commit; quote the commit alongside the number, and carry any caveat the page states next to it.

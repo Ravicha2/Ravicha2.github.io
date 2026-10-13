@@ -33,6 +33,10 @@ This is the personal portfolio and engineering dossier of **Ravicha Suksawasdi N
 
 Every content page on this site has a markdown twin: append `.md` to the route (`/` becomes `/index.md`). The twins are served as `text/markdown`, so they can be read without stripping HTML.
 
+## In-page tools
+
+The page also registers three read-only tools — `search-projects`, `get-project`, and `describe-site` — through `document.modelContext`. They need a browser that exposes `document.modelContext`, and no HTTP client can call them, so use the static documents above instead: `search-projects` is answered by `/llms.txt` and `/projects.md`, `get-project` by `/projects/<slug>.md`, and `describe-site` by `/llms.txt`, `/openapi.json`, and `/sitemap.xml`.
+
 ## How this site can be trusted
 
 - Claims are pinned to a repository **and a commit**, so a quote cannot drift when the branch moves.
