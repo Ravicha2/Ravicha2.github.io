@@ -7,6 +7,8 @@
 - **Client-Side Routing & Transitions**: React Router with native `document.startViewTransition()` for smooth client-side route changes and shared-element project morphs, with a `404.html` fallback script for direct deep-linking on GitHub Pages.
 - **Component Model**: Reusable, type-safe React components with Lucide icons and Tailwind utility styling without heavy runtime bloat.
 - **Performance & Asset Pipeline**: Self-hosted variable fonts (Geist / Geist Mono), optimized WebP/AVIF images, static `/public/llms.txt` and `/public/llms-full.txt` files for AI agent bots.
+- **WebMCP in-page tool (browser-mediated)**: A read-only tool a page registers on its own document for an agent attached to that browser. It exists only while the page is loaded, is discovered from the open document rather than from a path, and cannot be called by any HTTP client.
+- **MCP Server Card**: The SEP-2127 description of a *backend* MCP server, published at `/.well-known/mcp`. This site's card describes `lit-review-council`, installable from PyPI; it does not describe the portfolio.
 
 ### Visual & Motion Language
 - **No-Gradient Adaptive Minimalist**: Strict avoidance of CSS gradients. Solid backgrounds (Zinc-950 `#09090b` dark / Porcelain `#fafafa` light), 1px hairline borders (`border-zinc-800` / `border-zinc-200`), high-contrast typography, and single solid accent.
@@ -20,3 +22,4 @@
 4. **Site Structure & Scope**: Focused purely on curated portfolio, engineering case studies, and resume (Home, Projects Catalog, Project Case Study detail pages, Experience/Resume).
 5. **Asset & Performance Engine**: Self-hosted Geist/Geist Mono fonts, optimized media, static `/llms.txt` in `public/`.
 6. **Compatibility & Accessibility**: Progressive enhancement with WCAG AAA contrast and CSS media query motion suppression.
+7. **WebMCP Surface**: Browser-mediated in-page tools, published with no discovery document; `/.well-known/mcp` keeps its single meaning as the backend MCP Server Card. The in-page tools are reachable through the ARD catalog (inline data, generated from the tool definitions) and through prose on every published surface. See `docs/adr/0005-webmcp-is-browser-mediated.md`.
