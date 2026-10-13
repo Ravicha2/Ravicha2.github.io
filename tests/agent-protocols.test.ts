@@ -696,10 +696,12 @@ describe('The error model states the limitation instead of promising a fix', () 
  * The in-page tools live only in the page's JavaScript, so a reader that never runs
  * it — a crawler, a fetcher of a markdown twin, an agent reading the skill document —
  * learns the surface exists only from these hand-maintained sentences. A test pins
- * them: every published surface must name all three tools and the browser caveat, and
- * the names it checks are read from `webMcpTools`, so renaming a tool fails here
- * instead of letting a stale name ship on six documents at once. The ARD entry #53
- * publishes is held to the same standard (ADR 0005, decision 3).
+ * them: every published surface must name all three tools, carry the browser caveat,
+ * and point at the static equivalents ADR 0005 decision 3 names for each tool. The
+ * tool names are read from `webMcpTools` and the equivalents from the build's own
+ * tables, so a rename or a dropped document fails here instead of letting a stale
+ * name or a missing path ship on six documents at once. The ARD entry #53 publishes
+ * is held to the same standard.
  */
 describe('Every published surface names the in-page tools', () => {
   const publicDir = path.resolve(__dirname, '../public');
@@ -710,11 +712,31 @@ describe('Every published surface names the in-page tools', () => {
     (entry) => entry.identifier === 'urn:air:ravicha2.github.io:tools:portfolio'
   );
 
-  it('names every in-page tool and the browser caveat on every published surface', () => {
+  // Decision 3 names the document that answers each tool. The tool names come from
+  // webMcpTools; the documents are read from the build's own tables and reduced to
+  // their base name, so a surface may write `/openapi.json`, `${SITE}/openapi.json`
+  // or `openapi.json` and still match. `projects.md` is the markdown twin of the
+  // catalog, which markdownPathFor produces for /projects.
+  const docNameOf = (servedPath: string) => servedPath.split('/').pop() ?? '';
+  const pathOfOperation = (operationId: string): string => {
+    const endpoint = apiEndpoints.find((candidate) => candidate.operationId === operationId);
+    expect(endpoint, `${operationId} is not in the endpoint table`).toBeDefined();
+    return endpoint!.path;
+  };
+  const llmsTxt = docNameOf(pathOfOperation('getLlmsTxt'));
+  const equivalentDocuments = [
+    llmsTxt,
+    docNameOf(markdownPathFor('/projects')),
+    docNameOf(pathOfOperation('getOpenApiDocument')),
+    docNameOf(pathOfOperation('getSitemap')),
+  ];
+
+  it('names every in-page tool, the browser caveat and the static equivalents on every published surface', () => {
     // The names come from the tools the page really registers; none of the surfaces
     // below hard-codes them, so this test tracks webMcpTools rather than a copy of it.
     const names = webMcpTools.map((tool) => tool.name);
     expect(names, 'webMcpTools no longer declares three tools').toHaveLength(3);
+    expect(ardToolsEntry, 'the ARD catalogs carry no in-page tools entry').toBeDefined();
 
     const surfaces: Array<[string, string]> = [
       ['/developers (HTML)', render('/developers').html],
@@ -723,7 +745,7 @@ describe('Every published surface names the in-page tools', () => {
       ['public/agents.md', fs.readFileSync(path.join(publicDir, 'agents.md'), 'utf-8')],
       ['the portfolio SKILL.md', skillDocuments.portfolio],
       ['describe-site output', describeSite()],
-      ['the ARD in-page tools entry', ardToolsEntry?.description ?? ''],
+      ['the ARD in-page tools entry', ardToolsEntry!.description],
     ];
 
     for (const [label, text] of surfaces) {
@@ -731,6 +753,23 @@ describe('Every published surface names the in-page tools', () => {
         expect(text, `${label} does not name the tool ${name}`).toContain(name);
       }
       expect(text, `${label} does not carry the browser caveat`).toContain('document.modelContext');
+
+      for (const document of equivalentDocuments) {
+        // /llms.txt is itself one of the equivalents, so that surface may name itself
+        // as "this file" rather than repeating its own name; every other surface must
+        // write the document out.
+        const named =
+          text.includes(document) ||
+          (label === 'public/llms.txt' && document === llmsTxt && text.includes('this file'));
+        expect(named, `${label} does not point at ${document}`).toBe(true);
+      }
+
+      // get-project's equivalent is the markdown twin of a project page: prose on
+      // most surfaces, the `/projects/<slug>.md` template on /agents.md.
+      expect(
+        text.includes('markdown twin') || text.includes('projects/<slug>.md'),
+        `${label} does not point at the markdown twin of a project page`
+      ).toBe(true);
     }
   });
 });
