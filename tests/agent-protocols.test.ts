@@ -752,7 +752,16 @@ describe('Every published surface names the in-page tools', () => {
       for (const name of names) {
         expect(text, `${label} does not name the tool ${name}`).toContain(name);
       }
-      expect(text, `${label} does not carry the browser caveat`).toContain('document.modelContext');
+      // The caveat is two claims, and both have to survive: the tools need a browser
+      // that exposes the API, and a reader that has one is still not being offered
+      // something it can call. Pinning only the token would let a surface drop the
+      // second half and still pass.
+      expect(text, `${label} does not name document.modelContext`).toContain(
+        'document.modelContext'
+      );
+      expect(text, `${label} does not say no HTTP client can call the tools`).toMatch(
+        /no HTTP client can (call|invoke)/
+      );
 
       for (const document of equivalentDocuments) {
         // /llms.txt is itself one of the equivalents, so that surface may name itself
