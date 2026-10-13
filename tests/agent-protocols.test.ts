@@ -10,6 +10,31 @@ import {
   skillFileContent,
 } from '../src/data/discovery';
 import { markdownPathFor, render, renderMarkdown, routes } from '../src/entry-server';
+
+/**
+ * The media type GitHub Pages really sends, derived from the path rather than
+ * read back from the declaration it is meant to check. Pages sets Content-Type
+ * from the file name, so the extension of the last path segment decides, and a
+ * segment with no extension at all gets the opaque fallback (ADR 0005, decision
+ * 5). Deriving the expectation here means a declared type that drifts from the
+ * shape of its own path fails the test instead of agreeing with a table that
+ * drifted beside it. A shape this cannot map returns undefined, which fails the
+ * assertion rather than being skipped.
+ */
+const servedTypeFor = (servedPath: string): string | undefined => {
+  const lastSegment = servedPath.slice(servedPath.lastIndexOf('/') + 1);
+  const dot = lastSegment.lastIndexOf('.');
+  if (dot === -1) return 'application/octet-stream';
+  const byExtension: Record<string, string> = {
+    '.json': 'application/json',
+    '.md': 'text/markdown',
+    '.pdf': 'application/pdf',
+    '.txt': 'text/plain',
+    '.xml': 'application/xml',
+  };
+  return byExtension[lastSegment.slice(dot).toLowerCase()];
+};
+
 /**
  * The published OpenAPI document is the machine surface an agent reads before it
  * fetches anything. `scripts/prerender.mjs` writes it to `dist/openapi.json`, and
@@ -70,6 +95,60 @@ describe('Published OpenAPI document', () => {
       // The 404 is documented too: it is the one failure an agent will hit, and it
       // is stated as the text/html page the origin really returns, not a fiction.
       expect(item.get.responses['404'], `${path} does not document its 404`).toBeDefined();
+    }
+  });
+
+  it("declares the media type its path's shape really produces, for every operation", () => {
+    // Every operation is one row of the table, so walking AGENT_OPERATIONS covers
+    // the whole surface — including the extensionless discovery paths, which the
+    // origin serves as application/octet-stream, and the .txt and .xml documents
+    // whose shapes fall outside the four the issue names.
+    for (const op of AGENT_OPERATIONS) {
+      const servedAt = apiEndpoints.find((endpoint) => endpoint.operationId === op.operationId);
+      expect(servedAt, `${op.operationId} is not in the endpoint table`).toBeDefined();
+      const expected = servedTypeFor(servedAt!.path);
+      expect(expected, `${servedAt!.path} has a shape this test cannot map`).toBeDefined();
+      expect(
+        op.contentType,
+        `${servedAt!.path} (${op.operationId}) declares a type its path shape does not produce`
+      ).toBe(expected);
+    }
+  });
+
+  it('names that served type as the 200 content type in the published document', () => {
+    // The document is what reaches dist/openapi.json, so this is the end of the
+    // line for the declared type: the 200 response names exactly the one type the
+    // path shape produces, and no second type an agent could be misled by.
+    for (const [path, item] of paths) {
+      const expected = servedTypeFor(path);
+      expect(expected, `${path} has a shape this test cannot map`).toBeDefined();
+      expect(
+        Object.keys(item.get.responses['200'].content ?? {}),
+        `${path} 200 content does not name the served type`
+      ).toEqual([expected]);
+    }
+  });
+
+  it('explains, in the two affected descriptions, the type the specification asks for and why this origin cannot send it', () => {
+    // The type a specification asks for moves out of the declared content type and
+    // into prose for the two extensionless paths. This holds the prose to naming
+    // both types, so the gap is stated rather than the type simply being dropped.
+    const affected: Array<[string, string]> = [
+      ['getApiCatalog', 'application/linkset+json'],
+      ['getProtectedResourceMetadata', 'application/json'],
+    ];
+    for (const [operationId, specType] of affected) {
+      const op = AGENT_OPERATIONS.find((candidate) => candidate.operationId === operationId);
+      expect(op, `${operationId} is missing`).toBeDefined();
+      expect(op!.description, `${operationId} no longer names the type the spec asks for`).toContain(
+        specType
+      );
+      expect(op!.description, `${operationId} does not name the served type`).toContain(
+        'application/octet-stream'
+      );
+      expect(op!.description, `${operationId} does not say the origin cannot send it`).toMatch(
+        /cannot send/
+      );
     }
   });
 
